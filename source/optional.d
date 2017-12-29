@@ -33,6 +33,15 @@ struct Optional(T) {
     ref PointerTarget!T opUnary(string op)() if (op == "*" && isPointer!T) {
         return *(this.bag[0]);
     }
+    auto opDispatch(string field)() {
+        alias Prop = () => mixin("bag[0]." ~ field);
+        alias R = typeof(Prop());
+        static if (isPointer!T) {
+            return this.empty || this.bag[0] is null ? Optional!R() : Optional!R(Prop());
+        } else  {
+            return this.empty ? Optional!R() : Optional!R(Prop());
+        }
+    }
     auto opDispatch(string fn, Args...)(Args args) {
         alias Fn = () => mixin("bag[0]." ~ fn)(args);
         alias R = typeof(Fn());
@@ -88,16 +97,23 @@ unittest {
         int f() {
             return 8;
         }
+        int m = 3;
     }
     struct A {
-        B *b;
-        B* f() {
-            return b;
+        B *b_;
+        B* b() {
+            return b_;
         }
     }
 
-    assert(optional(new A(new B)).f.f == optional(8));
-    assert(optional(new A).f.f == optional!int);
+    auto a = optional(new A(new B));
+    auto b = optional(new A);
+
+    assert(a.b.f == optional(8));
+    assert(a.b.m == optional(3));
+
+    assert(b.b.f == optional!int);
+    assert(b.b.m == optional!int);
 }
 
 auto some(T)(T t) {
