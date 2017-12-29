@@ -90,16 +90,14 @@ unittest {
         }
     }
     struct A {
+        B *b;
         B* f() {
-            return new B();
-        }
-        B* g() {
-            return null;
+            return b;
         }
     }
 
-    assert(optional(new A).f.f == optional(8));
-    assert(optional(new A).g.f == optional!int);
+    assert(optional(new A(new B)).f.f == optional(8));
+    assert(optional(new A).f.f == optional!int);
 }
 
 auto some(T)(T t) {
