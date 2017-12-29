@@ -16,7 +16,7 @@ auto flatMap(alias fun, Range)(Range r) if (isInputRange!Range) {
         import optional: isSome;
         return r.filter!isSome.map!(a => a.front).map!(fun);
     } else static if (isPointer!E) {
-        return r.filter!(a => a != null).map!(a => *a).map!(fun);
+        return r.filter!(a => a !is null).map!(a => *a).map!(fun);
     } else static if (isArray!E) {
         return r.filter!(a => a.length).map!(fun);
     } else {
