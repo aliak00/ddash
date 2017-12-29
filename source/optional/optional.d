@@ -1,6 +1,6 @@
 module optional;
 
-import common: from;
+import std.traits: isPointer;
 
 version (unittest) {
     import std.array;
@@ -11,6 +11,11 @@ struct Optional(T) {
     T[] bag;
     this(Null _) {}
     this(T t) {
+        static if (isPointer!T) {
+            if (t is null) {
+                return;
+            }
+        }
         this.bag = [t];
     }
     bool empty() @property {
@@ -26,6 +31,12 @@ struct Optional(T) {
         this.bag = [];
     }
     void opAssign(T t) {
+        static if (isPointer!T) {
+            if (t is null) {
+                this.opAssign(null);
+                return;
+            }
+        }
         this.bag = [t];
     }
     bool opEquals(Null _) {
@@ -63,6 +74,25 @@ unittest {
 
     assert(a.f() == some(7));
     assert(b.f() == none!int);
+}
+
+unittest {
+    struct B {
+        int f() {
+            return 8;
+        }
+    }
+    struct A {
+        B* f() {
+            return new B();
+        }
+        B* g() {
+            return null;
+        }
+    }
+
+    assert(optional(new A).f.f == some(8));
+    assert(optional(new A).g.f == none!int);
 }
 
 auto optional(T)(T t) {
