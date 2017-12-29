@@ -12,8 +12,8 @@ struct Optional(T) {
     bool empty() @property {
         return this.bag.length == 0;
     }
-    auto front() {
-        return this.bag[0];
+    ref front() {
+        return this;
     }
     void popFront() {
         this.bag = [];
@@ -34,7 +34,7 @@ struct Optional(T) {
         return *(this.bag[0]);
     }
     auto opDispatch(string fn, Args...)(Args args) {
-        alias Fn = () => mixin("front." ~ fn)(args);
+        alias Fn = () => mixin("bag[0]." ~ fn)(args);
         alias R = typeof(Fn());
         static if (isPointer!T) {
             return this.empty || this.bag[0] is null ? Optional!R() : Optional!R(Fn());

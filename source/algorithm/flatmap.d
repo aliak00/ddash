@@ -25,14 +25,14 @@ auto flatMap(alias fun, Range)(Range r) if (isInputRange!Range) {
 }
 
 unittest {
-    import optional: optional;
+    import optional: optional, some;
     auto optionalArray = [
         optional!int,
         optional(3),
         optional!int,
         optional(7),
     ];
-    assert(optionalArray.flatMap!(a => a).array == [3, 7]);
+    assert(optionalArray.flatMap!(a => a).array == [some(3), some(7)]);
 }
 
 unittest {
