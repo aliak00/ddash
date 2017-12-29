@@ -1,12 +1,7 @@
 module optional;
 
-import std.traits: isPointer;
-
-version (unittest) {
-    import std.array;
-}
-
 struct Optional(T) {
+    import std.traits: isPointer;
     alias Null = typeof(null);
     T[] bag;
     this(Null _) {}
@@ -42,16 +37,16 @@ struct Optional(T) {
     bool opEquals(Null _) {
         return this.bag.length == 0;
     }
-    bool opEquals(T rhs) {
+    bool opEquals(U : T)(U rhs) {
         return this.bag.length == 1 && this.bag[0] == rhs;
     }
-    bool opEquals(Optional!T rhs) {
+    bool opEquals(U : T)(Optional!U rhs) {
         return this.bag == rhs.bag;
     }
     auto opDispatch(string fn, Args...)(Args args) {
         alias Fn = () => mixin("front." ~ fn)(args);
         alias R = typeof(Fn());
-        return empty ? Optional!R() : Optional!R(Fn());
+        return this.empty ? Optional!R() : Optional!R(Fn());
     }
 }
 
@@ -111,7 +106,7 @@ auto some(T)(T t) {
     return Optional!T(t);
 }
 
-auto none(T)() {
+auto no(T)() {
     return Optional!T();
 }
 

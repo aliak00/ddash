@@ -2,6 +2,10 @@ module algorithm.flatmap;
 
 import std.range: isInputRange;
 
+version (unittest) {
+    import std.array;
+}
+
 auto flatMap(alias fun, Range)(Range r) if (isInputRange!Range) {
     import std.algorithm: map, filter;
     import std.range: ElementType;
@@ -20,7 +24,6 @@ auto flatMap(alias fun, Range)(Range r) if (isInputRange!Range) {
 }
 
 unittest {
-    import std.array;
     import optional: optional;
     auto optionalArray = [
         optional!int,
@@ -28,24 +31,33 @@ unittest {
         optional!int,
         optional(7),
     ];
+    assert(optionalArray.flatMap!(a => a).array == [3, 7]);
+}
+
+unittest {
     auto intArray = [
         3,
         7,
     ];
+    assert(intArray.flatMap!(a => a).array == [3, 7]);
+}
+
+unittest {
     auto intPointerArray = [
         (new int(3)),
         null,
         (new int(7)),
         null,
     ];
+    assert(intPointerArray.flatMap!(a => a).array == [3, 7]);
+}
+
+unittest {
     auto intArrayOfArrays = [
         [3],
         [],
         [7],
         [],
     ];
-    assert(optionalArray.flatMap!(a => a).array == [3, 7]);
-    assert(intArray.flatMap!(a => a).array == [3, 7]);
-    assert(intPointerArray.flatMap!(a => a).array == [3, 7]);
     assert(intArrayOfArrays.flatMap!(a => a).array == [[3], [7]]);
 }
