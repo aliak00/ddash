@@ -32,7 +32,7 @@ unittest {
         optional!int,
         optional(7),
     ];
-    assert(optionalArray.flatMap!(a => a).array == [some(3), some(7)]);
+    assert(optionalArray.flatMap!(a => a).array == [3, 7]);
 }
 
 unittest {

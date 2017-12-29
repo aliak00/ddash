@@ -13,7 +13,7 @@ struct Optional(T) {
         return this.bag.length == 0;
     }
     ref front() {
-        return this;
+        return this.bag[0];
     }
     void popFront() {
         this.bag = [];
