@@ -1,17 +1,13 @@
 module optional;
 
+struct None {}
+auto none = None();
+
 struct Optional(T) {
-    import std.traits: isPointer;
-    alias Null = typeof(null);
+    import std.traits: isPointer, PointerTarget;
     T[] bag;
-    this(Null _) {}
-    this(T t) {
-        static if (isPointer!T) {
-            if (t is null) {
-                return;
-            }
-        }
-        this.bag = [t];
+    this(U : T)(U u) {
+        this.bag = [u];
     }
     bool empty() @property {
         return this.bag.length == 0;
@@ -22,52 +18,56 @@ struct Optional(T) {
     void popFront() {
         this.bag = [];
     }
-    void opAssign(Null _) {
+    void opAssign(None _) {
         this.bag = [];
     }
     void opAssign(T t) {
-        static if (isPointer!T) {
-            if (t is null) {
-                this.opAssign(null);
-                return;
-            }
-        }
         this.bag = [t];
     }
-    bool opEquals(Null _) {
+    bool opEquals(None _) {
         return this.bag.length == 0;
-    }
-    bool opEquals(U : T)(U rhs) {
-        return this.bag.length == 1 && this.bag[0] == rhs;
     }
     bool opEquals(U : T)(Optional!U rhs) {
         return this.bag == rhs.bag;
     }
+    ref PointerTarget!T opUnary(string op)() if (op == "*" && isPointer!T) {
+        return *(this.bag[0]);
+    }
     auto opDispatch(string fn, Args...)(Args args) {
         alias Fn = () => mixin("front." ~ fn)(args);
         alias R = typeof(Fn());
-        return this.empty ? Optional!R() : Optional!R(Fn());
+        static if (isPointer!T) {
+            return this.empty || this.bag[0] is null ? Optional!R() : Optional!R(Fn());
+        } else  {
+            return this.empty ? Optional!R() : Optional!R(Fn());
+        }
     }
-}
-
-unittest {
-    Optional!int n = null;
-    assert(n == null);
-    n = 9;
-    assert(n == 9);
-    assert(n != null);
 }
 
 auto optional(T)(T t) {
     return Optional!T(t);
 }
 
-auto optional(T)(Optional!T.Null _) {
-    return Optional!T(_);
+auto optional(T)() {
+    return Optional!T();
 }
 
-auto optional(T)() {
-    return Optional!T(null);
+unittest {
+    Optional!int a;
+    assert(a == none);
+    a = 9;
+    assert(a == optional(9));
+    assert(a != none);
+}
+
+unittest {
+    Optional!(int*) a;
+    assert(a == none);
+    a = new int(9);
+    assert(*a == 9);
+    assert(a != none);
+    a = null;
+    assert(a != none);
 }
 
 unittest {
@@ -107,24 +107,23 @@ auto some(T)(T t) {
 }
 
 auto no(T)() {
-    return Optional!T();
+    return optional!T();
 }
 
-auto isNull(T)(Optional!T maybe) {
-    return maybe == null;
+auto isSome(T)(Optional!T maybe) {
+    return maybe != none;
 }
 
 unittest {
-    import std.functional: not;
     import std.algorithm: filter;
     import std.range: array;
     auto arr = [
-        optional!int,
-        optional(3), 
-        optional!int, 
-        optional(7),
+        no!int,
+        some(3),
+        no!int,
+        some(7),
     ];
-    assert(arr.filter!(not!isNull).array == [some(3), some(7)]);
+    assert(arr.filter!isSome.array == [some(3), some(7)]);
 }
 
 template isOptional(T) {

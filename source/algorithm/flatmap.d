@@ -13,7 +13,8 @@ auto flatMap(alias fun, Range)(Range r) if (isInputRange!Range) {
     import optional: isOptional;
     alias E = ElementType!Range;
     static if (isOptional!E) {
-        return r.filter!(a => a != null).map!(a => a.front).map!(fun);
+        import optional: isSome;
+        return r.filter!isSome.map!(a => a.front).map!(fun);
     } else static if (isPointer!E) {
         return r.filter!(a => a != null).map!(a => *a).map!(fun);
     } else static if (isArray!E) {
