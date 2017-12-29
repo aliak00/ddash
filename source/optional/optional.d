@@ -1,12 +1,9 @@
 module optional;
 
-version(unittest) {
-    import std.stdio: writeln;
-    import std.array;
-}
+import common: from;
 
-template from(string moduleName) {
-    mixin("import from = " ~ moduleName ~ ";");
+version (unittest) {
+    import std.array;
 }
 
 struct Optional(T) {
@@ -43,7 +40,7 @@ struct Optional(T) {
     auto opDispatch(string fn, Args...)(Args args) {
         alias Fn = () => mixin("front." ~ fn)(args);
         alias R = typeof(Fn());
-        return empty? Optional!R() : Optional!R(Fn());
+        return empty ? Optional!R() : Optional!R(Fn());
     }
 }
 
@@ -53,6 +50,19 @@ unittest {
     n = 9;
     assert(n == 9);
     assert(n != null);
+}
+
+unittest {
+    struct Object {
+        int f() {
+            return 7;
+        }
+    }
+    auto a = some(Object());
+    auto b = none!Object;
+
+    assert(a.f() == some(7));
+    assert(b.f() == none!int);
 }
 
 auto optional(T)(T t) {
@@ -104,41 +114,4 @@ unittest {
     assert(isOptional!(Optional!int) == true);
     assert(isOptional!int == false);
     assert(isOptional!(int[]) == false);
-}
-
-auto flatMap(alias fun, Range)(Range r) if (from!"std.range".isInputRange!Range) {
-    import std.algorithm: map;
-    import std.range: ElementType;
-    static if (isOptional!(ElementType!Range)) {
-        import std.algorithm: filter;
-        return r.filter!(a => a != null).map!(a => a.front).map!(fun);
-    } else if (__traits(compiles, { ElementType!Range t = null; })) {
-        import std.algorithm: filter;
-        return r.filter!(a => a != null).map!(fun);
-    } else {
-        return r.map!(fun);
-    }
-}
-
-unittest {
-    auto arr = [
-        optional!int,
-        optional(3),
-        optional!int,
-        optional(7),
-    ];
-    assert(arr.flatMap!(a => a).array == [3, 7]);
-}
-
-unittest {
-    struct Object {
-        int f() {
-            return 7;
-        }
-    }
-    auto a = some(Object());
-    auto b = none!Object;
-
-    assert(a.f() == some(7));
-    assert(b.f() == none!int);
 }
