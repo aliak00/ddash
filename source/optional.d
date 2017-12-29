@@ -63,17 +63,29 @@ unittest {
     assert(n != null);
 }
 
+auto optional(T)(T t) {
+    return Optional!T(t);
+}
+
+auto optional(T)(Optional!T.Null _) {
+    return Optional!T(_);
+}
+
+auto optional(T)() {
+    return Optional!T(null);
+}
+
 unittest {
     struct Object {
         int f() {
             return 7;
         }
     }
-    auto a = some(Object());
-    auto b = none!Object;
+    auto a = optional(Object());
+    auto b = optional!Object;
 
-    assert(a.f() == some(7));
-    assert(b.f() == none!int);
+    assert(a.f() == optional(7));
+    assert(b.f() == optional!int);
 }
 
 unittest {
@@ -91,20 +103,8 @@ unittest {
         }
     }
 
-    assert(optional(new A).f.f == some(8));
-    assert(optional(new A).g.f == none!int);
-}
-
-auto optional(T)(T t) {
-    return Optional!T(t);
-}
-
-auto optional(T)(Optional!T.Null _) {
-    return Optional!T(_);
-}
-
-auto optional(T)() {
-    return Optional!T(null);
+    assert(optional(new A).f.f == optional(8));
+    assert(optional(new A).g.f == optional!int);
 }
 
 auto some(T)(T t) {
