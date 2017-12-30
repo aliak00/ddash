@@ -30,6 +30,10 @@ struct Optional(T) {
     bool opEquals(U : T)(Optional!U rhs) {
         return this.bag == rhs.bag;
     }
+    T* unwrap() {
+        return this.empty ? null : &this.bag[0];
+    }
+
     ref PointerTarget!T opUnary(string op)() if (op == "*" && isPointer!T) {
         return *(this.bag[0]);
     }
@@ -57,10 +61,6 @@ auto optional(T)(T t) {
     return Optional!T(t);
 }
 
-auto optional(T)() {
-    return Optional!T();
-}
-
 unittest {
     Optional!int a;
     assert(a == none);
@@ -85,11 +85,11 @@ unittest {
             return 7;
         }
     }
-    auto a = optional(Object());
-    auto b = optional!Object;
+    auto a = some(Object());
+    auto b = no!Object;
 
-    assert(a.f() == optional(7));
-    assert(b.f() == optional!int);
+    assert(a.f() == some(7));
+    assert(b.f() == no!int);
 }
 
 unittest {
@@ -112,8 +112,8 @@ unittest {
     assert(a.b.f == optional(8));
     assert(a.b.m == optional(3));
 
-    assert(b.b.f == optional!int);
-    assert(b.b.m == optional!int);
+    assert(b.b.f == no!int);
+    assert(b.b.m == no!int);
 }
 
 auto some(T)(T t) {
@@ -121,7 +121,7 @@ auto some(T)(T t) {
 }
 
 auto no(T)() {
-    return optional!T();
+    return Optional!T();
 }
 
 auto isSome(T)(Optional!T maybe) {
