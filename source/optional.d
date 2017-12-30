@@ -3,6 +3,13 @@ module optional;
 struct None {}
 auto none = None();
 
+struct SafeRef(T) {
+    T* data;
+    bool opEquals(U : T)(U rhs) {
+        return this.data is null ? false : *this.data == rhs;
+    }
+}
+
 struct Optional(T) {
     import std.traits: isPointer, PointerTarget;
     T[] bag;
@@ -34,9 +41,11 @@ struct Optional(T) {
         return this.empty ? null : &this.bag[0];
     }
 
-    ref PointerTarget!T opUnary(string op)() if (op == "*" && isPointer!T) {
-        return *(this.bag[0]);
+    auto opUnary(string op)() if (op == "*" && isPointer!T) {
+        alias P = PointerTarget!T;
+        return empty ? SafeRef!P() : SafeRef!P(front);
     }
+
     auto opDispatch(string field)() {
         alias Prop = () => mixin("bag[0]." ~ field);
         alias R = typeof(Prop());
@@ -61,17 +70,29 @@ auto optional(T)(T t) {
     return Optional!T(t);
 }
 
+auto optional(T)() {
+    return Optional!T();
+}
+
+auto some(T)(T t) {
+    return Optional!T(t);
+}
+
+auto no(T)() {
+    return Optional!T();
+}
+
 unittest {
-    Optional!int a;
+    auto a = optional!int;
     assert(a == none);
     a = 9;
-    assert(a == optional(9));
+    assert(a == some(9));
     assert(a != none);
 }
 
 unittest {
-    Optional!(int*) a;
-    assert(a == none);
+    auto a = optional!(int*);
+    assert(*a != 9);
     a = new int(9);
     assert(*a == 9);
     assert(a != none);
@@ -106,22 +127,14 @@ unittest {
         }
     }
 
-    auto a = optional(new A(new B));
-    auto b = optional(new A);
+    auto a = some(new A(new B));
+    auto b = some(new A);
 
-    assert(a.b.f == optional(8));
-    assert(a.b.m == optional(3));
+    assert(a.b.f == some(8));
+    assert(a.b.m == some(3));
 
     assert(b.b.f == no!int);
     assert(b.b.m == no!int);
-}
-
-auto some(T)(T t) {
-    return Optional!T(t);
-}
-
-auto no(T)() {
-    return Optional!T();
 }
 
 auto isSome(T)(Optional!T maybe) {
