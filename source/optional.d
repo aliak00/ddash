@@ -33,6 +33,13 @@ struct Optional(T) {
     T* unwrap() {
         return this.empty ? null : &this.bag[0];
     }
+    string toString() {
+        import std.conv: to;
+        if (this.bag.length == 0) {
+            return "no!" ~ T.stringof;
+        }
+        return "some!" ~ T.stringof ~ "(" ~ front.to!string ~ ")";
+    }
 
     auto opUnary(string op)() if (op == "*" && isPointer!T) {
         alias P = PointerTarget!T;
@@ -165,4 +172,9 @@ unittest {
     assert(isOptional!(Optional!int) == true);
     assert(isOptional!int == false);
     assert(isOptional!(int[]) == false);
+}
+
+unittest {
+    assert(no!int.toString == "no!int");
+    assert(some(3).toString == "some!int(3)");
 }
