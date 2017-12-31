@@ -41,33 +41,26 @@ struct Optional(T) {
         return "some!" ~ T.stringof ~ "(" ~ front.to!string ~ ")";
     }
 
-    auto opUnary(string op)() if (op == "*" && isPointer!T) {
-        alias P = PointerTarget!T;
-        struct SafeDeref(T) {
-            P* data;
-            bool opEquals(U : P)(U rhs) {
-                return this.data is null ? false : *this.data == rhs;
-            }
-        }
-        return empty ? SafeDeref!P() : SafeDeref!P(front);
+    bool opEquals(U : T)(U rhs) {
+        return !empty && front == rhs;
     }
 
-    auto opDispatch(string field)() if (!isOptional!T) {
-        alias Prop = () => mixin("bag[0]." ~ field);
-        alias R = typeof(Prop());
-        static if (isPointer!T) {
-            return this.empty || this.bag[0] is null ? Optional!R() : Optional!R(Prop());
-        } else  {
-            return this.empty ? Optional!R() : Optional!R(Prop());
-        }
+    auto opUnary(string op)() if (op == "*" && isPointer!T) {
+        alias P = PointerTarget!T;
+        return empty ? no!P: some!P(*front);
     }
+
     auto opDispatch(string fn, Args...)(Args args) if (!isOptional!T) {
-        alias Fn = () => mixin("bag[0]." ~ fn)(args);
-        alias R = typeof(Fn());
+        static if (Args.length) {
+            alias C = () => mixin("front." ~ fn)(args);
+        } else {
+            alias C = () => mixin("front." ~ fn);
+        }
+        alias R = typeof(C());
         static if (isPointer!T) {
-            return this.empty || this.bag[0] is null ? Optional!R() : Optional!R(Fn());
+            return this.empty || front is null ? Optional!R() : Optional!R(C());
         } else  {
-            return this.empty ? Optional!R() : Optional!R(Fn());
+            return this.empty ? Optional!R() : Optional!R(C());
         }
     }
 }
