@@ -1,12 +1,9 @@
 module range.concat;
 
-import std.range: isInputRange, chain, ElementType;
-import std.traits: ReturnType;
-
-import std.stdio;
+import std.range: isInputRange;
 
 auto concat(R, V...)(R range, V values) if (isInputRange!R) {
-    import std.range: chain;
+    import std.range: chain, ElementType;
     static if (V.length) {
         static if (isInputRange!(V[0])) {
             return range.chain(values[0]).concat(values[1..$]);
