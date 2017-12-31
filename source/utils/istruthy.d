@@ -1,9 +1,9 @@
 module utils.istruthy;
 
-import std.traits: ifTestable, isArray, isPointer;
+import std.traits: ifTestable, isArray, isPointer, isFloatingPoint;
 import optional: isOptional, none;
 
-bool isTruthy(T)(T t) if (ifTestable!T && !isArray!T) {
+bool isTruthy(T)(T t) if (ifTestable!T && !isArray!T && !isFloatingPoint!T) {
     return t ? true : false;
 }
 
@@ -13,6 +13,11 @@ bool isTruthy(T)(T t) if (isArray!T) {
 
 bool isTruthy(T)(T t) if (isOptional!T) {
     return t != none;
+}
+
+bool isTruthy(T)(T t) if (isFloatingPoint!T) {
+    import std.math: isNaN;
+    return !t.isNaN;
 }
 
 unittest {
@@ -25,4 +30,5 @@ unittest {
     assert(some(3).isTruthy == true);
     assert(((int[]).init).isTruthy == false);
     assert([1].isTruthy == true);
+    assert(double.nan.isTruthy == false);
 }
