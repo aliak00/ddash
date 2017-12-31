@@ -11,12 +11,10 @@ auto flatMap(alias fun, Range)(Range r) if (isInputRange!Range) {
     import std.range: ElementType;
     import std.traits: isPointer, isArray;
     import optional: isOptional;
+    import utils: isTruthy, deref;
     alias E = ElementType!Range;
-    static if (isOptional!E) {
-        import optional: isSome;
-        return r.filter!isSome.map!(a => a.front).map!(fun);
-    } else static if (isPointer!E) {
-        return r.filter!(a => a !is null).map!(a => *a).map!(fun);
+    static if (isOptional!E || isPointer!E) {
+        return r.filter!isTruthy.map!deref.map!(fun);
     } else static if (isArray!E) {
         return r.filter!(a => a.length).map!(fun);
     } else {

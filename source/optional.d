@@ -45,7 +45,7 @@ struct Optional(T) {
         return empty ? SafeDeref!P() : SafeDeref!P(front);
     }
 
-    auto opDispatch(string field)() {
+    auto opDispatch(string field)() if (!isOptional!T) {
         alias Prop = () => mixin("bag[0]." ~ field);
         alias R = typeof(Prop());
         static if (isPointer!T) {
@@ -54,7 +54,7 @@ struct Optional(T) {
             return this.empty ? Optional!R() : Optional!R(Prop());
         }
     }
-    auto opDispatch(string fn, Args...)(Args args) {
+    auto opDispatch(string fn, Args...)(Args args) if (!isOptional!T) {
         alias Fn = () => mixin("bag[0]." ~ fn)(args);
         alias R = typeof(Fn());
         static if (isPointer!T) {
@@ -112,6 +112,7 @@ unittest {
     assert(b.f() == no!int);
 }
 
+
 unittest {
     struct B {
         int f() {
@@ -136,8 +137,8 @@ unittest {
     assert(b.b.m == no!int);
 }
 
-auto isSome(T)(Optional!T maybe) {
-    return maybe != none;
+unittest {
+    static assert(!__traits(compiles, some(some(3)).max));
 }
 
 unittest {
@@ -149,7 +150,7 @@ unittest {
         no!int,
         some(7),
     ];
-    assert(arr.filter!isSome.array == [some(3), some(7)]);
+    assert(arr.filter!(a => a != none).array == [some(3), some(7)]);
 }
 
 template isOptional(T) {
