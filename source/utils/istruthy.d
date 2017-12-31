@@ -17,7 +17,7 @@ bool isTruthy(T)(T t) if (isOptional!T) {
 
 bool isTruthy(T)(T t) if (isFloatingPoint!T) {
     import std.math: isNaN;
-    return !t.isNaN;
+    return t && !t.isNaN;
 }
 
 unittest {
@@ -31,4 +31,6 @@ unittest {
     assert(((int[]).init).isTruthy == false);
     assert([1].isTruthy == true);
     assert(double.nan.isTruthy == false);
+    assert(0.0.isTruthy == false);
+    assert(1.0.isTruthy == true);
 }
