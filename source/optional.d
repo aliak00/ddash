@@ -3,13 +3,6 @@ module optional;
 struct None {}
 auto none = None();
 
-struct SafeRef(T) {
-    T* data;
-    bool opEquals(U : T)(U rhs) {
-        return this.data is null ? false : *this.data == rhs;
-    }
-}
-
 struct Optional(T) {
     import std.traits: isPointer, PointerTarget;
     T[] bag;
@@ -43,7 +36,13 @@ struct Optional(T) {
 
     auto opUnary(string op)() if (op == "*" && isPointer!T) {
         alias P = PointerTarget!T;
-        return empty ? SafeRef!P() : SafeRef!P(front);
+        struct SafeDeref(T) {
+            P* data;
+            bool opEquals(U : P)(U rhs) {
+                return this.data is null ? false : *this.data == rhs;
+            }
+        }
+        return empty ? SafeDeref!P() : SafeDeref!P(front);
     }
 
     auto opDispatch(string field)() {
