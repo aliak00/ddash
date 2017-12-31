@@ -58,9 +58,9 @@ struct Optional(T) {
         }
         alias R = typeof(C());
         static if (isPointer!T) {
-            return this.empty || front is null ? Optional!R() : Optional!R(C());
+            return this.empty || front is null ? no!R : some(C());
         } else  {
-            return this.empty ? Optional!R() : Optional!R(C());
+            return this.empty ? no!R : some(C());
         }
     }
 }
