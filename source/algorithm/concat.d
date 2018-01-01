@@ -1,4 +1,4 @@
-module range.concat;
+module algorithm.concat;
 
 import std.range: isInputRange;
 

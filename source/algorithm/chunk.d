@@ -1,4 +1,4 @@
-module range.chunk;
+module algorithm.chunk;
 
 import std.range: isInputRange;
 

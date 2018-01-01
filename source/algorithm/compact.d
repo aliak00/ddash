@@ -1,4 +1,4 @@
-module range.compact;
+module algorithm.compact;
 
 import std.range: isInputRange;
 
