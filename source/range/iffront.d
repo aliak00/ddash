@@ -22,6 +22,6 @@ unittest {
         }
     }
 
-    assert([A()].filter!"false".iffront.f == none);
-    assert([A()].filter!"true".iffront.f == some(7));
+    assert((A[]).init.iffront.f == none);
+    assert([A()].iffront.f == some(7));
 }
