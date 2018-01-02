@@ -1,4 +1,4 @@
-module algorithm.countuntil;
+module phobos.countuntil;
 
 import optional: no, some;
 
