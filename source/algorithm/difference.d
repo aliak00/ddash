@@ -4,7 +4,12 @@ import std.range: isInputRange, ElementType;
 
 static struct Difference(Range) if (isInputRange!Range) {
     import std.range: ElementType;
-    import std.array;
+    import std.traits: isArray;
+
+    static if (isArray!Range) {
+        import std.array;
+    }
+
     Range source;
     bool[ElementType!Range] cache;
 
