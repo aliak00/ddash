@@ -2,15 +2,15 @@ module algorithm.concat;
 
 import std.range: isInputRange;
 
-auto concat(R, V...)(R range, V values) if (isInputRange!R) {
+auto concat(Range, Values...)(Range range, Values values) if (isInputRange!Range) {
     import std.range: chain, ElementType;
-    static if (V.length) {
-        static if (isInputRange!(V[0]) && is(ElementType!(V[0]) : ElementType!R)) {
+    static if (Values.length) {
+        static if (isInputRange!(Values[0]) && is(ElementType!(Values[0]) : ElementType!Range)) {
             return range.chain(values[0]).concat(values[1..$]);
-        } else static if (is(V[0] : ElementType!R)) {
+        } else static if (is(Values[0] : ElementType!Range)) {
             return range.chain([values[0]]).concat(values[1..$]);
         } else {
-            static assert(0, "Attempted to concat type " ~ V[0].stringof ~ " to range of " ~ ElementType!R.stringof);
+            static assert(0, "Attempted to concat type " ~ Values[0].stringof ~ " to range of " ~ ElementType!Range.stringof);
         }
     } else {
         return range;

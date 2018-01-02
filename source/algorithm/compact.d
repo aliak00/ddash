@@ -2,10 +2,10 @@ module algorithm.compact;
 
 import std.range: isInputRange;
 
-auto compact(Range)(Range r) if (isInputRange!Range) {
+auto compact(Range)(Range range) if (isInputRange!Range) {
     import std.algorithm: filter;
     import utils: isTruthy;
-    return r.filter!isTruthy;
+    return range.filter!isTruthy;
 }
 
 unittest {

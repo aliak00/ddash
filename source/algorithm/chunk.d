@@ -2,12 +2,12 @@ module algorithm.chunk;
 
 import std.range: isInputRange;
 
-auto chunk(Range)(Range r, size_t size) if (isInputRange!Range) {
+auto chunk(Range)(Range range, size_t size) if (isInputRange!Range) {
     import std.range: chunks, takeNone;
     if (size) {
-        return r.chunks(size);
+        return range.chunks(size);
     } else {
-        return r.chunks(1).takeNone;
+        return range.chunks(1).takeNone;
     }
 }
 

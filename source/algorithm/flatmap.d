@@ -2,11 +2,7 @@ module algorithm.flatmap;
 
 import std.range: isInputRange;
 
-version (unittest) {
-    import std.array;
-}
-
-auto flatMap(alias fun, Range)(Range r) if (isInputRange!Range) {
+auto flatMap(alias fun, Range)(Range range) if (isInputRange!Range) {
     import std.algorithm: map, filter;
     import std.range: ElementType;
     import std.traits: isPointer, isArray;
@@ -14,12 +10,16 @@ auto flatMap(alias fun, Range)(Range r) if (isInputRange!Range) {
     import utils: isTruthy, deref;
     alias E = ElementType!Range;
     static if (isOptional!E || isPointer!E) {
-        return r.filter!isTruthy.map!deref.map!(fun);
+        return range.filter!isTruthy.map!deref.map!(fun);
     } else static if (isArray!E) {
-        return r.filter!(a => a.length).map!(fun);
+        return range.filter!(a => a.length).map!(fun);
     } else {
-        return r.map!(fun);
+        return range.map!(fun);
     }
+}
+
+version (unittest) {
+    import std.array;
 }
 
 unittest {

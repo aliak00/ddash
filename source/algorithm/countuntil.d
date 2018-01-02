@@ -2,9 +2,9 @@ module algorithm.countuntil;
 
 import optional: no, some;
 
-auto countUntil(alias pred = "a == b", R, Rs...)(R haystack, Rs needles) {
+auto countUntil(alias pred = "a == b", Range, Values...)(Range haystack, Values needles) {
     import std.algorithm: stdCountUntil = countUntil;
-    auto result = stdCountUntil!(pred, R, Rs)(haystack, needles);
+    auto result = stdCountUntil!(pred, Range, Values)(haystack, needles);
     return result == -1 ? no!long : some(result);
 }
 

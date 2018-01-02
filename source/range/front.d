@@ -2,9 +2,9 @@ module range.front;
 
 import std.range: isInputRange, ElementType;
 
-auto front(Range, T)(Range r, lazy T defaultValue) if (isInputRange!Range && is(T : ElementType!Range)) {
+auto front(Range, T)(Range range, lazy T defaultValue) if (isInputRange!Range && is(T : ElementType!Range)) {
     import std.range: empty, front;
-    return r.empty ? defaultValue : r.front;
+    return range.empty ? defaultValue : range.front;
 }
 
 unittest {

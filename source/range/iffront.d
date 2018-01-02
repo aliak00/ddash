@@ -2,10 +2,10 @@ module range.iffront;
 
 import std.range: isInputRange;
 
-auto iffront(Range)(Range r) if (isInputRange!Range) {
+auto iffront(Range)(Range range) if (isInputRange!Range) {
     import std.range: ElementType, empty, front;
     import optional: no, some;
-    return r.empty ? no!(ElementType!Range) : some(r.front);
+    return range.empty ? no!(ElementType!Range) : some(range.front);
 }
 
 unittest {
