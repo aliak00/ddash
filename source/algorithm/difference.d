@@ -1,26 +1,25 @@
 module algorithm.difference;
 
-import std.range: isInputRange;
+import std.range: isInputRange, ElementType;
 
-
-static struct Difference(Range) {
+static struct Difference(Range) if (isInputRange!Range) {
     import std.range: ElementType;
     import std.array;
     Range source;
     bool[ElementType!Range] cache;
 
-    void moveUntilNotInCache() {
-        while (!source.empty && source.front in cache) {
-            source.popFront;
+    void skipElementsInCache() {
+        while (!this.source.empty && this.source.front in this.cache) {
+            this.source.popFront;
         }
     }
 
-    this(Values)(Range range, Values values) {
+    this(Values)(Range range, Values values) if(is(ElementType!Values : ElementType!Range)) {
         this.source = range;
         foreach (v; values) {
             this.cache[v] = true;
         }
-        moveUntilNotInCache;
+        this.skipElementsInCache;
     }
 
     bool empty() {
@@ -30,13 +29,12 @@ static struct Difference(Range) {
         return this.source.front;
     }
     void popFront() {
-        source.popFront;
-        moveUntilNotInCache;
+        this.source.popFront;
+        this.skipElementsInCache;
     }
 }
 
 auto difference(Range, Values...)(Range range, Values values) {
-    import std.range: ElementType;
     import algorithm.concat;
     static if (Values.length) {
         static if (isInputRange!(Values[0])) {
