@@ -58,3 +58,19 @@ unittest {
     assert([1, 2, 3].difference([1], [3]).array == [2]);
     assert([1, 2, 3].difference(3).array == [1, 2]);
 }
+
+unittest {
+    import std.array;
+
+    // Implicitly convertible elements ok
+    assert([1.0, 2.0].difference(2).array == [1.0]);
+
+    // Implicitly convertible ranges ok
+    assert([1.0, 2.0].difference([2]).array == [1.0]);
+
+    // Non implicily convertible elements not ok
+    static assert(!__traits(compiles, [1].difference(1.0)));
+
+    // Non implicily convertible range not ok
+    static assert(!__traits(compiles, [1].difference([1.0])));
+}
