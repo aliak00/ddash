@@ -2,12 +2,14 @@ module algorithm.difference;
 
 import std.range: isInputRange;
 
-static struct Difference(Range) if (isInputRange!Range) {
+struct Difference(alias pred = "a", Range) if (isInputRange!Range) {
     import std.range: ElementType;
     import std.traits: isArray;
     import traits: isKeySubstitutableWith;
+    import std.functional: unaryFun;
 
     alias Element = ElementType!Range;
+    alias transform = unaryFun!pred;
 
     static if (isArray!Range) {
         import std.array;
@@ -17,7 +19,7 @@ static struct Difference(Range) if (isInputRange!Range) {
     bool[Element] cache;
 
     void skipElementsInCache() {
-        while (!this.source.empty && this.source.front in this.cache) {
+        while (!this.source.empty && transform(this.source.front) in this.cache) {
             this.source.popFront;
         }
     }
@@ -25,7 +27,7 @@ static struct Difference(Range) if (isInputRange!Range) {
     this(Values)(Range range, Values values) if (isKeySubstitutableWith!(Element, ElementType!(Values))) {
         this.source = range;
         foreach (v; values) {
-            this.cache[v] = true;
+            this.cache[transform(v)] = true;
         }
         this.skipElementsInCache;
     }
@@ -42,7 +44,7 @@ static struct Difference(Range) if (isInputRange!Range) {
     }
 }
 
-auto difference(Range, Values...)(Range range, Values values) if (isInputRange!Range) {
+auto difference(alias pred = "a", Range, Values...)(Range range, Values values) if (isInputRange!Range) {
     import std.range: ElementType;
     import algorithm: concat;
     import traits: isKeySubstitutableWith;
@@ -55,7 +57,7 @@ auto difference(Range, Values...)(Range range, Values values) if (isInputRange!R
         } else {
             static assert(0, "Cannot find difference between type " ~ Values[0].stringof ~ " and range of " ~ ElementType!Range.stringof);
         }
-        return Difference!Range(range, head.concat(values[1..$]));
+        return Difference!(pred, Range)(range, head.concat(values[1..$]));
     } else {
         return range;
     }
@@ -83,4 +85,10 @@ unittest {
 
     // Non implicily convertible range not ok
     static assert(!__traits(compiles, [1].difference([1.0])));
+}
+
+unittest {
+    import std.math: ceil;
+    import std.array;
+    assert([2.1, 1.2].difference!ceil([2.3, 3.4]).array == [1.2]);
 }
