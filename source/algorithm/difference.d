@@ -1,17 +1,20 @@
 module algorithm.difference;
 
-import std.range: isInputRange, ElementType;
+import std.range: isInputRange;
 
 static struct Difference(Range) if (isInputRange!Range) {
     import std.range: ElementType;
     import std.traits: isArray;
+    import traits: isKeySubstitutableWith;
+
+    alias Element = ElementType!Range;
 
     static if (isArray!Range) {
         import std.array;
     }
 
     Range source;
-    bool[ElementType!Range] cache;
+    bool[Element] cache;
 
     void skipElementsInCache() {
         while (!this.source.empty && this.source.front in this.cache) {
@@ -19,7 +22,7 @@ static struct Difference(Range) if (isInputRange!Range) {
         }
     }
 
-    this(Values)(Range range, Values values) if(is(ElementType!Values : ElementType!Range)) {
+    this(Values)(Range range, Values values) if (isKeySubstitutableWith!(Element, ElementType!(Values))) {
         this.source = range;
         foreach (v; values) {
             this.cache[v] = true;
@@ -39,12 +42,14 @@ static struct Difference(Range) if (isInputRange!Range) {
     }
 }
 
-auto difference(Range, Values...)(Range range, Values values) {
-    import algorithm.concat;
+auto difference(Range, Values...)(Range range, Values values) if (isInputRange!Range) {
+    import std.range: ElementType;
+    import algorithm: concat;
+    import traits: isKeySubstitutableWith;
     static if (Values.length) {
         static if (isInputRange!(Values[0])) {
             auto head = values[0];
-        } else static if (is(Values[0] : ElementType!Range)) {
+        } else static if (isKeySubstitutableWith!(ElementType!Range, Values[0])) {
             import std.range: only;
             auto head = only(values[0]);
         } else {
