@@ -5,7 +5,6 @@ import std.range: isInputRange;
 struct Difference(alias pred = "a", Range) if (isInputRange!Range) {
     import std.range: ElementType;
     import std.traits: isArray;
-    import traits: isKeySubstitutableWith;
     import std.functional: unaryFun;
 
     alias Element = ElementType!Range;
@@ -23,6 +22,8 @@ struct Difference(alias pred = "a", Range) if (isInputRange!Range) {
             this.source.popFront;
         }
     }
+
+    import traits: isKeySubstitutableWith;
 
     this(Values)(Range range, Values values) if (isKeySubstitutableWith!(Element, ElementType!(Values))) {
         this.source = range;
