@@ -1,4 +1,6 @@
 module utils;
 
-import utils.istruthy;
-import utils.deref;
+public  {
+    import utils.istruthy;
+    import utils.deref;
+}

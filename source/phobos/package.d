@@ -1,3 +1,5 @@
 module phobos;
 
-import phobos.countuntil;
+public {
+    import phobos.countuntil;
+}
