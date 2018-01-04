@@ -19,4 +19,5 @@ public {
     import algorithm.flatten;
     import algorithm.flattendeep;
     import std.array: fromPairs = assocArray;
+    alias initial = (range) => from!"std.range".dropBack(range, 1);
 }
