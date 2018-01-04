@@ -15,3 +15,4 @@ alias dropWhile(alias pred) = (range) => from!"std.algorithm".until!(from!"std.f
 import std.algorithm: fill;
 import phobos: findIndex = countUntil;
 import algorithm.findlastindex;
+import algorithm.flatten;

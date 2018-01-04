@@ -3,19 +3,9 @@ module algorithm.flatmap;
 import std.range: isInputRange;
 
 auto flatMap(alias fun, Range)(Range range) if (isInputRange!Range) {
-    import std.algorithm: map, filter;
-    import std.range: ElementType;
-    import std.traits: isPointer, isArray;
-    import optional: isOptional;
-    import utils: isTruthy, deref;
-    alias E = ElementType!Range;
-    static if (isOptional!E || isPointer!E) {
-        return range.filter!isTruthy.map!deref.map!(fun);
-    } else static if (isArray!E) {
-        return range.filter!(a => a.length).map!(fun);
-    } else {
-        return range.map!(fun);
-    }
+    import std.algorithm: map;
+    import algorithm: flatten;
+    return range.flatten.map!(fun);
 }
 
 version (unittest) {
@@ -58,5 +48,5 @@ unittest {
         [7],
         [],
     ];
-    assert(intArrayOfArrays.flatMap!(a => a).array == [[3], [7]]);
+    assert(intArrayOfArrays.flatMap!(a => a).array == [3, 7]);
 }
