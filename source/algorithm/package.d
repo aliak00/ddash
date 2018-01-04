@@ -16,3 +16,4 @@ import std.algorithm: fill;
 import phobos: findIndex = countUntil;
 import algorithm.findlastindex;
 import algorithm.flatten;
+import algorithm.flattendeep;
