@@ -4,13 +4,17 @@ import std.range: isInputRange, ElementType;
 
 auto withFront(alias fun, Range)(Range range) if (isInputRange!Range) {
     import std.range: empty, front;
-    import optional: some, no;
     alias R = typeof(fun(ElementType!Range.init));
-    static if (is(R == void)) {
+    static if (is(R == void))
+    {
+        import optional: some;
         if (!range.empty) {
             some(fun(range.front));
         }
-    } else {
+    }
+    else
+    {
+        import optional: some, no;
         return range.empty ? no!R : some(fun(range.front));
     }
 }

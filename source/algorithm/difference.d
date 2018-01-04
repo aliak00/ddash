@@ -49,17 +49,25 @@ auto difference(alias pred = "a", Range, Values...)(Range range, Values values) 
     import std.range: ElementType;
     import algorithm: concat;
     import traits: isKeySubstitutableWith;
-    static if (Values.length) {
-        static if (isInputRange!(Values[0])) {
+    static if (Values.length)
+    {
+        static if (isInputRange!(Values[0]))
+        {
             auto head = values[0];
-        } else static if (isKeySubstitutableWith!(ElementType!Range, Values[0])) {
+        }
+        else static if (isKeySubstitutableWith!(ElementType!Range, Values[0]))
+        {
             import std.range: only;
             auto head = only(values[0]);
-        } else {
+        }
+        else
+        {
             static assert(0, "Cannot find difference between type " ~ Values[0].stringof ~ " and range of " ~ ElementType!Range.stringof);
         }
         return Difference!(pred, Range)(range, head.concat(values[1..$]));
-    } else {
+    }
+    else
+    {
         return range;
     }
 }

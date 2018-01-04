@@ -5,9 +5,12 @@ import std.range: isBidirectionalRange;
 auto dropRightWhile(alias pred, Range)(Range range) if (isBidirectionalRange!Range) {
     import std.functional: unaryFun;
     import std.traits: isArray;
-    static if (isArray!Range) {
+
+    static if (isArray!Range)
+    {
         import std.range: empty, back, popBack;
     }
+
     while (!range.empty && unaryFun!pred(range.back)) range.popBack;
     return range;
 }

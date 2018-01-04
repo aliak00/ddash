@@ -4,16 +4,24 @@ import std.range: isInputRange;
 
 auto concat(Range, Values...)(Range range, Values values) if (isInputRange!Range) {
     import std.range: chain, ElementType;
-    static if (Values.length) {
-        static if (isInputRange!(Values[0]) && is(ElementType!(Values[0]) : ElementType!Range)) {
+    static if (Values.length)
+    {
+        static if (isInputRange!(Values[0]) && is(ElementType!(Values[0]) : ElementType!Range))
+        {
             return range.chain(values[0]).concat(values[1..$]);
-        } else static if (is(Values[0] : ElementType!Range)) {
+        }
+        else static if (is(Values[0] : ElementType!Range))
+        {
             import std.range: only;
             return range.chain(only(values[0])).concat(values[1..$]);
-        } else {
+        }
+        else
+        {
             static assert(0, "Attempted to concat type " ~ Values[0].stringof ~ " to range of " ~ ElementType!Range.stringof);
         }
-    } else {
+    }
+    else
+    {
         return range;
     }
 }
