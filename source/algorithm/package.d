@@ -17,3 +17,4 @@ import phobos: findIndex = countUntil;
 import algorithm.findlastindex;
 import algorithm.flatten;
 import algorithm.flattendeep;
+import std.array: fromPairs = assocArray;
