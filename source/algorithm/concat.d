@@ -12,8 +12,7 @@ auto concat(Range, Values...)(Range range, Values values) if (isInputRange!Range
         }
         else static if (is(Values[0] : ElementType!Range))
         {
-            import std.range: only;
-            return range.chain(only(values[0])).concat(values[1..$]);
+            return range.chain([values[0]]).concat(values[1..$]);
         }
         else
         {

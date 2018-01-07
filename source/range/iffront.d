@@ -2,7 +2,7 @@ module range.iffront;
 
 import std.range: isInputRange;
 
-auto iffront(Range)(Range range) if (isInputRange!Range) {
+auto ifFront(Range)(Range range) if (isInputRange!Range) {
     import std.range: ElementType, empty, front;
     import optional: no, some;
     return range.empty ? no!(ElementType!Range) : some(range.front);
@@ -10,7 +10,7 @@ auto iffront(Range)(Range range) if (isInputRange!Range) {
 
 unittest {
     import std.algorithm: filter;
-    assert([false].filter!"a".iffront.empty);
+    assert([false].filter!"a".ifFront.empty);
 }
 
 unittest {
@@ -22,6 +22,6 @@ unittest {
         }
     }
 
-    assert((A[]).init.iffront.f == none);
-    assert([A()].iffront.f == some(7));
+    assert((A[]).init.ifFront.f == none);
+    assert([A()].ifFront.f == some(7));
 }
