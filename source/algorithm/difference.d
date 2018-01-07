@@ -78,13 +78,10 @@ auto difference(alias pred = "a", Range, Values...)(Range range, Values values) 
         {
             static assert(0, "Cannot find difference between type " ~ Values[0].stringof ~ " and range of " ~ ElementType!Range.stringof);
         }
-        import std.traits, std.range;
 
         auto r1 = range.sort;
         auto r2 = head.concat(values[1..$]).sort;
-        alias R1 = typeof(r1);
-        alias R2 = typeof(r2);
-        return Difference!(pred, R1, R2)(r1, r2);
+        return Difference!(pred, typeof(r1), typeof(r2))(r1, r2);
     }
     else
     {
