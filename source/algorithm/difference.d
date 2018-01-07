@@ -29,16 +29,27 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
     }
 
     private void moveToNextElement() {
-        bool poppedOne = true;
-        while (!this.r2.empty && poppedOne) {
-            poppedOne = false;
-            while (this.frontsEqual) {
-                this.r1.popFront;
-                poppedOne = true;
+        import std.traits: TemplateOf;
+        import std.range: SortedRange;
+        enum r1Sorted = __traits(isSame, TemplateOf!(R1), SortedRange);
+        enum r2Sorted = __traits(isSame, TemplateOf!(R2), SortedRange);
+        static if (r1Sorted && r2Sorted)
+        {
+            bool poppedOne = true;
+            while (!this.r2.empty && poppedOne) {
+                poppedOne = false;
+                while (this.frontsEqual) {
+                    this.r1.popFront;
+                    poppedOne = true;
+                }
+                if (poppedOne) {
+                    this.r2.popFront;
+                }
             }
-            if (poppedOne) {
-                this.r2.popFront;
-            }
+        }
+        else
+        {
+            static assert(0, "only implemented for SortedRange");
         }
     }
 

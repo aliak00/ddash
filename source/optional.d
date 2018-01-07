@@ -12,7 +12,7 @@ struct Optional(T) {
     bool empty() @property {
         return this.bag.length == 0;
     }
-    ref front() {
+    ref front() @property {
         return this.bag[0];
     }
     void popFront() {

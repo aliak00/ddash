@@ -17,10 +17,10 @@ auto allPairs(Range)(Range range) if (isInputRange!Range) {
             this.r2 = range.dropOne;
         }
 
-        auto front() @property pure {
+        auto front() @property {
             return [this.r1.front, this.r2.front];
         }
-        bool empty() @property pure {
+        bool empty() @property {
             return this.r1.dropOne.empty;
         }
         void popFront() {
