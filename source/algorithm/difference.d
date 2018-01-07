@@ -7,7 +7,7 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
     import std.traits: isArray;
     import std.functional: unaryFun, binaryFun;
 
-    alias Element = ElementType!R2;
+    alias Element = ElementType!R1;
 
     enum isUnary = is(typeof(unaryFun!pred(Element.init)));
     static if (isUnary)
@@ -21,21 +21,16 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
         alias compare = binaryFun!pred;
     }
 
-    static if (isArray!R1 || isArray!R2) {
-        import std.array;
-    }
-
     R1 r1;
     R2 r2;
 
-    bool frontsEqual() {
+    private bool frontsEqual() {
         return !this.r1.empty && !this.r2.empty && compare(transform(this.r1.front), transform(this.r2.front));
     }
 
-    void moveToNextElement() {
-        import range: popIfFront;
+    private void moveToNextElement() {
         bool poppedOne = true;
-        while (!r2.empty && poppedOne) {
+        while (!this.r2.empty && poppedOne) {
             poppedOne = false;
             while (this.frontsEqual) {
                 this.r1.popFront;
@@ -50,7 +45,7 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
     this(R1 r1, R2 r2) {
         this.r1 = r1;
         this.r2 = r2;
-        moveToNextElement;
+        this.moveToNextElement;
     }
 
     bool empty() @property {
@@ -61,7 +56,7 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
     }
     void popFront() {
         this.r1.popFront;
-        moveToNextElement;
+        this.moveToNextElement;
     }
 }
 
