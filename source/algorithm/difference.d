@@ -24,10 +24,6 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
     R1 r1;
     R2 r2;
 
-    private bool frontsEqual() {
-        return !this.r1.empty && !this.r2.empty && compare(transform(this.r1.front), transform(this.r2.front));
-    }
-
     private void moveToNextElement() {
         import std.traits: TemplateOf;
         import std.range: SortedRange;
@@ -38,7 +34,7 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
             bool poppedOne = true;
             while (!this.r2.empty && poppedOne) {
                 poppedOne = false;
-                while (this.frontsEqual) {
+                while (!this.r1.empty && compare(transform(this.r1.front), transform(this.r2.front))) {
                     this.r1.popFront;
                     poppedOne = true;
                 }
