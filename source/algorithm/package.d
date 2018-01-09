@@ -7,8 +7,7 @@ public {
     import algorithm.chunk;
     import algorithm.compact;
     import algorithm.concat;
-    import algorithm.difference; // also differenceBy
-    // TODO: differenceWith
+    import algorithm.difference;
     import std.range: drop;
     import std.range: dropRight = dropBack;
     import algorithm.droprightwhile;
@@ -20,4 +19,5 @@ public {
     import algorithm.flattendeep;
     import std.array: fromPairs = assocArray;
     alias initial = (range) => from!"std.range".dropBack(range, 1);
+    import algorithm.intersection;
 }

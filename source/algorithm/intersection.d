@@ -1,8 +1,9 @@
-module algorithm.difference;
+module algorithm.intersection;
 
 import std.range: isInputRange;
+import std.stdio;
 
-struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!R2) {
+struct Intersection(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!R2) {
     import std.range: ElementType;
     import std.functional: unaryFun, binaryFun;
 
@@ -30,22 +31,21 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
         enum r2Sorted = is(R2: SortedRange!U, U...);
         static if (r1Sorted && r2Sorted)
         {
-            bool poppedOne = true;
-            while (!this.r2.empty && poppedOne) {
-                poppedOne = false;
-                while (!this.r1.empty && equal(this.r1.front, this.r2.front)) {
-                    this.r1.popFront;
-                    poppedOne = true;
-                }
-                if (poppedOne) {
+            while (this.r2.empty && !this.r1.empty) {
+                this.r1.popFront;
+            }
+            while (!this.r1.empty && !this.r2.empty) {
+                if (equal(this.r1.front, this.r2.front)) {
                     this.r2.popFront;
+                    break;
                 }
+                this.r1.popFront;
             }
         }
         else static if (r2Sorted)
         {
             // TODO: This path is not tested in any of the unittests
-            while (!this.r1.empty && this.r2.contains!equal(this.r1.front)) {
+            while (!this.r1.empty && this.r2.contains!notEqual(this.r1.front)) {
                 this.r1.popFront;
             }
         }
@@ -53,7 +53,7 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
         {
             import std.algorithm: canFind;
             import std.range: empty, front, popFront;
-            while (!this.r1.empty && this.r2.canFind!equal(this.r1.front)) {
+            while (!this.r1.empty && !this.r2.canFind!equal(this.r1.front)) {
                 this.r1.popFront;
             }
         }
@@ -80,7 +80,7 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
     }
 }
 
-auto difference(alias pred = "a", Range, Values...)(Range range, Values values) if (isInputRange!Range) {
+auto intersection(alias pred = "a", Range, Values...)(Range range, Values values) if (isInputRange!Range) {
     import std.range: ElementType, SortedRange;
     import std.algorithm: sort;
     import std.traits: TemplateOf;
@@ -97,7 +97,7 @@ auto difference(alias pred = "a", Range, Values...)(Range range, Values values) 
         }
         else
         {
-            static assert(0, "Cannot find difference between type " ~ Values[0].stringof ~ " and range of " ~ ElementType!Range.stringof);
+            static assert(0, "Cannot find intersection between type " ~ Values[0].stringof ~ " and range of " ~ ElementType!Range.stringof);
         }
 
         enum r1Sorted = is(typeof(range): SortedRange!T, T...);
@@ -131,7 +131,7 @@ auto difference(alias pred = "a", Range, Values...)(Range range, Values values) 
             auto r2 = other.sort;
         }
 
-        return Difference!(pred, typeof(r1), typeof(r2))(r1, r2);
+        return Intersection!(pred, typeof(r1), typeof(r2))(r1, r2);
     }
     else
     {
@@ -144,36 +144,36 @@ version (unittest) {
 }
 
 unittest {
-    // assert([1, 2, 3].difference([0, 1, 2]).array == [3]);
-    assert([1, 2, 3].difference([1, 2]).array == [3]);
-    assert([1, 2, 3].difference([1], 2).array == [3]);
-    assert([1, 2, 3].difference([1], [3]).array == [2]);
-    assert([1, 2, 3].difference(3).array == [1, 2]);
+    // assert([1, 2, 3].intersection([0, 1, 2]).array == [1, 2]);
+    assert([1, 2, 3].intersection([1, 2]).array == [1, 2]);
+    assert([1, 2, 3].intersection([1], 2).array == [1, 2]);
+    assert([1, 2, 3].intersection([1], [3]).array == [1, 3]);
+    assert([1, 2, 3].intersection(3).array == [3]);
 }
 
 unittest {
     // Implicitly convertible elements ok
-    assert([1.0, 2.0].difference(2).array == [1.0]);
+    assert([1.0, 2.0].intersection(2).array == [2.0]);
 
     // Implicitly convertible ranges ok
-    assert([1.0, 2.0].difference([2]).array == [1.0]);
+    assert([1.0, 2.0].intersection([2]).array == [2.0]);
 
     // Non implicily convertible elements not ok
-    static assert(!__traits(compiles, [1].difference(1.0)));
+    static assert(!__traits(compiles, [1].intersection(1.0)));
 
     // Non implicily convertible range not ok
-    static assert(!__traits(compiles, [1].difference([1.0])));
+    static assert(!__traits(compiles, [1].intersection([1.0])));
 }
 
 unittest {
     import std.math: ceil;
-    assert([2.1, 1.2].difference!ceil([2.3, 3.4]).array == [1.2]);
-    assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).array == [1.2]);
+    assert([2.1, 1.2].intersection!ceil([2.3, 3.4]).array == [2.1]);
+    assert([2.1, 1.2].intersection!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).array == [2.1]);
 }
 
 unittest {
     struct A {
         int value;
     }
-    assert([A(1), A(2), A(3)].difference!((a, b) => a.value == b.value)([A(2), A(3)]).array == [A(1)]);
+    assert([A(1), A(2), A(3)].intersection!((a, b) => a.value == b.value)([A(2), A(3)]).array == [A(2), A(3)]);
 }
