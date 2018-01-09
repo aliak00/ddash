@@ -14,7 +14,7 @@ void diff(R1, R2)(R1 r1, R2 r2) {
 }
 
 void profile() {
-    static foreach (count; [4, 8, 16, 20, 50, 100]) {{
+    static foreach (count; [4, 8, 16, 20, 50, 100, 1000]) {{
         alias randoms = generate!(() => uniform(0, count));
 
         auto sortableR1 = randoms.take(count).array;
