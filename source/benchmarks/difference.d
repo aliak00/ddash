@@ -14,11 +14,11 @@ void diff(R1, R2)(R1 r1, R2 r2) {
 }
 
 void profile() {
-    static foreach (count; [4, 8, 16, 50, 100, 1000]) {{
+    static foreach (count; [4, 8, 16, 20, 50, 100]) {{
         alias randoms = generate!(() => uniform(0, count));
 
-        int[] sortableR1 = randoms.take(count).array;
-        int[] sortableR2 = randoms.take(count).array;
+        auto sortableR1 = randoms.take(count).array;
+        auto sortableR2 = randoms.take(count).array;
 
         auto sortedR1 = sortableR1.dup.sort.array.assumeSorted;
         auto sortedR2 = sortableR2.dup.sort.array.assumeSorted;
@@ -30,7 +30,7 @@ void profile() {
         alias fSortable = () => diff(sortableR1, sortableR2);
         alias fUnsortable = () => diff(unnsortableR1, unnsortableR2);
 
-        auto r = benchmark!(fSorted, fSortable, fUnsortable)(10000);
+        auto r = benchmark!(fSorted, fSortable, fUnsortable)(5000);
         writeln("count: ", count);
         writeln("  sorted:     ", r[0]);
         writeln("  sortable:   ", r[1]);
