@@ -52,6 +52,7 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
         else
         {
             import std.algorithm: canFind;
+            import std.range: empty, front, popFront;
             while (!this.r1.empty && this.r2.canFind!equal(this.r1.front)) {
                 this.r1.popFront;
             }
@@ -65,12 +66,15 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
     }
 
     bool empty() @property {
+        import std.range: empty;
         return this.r1.empty;
     }
     auto front() @property {
+        import std.range: front;
         return this.r1.front;
     }
     void popFront() {
+        import std.range: popFront;
         this.r1.popFront;
         this.moveToNextElement;
     }
@@ -105,8 +109,8 @@ auto difference(alias pred = "a", Range, Values...)(Range range, Values values) 
         //     pragma(msg,
         //         __FUNCTION__, ":\n  => ",
         //             typeof(range), " ", typeof(other), "\n  => ",
-        //             r1Sorted, " ", r2Sorted, "\n  => ",
-        //             canSortR1, " ", canSortR2);
+        //             "sorted:   ", r1Sorted, " ", r2Sorted, "\n  => ",
+        //             "sortable: ", canSortR1, " ", canSortR2);
         // }
 
         static if (r1Sorted || !canSortR2)
