@@ -5,4 +5,5 @@ public {
     import range.front;
     import range.withfront;
     import range.popiffront;
+    import range.traits;
 }
