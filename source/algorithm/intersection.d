@@ -135,7 +135,8 @@ auto intersection(alias pred = "a", Range, Values...)(Range range, Values values
     }
     else
     {
-        return range;
+        import range: takeNone;
+        return range.takeNone;
     }
 }
 
