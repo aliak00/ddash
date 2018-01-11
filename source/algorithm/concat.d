@@ -16,13 +16,18 @@ auto concat(Range, Values...)(Range range, Values values) if (isInputRange!Range
         }
         else
         {
-            static assert(0, "Attempted to concat type " ~ Values[0].stringof ~ " to range of " ~ ElementType!Range.stringof);
+            static assert(0, "Cannot concat type " ~ Values[0].stringof ~ " to range of " ~ ElementType!Range.stringof);
         }
     }
     else
     {
         return range;
     }
+}
+
+auto concat(T, Values...)(T value, Values values) if (!isInputRange!T) {
+    import std.range: only;
+    return concat(only(value), values);
 }
 
 unittest {
@@ -39,6 +44,18 @@ unittest {
 
     // Implicitly convertible ranges ok
     assert([1.0].concat([2, 3]).array == [1.0, 2.0, 3.0]);
+
+    // Concat nothing to single value
+    assert(1.concat().array == [1]);
+
+    // Concat nothing to range
+    assert([1].concat().array == [1]);
+
+    // Concat values to another value
+    assert(1.concat(2, 3).array == [1, 2, 3]);
+
+    // Concat ranges or values to another value
+    assert(1.concat(2, [3, 4]).array == [1, 2, 3, 4]);
 
     // Non implicily convertible elements not ok
     static assert(!__traits(compiles, [1].concat(1, 2.0)));
