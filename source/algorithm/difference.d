@@ -81,27 +81,17 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
 }
 
 auto difference(alias pred = "a", Range, Values...)(Range range, Values values) if (isInputRange!Range) {
-    import std.range: ElementType, SortedRange;
-    import std.algorithm: sort;
-    import std.traits: TemplateOf;
-    import algorithm: concat;
     static if (Values.length)
     {
-        static if (isInputRange!(Values[0]) && is(ElementType!(Values[0]) : ElementType!Range))
-        {
-            auto other = values[0].concat(values[1..$]);
-        }
-        else static if (is(Values[0] : ElementType!Range))
-        {
-            auto other = [values[0]].concat(values[1..$]);
-        }
-        else
-        {
-            static assert(0, "Cannot find difference between type " ~ Values[0].stringof ~ " and range of " ~ ElementType!Range.stringof);
-        }
+        import std.range: ElementType, SortedRange;
+        import std.algorithm: sort;
+        import range.traits: isSorted;
+        import algorithm: concat;
+        auto other = concat(values);
+        static assert (is(ElementType!(typeof(other)) : ElementType!Range));
 
-        enum r1Sorted = is(typeof(range): SortedRange!T, T...);
-        enum r2Sorted = is(typeof(other): SortedRange!U, U...);
+        enum r1Sorted = isSorted!(typeof(range));
+        enum r2Sorted = isSorted!(typeof(other));
         enum canSortR1 = is(typeof(sort(range)));
         enum canSortR2 = is(typeof(sort(other)));
 
