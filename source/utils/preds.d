@@ -1,46 +1,16 @@
 module utils.preds;
 
-import std.traits;
-import std.functional;
-
-template isUnary(alias pred) {
-    static if (is(typeof(pred) : string))
-    {
-        enum isUnary = is(typeof(unaryFun!pred(0)));
-    }
-    else static if (is(Parameters!pred F) && F.length == 1)
-    {
-        enum isUnary = true;
-    }
-    else
-    {
-        enum isUnary = false;
-    }
+template isUnaryOver(alias pred, T...) {
+    import std.functional: unaryFun;
+    enum isUnaryOver = T.length == 1 && is(typeof(unaryFun!pred(T.init)));
 }
 
-template isBinary(alias pred) {
-    static if (is(typeof(pred) : string))
-    {
-        enum isBinary = !isUnary!pred && is(typeof(binaryFun!pred(0, 0)));
-    }
-    else static if (is(Parameters!pred F) && F.length == 2)
-    {
-        enum isBinary = true;
-    }
-    else
-    {
-        enum isBinary = false;
-    }
-}
-
-bool isNAry(alias pred, int arity)() {
-    static if (is(Parameters!pred F) && F.length == arity)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
+template isBinaryOver(alias pred, T...) {
+    import std.functional: binaryFun;
+    static if (T.length == 1) {
+        enum isBinaryOver = !isUnaryOver!(pred, T) && isBinaryOver!(pred, T, T);
+    } else {
+        enum isBinaryOver = is(typeof(binaryFun!pred(T[0].init, T[1].init)));
     }
 }
 
@@ -50,28 +20,27 @@ unittest {
     void f1(int a) {}
     void f2(int a, int b) {}
 
-    static assert(isUnary!"a" == true);
-    static assert(isUnary!"a > a" == true);
-    static assert(isUnary!"a > b" == false);
+    static assert(isUnaryOver!("a", int) == true);
+    static assert(isUnaryOver!("a > a", int) == true);
+    static assert(isUnaryOver!("a > b", int) == false);
+    static assert(isUnaryOver!(null, int) == false);
+    static assert(isUnaryOver!((a => a), int) == true);
+    static assert(isUnaryOver!((a, b) => a + b, int) == false);
 
-    static assert(isUnary!v == false);
-    static assert(isUnary!f0 == false);
-    static assert(isUnary!f1 == true);
-    static assert(isUnary!f2 == false);
+    static assert(isUnaryOver!(v, int) == false);
+    static assert(isUnaryOver!(f0, int) == false);
+    static assert(isUnaryOver!(f1, int) == true);
+    static assert(isUnaryOver!(f2, int) == false);
 
-    static assert(isBinary!"a" == false);
-    static assert(isBinary!"a > a" == false);
-    static assert(isBinary!"a > b" == true);
+    static assert(isBinaryOver!("a", int) == false);
+    static assert(isBinaryOver!("a > a", int) == false);
+    static assert(isBinaryOver!("a > b", int) == true);
+    static assert(isBinaryOver!(null, int) == false);
+    static assert(isBinaryOver!((a => a), int) == false);
+    static assert(isBinaryOver!((a, b) => a + b, int) == true);
 
-    static assert(isBinary!v == false);
-    static assert(isBinary!f0 == false);
-    static assert(isBinary!f1 == false);
-    static assert(isBinary!f2 == true);
-
-    static assert(isNAry!(f0, 0) == true);
-    static assert(isNAry!(f0, 1) == false);
-    static assert(isNAry!(f1, 0) == false);
-    static assert(isNAry!(f1, 1) == true);
-    static assert(isNAry!(f2, 1) == false);
-    static assert(isNAry!(f2, 2) == true);
+    static assert(isBinaryOver!(v, int) == false);
+    static assert(isBinaryOver!(f0, int) == false);
+    static assert(isBinaryOver!(f1, int) == false);
+    static assert(isBinaryOver!(f2, int) == true);
 }
