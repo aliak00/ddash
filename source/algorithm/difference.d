@@ -24,38 +24,10 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
     alias equal = (a, b) => compare(transform(a), transform(b));
 
     private void moveToNextElement() {
-        import std.traits: TemplateOf;
-        import std.range: SortedRange;
-        enum r1Sorted = is(R1: SortedRange!T, T...);
-        enum r2Sorted = is(R2: SortedRange!U, U...);
-        static if (r1Sorted && r2Sorted)
-        {
-            bool poppedOne = true;
-            while (!this.r2.empty && poppedOne) {
-                poppedOne = false;
-                while (!this.r1.empty && equal(this.r1.front, this.r2.front)) {
-                    this.r1.popFront;
-                    poppedOne = true;
-                }
-                if (poppedOne) {
-                    this.r2.popFront;
-                }
-            }
-        }
-        else static if (r2Sorted)
-        {
-            // TODO: This path is not tested in any of the unittests
-            while (!this.r1.empty && this.r2.contains!equal(this.r1.front)) {
-                this.r1.popFront;
-            }
-        }
-        else
-        {
-            import std.algorithm: canFind;
-            import std.range: empty, front, popFront;
-            while (!this.r1.empty && this.r2.canFind!equal(this.r1.front)) {
-                this.r1.popFront;
-            }
+        import std.algorithm: canFind;
+        import std.range: empty, front, popFront;
+        while (!this.r1.empty && this.r2.canFind!equal(this.r1.front)) {
+            this.r1.popFront;
         }
     }
 
@@ -80,52 +52,18 @@ struct Difference(alias pred = "a", R1, R2) if (isInputRange!R1 && isInputRange!
     }
 }
 
-auto difference(alias pred = "a", Range, Values...)(Range range, Values values) if (isInputRange!Range) {
-    static if (Values.length)
+auto difference(alias pred = "a", Range, Rs...)(Range range, Rs values) if (isInputRange!Range) {
+    static if (!Rs.length)
     {
-        import std.range: ElementType, SortedRange;
-        import std.algorithm: sort;
-        import utils.traits: isSortedRange;
-        import algorithm: concat;
-        auto other = concat(values);
-        static assert (is(ElementType!(typeof(other)) : ElementType!Range));
-
-        enum r1Sorted = isSortedRange!(typeof(range));
-        enum r2Sorted = isSortedRange!(typeof(other));
-        enum canSortR1 = is(typeof(sort(range)));
-        enum canSortR2 = is(typeof(sort(other)));
-
-        // debug {
-        //     pragma(msg,
-        //         __FUNCTION__, ":\n  => ",
-        //             typeof(range), " ", typeof(other), "\n  => ",
-        //             "sorted:   ", r1Sorted, " ", r2Sorted, "\n  => ",
-        //             "sortable: ", canSortR1, " ", canSortR2);
-        // }
-
-        static if (r1Sorted || !canSortR2)
-        {
-            auto r1 = range;
-        }
-        else
-        {
-            auto r1 = range.sort;
-        }
-
-        static if (r2Sorted || !canSortR2)
-        {
-            auto r2 = other;
-        }
-        else
-        {
-            auto r2 = other.sort;
-        }
-
-        return Difference!(pred, typeof(r1), typeof(r2))(r1, r2);
+        return range;
     }
     else
     {
-        return range;
+        import std.range: ElementType;
+        import algorithm: concat;
+        auto combinedValues = values.concat;
+        static assert (is(ElementType!(typeof(combinedValues)) : ElementType!Range));
+        return Difference!(pred, typeof(range), typeof(combinedValues))(range, combinedValues);
     }
 }
 
@@ -134,7 +72,7 @@ version (unittest) {
 }
 
 unittest {
-    // assert([1, 2, 3].difference([0, 1, 2]).array == [3]);
+    assert([1, 2, 3].difference([0, 1, 2]).array == [3]);
     assert([1, 2, 3].difference([1, 2]).array == [3]);
     assert([1, 2, 3].difference([1], 2).array == [3]);
     assert([1, 2, 3].difference([1], [3]).array == [2]);
