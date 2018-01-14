@@ -3,7 +3,7 @@ module range.sortingpredicate;
 import common;
 
 auto sortingPredicate(Range, T)(Range range, auto ref T a, auto ref T b) 
-if (from!"std.range".isInputRange!Range && from!"range".isSortedRange!Range)
+if (from!"std.range".isInputRange!Range && from!"utils.traits".isSortedRange!Range)
 {
     import std.range: SortedRange;
     static if (is(Range : SortedRange!U, U...))

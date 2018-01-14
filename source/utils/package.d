@@ -4,5 +4,5 @@ public  {
     import utils.istruthy;
     import utils.deref;
     import utils.allpairs;
-    import utils.preds;
+    import utils.traits;
 }

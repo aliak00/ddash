@@ -1,4 +1,37 @@
-module utils.preds;
+module utils.traits;
+
+import common: from;
+
+template isKeySubstitutableWith(A, B) {
+    enum isKeySubstitutableWith = __traits(compiles, { int[A] aa; aa[B.init] = 0; });
+}
+
+unittest {
+    struct A {}
+    struct B { A a; alias a this; }
+
+    static assert(isKeySubstitutableWith!(A, B));
+    static assert(!isKeySubstitutableWith!(B, A));
+    static assert(isKeySubstitutableWith!(int, long));
+    static assert(!isKeySubstitutableWith!(int, float));
+}
+
+template isNullType(alias a) {
+    enum isNullType = is(typeof(a) == typeof(null));
+}
+
+unittest {
+    int a;
+    int *b = null;
+    struct C {}
+    C c;
+    void f() {}
+    static assert(isNullType!null);
+    static assert(isNullType!a == false);
+    static assert(isNullType!b == false);
+    static assert(isNullType!c == false);
+    static assert(isNullType!f == false);
+}
 
 template isUnaryOver(alias pred, T...) {
     import std.functional: unaryFun;
@@ -43,4 +76,17 @@ unittest {
     static assert(isBinaryOver!(f0, int) == false);
     static assert(isBinaryOver!(f1, int) == false);
     static assert(isBinaryOver!(f2, int) == true);
+}
+
+bool isSortedRange(Range)() if (from!"std.range".isInputRange!Range) {
+    import std.range: SortedRange;
+    return is(Range : SortedRange!T, T...);
+}
+
+unittest {
+    import std.algorithm: sort;
+    import std.range: assumeSorted;
+    static assert(isSortedRange!(typeof([0, 1, 2])) == false);
+    static assert(isSortedRange!(typeof([0, 1, 2].sort)) == true);
+    static assert(isSortedRange!(typeof([0, 1, 2].assumeSorted)) == true);
 }

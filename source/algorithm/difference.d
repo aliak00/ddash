@@ -85,7 +85,7 @@ auto difference(alias pred = "a", Range, Values...)(Range range, Values values) 
     {
         import std.range: ElementType, SortedRange;
         import std.algorithm: sort;
-        import range.traits: isSortedRange;
+        import utils.traits: isSortedRange;
         import algorithm: concat;
         auto other = concat(values);
         static assert (is(ElementType!(typeof(other)) : ElementType!Range));
