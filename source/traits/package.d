@@ -13,3 +13,20 @@ unittest {
     static assert(isKeySubstitutableWith!(int, long));
     static assert(!isKeySubstitutableWith!(int, float));
 }
+
+template isNullType(alias a) {
+    enum isNullType = is(typeof(a) == typeof(null));
+}
+
+unittest {
+    int a;
+    int *b = null;
+    struct C {}
+    C c;
+    void f() {}
+    static assert(isNullType!null);
+    static assert(isNullType!a == false);
+    static assert(isNullType!b == false);
+    static assert(isNullType!c == false);
+    static assert(isNullType!f == false);
+}
