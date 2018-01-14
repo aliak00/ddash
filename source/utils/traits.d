@@ -76,6 +76,9 @@ unittest {
     static assert(isBinaryOver!(f0, int) == false);
     static assert(isBinaryOver!(f1, int) == false);
     static assert(isBinaryOver!(f2, int) == true);
+
+    import std.math: ceil;
+    static assert(isUnaryOver!(ceil, double) == true);
 }
 
 bool isSortedRange(Range)() if (from!"std.range".isInputRange!Range) {

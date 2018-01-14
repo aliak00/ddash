@@ -2,18 +2,18 @@ module range.sortingpredicate;
 
 import common;
 
-auto sortingPredicate(Range, T)(Range range, auto ref T a, auto ref T b) 
+auto sortingPredicate(Range, T, U)(Range range, auto ref T a, auto ref U b)
 if (from!"std.range".isInputRange!Range && from!"utils.traits".isSortedRange!Range)
 {
     import std.range: SortedRange;
-    static if (is(Range : SortedRange!U, U...))
+    static if (is(Range : SortedRange!P, P...))
     {
         import std.functional: binaryFun;
-        return binaryFun!(U[1])(a, b);
+        return binaryFun!(P[1])(a, b);
     }
     else
     {
-        static assert(0, "isSorted!Range was true but could not decompose predicate");
+        static assert(0, "Could not decompose sorting predicate for " ~ Range.stringof);
     }
 }
 

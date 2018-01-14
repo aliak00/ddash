@@ -13,7 +13,7 @@ void diff(R1, R2)(R1 r1, R2 r2) {
     auto r = r1.difference(r2).array;
 }
 
-void profile() {
+void profile()() {
     static foreach (count; [4, 8, 16, 20, 50, 100, 1000]) {{
         alias randoms = generate!(() => uniform(0, count));
 
