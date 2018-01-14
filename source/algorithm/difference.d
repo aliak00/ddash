@@ -85,13 +85,13 @@ auto difference(alias pred = "a", Range, Values...)(Range range, Values values) 
     {
         import std.range: ElementType, SortedRange;
         import std.algorithm: sort;
-        import range.traits: isSorted;
+        import range.traits: isSortedRange;
         import algorithm: concat;
         auto other = concat(values);
         static assert (is(ElementType!(typeof(other)) : ElementType!Range));
 
-        enum r1Sorted = isSorted!(typeof(range));
-        enum r2Sorted = isSorted!(typeof(other));
+        enum r1Sorted = isSortedRange!(typeof(range));
+        enum r2Sorted = isSortedRange!(typeof(other));
         enum canSortR1 = is(typeof(sort(range)));
         enum canSortR2 = is(typeof(sort(other)));
 
