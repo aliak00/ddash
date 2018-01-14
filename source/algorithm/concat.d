@@ -27,7 +27,7 @@ auto concat(Range, Values...)(Range range, Values values) if (isInputRange!Range
 
 auto concat(T, Values...)(T value, Values values) if (!isInputRange!T) {
     import std.range: only;
-    return concat(only(value), values);
+    return concat([value], values);
 }
 
 unittest {
