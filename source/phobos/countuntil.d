@@ -4,7 +4,7 @@ auto countUntil(alias pred = "a == b", Range, Values...)(Range haystack, Values 
     import optional: no, some;
     import std.algorithm: stdCountUntil = countUntil;
     auto result = stdCountUntil!(pred, Range, Values)(haystack, needles);
-    return result == -1 ? no!long : some(result);
+    return result == -1 ? no!size_t : some(cast(size_t)result);
 }
 
 unittest {

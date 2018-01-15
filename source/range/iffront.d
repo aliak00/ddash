@@ -9,19 +9,20 @@ auto ifFront(Range)(Range range) if (from!"std.range".isInputRange!Range) {
 }
 
 unittest {
-    import std.algorithm: filter;
-    assert([false].filter!"a".ifFront.empty);
+    assert((int[]).init.ifFront.empty == true);
+    assert([1, 2].ifFront.front == 1);
 }
 
 unittest {
     import std.algorithm: filter;
     import optional: some, none;
     struct A {
+        int x;
         int f() {
-            return 7;
+            return x;
         }
     }
 
     assert((A[]).init.ifFront.f == none);
-    assert([A()].ifFront.f == some(7));
+    assert([A(3), A(5)].ifFront.f == some(3));
 }

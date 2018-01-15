@@ -4,13 +4,7 @@ import common: from;
 
 auto dropRightWhile(alias pred, Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
     import std.functional: unaryFun;
-    import std.traits: isArray;
-
-    static if (isArray!Range)
-    {
-        import std.range: empty, back, popBack;
-    }
-
+    import std.range: empty, back, popBack;
     while (!range.empty && unaryFun!pred(range.back)) range.popBack;
     return range;
 }

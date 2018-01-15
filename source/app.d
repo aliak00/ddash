@@ -3,5 +3,7 @@ import std.functional, std.algorithm, std.range, std.array;
 import common: from;
 
 void main() {
-    from!"benchmarks.intersection".profile!();
+    import algorithm: findIndex;
+    [1, 2].findIndex(1).writeln;
+    // from!"benchmarks.intersection".profile!();
 }

@@ -15,10 +15,13 @@ public {
     import std.algorithm: fill;
     import phobos: findIndex = countUntil;
     import algorithm.findlastindex;
+    alias first = from!"range".ifFront;
     import algorithm.flatten;
     import algorithm.flattendeep;
     import std.array: fromPairs = assocArray;
+    import algorithm.indexof;
     alias initial = (range) => from!"std.range".dropBack(range, 1);
     import algorithm.intersection;
     import algorithm.join;
+    alias last = from!"range".ifBack;
 }
