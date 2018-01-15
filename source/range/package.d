@@ -1,10 +1,10 @@
 module range;
 
 public {
-    import range.iffront;
+    import range.maybefront;
     import range.front;
     import range.withfront;
     import range.popiffront;
     import range.sortingpredicate;
-    import range.ifback;
+    import range.maybeback;
 }

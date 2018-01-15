@@ -1,16 +1,16 @@
-module range.ifback;
+module range.maybeback;
 
 import common: from;
 
-auto ifBack(Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
+auto maybeBack(Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
     import std.range: ElementType, empty, back;
     import optional: no, some;
     return range.empty ? no!(ElementType!Range) : some(range.back);
 }
 
 unittest {
-    assert((int[]).init.ifBack.empty == true);
-    assert([1, 2].ifBack.front == 2);
+    assert((int[]).init.maybeBack.empty == true);
+    assert([1, 2].maybeBack.front == 2);
 }
 
 unittest {
@@ -23,6 +23,6 @@ unittest {
         }
     }
 
-    assert((A[]).init.ifBack.f == none);
-    assert([A(3), A(5)].ifBack.f == some(5));
+    assert((A[]).init.maybeBack.f == none);
+    assert([A(3), A(5)].maybeBack.f == some(5));
 }
