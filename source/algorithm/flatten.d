@@ -1,9 +1,9 @@
 module algorithm.flatten;
 
-import std.range: isInputRange;
+import common: from;
 
-auto flatten(Range)(Range range) if (isInputRange!Range) {
-    import std.range: ElementType;
+auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
+    import std.range: ElementType, isInputRange;
     import std.traits: isPointer;
     import optional: isOptional;
     alias E = ElementType!Range;

@@ -1,6 +1,6 @@
 module range.sortingpredicate;
 
-import common;
+import common: from;
 
 auto sortingPredicate(Range, T, U)(Range range, auto ref T a, auto ref U b)
 if (from!"std.range".isInputRange!Range && from!"utils.traits".isSortedRange!Range)

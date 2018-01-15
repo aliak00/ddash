@@ -1,9 +1,9 @@
 module algorithm.concat;
 
-import std.range: isInputRange;
+import common: from;
 
-auto concat(Range, Values...)(Range range, Values values) if (isInputRange!Range) {
-    import std.range: chain, ElementType;
+auto concat(Range, Values...)(Range range, Values values) if (from!"std.range".isInputRange!Range) {
+    import std.range: chain, ElementType, isInputRange;
     static if (Values.length)
     {
         static if (isInputRange!(Values[0]) && is(ElementType!(Values[0]) : ElementType!Range))
@@ -25,7 +25,7 @@ auto concat(Range, Values...)(Range range, Values values) if (isInputRange!Range
     }
 }
 
-auto concat(T, Values...)(T value, Values values) if (!isInputRange!T) {
+auto concat(T, Values...)(T value, Values values) if (!from!"std.range".isInputRange!T) {
     import std.range: only;
     return concat([value], values);
 }

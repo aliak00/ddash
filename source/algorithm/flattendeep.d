@@ -1,9 +1,9 @@
 module algorithm.flattendeep;
 
-import std.range: isInputRange;
+import common: from;
 
-auto flattenDeep(Range)(Range range) if (isInputRange!Range) {
-    import std.range: ElementType;
+auto flattenDeep(Range)(Range range) if (from!"std.range".isInputRange!Range) {
+    import std.range: ElementType, isInputRange;
     import algorithm: flatten;
     static if (isInputRange!(ElementType!Range))
     {

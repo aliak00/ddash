@@ -1,8 +1,8 @@
 module range.iffront;
 
-import std.range: isInputRange;
+import common: from;
 
-auto ifFront(Range)(Range range) if (isInputRange!Range) {
+auto ifFront(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, empty, front;
     import optional: no, some;
     return range.empty ? no!(ElementType!Range) : some(range.front);

@@ -1,8 +1,8 @@
 module algorithm.chunk;
 
-import std.range: isInputRange;
+import common: from;
 
-auto chunk(Range)(Range range, size_t size) if (isInputRange!Range) {
+auto chunk(Range)(Range range, size_t size) if (from!"std.range".isInputRange!Range) {
     import std.range: chunks, takeNone;
     if (size) {
         return range.chunks(size);

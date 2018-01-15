@@ -1,12 +1,11 @@
 module utils.deref;
 
-import std.traits: isPointer;
-import optional: isOptional;
+import common: from;
 
-ref deref(T)(T t) if (isPointer!T) {
+ref deref(T)(T t) if (from!"std.traits".isPointer!T) {
     return *t;
 }
 
-ref deref(T)(T t) if (isOptional!T) {
+ref deref(T)(T t) if (from!"optional".isOptional!T) {
     return t.front;
 }

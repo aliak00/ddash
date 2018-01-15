@@ -1,8 +1,8 @@
 module algorithm.droprightwhile;
 
-import std.range: isBidirectionalRange;
+import common: from;
 
-auto dropRightWhile(alias pred, Range)(Range range) if (isBidirectionalRange!Range) {
+auto dropRightWhile(alias pred, Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
     import std.functional: unaryFun;
     import std.traits: isArray;
 

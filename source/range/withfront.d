@@ -1,9 +1,9 @@
 module range.withfront;
 
-import std.range: isInputRange, ElementType;
+import common: from;
 
-auto withFront(alias fun, Range)(Range range) if (isInputRange!Range) {
-    import std.range: empty, front;
+auto withFront(alias fun, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+    import std.range: empty, front, ElementType;
     alias R = typeof(fun(ElementType!Range.init));
     static if (is(R == void))
     {

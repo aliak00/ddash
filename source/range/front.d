@@ -1,8 +1,9 @@
 module range.front;
 
-import std.range: isInputRange, ElementType;
+import common: from;
 
-auto front(Range, T)(Range range, lazy T defaultValue) if (isInputRange!Range && is(T : ElementType!Range)) {
+auto front(Range, T)(Range range, lazy T defaultValue)
+if (from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!Range)) {
     import std.range: empty, front;
     return range.empty ? defaultValue : range.front;
 }

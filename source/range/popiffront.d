@@ -1,8 +1,8 @@
 module range.popiffront;
 
-import std.range: isInputRange;
+import common: from;
 
-auto popIfFront(Range)(auto ref Range range) if (isInputRange!Range) {
+auto popIfFront(Range)(auto ref Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: empty, popFront;
     if (!range.empty) {
         range.popFront;

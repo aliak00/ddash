@@ -1,8 +1,10 @@
 module algorithm.findlastindex;
 
-import std.range: isBidirectionalRange;
+import common: from;
 
-auto findLastIndex(alias pred = "a == b", Range, Values...)(Range range, Values values) if (isBidirectionalRange!Range) {
+auto findLastIndex(alias pred = "a == b", Range, Values...)(Range range, Values values)
+if (from!"std.range".isBidirectionalRange!Range)
+{
     import std.range: retro, walkLength;
     import algorithm: findIndex;
     import range: withFront;

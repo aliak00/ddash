@@ -1,6 +1,6 @@
 module algorithm;
 
-import common;
+import common: from;
 
 public {
     import algorithm.flatmap;
