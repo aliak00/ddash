@@ -20,4 +20,5 @@ public {
     import std.array: fromPairs = assocArray;
     alias initial = (range) => from!"std.range".dropBack(range, 1);
     import algorithm.intersection;
+    import algorithm.join;
 }
