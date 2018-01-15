@@ -101,12 +101,15 @@ if (from!"std.range".isInputRange!Range
         static assert (is(ElementType!(typeof(combinedValues)) : ElementType!Range));
 
         // import std.algorithm: sort;
+        // import utils.traits: isSortedRange;
         // pragma(msg,
         //     __FUNCTION__,
         //     "\n  pred: ", typeof(pred),
         //     "\n  combinedValues: ", typeof(combinedValues),
         //     "\n  canSortRange: ", is(typeof(range.sort)),
         //     "\n  canSortCombinedValues: ", is(typeof(combinedValues.sort)),
+        //     "\n  r1Sorted: ", isSortedRange!Range,
+        //     "\n  r2Sorted: ", isSortedRange!(typeof(combinedValues)),
         // );
         static if (isNullType!pred || isUnaryOver!(pred, ElementType!Range))
         {
