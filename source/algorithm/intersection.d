@@ -11,12 +11,11 @@ struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && 
     alias E = ElementType!R1;
 
     private void moveToNextElement() {
-        import utils.traits: isBinaryOver, isSortedRange;
+        import utils.traits: isBinaryOver, isSortedRange, isNullType;
+        import std.range: empty, front, popFront;
         static if (!isBinaryOver!(pred, E) && isSortedRange!R1 && isSortedRange!R2)
         {
-            import std.range: ElementType;
             import range: sortingPredicate;
-            import utils.traits: isNullType;
             static if (isNullType!pred)
             {
                 alias comp = (a, b) => r1.sortingPredicate(a, b);
@@ -39,8 +38,7 @@ struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && 
         else
         {
             import std.algorithm: canFind;
-            import std.range: empty, front, popFront;
-            import utils.traits: isUnaryOver, isNullType;
+            import utils.traits: isUnaryOver;
             static if (isNullType!pred)
             {
                 alias equal = (a, b) => a == b;
