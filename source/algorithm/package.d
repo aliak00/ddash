@@ -24,4 +24,5 @@ public {
     import algorithm.intersection;
     import algorithm.join;
     alias last = from!"range".maybeBack;
+    import algorithm.lastindexof;
 }
