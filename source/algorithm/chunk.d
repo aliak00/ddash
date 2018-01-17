@@ -1,7 +1,28 @@
+/**
+    Creates an array of elements split into groups the length of size. If array can't be split evenly,
+    the final chunk will be the remaining elements.
+*/
 module algorithm.chunk;
+
+///
+unittest {
+    import std.array;
+    assert([1, 2, 3].chunk(0).array == (int[][]).init);
+    assert([1, 2, 3].chunk(1).array == [[1], [2], [3]]);
+}
 
 import common: from;
 
+/**
+    Chunks a range in to X `size` ranges
+
+    Params:
+        range = An input range
+        size = chunk size
+
+    Returns:
+        range of chunks
+*/
 auto chunk(Range)(Range range, size_t size) if (from!"std.range".isInputRange!Range) {
     import std.range: chunks, takeNone;
     if (size) {
@@ -9,10 +30,4 @@ auto chunk(Range)(Range range, size_t size) if (from!"std.range".isInputRange!Ra
     } else {
         return range.chunks(1).takeNone;
     }
-}
-
-unittest {
-    import std.array;
-    assert([1, 2, 3].chunk(0).array == (int[][]).init);
-    assert([1, 2, 3].chunk(1).array == [[1], [2], [3]]);
 }

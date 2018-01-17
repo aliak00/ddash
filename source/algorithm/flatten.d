@@ -7,20 +7,20 @@ auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.traits: isPointer;
     import optional: isOptional;
     alias E = ElementType!Range;
-    static if (isOptional!E || isPointer!E) 
+    static if (isOptional!E || isPointer!E)
     {
         import std.algorithm: map, filter;
         import utils: isTruthy, deref;
         return range
             .filter!isTruthy
             .map!deref;
-    } 
-    else static if (isInputRange!E) 
+    }
+    else static if (isInputRange!E)
     {
         import std.algorithm: joiner;
         return range.joiner;
-    } 
-    else 
+    }
+    else
     {
         return range;
     }

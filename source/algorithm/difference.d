@@ -1,4 +1,22 @@
+/**
+    Creates a range of values not included in the other given set of values
+*/
 module algorithm.difference;
+
+///
+unittest {
+    assert([1, 2, 3].difference([1], 3).array == [2]);
+
+    import std.math: ceil;
+    assert([2.1, 1.2].difference!ceil([2.3, 3.4]).array == [1.2]);
+    assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).array == [1.2]);
+
+    struct A {
+        int value;
+    }
+
+    assert([A(1), A(2), A(3)].difference!((a, b) => a.value == b.value)([A(2), A(3)]).array == [A(1)]);
+}
 
 import common: from;
 
@@ -79,6 +97,24 @@ struct Difference(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && fr
     }
 }
 
+/**
+    Excludes values from a range
+
+    The `pred` defaults to null. If a unary predicate is passed in, then a transformation
+    will be appled to each element before comparing. If a binary predicate is passed in, it
+    will determine equality of elements.
+
+    If `pred` is null or unary, and the range is sortable or is sorted, an optimized linear
+    algorithm will be used instead using the `range.sortingpredicate` of `range`
+
+    Params:
+        pred = unary transformation or binary comparator
+        range = the range to inspect
+        values = ranges or single values to exclude
+
+    Returns:
+        New array of filtered results. If `Rs` is empty, then `range` is returned
+*/
 auto difference(alias pred = null, Range, Rs...)(Range range, Rs values)
 if (from!"std.range".isInputRange!Range
     && (from!"utils.traits".isNullType!pred

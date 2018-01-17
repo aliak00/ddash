@@ -1,3 +1,6 @@
+/**
+    Contains range utilities
+*/
 module range;
 
 public {

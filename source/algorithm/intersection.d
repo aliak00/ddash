@@ -1,4 +1,21 @@
+/**
+    Creates a range of unique values that are included in the other given set of values
+*/
 module algorithm.intersection;
+
+///
+unittest {
+    assert([1, 2, 3].intersection([1], 3).array == [1, 3]);
+
+    import std.math: ceil;
+    assert([2.1, 1.2].intersection!ceil([2.3, 3.4]).array == [2.1]);
+    assert([2.1, 1.2].intersection!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).array == [2.1]);
+
+    struct A {
+        int value;
+    }
+    assert([A(1), A(2), A(3)].intersection!((a, b) => a.value == b.value)([A(2), A(3)]).array == [A(2), A(3)]);
+}
 
 import common: from;
 
@@ -79,6 +96,24 @@ struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && 
     }
 }
 
+/**
+    Includes unique common elements
+
+    The `pred` defaults to null. If a unary predicate is passed in, then a transformation
+    will be appled to each element before comparing. If a binary predicate is passed in, it
+    will determine equality of elements.
+
+    If `pred` is null or unary, and the range is sortable or is sorted, an optimized linear
+    algorithm will be used instead using the `range.sortingpredicate` of `range`
+
+    Params:
+        pred = unary transformation or binary comparator
+        range = the range to inspect
+        values = ranges or single values to exclude
+
+    Returns:
+        New array of filtered results. If `Rs` is empty, then empty `range` is returned
+*/
 auto intersection(alias pred = null, Range, Rs...)(Range range, Rs values)
 if (from!"std.range".isInputRange!Range
     && (from!"utils.traits".isNullType!pred

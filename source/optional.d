@@ -1,8 +1,34 @@
+/**
+    Home of the Optional type
+*/
 module optional;
 
-struct None {}
+///
+unittest {
+    auto a = optional!int;
+    assert(a == none);
+    a = 9;
+    assert(a == some(9));
+    assert(a != none);
+}
+
+
+struct None {
+    // Space is here else ddox test above includes text "struct Node" in its code block
+}
+
+/**
+    Represents an empty optional value. This is used for convenience
+*/
 auto none = None();
 
+/**
+    Optional type. Also known as a Maybe type in some languages.
+
+    This can either contain a value or be empty. It works with any value, including
+    values that can be null. I.e. null is a valid value that can be contained inside
+    an optional if T is a pointer type (or nullable)
+*/
 struct Optional(T) {
     import std.traits: isPointer, PointerTarget;
     T[] bag;
@@ -18,21 +44,38 @@ struct Optional(T) {
     void popFront() {
         this.bag = [];
     }
+
+    /// Set to none
     void opAssign(None _) {
         this.bag = [];
     }
+
+    /// Sets value to `t`
     void opAssign(T t) {
         this.bag = [t];
     }
+
+    /// Checks if value == `none`
     bool opEquals(None _) {
         return this.bag.length == 0;
     }
+    /**
+        Checks if two optionals contain the same value
+    */
     bool opEquals(U : T)(Optional!U rhs) {
         return this.bag == rhs.bag;
     }
+    /**
+        Get pointer to value
+
+        Returns:
+            Pointer to value or null if empty
+    */
     T* unwrap() {
         return this.empty ? null : &this.bag[0];
     }
+
+    /// Converts value to string `some(T)`` or `no!T``
     string toString() {
         import std.conv: to;
         if (this.bag.length == 0) {
@@ -41,15 +84,33 @@ struct Optional(T) {
         return "some!" ~ T.stringof ~ "(" ~ front.to!string ~ ")";
     }
 
+    /**
+        True if `rhs` is equal to value contained
+    */
     bool opEquals(U : T)(U rhs) {
         return !empty && front == rhs;
     }
 
+    /**
+        Dereferences the optional if it is a pointer type
+
+        Returns:
+            Another optional that either contains the dereferenced
+            value or none
+    */
     auto opUnary(string op)() if (op == "*" && isPointer!T) {
         alias P = PointerTarget!T;
         return empty ? no!P: some!P(*front);
     }
 
+    /**
+        Dispatches all calls to internal value even if there isn't one
+
+        Supports function calls and readonly properties or member variables
+
+        Returns:
+            An optional of whatever `fn` returns
+    */
     auto opDispatch(string fn, Args...)(Args args) if (!isOptional!T) {
         static if (Args.length) {
             alias C = () => mixin("front." ~ fn)(args);
@@ -65,18 +126,22 @@ struct Optional(T) {
     }
 }
 
+/// Type constructor for inferring `T`
 auto optional(T)(T t) {
     return Optional!T(t);
 }
 
+/// Type constructor for inferring `T` with value of none
 auto optional(T)() {
     return Optional!T();
 }
 
+/// Type constructor for an optional having some value of `T`
 auto some(T)(T t) {
     return Optional!T(t);
 }
 
+/// Type constructor for an optional having no value of `T`
 auto no(T)() {
     return Optional!T();
 }
