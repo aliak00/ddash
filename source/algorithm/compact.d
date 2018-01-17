@@ -2,11 +2,30 @@ module algorithm.compact;
 
 import common: from;
 
-auto compact(Range)(Range range) if (from!"std.range".isInputRange!Range) {
+private auto compactBase(string member = "", Range)(Range range) {
     import std.algorithm: filter;
+    import std.range: ElementType;
     import utils: isTruthy;
+    alias E = ElementType!Range;
+    static if (member != "")
+    {
+        static assert(__traits(hasMember, E, member), E.stringof ~ " has no member " ~ member);
+        static assert(
+            __traits(getProtection, __traits(getMember, E, member)) == "public",
+            E.stringof ~ "." ~ member ~ " is not public"
+        );
+        alias m = (a) => mixin("a." ~ member);
+    }
+    else
+    {
+        alias m = (a) => a;
+    }
     return range
-        .filter!isTruthy;
+        .filter!(a => m(a).isTruthy);
+}
+
+auto compact(Range)(Range range) if (from!"std.range".isInputRange!Range) {
+    return compactBase(range);
 }
 
 unittest {
@@ -17,19 +36,8 @@ unittest {
     assert([some(2), no!int].compact.array == [some(2)]);
 }
 
-auto compactBy(string member, Range)(Range range) if (from!"std.range".isInputRange!Range) {
-    import std.algorithm: filter;
-    import std.range: ElementType;
-    import utils: isTruthy;
-    alias E = ElementType!Range;
-    static assert(__traits(hasMember, E, member), E.stringof ~ " has no member " ~ member);
-    static assert(
-        __traits(getProtection, __traits(getMember, E, member)) == "public",
-        E.stringof ~ "." ~ member ~ " is not public"
-    );
-    alias m = (a) => mixin("a." ~ member);
-    return range
-        .filter!(a => m(a).isTruthy);
+auto compactBy(string member, Range)(Range range) if (from!"std.range".isInputRange!Range && member.length) {
+    return compactBase!(member)(range);
 }
 
 unittest {
@@ -41,4 +49,5 @@ unittest {
     assert([A(3, 2), A(0, 1)].compactBy!"x".array == [A(3, 2)]);
     assert(__traits(compiles, [A(3, 2)].compactBy!"y") == false);
     assert(__traits(compiles, [A(3, 2)].compactBy!"z") == false);
+    assert(__traits(compiles, [A(3, 2)].compactBy!"") == false);
 }
