@@ -11,7 +11,9 @@ auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     {
         import std.algorithm: map, filter;
         import utils: isTruthy, deref;
-        return range.filter!isTruthy.map!deref;
+        return range
+            .filter!isTruthy
+            .map!deref;
     } 
     else static if (isInputRange!E) 
     {

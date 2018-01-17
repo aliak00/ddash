@@ -7,7 +7,9 @@ auto flattenDeep(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import algorithm: flatten;
     static if (isInputRange!(ElementType!Range))
     {
-        return range.flatten.flattenDeep;
+        return range
+            .flatten
+            .flattenDeep;
     }
     else
     {

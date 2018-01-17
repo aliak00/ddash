@@ -5,7 +5,9 @@ import common: from;
 auto flatMap(alias fun, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: map;
     import algorithm: flatten;
-    return range.flatten.map!(fun);
+    return range
+        .flatten
+        .map!(fun);
 }
 
 version (unittest) {

@@ -5,7 +5,8 @@ import common: from;
 auto compact(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: filter;
     import utils: isTruthy;
-    return range.filter!isTruthy;
+    return range
+        .filter!isTruthy;
 }
 
 unittest {

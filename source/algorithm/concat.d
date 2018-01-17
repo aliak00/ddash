@@ -8,11 +8,15 @@ auto concat(Range, Values...)(Range range, Values values) if (from!"std.range".i
     {
         static if (isInputRange!(Values[0]) && is(ElementType!(Values[0]) : ElementType!Range))
         {
-            return range.chain(values[0]).concat(values[1..$]);
+            return range
+                .chain(values[0])
+                .concat(values[1..$]);
         }
         else static if (is(Values[0] : ElementType!Range))
         {
-            return range.chain([values[0]]).concat(values[1..$]);
+            return range
+                .chain([values[0]])
+                .concat(values[1..$]);
         }
         else
         {
