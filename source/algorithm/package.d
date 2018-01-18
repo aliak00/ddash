@@ -42,15 +42,51 @@ $(TR
     )
 $(TR
     $(TD $(B `findIndex`))
-    $(TD Returns the index of the first element predicate returns true for. Implement as `phobos.countuntil`)
+    $(TD Returns `optional` index of the first element predicate returns true for.)
     )
 $(TR
-    $(TD `algorithm.lastindexof`)
-    $(TD Finds last element in range that equals some value)
+    $(TD `algorithm.findlastindex`)
+    $(TD Returns `optional` index of the last element predicate returns true for.)
+    )
+$(TR
+    $(TD $(B `first`))
+    $(TD Returns `optional` front of range)
+    )
+$(TR
+    $(TD `algorithm.flatten`)
+    $(TD Flattens range a single level deep.)
+    )
+$(TR
+    $(TD `algorithm.flattendeep`)
+    $(TD Flattens range recursively)
+    )
+$(TR
+    $(TD $(B `fromPairs`))
+    $(TD Returns a newly allocated associative array from a range of key/value tuples)
+    )
+$(TR
+    $(TD $(B `head`))
+    $(TD Returns `optional` back of range)
+    )
+$(TR
+    $(TD `algorithm.indexof`)
+    $(TD Finds the first element in a range that equals some value)
+    )
+$(TR
+    $(TD $(B `initial`))
+    $(TD Gets all but the last element of a range)
     )
 $(TR
     $(TD `algorithm.intersection`)
     $(TD Creates a range of unique values that are included in the other given set of values)
+    )
+$(TR
+    $(TD `algorithm.join`)
+    $(TD Converts all elements in range into a string separated by separator.)
+    )
+$(TR
+    $(TD `algorithm.lastindexof`)
+    $(TD Finds the last element in a range that equals some value)
     )
 )
 
