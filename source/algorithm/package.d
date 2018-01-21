@@ -65,7 +65,7 @@ $(TR
     $(TD Returns a newly allocated associative array from a range of key/value tuples)
     )
 $(TR
-    $(TD `head`)
+    $(TD `last`)
     $(TD Returns `optional` back of range)
     )
 $(TR
@@ -143,7 +143,17 @@ public {
     import algorithm.fill;
     import algorithm.findindex;
     import algorithm.findlastindex;
+
+    /// Returns `optional` front of range
     alias first = from!"range".maybeFront;
+
+    ///
+    unittest {
+        import optional: some, none;
+        assert([1, 2].first == some(1));
+        assert((int[]).init.first == none);
+    }
+
     import algorithm.flatten;
     import algorithm.flattendeep;
     import std.array: fromPairs = assocArray;
@@ -151,6 +161,16 @@ public {
     alias initial = (range) => from!"std.range".dropBack(range, 1);
     import algorithm.intersection;
     import algorithm.join;
+
+    /// Returns `optional` end of range
     alias last = from!"range".maybeBack;
+
+    ///
+    unittest {
+        import optional: some, none;
+        assert([1, 2].last == some(2));
+        assert((int[]).init.last == none);
+    }
+
     import algorithm.lastindexof;
 }
