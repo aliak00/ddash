@@ -4,96 +4,91 @@
 $(TABLE
 $(TR $(TH Function Name) $(TH Description))
 $(TR
-    $(TD `algorithm.chunk`)
+    $(TD $(DDOX_NAMED_REF algorithm.chunk, `chunk`))
     $(TD Creates an array of elements split into groups the length of size. If array can't be split evenly,
     the final chunk will be the remaining elements.)
     )
 $(TR
-    $(TD `algorithm.compact`)
+    $(TD $(DDOX_NAMED_REF algorithm.compact, `compact`))
     $(TD Creates a range with all falsey values removed.)
     )
 $(TR
-    $(TD `algorithm.concat`)
+    $(TD $(DDOX_NAMED_REF algorithm.concat, `concat`))
     $(TD Creates a new range concatenating input range with any additional ranges and/or values)
     )
 $(TR
-    $(TD `algorithm.difference`)
+    $(TD $(DDOX_NAMED_REF algorithm.difference, `difference`))
     $(TD Creates a range of values not included in the other given set of values)
     )
 $(TR
-    $(TD $(B `drop`))
+    $(TD `drop`)
     $(TD Creates a range with `n` elements dropped from the beginning)
     )
 $(TR
-    $(TD $(B `dropRight`))
+    $(TD `dropRight`)
     $(TD Creates a range with `n` elements dropped from the end)
     )
 $(TR
-    $(TD `algorithm.droprightwhile`)
+    $(TD $(DDOX_NAMED_REF algorithm.droprightwhile, `droprightwhile`))
     $(TD Elements are dropped from the end until predicate returns false)
     )
 $(TR
-    $(TD $(B `dropWhile`))
+    $(TD `dropWhile`)
     $(TD Elements are dropped from the beginning until predicate returns false)
     )
 $(TR
-    $(TD $(B *`fill`))
-    $(TD Assigns value to each element of input range range.)
+    $(TD $(DDOX_NAMED_REF algorithm.fill, `fill`))
+    $(TD Assigns value to each element of input range.)
     )
 $(TR
-    $(TD $(B `findIndex`))
+    $(TD `findIndex`)
     $(TD Returns `optional` index of the first element predicate returns true for.)
     )
 $(TR
-    $(TD `algorithm.findlastindex`)
+    $(TD $(DDOX_NAMED_REF algorithm.findlastindex, `findlastindex`))
     $(TD Returns `optional` index of the last element predicate returns true for.)
     )
 $(TR
-    $(TD $(B `first`))
+    $(TD `first`)
     $(TD Returns `optional` front of range)
     )
 $(TR
-    $(TD `algorithm.flatten`)
+    $(TD $(DDOX_NAMED_REF algorithm.flatten, `flatten`))
     $(TD Flattens range a single level deep.)
     )
 $(TR
-    $(TD `algorithm.flattendeep`)
+    $(TD $(DDOX_NAMED_REF algorithm.flattendeep, `flattendeep`))
     $(TD Flattens range recursively)
     )
 $(TR
-    $(TD $(B `fromPairs`))
+    $(TD `fromPairs`)
     $(TD Returns a newly allocated associative array from a range of key/value tuples)
     )
 $(TR
-    $(TD $(B `head`))
+    $(TD `head`)
     $(TD Returns `optional` back of range)
     )
 $(TR
-    $(TD `algorithm.indexof`)
+    $(TD $(DDOX_NAMED_REF algorithm.indexof, `indexof`))
     $(TD Finds the first element in a range that equals some value)
     )
 $(TR
-    $(TD $(B `initial`))
+    $(TD `initial`)
     $(TD Gets all but the last element of a range)
     )
 $(TR
-    $(TD `algorithm.intersection`)
+    $(TD $(DDOX_NAMED_REF algorithm.intersection, `intersection`))
     $(TD Creates a range of unique values that are included in the other given set of values)
     )
 $(TR
-    $(TD `algorithm.join`)
+    $(TD $(DDOX_NAMED_REF algorithm.join, `join`))
     $(TD Converts all elements in range into a string separated by separator.)
     )
 $(TR
-    $(TD `algorithm.lastindexof`)
+    $(TD $(DDOX_NAMED_REF algorithm.lastindexof, `lastindexof`))
     $(TD Finds the last element in a range that equals some value)
     )
 )
-
-Note: Functions not fully qualified do not have details docs because they are implemented as either
-lambas or aliases over exiting function
-
-Note: Functions marked with a `*` need a bit more work before they at least match lodash functionality
 */
 module algorithm;
 
@@ -105,11 +100,44 @@ public {
     import algorithm.compact;
     import algorithm.concat;
     import algorithm.difference;
-    import std.range: drop;
-    import std.range: dropRight = dropBack;
+
+    /// Creates a slice of a range with n elements dropped from the beginning.
+    auto drop(Range)(Range r, size_t n = 1) if (from!"std.range".isInputRange!Range) {
+        import std.range: stdDrop = drop;
+        return r.stdDrop(n);
+    }
+
+    ///
+    unittest {
+        import std.array;
+        assert([1, 2, 3].drop.array == [2, 3]);
+    }
+
+    /// Creates a slice of range with n elements dropped from the end.
+    auto dropRight(Range)(Range r, size_t n = 1) if (from!"std.range".isBidirectionalRange!Range) {
+        import std.range: stdDropBack = dropBack;
+        return r.stdDropBack(n);
+    }
+
+    ///
+    unittest {
+        import std.array;
+        assert([1, 2, 3].dropRight.array == [1, 2]);
+    }
+
     import algorithm.droprightwhile;
+
+    /// Elements are dropped from the beginning until predicate returns false
     alias dropWhile(alias pred) = (range) => from!"std.algorithm".until!(from!"std.functional".not!pred)(range);
-    import std.algorithm: fill;
+
+    ///
+    unittest {
+        import std.array;
+        assert([1, 2, 3, 4].dropWhile!(a => a < 3).array == [1, 2]);
+    }
+
+    import algorithm.fill;
+
     import phobos: findIndex = countUntil;
     import algorithm.findlastindex;
     alias first = from!"range".maybeFront;
