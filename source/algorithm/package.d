@@ -5,8 +5,7 @@ $(TABLE
 $(TR $(TH Function Name) $(TH Description))
 $(TR
     $(TD $(DDOX_NAMED_REF algorithm.chunk, `chunk`))
-    $(TD Creates an array of elements split into groups the length of size. If array can't be split evenly,
-    the final chunk will be the remaining elements.)
+    $(TD Creates an array of elements split into groups the length of size.)
     )
 $(TR
     $(TD $(DDOX_NAMED_REF algorithm.compact, `compact`))
@@ -29,7 +28,7 @@ $(TR
     $(TD Creates a range with `n` elements dropped from the end)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.droprightwhile, `droprightwhile`))
+    $(TD $(DDOX_NAMED_REF algorithm.droprightwhile, `dropRightWhile`))
     $(TD Elements are dropped from the end until predicate returns false)
     )
 $(TR
@@ -41,7 +40,7 @@ $(TR
     $(TD Assigns value to each element of input range.)
     )
 $(TR
-    $(TD `findIndex`)
+    $(TD $(DDOX_NAMED_REF algorithm.findindex, `findIndex`))
     $(TD Returns `optional` index of the first element predicate returns true for.)
     )
 $(TR
