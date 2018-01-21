@@ -128,7 +128,11 @@ public {
     import algorithm.droprightwhile;
 
     /// Elements are dropped from the beginning until predicate returns false
-    alias dropWhile(alias pred) = (range) => from!"std.algorithm".until!(from!"std.functional".not!pred)(range);
+    auto dropWhile(alias pred, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+        import std.algorithm: until;
+        import std.functional: not;
+        return range.until!(not!pred);
+    }
 
     ///
     unittest {
@@ -137,8 +141,7 @@ public {
     }
 
     import algorithm.fill;
-
-    import phobos: findIndex = countUntil;
+    import algorithm.findindex;
     import algorithm.findlastindex;
     alias first = from!"range".maybeFront;
     import algorithm.flatten;

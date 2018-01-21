@@ -8,6 +8,8 @@ unittest {
     import optional: none, some;
     assert([1, 2].countUntil(2) == some(1));
     assert([1, 2].countUntil(0) == none);
+    assert([0, 7, 12, 22, 9].countUntil([12, 22]) == some(2));
+    assert([1, 2].countUntil!((a, b) => a % 2 == 0)([1, 2]) == some(1));
 }
 
 /**

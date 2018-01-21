@@ -4,9 +4,8 @@ module algorithm.findlastindex;
 ///
 unittest {
     import optional: some, none;
-    assert([1, 2, 2, 1].findLastIndex(2) == some(2));
-    assert([1, 2, 2, 1].findLastIndex(1) == some(3));
-    assert([1, 2, 2, 1].findLastIndex(3) == none);
+    assert([1, 2, 3, 4].findLastIndex!(a => a % 2 == 0) == some(3));
+    assert([1, 2, 3, 4].findLastIndex!(a => a == 5) == none);
 }
 
 import common: from;
@@ -15,13 +14,12 @@ import common: from;
     Ditto
 
     Params:
-        pred = comparator
+        pred = unary function that returns true for some element
         range = the input range to search
-        values = one or more ranges to search through
     Returns:
-        `some!int` or `none` if no element was found
+        `some!size_t` or `none` if no element was found
 */
-auto findLastIndex(alias pred = "a == b", Range, Values...)(Range range, Values values)
+auto findLastIndex(alias pred, Range)(Range range)
 if (from!"std.range".isBidirectionalRange!Range)
 {
     import std.range: retro, walkLength;
@@ -29,6 +27,6 @@ if (from!"std.range".isBidirectionalRange!Range)
     import range: withFront;
     return range
         .retro
-        .findIndex!pred(values)
+        .findIndex!pred
         .withFront!(a => range.walkLength - a - 1);
 }
