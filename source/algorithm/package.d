@@ -157,7 +157,16 @@ public {
     import algorithm.flattendeep;
     import algorithm.frompairs;
     import algorithm.indexof;
+
+    /// Gets all but the last element of a range
     alias initial = (range) => from!"std.range".dropBack(range, 1);
+
+    ///
+    unittest {
+        import std.array;
+        assert([1, 2, 3, 4].initial.array == [1, 2, 3]);
+    }
+
     import algorithm.intersection;
     import algorithm.join;
 
