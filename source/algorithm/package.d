@@ -87,6 +87,10 @@ $(TR
     $(TD $(DDOX_NAMED_REF algorithm.lastindexof, `lastIndexOf`))
     $(TD Finds the last element in a range that equals some value)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF algorithm.nth, `nth`))
+    $(TD Returns the element at nth index of range)
+    )
 )
 */
 module algorithm;
