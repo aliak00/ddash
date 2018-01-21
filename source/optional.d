@@ -100,7 +100,14 @@ struct Optional(T) {
     */
     auto opUnary(string op)() if (op == "*" && isPointer!T) {
         alias P = PointerTarget!T;
-        return empty ? no!P: some!P(*front);
+        return empty ? no!P : some!P(*front);
+    }
+
+    /**
+        If the optional is some value it returns an optional of some `value op rhs`
+    */
+    auto opBinary(string op, U : T)(U rhs) {
+        return empty ? no!T : some!T(mixin("front"  ~ op ~ "rhs"));
     }
 
     /**
@@ -165,6 +172,13 @@ unittest {
 }
 
 unittest {
+    auto a = some(3);
+    assert(a + 3 == some(6));
+    auto b = no!int;
+    assert(b + 3 == none);
+}
+
+unittest {
     struct Object {
         int f() {
             return 7;
@@ -176,7 +190,6 @@ unittest {
     assert(a.f() == some(7));
     assert(b.f() == no!int);
 }
-
 
 unittest {
     struct B {

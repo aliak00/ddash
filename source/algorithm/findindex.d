@@ -6,6 +6,7 @@ unittest {
     import optional: some, none;
     assert([1, 2, 3, 4].findIndex!(a => a % 2 == 0) == some(1));
     assert([1, 2, 3, 4].findIndex!(a => a == 5) == none);
+    assert([1, 2, 3, 4].findIndex!(a => a % 2 == 0)(2) == some(3));
 }
 
 import common: from;
@@ -16,6 +17,8 @@ import common: from;
     Params:
         pred = unary function that returns true for some element
         range = the input range to search
+        fromIndex = which index to start searching from
+
     Returns:
         `some!size_t` or `none` if no element was found
 */
@@ -29,5 +32,5 @@ if (from!"std.range".isInputRange!Range
     import optional: some;
     alias fun = unaryFun!pred;
     auto r = range.drop(fromIndex);
-    return r.stdCountUntil!((a, b) => fun(a))(r);
+    return r.stdCountUntil!((a, b) => fun(a))(r) + fromIndex;
 }

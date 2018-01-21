@@ -17,7 +17,7 @@ import common: from;
     Params:
         range = an input range
         value = value to search for
-        fromIndex = which index counting backwards to start searching from
+        fromIndex = which index from the end to start searching from
 
     Returns:
         An `optional!T`
