@@ -6,5 +6,5 @@
 	"description": "A minimal D application.",
 	"copyright": "Copyright © 2017, Ali Akhtarzada",
 	"license": "Boost",
-	"targetPath": "bin"
+    "targetPath": "bin"
 }

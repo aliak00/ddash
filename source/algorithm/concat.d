@@ -1,5 +1,9 @@
 /**
-    Creates a new range concatenating input range with any additional ranges and/or values.
+    Creates a new range concatenating input range/value with any additional ranges and/or values.
+
+    Concat `values` to `range`. Each value to concatenate with `range` must be either a single
+    value that is implicitly convertible to `ElementType!Range` or a range that has element types
+    that are implictly convertible
 */
 module algorithm.concat;
 
@@ -41,9 +45,7 @@ unittest {
 import common: from;
 
 /**
-    Concat `values` to `range`. Each value to concatenate with `range` must be either a single
-    value that is implicitly convertible to `ElementType!Range` or a range that has element types
-    that are implictly convertible
+    Ditto
 
     Params:
         range = an input range
@@ -81,7 +83,7 @@ auto concat(Range, Values...)(Range range, Values values) if (from!"std.range".i
 }
 
 /**
-    Concat `values` to `value` creating a range
+    Ditto
 
     Params:
         value = any value T

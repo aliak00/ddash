@@ -1,6 +1,4 @@
-/**
-    /// Assigns value to each element of input range range
-*/
+/// Assigns value to each element of input range range
 module algorithm.fill;
 
 ///
@@ -20,7 +18,7 @@ unittest {
 
 import common: from;
 
-/// Assigns value to each element of input range range
+/// Ditto
 void fill(Range, T)(ref Range range, auto ref T value, size_t start = 0, size_t end = size_t.max)
 if (from!"std.range".isInputRange!Range
     && is(T : from!"std.range".ElementType!Range)

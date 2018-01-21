@@ -1,5 +1,12 @@
 /**
-    Creates a range of values not included in the other given set of values
+    Excludes values from a range
+
+    The `pred` defaults to null. If a unary predicate is passed in, then a transformation
+    will be appled to each element before comparing. If a binary predicate is passed in, it
+    will determine equality of elements.
+
+    If `pred` is null or unary, and the range is sortable or is sorted, an optimized linear
+    algorithm will be used instead using the `range.sortingpredicate` of `range`
 */
 module algorithm.difference;
 
@@ -98,14 +105,7 @@ struct Difference(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && fr
 }
 
 /**
-    Excludes values from a range
-
-    The `pred` defaults to null. If a unary predicate is passed in, then a transformation
-    will be appled to each element before comparing. If a binary predicate is passed in, it
-    will determine equality of elements.
-
-    If `pred` is null or unary, and the range is sortable or is sorted, an optimized linear
-    algorithm will be used instead using the `range.sortingpredicate` of `range`
+    Ditto
 
     Params:
         pred = unary transformation or binary comparator

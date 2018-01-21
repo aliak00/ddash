@@ -1,5 +1,8 @@
 /**
-    Flattens range a single level deep.
+    Flattens a range range one level deep by removing non truthy values.
+
+    See_also:
+        `utils.istruthy`
 */
 module algorithm.flatten;
 
@@ -13,8 +16,7 @@ unittest {
 import common: from;
 
 /**
-    Flattens range a single level deep. Elements that are not truthy will be removed
-    and other elements will be derefed
+    Ditto
 
     Params:
         range = an input range
@@ -24,7 +26,7 @@ import common: from;
 
     See_also:
         `utils.istruthy`
-        <br>`utils.deref`
+        $(BR)`utils.deref`
 */
 auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;

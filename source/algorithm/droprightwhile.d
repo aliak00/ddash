@@ -1,6 +1,4 @@
-/**
-    Drops elements on end of range while predicate is true
-*/
+/// Drops elements on end of range while predicate is true
 module algorithm.droprightwhile;
 
 ///
@@ -12,7 +10,7 @@ unittest {
 import common: from;
 
 /**
-    Drops elements on end of range while predicate is true
+    Ditto
 
     Params:
         pred = comparator

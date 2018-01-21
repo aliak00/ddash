@@ -14,7 +14,7 @@ unittest {
 import common: from;
 
 /**
-    Chunks a range in to X `size` ranges
+    Ditto
 
     Params:
         range = An input range

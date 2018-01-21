@@ -1,6 +1,4 @@
-/**
-    Converts all elements in range into a string separated by separator.
-*/
+/// Converts all elements in range into a string separated by separator.
 module algorithm.join;
 
 ///
@@ -13,6 +11,8 @@ unittest {
 import common;
 
 /**
+    Ditto
+
     Params:
         range = an input range
         sep = string/char to be used as seperator

@@ -1,6 +1,4 @@
-/**
-    Finds the last element in a range that equals some value
-*/
+/// Finds the last element in a range that equals some value
 module algorithm.lastindexof;
 
 ///
@@ -14,7 +12,7 @@ unittest {
 import common: from;
 
 /**
-    Finds the last element in a range that equals some value
+    Ditto
 
     Params:
         range = an input range

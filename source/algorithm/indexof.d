@@ -1,6 +1,4 @@
-/**
-    Finds the first element in a range that equals some value
-*/
+/// Finds the first element in a range that equals some value
 module algorithm.indexof;
 
 ///
@@ -14,7 +12,7 @@ unittest {
 import common: from;
 
 /**
-    Finds the first element in a range that equals some value
+    Ditto
 
     Params:
         range = an input range

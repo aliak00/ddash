@@ -1,6 +1,4 @@
-/**
-    Returns `optional` index of the last element predicate returns true for.
-*/
+/// Returns `optional` index of the last element predicate returns true for.
 module algorithm.findlastindex;
 
 ///
@@ -14,6 +12,8 @@ unittest {
 import common: from;
 
 /**
+    Ditto
+
     Params:
         pred = comparator
         range = the input range to search

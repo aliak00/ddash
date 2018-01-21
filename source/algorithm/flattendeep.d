@@ -1,6 +1,4 @@
-/**
-    Flattens range recursively
-*/
+/// Like $(DDOX_NAMED_REF algorithm.flatten, `flatten`) except it's recursive
 module algorithm.flattendeep;
 
 ///
@@ -13,20 +11,7 @@ unittest {
 
 import common: from;
 
-/**
-    Flattens range recursively. Elements that are not truthy will be removed
-    and other elements will be derefed
-
-    Params:
-        range = an input range
-
-    Returns:
-        A flattened range
-
-    See_also:
-        `utils.istruthy`
-        <br>`utils.deref`
-*/
+/// Ditto
 auto flattenDeep(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;
     import algorithm: flatten;
