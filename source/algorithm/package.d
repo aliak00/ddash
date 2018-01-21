@@ -44,7 +44,7 @@ $(TR
     $(TD Returns `optional` index of the first element predicate returns true for.)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.findlastindex, `findlastindex`))
+    $(TD $(DDOX_NAMED_REF algorithm.findlastindex, `findLastIndex`))
     $(TD Returns `optional` index of the last element predicate returns true for.)
     )
 $(TR
@@ -56,11 +56,11 @@ $(TR
     $(TD Flattens range a single level deep.)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.flattendeep, `flattendeep`))
+    $(TD $(DDOX_NAMED_REF algorithm.flattendeep, `flattenDeep`))
     $(TD Flattens range recursively)
     )
 $(TR
-    $(TD `fromPairs`)
+    $(TD $(DDOX_NAMED_REF algorithm.frompairs, `fromPairs`))
     $(TD Returns a newly allocated associative array from a range of key/value tuples)
     )
 $(TR
@@ -68,7 +68,7 @@ $(TR
     $(TD Returns `optional` back of range)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.indexof, `indexof`))
+    $(TD $(DDOX_NAMED_REF algorithm.indexof, `indexOf`))
     $(TD Finds the first element in a range that equals some value)
     )
 $(TR
@@ -84,7 +84,7 @@ $(TR
     $(TD Converts all elements in range into a string separated by separator.)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.lastindexof, `lastindexof`))
+    $(TD $(DDOX_NAMED_REF algorithm.lastindexof, `lastIndexOf`))
     $(TD Finds the last element in a range that equals some value)
     )
 )
@@ -155,7 +155,7 @@ public {
 
     import algorithm.flatten;
     import algorithm.flattendeep;
-    import std.array: fromPairs = assocArray;
+    import algorithm.frompairs;
     import algorithm.indexof;
     alias initial = (range) => from!"std.range".dropBack(range, 1);
     import algorithm.intersection;

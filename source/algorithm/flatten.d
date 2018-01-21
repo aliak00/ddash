@@ -26,7 +26,7 @@ import common: from;
 
     See_also:
         `utils.istruthy`
-        $(BR)`utils.deref`
+        <br>`utils.deref`
 */
 auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;
