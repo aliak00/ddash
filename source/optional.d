@@ -9,7 +9,21 @@ unittest {
     assert(a == none);
     a = 9;
     assert(a == some(9));
-    assert(a != none);
+
+    struct A {
+        int f() {
+            return 4;
+        }
+    }
+
+    auto b = some(A());
+    assert(b.f == some(4));
+
+    auto c = optional!(A*);
+    assert(c.f == none);
+
+    c = new A;
+    assert(c.f == some(4));
 }
 
 
@@ -162,6 +176,14 @@ unittest {
 }
 
 unittest {
+    auto a = optional!int;
+    assert(a == none);
+    a = 9;
+    assert(a == some(9));
+    assert(a != none);
+}
+
+unittest {
     auto a = optional!(int*);
     assert(*a != 9);
     a = new int(9);
@@ -231,6 +253,7 @@ unittest {
     assert(arr.filter!(a => a != none).array == [some(3), some(7)]);
 }
 
+/// Checks if T is an optional type
 template isOptional(T) {
     static if(is(T U == Optional!U)) {
         enum isOptional = true;
@@ -239,6 +262,7 @@ template isOptional(T) {
     }
 }
 
+///
 unittest {
     assert(isOptional!(Optional!int) == true);
     assert(isOptional!int == false);
