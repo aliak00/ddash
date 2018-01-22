@@ -1,7 +1,10 @@
 .dub
 docs.json
 __dummy.html
-docs/
+docs/*
+!docs/styles/
+!docs/prettify/
+
 lodashd.so
 lodashd.dylib
 lodashd.dll
