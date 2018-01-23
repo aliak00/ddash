@@ -253,11 +253,19 @@ unittest {
     assert(arr.filter!(a => a != none).array == [some(3), some(7)]);
 }
 
+unittest {
+    assert(no!int.toString == "no!int");
+    assert(some(3).toString == "some!int(3)");
+}
+
 /// Checks if T is an optional type
 template isOptional(T) {
-    static if(is(T U == Optional!U)) {
+    static if(is(T U == Optional!U))
+    {
         enum isOptional = true;
-    } else {
+    }
+    else
+    {
         enum isOptional = false;
     }
 }
@@ -269,7 +277,10 @@ unittest {
     assert(isOptional!(int[]) == false);
 }
 
+/// Returns the target type of a optional.
+alias OptionalTarget(T : Optional!T) = T;
+
 unittest {
-    assert(no!int.toString == "no!int");
-    assert(some(3).toString == "some!int(3)");
+    static assert(is(OptionalTarget!(Optional!int) == int));
+    static assert(is(OptionalTarget!(Optional!(float*)) == float*));
 }
