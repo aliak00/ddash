@@ -1,3 +1,6 @@
+/**
+    General utilities
+*/
 module utils;
 
 public  {

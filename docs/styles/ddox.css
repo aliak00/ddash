@@ -139,7 +139,7 @@ ul.tree-view .package {
 }
 
 ul.tree-view .package:hover {
-	box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 0 10px 0 rgba(255, 0, 0, 0.918);
 }
 
 ul.tree-view .module {
@@ -187,7 +187,7 @@ a.private {
 a.inherited:after { content: url(../images/ddox/inherited.png); padding-left: 2pt; }
 
 nav.page-nav ul { list-style: none; padding-left: 0; }
-nav.page-nav li a { color: black; }
+nav.page-nav li a { color: #DDDDFF; }
 nav.page-nav li:before { content: "▼"; padding-right: 3px; }
 
 .license-info {
