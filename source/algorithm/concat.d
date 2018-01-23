@@ -1,9 +1,5 @@
 /**
-    Creates a new range concatenating input range/value with any additional ranges and/or values.
-
-    Concat `values` to `range`. Each value to concatenate with `range` must be either a single
-    value that is implicitly convertible to `ElementType!Range` or a range that has element types
-    that are implictly convertible
+    Create a new range concatenating input range/value with any additional ranges and/or values.
 */
 module algorithm.concat;
 
@@ -45,7 +41,9 @@ unittest {
 import common: from;
 
 /**
-    Ditto
+    Concat `values` to `range`. Each value to concatenate with `range` must be either a single
+    value that is implicitly convertible to `ElementType!Range` or a range that has element types
+    that are implictly convertible
 
     Params:
         range = an input range
@@ -106,7 +104,7 @@ unittest {
 
 /**
     Concatenantes any list of ranges or single values in to an array of a single
-    common type
+    common type as long as none of the ranges is a narrow string
 
     Params:
         values = ranges or values that share a common type

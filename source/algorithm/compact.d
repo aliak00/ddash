@@ -97,7 +97,7 @@ unittest {
     Returns:
         compacted associtive array
 */
-auto compact(T, U)(T[U] aa) {
+auto compactValues(T, U)(T[U] aa) {
     import std.array: byPair, assocArray;
     return aa
         .byPair
@@ -108,28 +108,31 @@ auto compact(T, U)(T[U] aa) {
 ///
 unittest {
     auto aa = ["a": 1, "b": 0, "c": 2];
-    assert(aa.compact == ["a": 1, "c": 2]);
+    assert(aa.compactValues == ["a": 1, "c": 2]);
 }
 
 /**
-    Compacts a list of function parameters
+    Compacts a list of values
+
+    Params:
+        values = list of values that share a common type
+
+    Returns:
+        Compacted array of values cast to common type T
 */
 template compact(Values...) if (!is(from!"std.traits".CommonType!Values == void)) {
     import std.traits: CommonType;
+    import utils: isTruthy;
     alias T = CommonType!Values;
-    T[] impl(U...)(U u) {
-        static if (U.length == 0)
-        {
-            return [];
-        }
-        else
-        {
-            import utils: isTruthy;
-            return (isTruthy(u[0]) ? [cast(T)(u[0])] : []) ~ impl(u[1..$]);
-        }
-    }
     auto compact(Values values) {
-        return impl(values);
+        T[] array;
+        static foreach (i; 0 .. Values.length)
+        {
+            if (isTruthy(values[i])) {
+                array ~= cast(T)(values[i]);
+            }
+        }
+        return array;
     }
 }
 
