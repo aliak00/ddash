@@ -147,16 +147,16 @@ unittest {
 }
 
 /// Finds the CommonType of a list of ranges
-template CommonType(Rs...) if (from!"std.meta".allSatisfy!(from!"std.range".isInputRange, Rs)) {
-    import std.traits: CT = CommonType;
+template CommonTypeOfRanges(Rs...) if (from!"std.meta".allSatisfy!(from!"std.range".isInputRange, Rs)) {
+    import std.traits: CommonType;
     import std.meta: staticMap;
     import std.range: ElementType;
-    alias CommonType = CT!(staticMap!(ElementType, Rs));
+    alias CommonTypeOfRanges = CommonType!(staticMap!(ElementType, Rs));
 }
 
 ///
 unittest {
     auto a = [1, 2];
-    auto b = [1, 2];
-    static assert(is(CommonType!(typeof(a), typeof(b)) == int));
+    auto b = [1.0, 2.0];
+    static assert(is(CommonTypeOfRanges!(typeof(a), typeof(b)) == double));
 }

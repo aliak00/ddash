@@ -118,9 +118,12 @@ template compact(Values...) if (!is(from!"std.traits".CommonType!Values == void)
     import std.traits: CommonType;
     alias T = CommonType!Values;
     T[] impl(U...)(U u) {
-        static if (U.length == 0) {
+        static if (U.length == 0)
+        {
             return [];
-        } else {
+        }
+        else
+        {
             import utils: isTruthy;
             return (isTruthy(u[0]) ? [cast(T)(u[0])] : []) ~ impl(u[1..$]);
         }

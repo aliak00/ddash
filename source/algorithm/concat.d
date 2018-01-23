@@ -103,3 +103,52 @@ unittest {
     import std.array;
     assert(concat(1, 2, 3).array == [1, 2, 3]);
 }
+
+/**
+    Concatenantes any list of ranges or single values in to an array of a single
+    common type
+
+    Params:
+        values = ranges or values that share a common type
+
+    Returns:
+        An eagerly evaluated array with all the values
+*/
+template concatAny(Values...)
+if ((!is(from!"std.traits".CommonType!(from!"utils.meta".FlattenRanges!Values) == void)
+    && !from!"std.meta".anySatisfy!(from!"std.traits".isNarrowString, Values))
+        || Values.length == 0)
+{
+    import std.range: isInputRange;
+    import std.traits: CommonType;
+    import utils.meta: FlattenRanges;
+
+    alias T = CommonType!(FlattenRanges!Values);
+
+    auto concatAny(Values values) {
+        T[] array;
+        static foreach (i; 0 .. Values.length)
+        {
+            static if (isInputRange!(Values[i]))
+            {
+                import std.conv: to;
+                array ~= values[i].to!(T[]);
+            }
+            else
+            {
+                array ~= cast(T)values[i];
+            }
+        }
+        return array;
+    }
+}
+
+///
+unittest {
+    auto a = concatAny(1, 2.0, 'c', [3, 4]);
+    assert(a == [1, 2, 99, 3, 4]);
+    static assert(is(typeof(a) == double[]));
+
+    // Narrow strings not supported
+    static assert(!__traits(compiles, concatAny(1, "str")));
+}
