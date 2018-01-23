@@ -105,6 +105,7 @@ auto compact(T, U)(T[U] aa) {
         .assocArray;
 }
 
+///
 unittest {
     auto aa = ["a": 1, "b": 0, "c": 2];
     assert(aa.compact == ["a": 1, "c": 2]);
