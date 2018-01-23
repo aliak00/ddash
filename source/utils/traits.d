@@ -121,7 +121,7 @@ template MemberFunctions(T) {
         string[] memberFunctions;
         foreach (member; __traits(allMembers, T)) {
             static if (is(typeof(mixin("T." ~ member)) F))
-                if (isFunction!(mixin("T." ~ member))) {
+                if (isFunction!F) {
                     memberFunctions ~= member;
                 }
         }
