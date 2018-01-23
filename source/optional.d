@@ -5,7 +5,7 @@ module optional;
 
 ///
 unittest {
-    auto a = optional!int;
+    auto a = no!int;
     assert(a == none);
     a = 9;
     assert(a == some(9));
@@ -19,7 +19,7 @@ unittest {
     auto b = some(A());
     assert(b.f == some(4));
 
-    auto c = optional!(A*);
+    auto c = no!(A*);
     assert(c.f == none);
 
     c = new A;
@@ -152,9 +152,11 @@ auto optional(T)(T t) {
     return Optional!T(t);
 }
 
-/// Type constructor for inferring `T` with value of none
-auto optional(T)() {
-    return Optional!T();
+///
+unittest {
+    import std.array;
+    import std.algorithm: map;
+    assert([1, 2, 3].map!optional.array == [some(1), some(2), some(3)]);
 }
 
 /// Type constructor for an optional having some value of `T`
@@ -162,29 +164,23 @@ auto some(T)(T t) {
     return Optional!T(t);
 }
 
+///
+unittest {
+    auto a = no!int;
+    assert(a == none);
+    a = 9;
+    assert(a == some(9));
+    assert(a != none);
+}
+
 /// Type constructor for an optional having no value of `T`
 auto no(T)() {
     return Optional!T();
 }
 
+///
 unittest {
-    auto a = optional!int;
-    assert(a == none);
-    a = 9;
-    assert(a == some(9));
-    assert(a != none);
-}
-
-unittest {
-    auto a = optional!int;
-    assert(a == none);
-    a = 9;
-    assert(a == some(9));
-    assert(a != none);
-}
-
-unittest {
-    auto a = optional!(int*);
+    auto a = no!(int*);
     assert(*a != 9);
     a = new int(9);
     assert(*a == 9);

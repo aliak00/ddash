@@ -138,10 +138,6 @@ ul.tree-view .package {
 	cursor: default;
 }
 
-ul.tree-view .package:hover {
-	box-shadow: 0 0 10px 0 rgba(255, 0, 0, 0.918);
-}
-
 ul.tree-view .module {
 	padding-left: 18px;
 	background-image: url(../images/ddox/module.png);
