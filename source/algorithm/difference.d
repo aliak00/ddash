@@ -128,10 +128,10 @@ if (from!"std.range".isInputRange!Range
     else
     {
         import std.range: ElementType;
-        import algorithm: concat;
+        import algorithm: concatTo;
         import utils.traits: isNullType, isUnaryOver;
 
-        auto combinedValues = values.concat;
+        auto combinedValues = values.concatTo;
         static assert (is(ElementType!(typeof(combinedValues)) : ElementType!Range));
 
         // import std.algorithm: sort;
