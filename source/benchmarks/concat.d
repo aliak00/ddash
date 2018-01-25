@@ -176,16 +176,29 @@ void profile()() {
 
     import algorithm: join;
     alias OnlyStrings = AliasSeq!("hello ", "world", "!", "'c'", "'c'");
+
+    auto useAppender(string[] strings) {
+        import std.array: appender;
+        auto ap = appender!string;
+        foreach (str; strings) {
+            ap.put(str);
+        }
+        return ap;
+    }
     auto r5 = benchmark!(
         () => cast(void)concat(OnlyStrings),
         () => join([OnlyStrings], ""),
+        () => useAppender([OnlyStrings]),
         () => concat(OnlyStrings).array,
         () => join([OnlyStrings], "").array,
+        () => useAppender([OnlyStrings]).data,
     )(10000);
 
     writeln("concat or join:");
-    writeln("  concat:         ", r5[0]);
-    writeln("  join:           ", r5[1]);
-    writeln("  concat (array): ", r5[2]);
-    writeln("  join   (array): ", r5[3]);
+    writeln("  concat:            ", r5[0]);
+    writeln("  join:              ", r5[1]);
+    writeln("  appender:          ", r5[2]);
+    writeln("  concat    (array): ", r5[3]);
+    writeln("  join      (array): ", r5[4]);
+    writeln("  appender  (array): ", r5[5]);
 }
