@@ -13,7 +13,7 @@ $(TR
     )
 $(TR
     $(TD $(DDOX_NAMED_REF algorithm.concat, `concat`))
-    $(TD Creates a new range concatenating input range with any additional ranges and/or values)
+    $(TD Concatenate ranges and values together to a new range)
     )
 $(TR
     $(TD $(DDOX_NAMED_REF algorithm.difference, `difference`))

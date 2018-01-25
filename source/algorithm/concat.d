@@ -3,13 +3,45 @@
 */
 module algorithm.concat;
 
+///
+unittest {
+    import std.range: iota, array;
+
+    // Concat stuff
+    assert([1, 2, 3].concat(4, [5], [6, 7], 8).array == 1.iota(9).array);
+
+    // Concat ingle element
+    assert([1].concat(2).array == [1, 2]);
+
+    // Implicitly convertible doubles with ints
+    assert([1.0].concat([2, 3]).array == [1.0, 2.0, 3.0]);
+
+    // Concat nothing to single value
+    assert(1.concat().array == [1]);
+
+    // Concat nothing to range
+    assert([1].concat().array == [1]);
+
+    // Concat values to another value
+    assert(1.concat(2, 3).array == [1, 2, 3]);
+
+    // Concat ranges or values to another value
+    assert(1.concat(2, [3, 4]).array == [1, 2, 3, 4]);
+
+    // Concat strings
+    assert("yo".concat("dles").array == "yodles");
+
+    // Concat stuff to string
+    assert("abc".concat(1, 2, 3).array == "abc123");
+}
+
 
 import common: from;
 
 /**
-    Concats every together using best effort.
+    Concats everything together using best effort.
 
-    It will concat as long as there is common type between all sets of inputs. When an input
+    It will concat as long as there is a common type between all sets of inputs. When an input
     is a range it will use `ElementType` as it's type.
 
     If the first input is a string, all subsequent inputs are converted to a string as well
