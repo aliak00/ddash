@@ -53,6 +53,53 @@ unittest {
     static assert(!__traits(compiles, concatEager(1, "str")));
 }
 
+//
+// concats a a value or range TO another range recursively
+//
+auto concatRecurse(Range, Values...)(Range range, Values values) if (from!"std.range".isInputRange!Range) {
+    import std.range: chain, ElementType, isInputRange;
+    static if (Values.length)
+    {
+        static if (isInputRange!(Values[0]) && is(ElementType!(Values[0]) : ElementType!Range))
+        {
+            return range
+                .chain(values[0])
+                .concatRecurse(values[1..$]);
+        }
+        else static if (is(Values[0] : ElementType!Range))
+        {
+            return range
+                .chain([values[0]])
+                .concatRecurse(values[1..$]);
+        }
+        else
+        {
+            static assert(0, "Cannot concatRecurse type " ~ Values[0].stringof ~ " to range of " ~ ElementType!Range.stringof);
+        }
+    }
+    else
+    {
+        return range;
+    }
+}
+
+auto concatRecurse(T, Values...)(T value, Values values) if (!from!"std.range".isInputRange!T) {
+    import std.range: only;
+    return concatRecurse([value], values);
+}
+
+unittest {
+    import std.range: iota, array;
+    assert([1, 2, 3].concatRecurse(4, [5], [6, 7], 8).array == 1.iota(9).array);
+    assert([1].concatRecurse(2).array == [1, 2]);
+    assert([1.0].concatRecurse(2).array == [1.0, 2.0]);
+    assert([1.0].concatRecurse([2, 3]).array == [1.0, 2.0, 3.0]);
+    assert(1.concatRecurse().array == [1]);
+    assert([1].concatRecurse().array == [1]);
+    assert(1.concatRecurse(2, 3).array == [1, 2, 3]);
+    assert(1.concatRecurse(2, [3, 4]).array == [1, 2, 3, 4]);
+}
+
 void profile()() {
 
     import std.range: iota;
@@ -61,69 +108,84 @@ void profile()() {
 
     alias SingleArgs = aliasSeqOf!(10.iota);
     auto r1 = benchmark!(
-        () => concatTo(SingleArgs),
-        () => cast(void)concatAll(SingleArgs),
+        () => cast(void)concat(SingleArgs),
+        () => concatRecurse(SingleArgs),
         () => concatEager(SingleArgs),
-        () => concatTo(SingleArgs).array,
-        () => concatAll(SingleArgs).array,
+        () => concat(SingleArgs).array,
+        () => concatRecurse(SingleArgs).array,
         () => concatEager(SingleArgs).array
     )(10000);
 
     writeln("concat singles:");
-    writeln("  concatTo              ", r1[0]);
-    writeln("  concatAll:            ", r1[1]);
-    writeln("  concatEager:          ", r1[2]);
-    writeln("  concatTo     (array): ", r1[3]);
-    writeln("  concatAll    (array): ", r1[4]);
-    writeln("  concatEager  (array): ", r1[5]);
+    writeln("  concat:                ", r1[0]);
+    writeln("  concatRecurse:         ", r1[1]);
+    writeln("  concatEager:           ", r1[2]);
+    writeln("  concat        (array): ", r1[3]);
+    writeln("  concatRecurse (array): ", r1[4]);
+    writeln("  concatEager   (array): ", r1[5]);
 
     alias RangeArgs = AliasSeq!(1.iota.array, 3.iota.array, 10.iota.array);
     auto r2 = benchmark!(
-        () => concatTo(RangeArgs),
-        () => cast(void)concatAll(RangeArgs),
+        () => cast(void)concat(RangeArgs),
+        () => concatRecurse(RangeArgs),
         () => concatEager(RangeArgs),
-        () => concatTo(RangeArgs).array,
-        () => concatAll(RangeArgs).array,
+        () => concat(RangeArgs).array,
+        () => concatRecurse(RangeArgs).array,
         () => concatEager(RangeArgs).array
     )(10000);
 
     writeln("concat ranges:");
-    writeln("  concatTo              ", r2[0]);
-    writeln("  concatAll:            ", r2[1]);
-    writeln("  concatEager:          ", r2[2]);
-    writeln("  concatTo     (array): ", r2[3]);
-    writeln("  concatAll    (array): ", r2[4]);
-    writeln("  concatEager  (array): ", r2[5]);
+    writeln("  concat:                ", r2[0]);
+    writeln("  concatRecurse:         ", r2[1]);
+    writeln("  concatEager:           ", r2[2]);
+    writeln("  concat        (array): ", r2[3]);
+    writeln("  concatRecurse (array): ", r2[4]);
+    writeln("  concatEager   (array): ", r2[5]);
 
     alias MixedArgs = AliasSeq!(1, 2, 3, 1.iota.array, 3.iota.array, 10.iota.array);
     auto r3 = benchmark!(
-        () => concatTo(MixedArgs),
-        () => cast(void)concatAll(MixedArgs),
+        () => cast(void)concat(MixedArgs),
+        () => concatRecurse(MixedArgs),
         () => concatEager(MixedArgs),
-        () => concatTo(MixedArgs).array,
-        () => concatAll(MixedArgs).array,
+        () => concat(MixedArgs).array,
+        () => concatRecurse(MixedArgs).array,
         () => concatEager(MixedArgs).array
     )(10000);
 
     writeln("concat mixed:");
-    writeln("  concatTo              ", r3[0]);
-    writeln("  concatAll:            ", r3[1]);
-    writeln("  concatEager:          ", r3[2]);
-    writeln("  concatTo     (array): ", r3[3]);
-    writeln("  concatAll    (array): ", r3[4]);
-    writeln("  concatEager  (array): ", r3[5]);
+    writeln("  concat:                ", r3[0]);
+    writeln("  concatRecurse:         ", r3[1]);
+    writeln("  concatEager:           ", r3[2]);
+    writeln("  concat        (array): ", r3[3]);
+    writeln("  concatRecurse (array): ", r3[4]);
+    writeln("  concatEager   (array): ", r3[5]);
 
     alias StringArgs = AliasSeq!("hello ", "world", "!", 'c', 'c');
     auto r4 = benchmark!(
-        () => concatTo(StringArgs),
-        () => cast(void)concatAll(StringArgs),
-        () => concatTo(StringArgs).array,
-        () => concatAll(StringArgs).array,
+        () => cast(void)concat(StringArgs),
+        () => concatRecurse(StringArgs),
+        () => concat(StringArgs).array,
+        () => concatRecurse(StringArgs).array,
     )(10000);
 
     writeln("concat string:");
-    writeln("  concatTo             ", r4[0]);
-    writeln("  concatAll:           ", r4[1]);
-    writeln("  concatTo    (array): ", r4[2]);
-    writeln("  concatAll   (array): ", r4[2]);
+    writeln("  concat:                 ", r4[0]);
+    writeln("  concatRecurse:          ", r4[1]);
+    writeln("  concat         (array): ", r4[2]);
+    writeln("  concatRecurse  (array): ", r4[3]);
+
+    import algorithm: join;
+    alias OnlyStrings = AliasSeq!("hello ", "world", "!", "'c'", "'c'");
+    auto r5 = benchmark!(
+        () => cast(void)concat(OnlyStrings),
+        () => join([OnlyStrings], ""),
+        () => concat(OnlyStrings).array,
+        () => join([OnlyStrings], "").array,
+    )(10000);
+
+    writeln("concat or join:");
+    writeln("  concat:         ", r5[0]);
+    writeln("  join:           ", r5[1]);
+    writeln("  concat (array): ", r5[2]);
+    writeln("  join   (array): ", r5[3]);
 }
