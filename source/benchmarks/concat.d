@@ -1,11 +1,5 @@
 module benchmarks.concat;
 
-import std.stdio;
-import std.datetime.stopwatch: benchmark;
-
-import algorithm.concat;
-import std.array;
-
 import common: from;
 //
 // An concatEager version of concat just for testing. Tests in release show that this is
@@ -101,10 +95,16 @@ unittest {
 }
 
 void profile()() {
+    import algorithm.concat;
 
+    import std.array;
+    import std.stdio;
+    import std.datetime.stopwatch: benchmark;
     import std.range: iota;
     import std.meta: AliasSeq, aliasSeqOf;
-    import std.typecons;
+
+    writeln("Benchmarking concat against eager, recursive, and standard lib");
+    writeln("the (array) versions involve a call to .array");
 
     alias SingleArgs = aliasSeqOf!(10.iota);
     auto r1 = benchmark!(
@@ -116,7 +116,7 @@ void profile()() {
         () => concatEager(SingleArgs).array
     )(10000);
 
-    writeln("concat singles:");
+    writeln("concat single arguments:");
     writeln("  concat:                ", r1[0]);
     writeln("  concatRecurse:         ", r1[1]);
     writeln("  concatEager:           ", r1[2]);
@@ -134,7 +134,7 @@ void profile()() {
         () => concatEager(RangeArgs).array
     )(10000);
 
-    writeln("concat ranges:");
+    writeln("concat multiple ranges together");
     writeln("  concat:                ", r2[0]);
     writeln("  concatRecurse:         ", r2[1]);
     writeln("  concatEager:           ", r2[2]);
@@ -152,7 +152,7 @@ void profile()() {
         () => concatEager(MixedArgs).array
     )(10000);
 
-    writeln("concat mixed:");
+    writeln("concat single args and multiple ranges:");
     writeln("  concat:                ", r3[0]);
     writeln("  concatRecurse:         ", r3[1]);
     writeln("  concatEager:           ", r3[2]);
@@ -168,7 +168,7 @@ void profile()() {
         () => concatRecurse(StringArgs).array,
     )(10000);
 
-    writeln("concat string:");
+    writeln("concat strings and chars:");
     writeln("  concat:                 ", r4[0]);
     writeln("  concatRecurse:          ", r4[1]);
     writeln("  concat         (array): ", r4[2]);
@@ -194,11 +194,11 @@ void profile()() {
         () => useAppender([OnlyStrings]).data,
     )(10000);
 
-    writeln("concat or join:");
-    writeln("  concat:            ", r5[0]);
-    writeln("  join:              ", r5[1]);
-    writeln("  appender:          ", r5[2]);
-    writeln("  concat    (array): ", r5[3]);
-    writeln("  join      (array): ", r5[4]);
-    writeln("  appender  (array): ", r5[5]);
+    writeln("concat strings vs appender and join");
+    writeln("  concat:                 ", r5[0]);
+    writeln("  join:                   ", r5[1]);
+    writeln("  appender:               ", r5[2]);
+    writeln("  concat    (array):      ", r5[3]);
+    writeln("  join      (array):      ", r5[4]);
+    writeln("  appender  (array):      ", r5[5]);
 }

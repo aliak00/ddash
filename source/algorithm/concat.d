@@ -51,6 +51,51 @@ import common: from;
 
     Returns:
         A range of common type or a string if the first value is a string
+
+    Benchmarks:
+        Bottom line, concat (which uses a static foreach) is faster than eager and
+        recursive approach both with and without .array.
+
+        If you are dealing only with pure strings, however, then appender is your
+        friend
+
+        ---
+        Benchmarking concat against eager, recursive, and standard lib
+        the (array) versions involve a call to .array
+        concat single arguments:
+          concat:                1 hnsec
+          concatRecurse:         5 ms, 921 μs, and 6 hnsecs
+          concatEager:           5 ms, 417 μs, and 5 hnsecs
+          concat        (array): 1 ms and 372 μs
+          concatRecurse (array): 7 ms, 587 μs, and 2 hnsecs
+          concatEager   (array): 5 ms, 968 μs, and 2 hnsecs
+        concat multiple ranges together
+          concat:                1 ms, 491 μs, and 3 hnsecs
+          concatRecurse:         2 ms, 195 μs, and 3 hnsecs
+          concatEager:           7 ms, 787 μs, and 2 hnsecs
+          concat        (array): 3 ms, 174 μs, and 2 hnsecs
+          concatRecurse (array): 2 ms, 816 μs, and 7 hnsecs
+          concatEager   (array): 6 ms, 838 μs, and 1 hnsec
+        concat single args and multiple ranges:
+          concat:                1 ms, 858 μs, and 1 hnsec
+          concatRecurse:         3 ms, 479 μs, and 2 hnsecs
+          concatEager:           7 ms, 374 μs, and 9 hnsecs
+          concat        (array): 3 ms, 358 μs, and 5 hnsecs
+          concatRecurse (array): 5 ms, 558 μs, and 1 hnsec
+          concatEager   (array): 6 ms, 997 μs, and 3 hnsecs
+        concat strings and chars:
+          concat:                 0 hnsecs
+          concatRecurse:          1 ms, 368 μs, and 8 hnsecs
+          concat         (array): 4 ms, 238 μs, and 3 hnsecs
+          concatRecurse  (array): 5 ms, 77 μs, and 9 hnsecs
+        concat strings vs appender and join
+          concat:                 0 hnsecs
+          join:                   6 ms, 930 μs, and 4 hnsecs
+          appender:               3 ms, 186 μs, and 1 hnsec
+          concat    (array):      4 ms, 917 μs, and 6 hnsecs
+          join      (array):      9 ms, 243 μs, and 7 hnsecs
+          appender  (array):      3 ms, 57 μs, and 8 hnsecs
+        ---
 */
 auto concat(Values...)(Values values)
 if (!is(from!"std.traits".CommonType!(from!"utils.meta".FlattenRanges!Values) == void))
@@ -62,6 +107,17 @@ if (!is(from!"std.traits".CommonType!(from!"utils.meta".FlattenRanges!Values) ==
     static if (!Values.length)
     {
         return;
+    }
+    else static if (Values.length == 1)
+    {
+        static if (isInputRange!(Values[0]))
+        {
+            return values[0];
+        }
+        else
+        {
+            return only(values[0]);
+        }
     }
     else
     {
@@ -152,4 +208,15 @@ unittest {
     assert([c, c].concat([d, d], 2).array == "cc2.22.22");
     assert(s.concat([c, c], c).array == "ooccc");
     assert(s.concat(s, [s]).array == "oooooo");
+}
+
+unittest {
+    import std.algorithm: filter;
+    import std.range: only;
+    // Make sure if it's a single range the same type is returned
+    auto a = [1, 2];
+    auto b = [1].filter!"true";
+    static assert(is(typeof(concat(a)) == typeof(a)));
+    static assert(is(typeof(concat(b)) == typeof(b)));
+    static assert(is(typeof(concat(1)) == typeof(only(1))));
 }

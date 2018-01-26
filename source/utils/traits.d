@@ -100,7 +100,7 @@ unittest {
 }
 
 /// Trus if T is a SortedRange
-bool isSortedRange(R)() if (from!"std.range".isInputRange!R) {
+bool isSortedRange(R)() {
     import std.range: SortedRange;
     return is(R : SortedRange!U, U...);
 }

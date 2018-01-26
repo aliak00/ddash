@@ -1,5 +1,5 @@
 /**
-    Truthy values, so not any of `false`, `null`, `0`, `""`, `none`, and `NaN`.
+    Truthy values: so not any of `false`, `null`, `0`, `""`, `none`, and `NaN`.
 */
 module utils.istruthy;
 

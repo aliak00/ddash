@@ -3,5 +3,6 @@ import std.functional, std.algorithm, std.range, std.array;
 import common, algorithm;
 
 void main() {
-    from!"benchmarks.concat".profile!();
+    import benchmarks.excludingindices;
+    profile!();
 }

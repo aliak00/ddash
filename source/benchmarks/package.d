@@ -1,7 +1,8 @@
 module benchmarks;
 
 public {
-    import benchmarks.difference;
-    import benchmarks.intersection;
     import benchmarks.concat;
+    import benchmarks.difference;
+    import benchmarks.excludingindices;
+    import benchmarks.intersection;
 }
