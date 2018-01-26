@@ -184,7 +184,6 @@ if (!is(from!"std.traits".CommonType!(from!"utils.meta".FlattenRanges!Values) ==
     }
 }
 
-///
 unittest {
     import std.array;
 
