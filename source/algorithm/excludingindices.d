@@ -42,20 +42,20 @@ import common: from;
         Overall though, `excludingIndices` is on par or faster (when a `.array`) is involved
         ---
         Benchmarking excludingIndices against filter/canFind:
-          numbers: [18, 14, 1, 7, 19, 3, 16, 16, 17, 1, 17, 7, 3, 11, 10, 18, 13, 14, 7, 9]
-          indices: [1, 15, 17, 10, 13, 2, 11, 14, 10, 12]
+          numbers: [9, 10, 9, 7, 5, 2, 7, 12, 17, 8, 10, 8, 12, 2, 17, 13, 9, 5, 12, 18]
+          indices: [5, 6, 4, 1, 7, 19, 16, 5, 17, 13]
         excludingIndices:
-          single args:    3 ms, 447 μs, and 2 hnsecs
-          single range:   3 ms and 225 μs
-          sorted range:   14 μs and 8 hnsecs
-          canFind range:  0 hnsecs
-          canFind sorted: 0 hnsecs
+          single args:    3 ms, 618 μs, and 9 hnsecs
+          single range:   3 ms, 462 μs, and 6 hnsecs
+          sorted range:   17 μs and 1 hnsec
+          canFind range:  4 hnsecs
+          canFind sorted: 4 hnsecs
         excludingIndices (with .array):
-          single args:    8 ms, 518 μs, and 5 hnsecs
-          single range:   9 ms, 463 μs, and 2 hnsecs
-          sorted range:   6 ms, 828 μs, and 6 hnsecs
-          canFind range:  29 ms, 980 μs, and 4 hnsecs
-          canFind sorted: 8 ms, 972 μs, and 6 hnsecs
+          single args:    7 ms and 323 μs
+          single range:   11 ms, 109 μs, and 9 hnsecs
+          sorted range:   6 ms, 473 μs, and 5 hnsecs
+          canFind range:  33 ms, 486 μs, and 6 hnsecs
+          canFind sorted: 8 ms, 161 μs, and 2 hnsecs
         ---
 */
 auto excludingIndices(Range, Indices...)(Range range, Indices indices)

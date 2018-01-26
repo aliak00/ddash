@@ -5,9 +5,9 @@ void profile()() {
 
     import std.stdio;
     import std.datetime.stopwatch: benchmark;
-    import std.range: iota, generate, take;
+    import std.range: iota, generate, take, enumerate;
     import std.meta: AliasSeq, aliasSeqOf;
-    import std.algorithm: sort, canFind, filter;
+    import std.algorithm: sort, canFind, filter, map;
     import std.random: uniform;
     import std.array;
 
@@ -25,12 +25,14 @@ void profile()() {
     writeln("  numbers: ", numbers);
     writeln("  indices: ", indices);
 
+    alias stdExclude = (numbers, indicies) => numbers.enumerate.filter!(a => !indicies.canFind(a[0])).map!(a => a[1]);
+    alias stdExcludeSorted = (numbers, indicies) => numbers.enumerate.filter!(a => !indicies.contains(a[0])).map!(a => a[1]);
     auto r1 = benchmark!(
         () => numbers.excludingIndices(SingleIndices),
         () => numbers.excludingIndices(indices),
         () => numbers.excludingIndices(sortedIndices),
-        () => numbers.filter!(a => indices.canFind(a)),
-        () => numbers.filter!(a => sortedIndices.canFind(a)),
+        () => stdExclude(numbers, indices),
+        () => stdExcludeSorted(numbers, sortedIndices),
     )(10000);
 
     writeln("excludingIndices: ");
@@ -44,8 +46,8 @@ void profile()() {
         () => numbers.excludingIndices(SingleIndices).array,
         () => numbers.excludingIndices(indices).array,
         () => numbers.excludingIndices(sortedIndices).array,
-        () => numbers.filter!(a => indices.canFind(a)).array,
-        () => numbers.filter!(a => sortedIndices.canFind(a)).array,
+        () => stdExclude(numbers, indices).array,
+        () => stdExcludeSorted(numbers, sortedIndices).array,
     )(10000);
 
     writeln("excludingIndices (with .array): ");
