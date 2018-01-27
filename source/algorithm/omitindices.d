@@ -1,16 +1,16 @@
 /**
     Creates a range with elements at given indices excluded
 */
-module algorithm.excludingindices;
+module algorithm.omitindices;
 
 ///
 unittest {
     import std.array;
-    assert([1, 2, 3, 4].excludingIndices(1, 2, 3).array == [1]);
-    assert([1, 2, 3, 4].excludingIndices(0, 3).array == [2, 3]);
-    assert([1, 2, 3, 4].excludingIndices(0, 5).array == [2, 3, 4]);
-    assert([1, 2, 3, 4].excludingIndices([2, 1]).array == [1, 4]);
-    assert([1, 2, 3, 4].excludingIndices([2, 1, 0, 3]).array == []);
+    assert([1, 2, 3, 4].omitIndices(1, 2, 3).array == [1]);
+    assert([1, 2, 3, 4].omitIndices(0, 3).array == [2, 3]);
+    assert([1, 2, 3, 4].omitIndices(0, 5).array == [2, 3, 4]);
+    assert([1, 2, 3, 4].omitIndices([2, 1]).array == [1, 4]);
+    assert([1, 2, 3, 4].omitIndices([2, 1, 0, 3]).array == []);
 }
 
 import common: from;
@@ -34,31 +34,30 @@ import common: from;
         A range excluding the supplied indices
 
     Benchmarks:
-        The results compare variations of exclusingIndices with a combination of standard
-        filter and canFind. For laziness the standard combination is a bit faster because
-        `excludingIndices` does some work to position to the first index and/or sort the
-        indices if they are not sorted.
-
-        Overall though, `excludingIndices` is on par or faster (when a `.array`) is involved
+        $(LI single args: `omitIndices(8, 16, 14...)`)
+        $(LI single range: `omitIndices([8, 16, 14...])`)
+        $(LI sorted range: `omitIndices([8, 16, 14...].sort)`)
+        $(LI canFind range: `indices.filter!(canFind)`)
+        $(LI canFind sorted: `indices.sort.filter!(canFind)`)
         ---
-        Benchmarking excludingIndices against filter/canFind:
-          numbers: [9, 10, 9, 7, 5, 2, 7, 12, 17, 8, 10, 8, 12, 2, 17, 13, 9, 5, 12, 18]
-          indices: [5, 6, 4, 1, 7, 19, 16, 5, 17, 13]
-        excludingIndices:
-          single args:    3 ms, 618 μs, and 9 hnsecs
-          single range:   3 ms, 462 μs, and 6 hnsecs
-          sorted range:   17 μs and 1 hnsec
-          canFind range:  4 hnsecs
+        Benchmarking omitIndices against filter/canFind:
+          numbers: [12, 11, 1, 9, 11, 4, 1, 4, 2, 7, 16, 8, 8, 9, 6, 15, 9, 0, 15, 2]
+          indices: [8, 16, 14, 11, 0, 16, 12, 10, 15, 17]
+        omitIndices:
+          single args:    3 ms, 885 μs, and 6 hnsecs
+          single range:   1 ms and 610 μs
+          sorted range:   185 μs and 2 hnsecs
+          canFind range:  5 ms and 547 μs
           canFind sorted: 4 hnsecs
-        excludingIndices (with .array):
-          single args:    7 ms and 323 μs
-          single range:   11 ms, 109 μs, and 9 hnsecs
-          sorted range:   6 ms, 473 μs, and 5 hnsecs
-          canFind range:  33 ms, 486 μs, and 6 hnsecs
-          canFind sorted: 8 ms, 161 μs, and 2 hnsecs
+        omitIndices (with .array):
+          single args:    8 ms, 765 μs, and 8 hnsecs
+          single range:   6 ms, 823 μs, and 8 hnsecs
+          sorted range:   6 ms, 571 μs, and 2 hnsecs
+          canFind range:  10 ms, 479 μs, and 2 hnsecs
+          canFind sorted: 9 ms, 330 μs, and 5 hnsecs
         ---
 */
-auto excludingIndices(Range, Indices...)(Range range, Indices indices)
+auto omitIndices(Range, Indices...)(Range range, Indices indices)
 if (from!"std.range".isInputRange!Range
     && from!"std.meta".allSatisfy!(
         from!"std.traits".isIntegral,
