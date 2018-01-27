@@ -1,16 +1,16 @@
 /**
     Creates a range with elements at given indices excluded
 */
-module algorithm.omitindices;
+module algorithm.excludingindices;
 
 ///
 unittest {
     import std.array;
-    assert([1, 2, 3, 4].omitIndices(1, 2, 3).array == [1]);
-    assert([1, 2, 3, 4].omitIndices(0, 3).array == [2, 3]);
-    assert([1, 2, 3, 4].omitIndices(0, 5).array == [2, 3, 4]);
-    assert([1, 2, 3, 4].omitIndices([2, 1]).array == [1, 4]);
-    assert([1, 2, 3, 4].omitIndices([2, 1, 0, 3]).array == []);
+    assert([1, 2, 3, 4].excludingIndices(1, 2, 3).array == [1]);
+    assert([1, 2, 3, 4].excludingIndices(0, 3).array == [2, 3]);
+    assert([1, 2, 3, 4].excludingIndices(0, 5).array == [2, 3, 4]);
+    assert([1, 2, 3, 4].excludingIndices([2, 1]).array == [1, 4]);
+    assert([1, 2, 3, 4].excludingIndices([2, 1, 0, 3]).array == []);
 }
 
 import common: from;
@@ -34,22 +34,22 @@ import common: from;
         A range excluding the supplied indices
 
     Benchmarks:
-        $(LI single args: `omitIndices(8, 16, 14...)`)
-        $(LI single range: `omitIndices([8, 16, 14...])`)
-        $(LI sorted range: `omitIndices([8, 16, 14...].sort)`)
+        $(LI single args: `excludingIndices(8, 16, 14...)`)
+        $(LI single range: `excludingIndices([8, 16, 14...])`)
+        $(LI sorted range: `excludingIndices([8, 16, 14...].sort)`)
         $(LI canFind range: `indices.filter!(canFind)`)
         $(LI canFind sorted: `indices.sort.filter!(canFind)`)
         ---
-        Benchmarking omitIndices against filter/canFind:
+        Benchmarking excludingIndices against filter/canFind:
           numbers: [12, 11, 1, 9, 11, 4, 1, 4, 2, 7, 16, 8, 8, 9, 6, 15, 9, 0, 15, 2]
           indices: [8, 16, 14, 11, 0, 16, 12, 10, 15, 17]
-        omitIndices:
+        excludingIndices:
           single args:    3 ms, 885 μs, and 6 hnsecs
           single range:   1 ms and 610 μs
           sorted range:   185 μs and 2 hnsecs
           canFind range:  5 ms and 547 μs
           canFind sorted: 4 hnsecs
-        omitIndices (with .array):
+        excludingIndices (with .array):
           single args:    8 ms, 765 μs, and 8 hnsecs
           single range:   6 ms, 823 μs, and 8 hnsecs
           sorted range:   6 ms, 571 μs, and 2 hnsecs
@@ -57,7 +57,7 @@ import common: from;
           canFind sorted: 9 ms, 330 μs, and 5 hnsecs
         ---
 */
-auto omitIndices(Range, Indices...)(Range range, Indices indices)
+auto excludingIndices(Range, Indices...)(Range range, Indices indices)
 if (from!"std.range".isInputRange!Range
     && from!"std.meta".allSatisfy!(
         from!"std.traits".isIntegral,

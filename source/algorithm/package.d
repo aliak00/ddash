@@ -32,7 +32,7 @@ $(TR
     $(TD Elements are dropped from the end until predicate returns false)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.omitindices, `omitIndices`))
+    $(TD $(DDOX_NAMED_REF algorithm.excludingindices, `excludingIndices`))
     $(TD Creates a range with elements at given indices excluded)
     )
 $(TR
@@ -147,7 +147,7 @@ public {
         assert([1, 2, 3, 4].dropWhile!(a => a < 3).array == [1, 2]);
     }
 
-    import algorithm.omitindices;
+    import algorithm.excludingindices;
     import algorithm.fill;
     import algorithm.findindex;
     import algorithm.findlastindex;
