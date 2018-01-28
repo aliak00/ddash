@@ -26,7 +26,6 @@ unittest {
     assert(c.f == some(4));
 }
 
-
 struct None {
     // Space is here else ddox test above includes text "struct Node" in its code block
 }
@@ -45,38 +44,42 @@ auto none = None();
 */
 struct Optional(T) {
     import std.traits: isPointer, PointerTarget;
+    import std.range: hasAssignableElements;
     T[] bag;
     this(U : T)(U u) {
         this.bag = [u];
     }
-    bool empty() @property {
+    bool empty() const @property {
         return this.bag.length == 0;
     }
-    ref front() @property {
+    auto ref front() inout @property {
         return this.bag[0];
     }
     void popFront() {
         this.bag = [];
     }
 
-    /// Set to none
-    void opAssign(None _) {
-        this.bag = [];
-    }
+    static if (hasAssignableElements!(T[]))
+    {
+        /// Set to none
+        void opAssign(None _) {
+            this.bag = [];
+        }
 
-    /// Sets value to `t`
-    void opAssign(T t) {
-        this.bag = [t];
+        /// Sets value to `t`
+        void opAssign(T t){
+            this.bag = [t];
+        }
     }
 
     /// Checks if value == `none`
-    bool opEquals(None _) {
+    bool opEquals(None _) const {
         return this.bag.length == 0;
     }
     /**
         Checks if two optionals contain the same value
     */
-    bool opEquals(U : T)(Optional!U rhs) {
+    bool opEquals(U : T)(const auto ref Optional!U rhs) const {
         return this.bag == rhs.bag;
     }
     /**
@@ -90,7 +93,7 @@ struct Optional(T) {
     }
 
     /// Converts value to string `some(T)`` or `no!T``
-    string toString() {
+    string toString() const {
         import std.conv: to;
         if (this.bag.length == 0) {
             return "no!" ~ T.stringof;
@@ -101,7 +104,7 @@ struct Optional(T) {
     /**
         True if `rhs` is equal to value contained
     */
-    bool opEquals(U : T)(U rhs) {
+    bool opEquals(U : T)(const auto ref U rhs) const {
         return !empty && front == rhs;
     }
 
@@ -112,7 +115,7 @@ struct Optional(T) {
             Another optional that either contains the dereferenced
             value or none
     */
-    auto opUnary(string op)() if (op == "*" && isPointer!T) {
+    auto opUnary(string op)() inout if (op == "*" && isPointer!T) {
         alias P = PointerTarget!T;
         return empty ? no!P : some!P(*front);
     }
@@ -120,7 +123,7 @@ struct Optional(T) {
     /**
         If the optional is some value it returns an optional of some `value op rhs`
     */
-    auto opBinary(string op, U : T)(U rhs) {
+    auto ref opBinary(string op, U : T)(auto ref U rhs) {
         return empty ? no!T : some!T(mixin("front"  ~ op ~ "rhs"));
     }
 
@@ -197,6 +200,44 @@ unittest {
 }
 
 unittest {
+    auto n = no!(int);
+    auto nc = no!(const int);
+    auto ni = no!(immutable int);
+    auto o = optional!(int)(3);
+    auto oc = optional!(const int)(3);
+    auto oi = optional!(immutable int)(3);
+
+    assert(o != n);
+    assert(o != nc);
+    assert(o != ni);
+    assert(oc != n);
+    assert(oc != nc);
+    assert(oc != ni);
+    assert(oi != n);
+    assert(oi != nc);
+    assert(oi != ni);
+
+    assert(o == oc);
+    assert(o == oi);
+    assert(oc == oi);
+
+    assert(n == nc);
+    assert(n == ni);
+    assert(nc == ni);
+
+    o = 4;
+    n = 4;
+    assert(o == n);
+
+    static assert( is(typeof(n = 3)));
+    static assert(!is(typeof(ni = 3)));
+    static assert(!is(typeof(nc = 3)));
+    static assert( is(typeof(o = 3)));
+    static assert(!is(typeof(oi = 3)));
+    static assert(!is(typeof(oc = 3)));
+}
+
+unittest {
     struct Object {
         int f() {
             return 7;
@@ -240,7 +281,7 @@ unittest {
 unittest {
     import std.algorithm: filter;
     import std.range: array;
-    auto arr = [
+    const arr = [
         no!int,
         some(3),
         no!int,
