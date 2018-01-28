@@ -12,16 +12,16 @@ module algorithm.intersection;
 
 ///
 unittest {
-    assert([1, 2, 3].intersection([1], 3).array == [1, 3]);
+    assert([1, 2, 3].intersection([1], 3).equal([1, 3]));
 
     import std.math: ceil;
-    assert([2.1, 1.2].intersection!ceil([2.3, 3.4]).array == [2.1]);
-    assert([2.1, 1.2].intersection!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).array == [2.1]);
+    assert([2.1, 1.2].intersection!ceil([2.3, 3.4]).equal([2.1]));
+    assert([2.1, 1.2].intersection!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([2.1]));
 
     struct A {
         int value;
     }
-    assert([A(1), A(2), A(3)].intersection!((a, b) => a.value == b.value)([A(2), A(3)]).array == [A(2), A(3)]);
+    assert([A(1), A(2), A(3)].intersection!((a, b) => a.value == b.value)([A(2), A(3)]).equal([A(2), A(3)]));
 }
 
 import common;
@@ -176,24 +176,20 @@ if (from!"std.range".isInputRange!Range
     }
 }
 
-version (unittest) {
-    import std.array;
-}
-
 unittest {
-    assert([1, 2, 3].intersection([0, 1, 2]).array == [1, 2]);
-    assert([1, 2, 3].intersection([1, 2]).array == [1, 2]);
-    assert([1, 2, 3].intersection([1], 2).array == [1, 2]);
-    assert([1, 2, 3].intersection([1], [3]).array == [1, 3]);
-    assert([1, 2, 3].intersection(3).array == [3]);
+    assert([1, 2, 3].intersection([0, 1, 2]).equal([1, 2]));
+    assert([1, 2, 3].intersection([1, 2]).equal([1, 2]));
+    assert([1, 2, 3].intersection([1], 2).equal([1, 2]));
+    assert([1, 2, 3].intersection([1], [3]).equal([1, 3]));
+    assert([1, 2, 3].intersection(3).equal([3]));
 }
 
 unittest {
     // Implicitly convertible elements ok
-    assert([1.0, 2.0].intersection(2).array == [2.0]);
+    assert([1.0, 2.0].intersection(2).equal([2.0]));
 
     // Implicitly convertible ranges ok
-    assert([1.0, 2.0].intersection([2]).array == [2.0]);
+    assert([1.0, 2.0].intersection([2]).equal([2.0]));
 
     // Non implicily convertible elements not ok
     static assert(!__traits(compiles, [1].intersection(1.0)));
@@ -204,13 +200,13 @@ unittest {
 
 unittest {
     import std.math: ceil;
-    assert([2.1, 1.2].intersection!ceil([2.3, 3.4]).array == [2.1]);
-    assert([2.1, 1.2].intersection!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).array == [2.1]);
+    assert([2.1, 1.2].intersection!ceil([2.3, 3.4]).equal([2.1]));
+    assert([2.1, 1.2].intersection!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([2.1]));
 }
 
 unittest {
     struct A {
         int value;
     }
-    assert([A(1), A(2), A(3)].intersection!((a, b) => a.value == b.value)([A(2), A(3)]).array == [A(2), A(3)]);
+    assert([A(1), A(2), A(3)].intersection!((a, b) => a.value == b.value)([A(2), A(3)]).equal([A(2), A(3)]));
 }

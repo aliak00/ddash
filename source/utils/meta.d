@@ -56,7 +56,7 @@ unittest {
     Returns:
         AliasSeq of the resulting types
 */
-template typesOf(Values...) {
+template TypesOf(Values...) {
     import std.meta: AliasSeq;
     import std.traits: isExpressions;
     static if (Values.length)
@@ -69,16 +69,16 @@ template typesOf(Values...) {
         {
             alias T = Values[0];
         }
-        alias typesOf = AliasSeq!(T, typesOf!(Values[1..$]));
+        alias TypesOf = AliasSeq!(T, TypesOf!(Values[1..$]));
     }
     else
     {
-        alias typesOf = AliasSeq!();
+        alias TypesOf = AliasSeq!();
     }
 }
 
 ///
 unittest {
     import std.meta: AliasSeq;
-    static assert(is(typesOf!("hello", 1, 2, 3.0, real) == AliasSeq!(string, int, int, double, real)));
+    static assert(is(TypesOf!("hello", 1, 2, 3.0, real) == AliasSeq!(string, int, int, double, real)));
 }

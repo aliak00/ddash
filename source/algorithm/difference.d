@@ -12,17 +12,17 @@ module algorithm.difference;
 
 ///
 unittest {
-    assert([1, 2, 3].difference([1], 3).array == [2]);
+    assert([1, 2, 3].difference([1], 3).equal([2]));
 
     import std.math: ceil;
-    assert([2.1, 1.2].difference!ceil([2.3, 3.4]).array == [1.2]);
-    assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).array == [1.2]);
+    assert([2.1, 1.2].difference!ceil([2.3, 3.4]).equal([1.2]));
+    assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([1.2]));
 
     struct A {
         int value;
     }
 
-    assert([A(1), A(2), A(3)].difference!((a, b) => a.value == b.value)([A(2), A(3)]).array == [A(1)]);
+    assert([A(1), A(2), A(3)].difference!((a, b) => a.value == b.value)([A(2), A(3)]).equal([A(1)]));
 }
 
 import common;
@@ -176,24 +176,20 @@ if (from!"std.range".isInputRange!Range
     }
 }
 
-version (unittest) {
-    import std.array;
-}
-
 unittest {
-    assert([1, 2, 3].difference([0, 1, 2]).array == [3]);
-    assert([1, 2, 3].difference([1, 2]).array == [3]);
-    assert([1, 2, 3].difference([1], 2).array == [3]);
-    assert([1, 2, 3].difference([1], [3]).array == [2]);
-    assert([1, 2, 3].difference(3).array == [1, 2]);
+    assert([1, 2, 3].difference([0, 1, 2]).equal([3]));
+    assert([1, 2, 3].difference([1, 2]).equal([3]));
+    assert([1, 2, 3].difference([1], 2).equal([3]));
+    assert([1, 2, 3].difference([1], [3]).equal([2]));
+    assert([1, 2, 3].difference(3).equal([1, 2]));
 }
 
 unittest {
     // Implicitly convertible elements ok
-    assert([1.0, 2.0].difference(2).array == [1.0]);
+    assert([1.0, 2.0].difference(2).equal([1.0]));
 
     // Implicitly convertible ranges ok
-    assert([1.0, 2.0].difference([2]).array == [1.0]);
+    assert([1.0, 2.0].difference([2]).equal([1.0]));
 
     // Non implicily convertible elements not ok
     static assert(!__traits(compiles, [1].difference(1.0)));
@@ -204,13 +200,13 @@ unittest {
 
 unittest {
     import std.math: ceil;
-    assert([2.1, 1.2].difference!ceil([2.3, 3.4]).array == [1.2]);
-    assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).array == [1.2]);
+    assert([2.1, 1.2].difference!ceil([2.3, 3.4]).equal([1.2]));
+    assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([1.2]));
 }
 
 unittest {
     struct A {
         int value;
     }
-    assert([A(1), A(2), A(3)].difference!((a, b) => a.value == b.value)([A(2), A(3)]).array == [A(1)]);
+    assert([A(1), A(2), A(3)].difference!((a, b) => a.value == b.value)([A(2), A(3)]).equal([A(1)]));
 }

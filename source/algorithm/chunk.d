@@ -6,9 +6,8 @@ module algorithm.chunk;
 
 ///
 unittest {
-    import std.array;
-    assert([1, 2, 3].chunk(0).array == (int[][]).init);
-    assert([1, 2, 3].chunk(1).array == [[1], [2], [3]]);
+    assert([1, 2, 3].chunk(0).equal((int[][]).init));
+    assert([1, 2, 3].chunk(1).equal([[1], [2], [3]]));
 }
 
 import common;

@@ -5,34 +5,34 @@ module algorithm.concat;
 
 ///
 unittest {
-    import std.range: iota, array;
+    import std.range: iota;
 
     // Concat stuff
-    assert([1, 2, 3].concat(4, [5], [6, 7], 8).array == 1.iota(9).array);
+    assert([1, 2, 3].concat(4, [5], [6, 7], 8).equal(1.iota(9)));
 
     // Concat ingle element
-    assert([1].concat(2).array == [1, 2]);
+    assert([1].concat(2).equal([1, 2]));
 
     // Implicitly convertible doubles with ints
-    assert([1.0].concat([2, 3]).array == [1.0, 2.0, 3.0]);
+    assert([1.0].concat([2, 3]).equal([1.0, 2.0, 3.0]));
 
     // Concat nothing to single value
-    assert(1.concat().array == [1]);
+    assert(1.concat().equal([1]));
 
     // Concat nothing to range
-    assert([1].concat().array == [1]);
+    assert([1].concat().equal([1]));
 
     // Concat values to another value
-    assert(1.concat(2, 3).array == [1, 2, 3]);
+    assert(1.concat(2, 3).equal([1, 2, 3]));
 
     // Concat ranges or values to another value
-    assert(1.concat(2, [3, 4]).array == [1, 2, 3, 4]);
+    assert(1.concat(2, [3, 4]).equal([1, 2, 3, 4]));
 
     // Concat strings
-    assert("yo".concat("dles").array == "yodles");
+    assert("yo".concat("dles").equal("yodles"));
 
     // Concat stuff to string
-    assert("abc".concat(1, 2, 3).array == "abc123");
+    assert("abc".concat(1, 2, 3).equal("abc123"));
 }
 
 
@@ -198,15 +198,15 @@ unittest {
 
     import std.algorithm: filter;
 
-    assert(concat(i, i, i).array == [i, i, i]);
-    assert([i, i].concat([i, i]).array == [i, i, i, i]);
-    assert([i, i].filter!"true".concat([i, i], i, i).array == [i, i, i, i, i, i]);
-    assert([i, i].concat(d, c, i).array == [i, i, d, c, i]);
-    assert(d.concat(i, c, i).array == [d, i, c, i]);
-    assert(c.concat(d, i).array == [c, d, i]);
-    assert([c, c].concat([d, d], 2).array == "cc2.22.22");
-    assert(s.concat([c, c], c).array == "ooccc");
-    assert(s.concat(s, [s]).array == "oooooo");
+    assert(concat(i, i, i).equal([i, i, i]));
+    assert([i, i].concat([i, i]).equal([i, i, i, i]));
+    assert([i, i].filter!"true".concat([i, i], i, i).equal([i, i, i, i, i, i]));
+    assert([i, i].concat(d, c, i).equal([i, i, d, c, i]));
+    assert(d.concat(i, c, i).equal([d, i, c, i]));
+    assert(c.concat(d, i).equal([c, d, i]));
+    assert([c, c].concat([d, d], 2).equal("cc2.22.22"));
+    assert(s.concat([c, c], c).equal("ooccc"));
+    assert(s.concat(s, [s]).equal("oooooo"));
 }
 
 unittest {

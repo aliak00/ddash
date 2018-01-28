@@ -3,10 +3,9 @@ module algorithm.flattendeep;
 
 ///
 unittest {
-    import std.array;
     import optional;
-    assert([[[1]], [[]], [[2], [3]], [[4]]].flattenDeep.array == [1, 2, 3, 4]);
-    assert([some(some(3)), no!(Optional!int), some(some(2))].flattenDeep.array == [3, 2]);
+    assert([[[1]], [[]], [[2], [3]], [[4]]].flattenDeep.equal([1, 2, 3, 4]));
+    assert([some(some(3)), no!(Optional!int), some(some(2))].flattenDeep.equal([3, 2]));
 }
 
 import common;

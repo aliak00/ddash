@@ -23,7 +23,7 @@ unittest {
     Returns
         The value at the nth index of range.
 */
-auto nth(Range, T)(Range range, size_t n, T defaultValue = from!"std.range".ElementType!Range.init)
+auto nth(Range, T)(Range range, size_t n, lazy T defaultValue = from!"std.range".ElementType!Range.init)
 if (from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!Range)) {
     import std.range: empty, walkLength, isRandomAccessRange;
     if (range.empty) {

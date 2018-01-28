@@ -8,9 +8,8 @@ module algorithm.flatten;
 
 ///
 unittest {
-    import std.array;
-    assert([[[1]], [[]], [[2], [3]], [[4]]].flatten.array == [[1], [], [2], [3], [4]]);
-    assert([[1], [], [2, 3], [4]].flatten.array == [1, 2, 3, 4]);
+    assert([[[1]], [[]], [[2], [3]], [[4]]].flatten.equal([[1], [], [2], [3], [4]]));
+    assert([[1], [], [2, 3], [4]].flatten.equal([1, 2, 3, 4]));
 }
 
 import common;
@@ -53,14 +52,12 @@ auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
 }
 
 unittest {
-    import std.array;
-    assert([[[1]], [[]], [[2], [3]], [[4]]].flatten.array == [[1], [], [2], [3], [4]]);
-    assert([[1], [], [2, 3], [4]].flatten.array == [1, 2, 3, 4]);
+    assert([[[1]], [[]], [[2], [3]], [[4]]].flatten.equal([[1], [], [2], [3], [4]]));
+    assert([[1], [], [2, 3], [4]].flatten.equal([1, 2, 3, 4]));
 }
 
 unittest {
-    import std.array;
     import optional;
-    assert([some(3), no!int, some(2)].flatten.array == [3, 2]);
-    assert([some(some(3)), no!(Optional!int), some(some(2))].flatten.array == [some(3), some(2)]);
+    assert([some(3), no!int, some(2)].flatten.equal([3, 2]));
+    assert([some(some(3)), no!(Optional!int), some(some(2))].flatten.equal([some(3), some(2)]));
 }

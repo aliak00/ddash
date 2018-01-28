@@ -3,8 +3,7 @@ module algorithm.droprightwhile;
 
 ///
 unittest {
-    import std.array;
-    assert([1, 2, 3, 4].dropRightWhile!(a => a > 2).array == [1, 2]);
+    assert([1, 2, 3, 4].dropRightWhile!(a => a > 2).equal([1, 2]));
 }
 
 import common;

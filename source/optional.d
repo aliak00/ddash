@@ -67,7 +67,7 @@ struct Optional(T) {
     static if (hasAssignableElements!(T[]))
     {
         /// Sets value to `t`
-        void opAssign(T t){
+        void opAssign(T t) {
             this.bag = [t];
         }
     }

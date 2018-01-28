@@ -10,10 +10,6 @@ auto flatMap(alias fun, Range)(Range range) if (from!"std.range".isInputRange!Ra
         .map!(fun);
 }
 
-version (unittest) {
-    import std.array;
-}
-
 unittest {
     import optional: some, no;
     auto optionalArray = [
@@ -22,7 +18,7 @@ unittest {
         no!int,
         some(7),
     ];
-    assert(optionalArray.flatMap!(a => a).array == [3, 7]);
+    assert(optionalArray.flatMap!(a => a).equal([3, 7]));
 }
 
 unittest {
@@ -30,7 +26,7 @@ unittest {
         3,
         7,
     ];
-    assert(intArray.flatMap!(a => a).array == [3, 7]);
+    assert(intArray.flatMap!(a => a).equal([3, 7]));
 }
 
 unittest {
@@ -40,7 +36,7 @@ unittest {
         (new int(7)),
         null,
     ];
-    assert(intPointerArray.flatMap!(a => a).array == [3, 7]);
+    assert(intPointerArray.flatMap!(a => a).equal([3, 7]));
 }
 
 unittest {
@@ -50,5 +46,5 @@ unittest {
         [7],
         [],
     ];
-    assert(intArrayOfArrays.flatMap!(a => a).array == [3, 7]);
+    assert(intArrayOfArrays.flatMap!(a => a).equal([3, 7]));
 }

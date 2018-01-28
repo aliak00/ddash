@@ -5,12 +5,11 @@ module algorithm.excludingindices;
 
 ///
 unittest {
-    import std.array;
-    assert([1, 2, 3, 4].excludingIndices(1, 2, 3).array == [1]);
-    assert([1, 2, 3, 4].excludingIndices(0, 3).array == [2, 3]);
-    assert([1, 2, 3, 4].excludingIndices(0, 5).array == [2, 3, 4]);
-    assert([1, 2, 3, 4].excludingIndices([2, 1]).array == [1, 4]);
-    assert([1, 2, 3, 4].excludingIndices([2, 1, 0, 3]).array == []);
+    assert([1, 2, 3, 4].excludingIndices(1, 2, 3).equal([1]));
+    assert([1, 2, 3, 4].excludingIndices(0, 3).equal([2, 3]));
+    assert([1, 2, 3, 4].excludingIndices(0, 5).equal([2, 3, 4]));
+    assert([1, 2, 3, 4].excludingIndices([2, 1]).equal([1, 4]));
+    assert([1, 2, 3, 4].excludingIndices([2, 1, 0, 3]).empty);
 }
 
 import common;
