@@ -33,7 +33,7 @@ struct None {
 /**
     Represents an empty optional value. This is used for convenience
 */
-auto none = None();
+immutable none = None();
 
 /**
     Optional type. Also known as a Maybe type in some languages.
@@ -59,13 +59,13 @@ struct Optional(T) {
         this.bag = [];
     }
 
+    /// Set to none
+    void opAssign(None _) {
+        this.bag = [];
+    }
+
     static if (hasAssignableElements!(T[]))
     {
-        /// Set to none
-        void opAssign(None _) {
-            this.bag = [];
-        }
-
         /// Sets value to `t`
         void opAssign(T t){
             this.bag = [t];
@@ -93,7 +93,7 @@ struct Optional(T) {
     }
 
     /// Converts value to string `some(T)`` or `no!T``
-    string toString() const {
+    string toString() {
         import std.conv: to;
         if (this.bag.length == 0) {
             return "no!" ~ T.stringof;
@@ -293,6 +293,11 @@ unittest {
 unittest {
     assert(no!int.toString == "no!int");
     assert(some(3).toString == "some!int(3)");
+    static class A {
+        override string toString() { return "A"; }
+    }
+    Object a = new A;
+    assert(some(cast(A)a).toString == "some!A(A)");
 }
 
 /// Checks if T is an optional type
@@ -320,4 +325,33 @@ alias OptionalTarget(T : Optional!T) = T;
 unittest {
     static assert(is(OptionalTarget!(Optional!int) == int));
     static assert(is(OptionalTarget!(Optional!(float*)) == float*));
+}
+
+unittest {
+    static import std.uni;
+    import std.range: only;
+    import std.algorithm: equal;
+    import std.algorithm: joiner, map;
+
+    static maybeValues = [no!string, some("hello"), some("world")];
+    assert(maybeValues.joiner.map!(std.uni.toUpper).joiner(" ").equal("HELLO WORLD"));
+}
+
+unittest {
+    import std.algorithm.iteration : each, joiner;
+    static maybeValues = [some("hello"), some("world"), no!string];
+    uint count = 0;
+    foreach (value; maybeValues.joiner) ++count;
+    assert(count == 2);
+    maybeValues.joiner.each!(value => ++count);
+    assert(count == 4);
+}
+
+unittest {
+    Optional!(const int) opt = Optional!(const int)(42);
+    static assert(!__traits(compiles, opt = some(24)));
+    assert(!opt.empty);
+    assert(opt.front == 42);
+    opt = none;
+    assert(opt.empty);
 }
