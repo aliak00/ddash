@@ -95,6 +95,10 @@ $(TR
     $(TD $(DDOX_NAMED_REF algorithm.nth, `nth`))
     $(TD Returns the element at nth index of range)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF algorithm.pull, `pull`))
+    $(TD Pulls elements out of a range)
+    )
 )
 */
 module algorithm;
@@ -190,4 +194,6 @@ public {
     }
 
     import algorithm.lastindexof;
+    import algorithm.nth;
+    import algorithm.pull;
 }
