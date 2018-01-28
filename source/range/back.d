@@ -1,7 +1,7 @@
 /// Provides access to the back of a range
 module range.back;
 
-import common: from;
+import common;
 
 /**
     Returns an `Optional` of the back of range

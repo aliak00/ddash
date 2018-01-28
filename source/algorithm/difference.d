@@ -25,7 +25,7 @@ unittest {
     assert([A(1), A(2), A(3)].difference!((a, b) => a.value == b.value)([A(2), A(3)]).array == [A(1)]);
 }
 
-import common: from;
+import common;
 
 struct Difference(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && from!"std.range".isInputRange!R2) {
     import std.range: ElementType;

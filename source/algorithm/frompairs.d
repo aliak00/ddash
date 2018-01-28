@@ -14,7 +14,7 @@ unittest {
     assert([tuple(1, 2), tuple(3, 4) ].fromPairs == [1: 2, 3: 4]);
 }
 
-import common: from;
+import common;
 
 /**
     Ditto

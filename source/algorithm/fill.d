@@ -16,7 +16,7 @@ unittest {
     assert(c == [1, 9, 9, 9, 9]);
 }
 
-import common: from;
+import common;
 
 /// Ditto
 void fill(Range, T)(ref Range range, auto ref T value, size_t start = 0, size_t end = size_t.max)

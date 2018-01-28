@@ -13,7 +13,7 @@ unittest {
     assert(!is(typeof([1].sortingPredicate)));
 }
 
-import common: from;
+import common;
 
 /**
     Given a `SortedRange` `sortingPredicate(a, b)` will call in to the predicate

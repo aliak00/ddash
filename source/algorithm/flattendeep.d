@@ -9,7 +9,7 @@ unittest {
     assert([some(some(3)), no!(Optional!int), some(some(2))].flattenDeep.array == [3, 2]);
 }
 
-import common: from;
+import common;
 
 /// Ditto
 auto flattenDeep(Range)(Range range) if (from!"std.range".isInputRange!Range) {

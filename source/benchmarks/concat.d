@@ -1,6 +1,6 @@
 module benchmarks.concat;
 
-import common: from;
+import common;
 //
 // An concatEager version of concat just for testing. Tests in release show that this is
 // never faster in any case.

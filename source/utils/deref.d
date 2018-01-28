@@ -3,7 +3,7 @@
 */
 module utils.deref;
 
-import common: from;
+import common;
 
 /// Derefernce a pointer
 ref deref(T)(T t) if (from!"std.traits".isPointer!T) {

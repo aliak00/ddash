@@ -7,7 +7,7 @@ unittest {
     assert([1, 2, 3, 4].dropRightWhile!(a => a > 2).array == [1, 2]);
 }
 
-import common: from;
+import common;
 
 /**
     Ditto

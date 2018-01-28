@@ -36,7 +36,7 @@ unittest {
 }
 
 
-import common: from;
+import common;
 
 /**
     Concats everything together using best effort.

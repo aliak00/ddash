@@ -3,7 +3,7 @@
 */
 module algorithm.nth;
 
-import common: from;
+import common;
 
 ///
 unittest {

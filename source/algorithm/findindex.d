@@ -9,7 +9,7 @@ unittest {
     assert([1, 2, 3, 4].findIndex!(a => a % 2 == 0)(2) == some(3));
 }
 
-import common: from;
+import common;
 
 /**
     Ditto

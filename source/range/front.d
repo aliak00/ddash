@@ -1,7 +1,7 @@
 /// Provides acces to front of a range
 module range.front;
 
-import common: from;
+import common;
 
 /**
     Retrieves the front of a range or a default value

@@ -9,7 +9,7 @@ unittest {
     assert([1, 2, 3, 4].findLastIndex!(a => a % 2 == 0)(2) == some(1));
 }
 
-import common: from;
+import common;
 
 /**
     Ditto

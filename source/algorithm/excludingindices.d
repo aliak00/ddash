@@ -13,7 +13,7 @@ unittest {
     assert([1, 2, 3, 4].excludingIndices([2, 1, 0, 3]).array == []);
 }
 
-import common: from;
+import common;
 
 /**
     Returns a range excluding the specified indices.

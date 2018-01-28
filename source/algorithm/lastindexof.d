@@ -9,7 +9,7 @@ unittest {
     assert([1, 2, 1, 2].lastIndexOf(3) == none);
 }
 
-import common: from;
+import common;
 
 /**
     Ditto

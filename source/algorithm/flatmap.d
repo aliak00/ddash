@@ -1,6 +1,6 @@
 module algorithm.flatmap;
 
-import common: from;
+import common;
 
 auto flatMap(alias fun, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: map;

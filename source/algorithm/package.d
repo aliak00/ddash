@@ -99,7 +99,7 @@ $(TR
 */
 module algorithm;
 
-import common: from;
+import common;
 
 public {
     import algorithm.flatmap;

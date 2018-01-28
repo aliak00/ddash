@@ -13,7 +13,7 @@ unittest {
     assert([[1], [], [2, 3], [4]].flatten.array == [1, 2, 3, 4]);
 }
 
-import common: from;
+import common;
 
 /**
     Ditto

@@ -15,7 +15,7 @@ unittest {
     assert([some(2), no!int].compact.array == [some(2)]);
 }
 
-import common: from;
+import common;
 
 private auto compactBase(string member = "", Range)(Range range) {
     import std.algorithm: filter;

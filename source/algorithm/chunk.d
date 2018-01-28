@@ -11,7 +11,7 @@ unittest {
     assert([1, 2, 3].chunk(1).array == [[1], [2], [3]]);
 }
 
-import common: from;
+import common;
 
 /**
     Ditto
