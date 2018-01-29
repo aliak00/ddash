@@ -3,8 +3,8 @@
 	"authors": [
 		"Ali Akhtarzada"
 	],
-	"description": "A minimal D application.",
+	"description": "Utility library for D",
 	"copyright": "Copyright © 2017, Ali Akhtarzada",
 	"license": "Boost",
-    "targetPath": "bin"
+	"targetPath": "bin"
 }

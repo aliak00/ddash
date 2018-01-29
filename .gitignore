@@ -16,3 +16,6 @@ lodashd-test-*
 *.obj
 *.lst
 bin/
+
+.vscode/*
+!.vscode/tasks.json
