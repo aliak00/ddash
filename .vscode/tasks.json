@@ -13,6 +13,11 @@
             }
         },
         {
+            "label": "debug",
+            "type": "shell",
+            "command": "dub build --compiler=ldc2"
+        },
+        {
             "label": "test",
             "type": "shell",
             "command": "dub test"
