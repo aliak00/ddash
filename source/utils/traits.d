@@ -160,3 +160,37 @@ unittest {
     auto b = [1.0, 2.0];
     static assert(is(CommonTypeOfRanges!(typeof(a), typeof(b)) == double));
 }
+
+/**
+    Tells you if a list of types, which are composed of ranges and non ranges,
+    share a common type after flattening the ranges (i.e. `ElementType`)
+
+    This basically answers the question: $(I Can I combine these ranges and values
+    into a single range of a common type?)
+
+    See_also:
+        `utils.meta.FlattenRanges`
+*/
+template areCombinable(Values...) {
+    import std.traits: CommonType;
+    import utils.meta: FlattenRanges;
+    enum areCombinable = !is(CommonType!(FlattenRanges!Values) == void);
+}
+
+///
+unittest {
+    static assert(areCombinable!(int, int, int));
+    static assert(areCombinable!(float[], int, char[]));
+    static assert(areCombinable!(string, int, int));
+    // Works with string because:
+    import std.traits: CommonType;
+    import std.range: ElementType;
+    static assert(is(CommonType!(ElementType!string, int) == uint));
+
+    struct A {}
+    static assert(!areCombinable!(A, int, int));
+    static assert(!areCombinable!(A[], int[]));
+    static assert( areCombinable!(A[], A[]));
+    static assert( areCombinable!(A[], A[], A));
+    static assert(!areCombinable!(int[], A));
+}
