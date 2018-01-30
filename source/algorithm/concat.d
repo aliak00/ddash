@@ -97,9 +97,7 @@ import common;
           appender  (array):      3 ms, 57 μs, and 8 hnsecs
         ---
 */
-auto concat(Values...)(Values values)
-if (!is(from!"std.traits".CommonType!(from!"utils.meta".FlattenRanges!Values) == void))
-{
+auto concat(Values...)(Values values) if (from!"utils.traits".areCombinable!Values) {
     import std.range: isInputRange, chain, only;
     import std.traits: isNarrowString, isSomeChar;
     import std.conv: to;

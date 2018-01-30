@@ -99,10 +99,10 @@ unittest {
     static assert(isBinaryOver!(f2, int) == true);
 }
 
-/// Trus if T is a SortedRange
-bool isSortedRange(R)() {
+/// True if T is a SortedRange
+template isSortedRange(R) {
     import std.range: SortedRange;
-    return is(R : SortedRange!U, U...);
+    enum isSortedRange = is(R : SortedRange!U, U...);
 }
 
 ///
@@ -115,18 +115,16 @@ unittest {
 }
 
 /// Returns a list of member functions of T
-template MemberFunctions(T) {
+auto memberFunctions(T)() {
     import std.traits: isFunction;
-    auto MemberFunctions() {
-        string[] memberFunctions;
-        foreach (member; __traits(allMembers, T)) {
-            static if (is(typeof(mixin("T." ~ member)) F))
-                if (isFunction!F) {
-                    memberFunctions ~= member;
-                }
-        }
-        return memberFunctions;
+    string[] strings;
+    foreach (member; __traits(allMembers, T)) {
+        static if (is(typeof(mixin("T." ~ member)) F))
+            if (isFunction!F) {
+                strings ~= member;
+            }
     }
+    return strings;
 }
 
 ///
@@ -143,7 +141,7 @@ unittest {
         void f() {}
     }
 
-    static assert(MemberFunctions!B == ["f"]);
+    static assert(memberFunctions!B == ["f"]);
 }
 
 /// Finds the CommonType of a list of ranges

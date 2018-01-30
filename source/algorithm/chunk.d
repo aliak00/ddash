@@ -1,6 +1,5 @@
 /**
-    Creates an array of elements split into groups the length of size. If array can't be split evenly,
-    the final chunk will be the remaining elements.
+    Creates a range consisting of chunks of another range
 */
 module algorithm.chunk;
 
@@ -13,14 +12,15 @@ unittest {
 import common;
 
 /**
-    Ditto
+    Creates a range of ranges of length `size`. If the range can't be split evenly,
+    the final `chunk`` will be the remaining elements.
 
     Params:
         range = An input range
         size = chunk size
 
     Returns:
-        range of chunks
+        Range of chunks
 */
 auto chunk(Range)(Range range, size_t size) if (from!"std.range".isInputRange!Range) {
     import std.range: chunks, takeNone;

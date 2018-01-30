@@ -1,10 +1,5 @@
 /**
     Returns a newly allocated associative array from pairs
-
-    This is primarily for `std.typecons.Tuple` type objects and works on a range
-    of tuples of size 2. If any other range is given to it, then it will treat
-    every pair of elements as a Tuple and do the same thing.
-
 */
 module algorithm.frompairs;
 
@@ -17,7 +12,11 @@ unittest {
 import common;
 
 /**
-    Ditto
+    Returns a newly allocated associative array from pairs
+
+    This is primarily for `std.typecons.Tuple` type objects and works on a range
+    of tuples of size 2. If any other range is given to it, then it will treat
+    every pair of elements as a Tuple and do the same thing.
 
     Params:
         r1 = range of elements to create an associated array out of

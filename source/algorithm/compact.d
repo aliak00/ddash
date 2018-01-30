@@ -9,34 +9,29 @@ module algorithm.compact;
 ///
 unittest {
     import optional: no, some;
+
+    // compact falsy values
     assert([0, 1, 2, 0, 3].compact.equal([1, 2, 3]));
+
+    // compact empty arrays
     assert([[1], [], [2]].compact.equal([[1], [2]]));
+
+    // compact optionals
     assert([some(2), no!int].compact.equal([some(2)]));
+
+    struct A {
+        int x;
+    }
+
+    // compact by a object member
+    assert([A(7), A(0)].compactBy!"x".equal([A(7)]));
+
+    // compact an associative array
+    auto aa = ["a": 1, "b": 0, "c": 2];
+    assert(aa.compactValues == ["a": 1, "c": 2]);
 }
 
 import common;
-
-private auto compactBase(string member = "", Range)(Range range) {
-    import std.algorithm: filter;
-    import std.range: ElementType;
-    import utils: isTruthy;
-    alias E = ElementType!Range;
-    static if (member != "")
-    {
-        static assert(__traits(hasMember, E, member), E.stringof ~ " has no member " ~ member);
-        static assert(
-            __traits(getProtection, __traits(getMember, E, member)) == "public",
-            E.stringof ~ "." ~ member ~ " is not public"
-        );
-        alias m = (a) => mixin("a." ~ member);
-    }
-    else
-    {
-        alias m = (a) => a;
-    }
-    return range
-        .filter!(a => m(a).isTruthy);
-}
 
 /**
     Compacts a range
@@ -48,7 +43,10 @@ private auto compactBase(string member = "", Range)(Range range) {
         compacted range
 */
 auto compact(Range)(Range range) if (from!"std.range".isInputRange!Range) {
-    return compactBase(range);
+    import std.algorithm: filter;
+    import utils: isTruthy;
+    return range
+        .filter!(a => a.isTruthy);
 }
 
 ///
@@ -70,17 +68,20 @@ unittest {
         compacted range
 */
 auto compactBy(string member, Range)(Range range) if (from!"std.range".isInputRange!Range && member.length) {
-    return compactBase!(member)(range);
+    import std.algorithm: filter;
+    import utils: isTruthy;
+    import internal: valueBy;
+    return range
+        .filter!(a => a.valueBy!member.isTruthy);
 }
 
 ///
 unittest {
-    import std.array;
     struct A {
         int x;
         private int y;
     }
-    assert([A(3, 2), A(0, 1)].compactBy!"x".array == [A(3, 2)]);
+    assert([A(3, 2), A(0, 1)].compactBy!"x".equal([A(3, 2)]));
     assert(!__traits(compiles, [A(3, 2)].compactBy!"y"));
     assert(!__traits(compiles, [A(3, 2)].compactBy!"z"));
     assert(!__traits(compiles, [A(3, 2)].compactBy!""));

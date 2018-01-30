@@ -1,5 +1,5 @@
 /**
-    Flattens a range range one level deep by removing non truthy values.
+    Flattens a range one level deep by removing non truthy values.
 
     See_also:
         `utils.istruthy`
@@ -15,7 +15,7 @@ unittest {
 import common;
 
 /**
-    Ditto
+    Flattens a range one level deep by removing non truthy values.
 
     Params:
         range = an input range
