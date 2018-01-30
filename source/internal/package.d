@@ -62,3 +62,38 @@ unittest {
     assert(!__traits(compiles, a.valueBy!"y"));
     assert(!__traits(compiles, a.valueBy!"z"));
 }
+
+auto ref equalityComparator(alias pred = null, T, U)(auto ref T a, auto ref U b) {
+    import utils.traits: isNullType, isUnaryOver;
+    static if (isNullType!pred)
+    {
+        import std.range: isInputRange;
+        static if (isInputRange!T && isInputRange!U)
+        {
+            import std.algorithm: equal;
+            return equal(a, b);
+        }
+        else
+        {
+            return a == b;
+        }
+    }
+    else static if (isUnaryOver!(pred, T))
+    {
+        import std.functional: unaryFun;
+        return unaryFun!pred(a) == unaryFun!pred(b);
+    }
+    else
+    {
+        import std.functional: binaryFun;
+        return binaryFun!pred(a, b);
+    }
+}
+
+unittest {
+    assert(!equalityComparator(2, 4));
+    assert( equalityComparator!(a => a % 2 == 0)(2, 4));
+    assert( equalityComparator!((a, b) => a != b)(2, 4));
+    assert( equalityComparator!q{a % 2 == 0}(2, 4));
+    assert( equalityComparator!q{a != b}(2, 4));
+}

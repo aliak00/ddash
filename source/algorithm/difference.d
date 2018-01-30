@@ -56,20 +56,8 @@ struct Difference(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && fr
         else
         {
             import std.algorithm: canFind;
-            import utils.traits: isUnaryOver;
-            static if (isNullType!pred)
-            {
-                alias equal = (a, b) => a == b;
-            }
-            else static if (isUnaryOver!(pred, E))
-            {
-                alias equal = (a, b) => pred(a) == pred(b);
-            }
-            else
-            {
-                alias equal = (a, b) => pred(a, b);
-            }
-
+            import internal: equalityComparator;
+            alias equal = (a, b) => equalityComparator!pred(a, b);
             while (!this.r1.empty && this.r2.canFind!equal(this.r1.front)) {
                 this.r1.popFront;
             }
