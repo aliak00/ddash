@@ -43,7 +43,8 @@ unittest {
 /// Trus if pred is a unary function over T
 template isUnaryOver(alias pred, T...) {
     import std.functional: unaryFun;
-    enum isUnaryOver = T.length == 1 && is(typeof(unaryFun!pred(T.init)));
+    import std.traits: isExpressions;
+    enum isUnaryOver = T.length == 1 && !isExpressions!T && is(typeof(unaryFun!pred(T.init)));
 }
 
 ///
@@ -53,29 +54,35 @@ unittest {
     void f1(int a) {}
     void f2(int a, int b) {}
 
-    static assert(isUnaryOver!("a", int) == true);
-    static assert(isUnaryOver!("a > a", int) == true);
-    static assert(isUnaryOver!("a > b", int) == false);
-    static assert(isUnaryOver!(null, int) == false);
-    static assert(isUnaryOver!((a => a), int) == true);
-    static assert(isUnaryOver!((a, b) => a + b, int) == false);
+    static assert( isUnaryOver!("a", int));
+    static assert( isUnaryOver!("a > a", int));
+    static assert(!isUnaryOver!("a > b", int));
+    static assert(!isUnaryOver!(null, int));
+    static assert( isUnaryOver!((a => a), int));
+    static assert(!isUnaryOver!((a, b) => a + b, int));
 
-    static assert(isUnaryOver!(v, int) == false);
-    static assert(isUnaryOver!(f0, int) == false);
-    static assert(isUnaryOver!(f1, int) == true);
-    static assert(isUnaryOver!(f2, int) == false);
+    static assert(!isUnaryOver!(v, int));
+    static assert(!isUnaryOver!(f0, int));
+    static assert( isUnaryOver!(f1, int));
+    static assert(!isUnaryOver!(f2, int));
 
     import std.math: ceil;
-    static assert(isUnaryOver!(ceil, double) == true);
+    static assert( isUnaryOver!(ceil, double));
+    static assert(!isUnaryOver!(ceil, double, double));
+
+    static assert(!isUnaryOver!(f1, 3));
+    static assert(!isUnaryOver!("a", 3));
 }
 
 /// True if pred is a binary function of (T, U) or (T, T)
 template isBinaryOver(alias pred, T...) {
     import std.functional: binaryFun;
+    import std.traits: isExpressions;
+    import std.meta: anySatisfy;
     static if (T.length == 1) {
         enum isBinaryOver = !isUnaryOver!(pred, T) && isBinaryOver!(pred, T, T);
     } else {
-        enum isBinaryOver = is(typeof(binaryFun!pred(T[0].init, T[1].init)));
+        enum isBinaryOver = T.length == 2 && !anySatisfy!(isExpressions, T) && is(typeof(binaryFun!pred(T[0].init, T[1].init)));
     }
 }
 
@@ -86,17 +93,26 @@ unittest {
     void f1(int a) {}
     void f2(int a, int b) {}
 
-    static assert(isBinaryOver!("a", int) == false);
-    static assert(isBinaryOver!("a > a", int) == false);
-    static assert(isBinaryOver!("a > b", int) == true);
-    static assert(isBinaryOver!(null, int) == false);
-    static assert(isBinaryOver!((a => a), int) == false);
-    static assert(isBinaryOver!((a, b) => a + b, int) == true);
+    import std.traits: isExpressions;
 
-    static assert(isBinaryOver!(v, int) == false);
-    static assert(isBinaryOver!(f0, int) == false);
-    static assert(isBinaryOver!(f1, int) == false);
-    static assert(isBinaryOver!(f2, int) == true);
+    static assert(!isBinaryOver!("a", int));
+    static assert(!isBinaryOver!("a > a", int));
+    static assert( isBinaryOver!("a > b", int));
+    static assert(!isBinaryOver!(null, int));
+    static assert(!isBinaryOver!((a => a), int));
+    static assert( isBinaryOver!((a, b) => a + b, int));
+
+    static assert(!isBinaryOver!(v, int));
+    static assert(!isBinaryOver!(f0, int));
+    static assert(!isBinaryOver!(f1, int));
+    static assert( isBinaryOver!(f2, int));
+    static assert( isBinaryOver!(f2, int, int));
+    static assert(!isBinaryOver!(f2, int, string));
+    static assert(!isBinaryOver!(f2, int, int, int));
+
+    static assert(!isBinaryOver!("a > b", 3));
+    static assert(!isBinaryOver!("a > b", 3, 3));
+    static assert(!isBinaryOver!("a > b", 3, int));
 }
 
 /// True if T is a SortedRange
