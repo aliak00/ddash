@@ -36,6 +36,7 @@ unittest {
     of the predicates match, the last supplied transform will be used.
 
     Params:
+        statements = pairs of predicates and transforms followed by a default transform
         value = the value to evaluate
 
     Returns:
@@ -47,11 +48,12 @@ unittest {
     iterated over. A couple of hand written if/else chains were compared. The first used lambdas
     to evaluate their conditions, the second just used inline code.
 
-    ```
-    functional:     1 hnsecs
-    hand written 1: 0 hnsecs
-    hand written 2: 0 hnsecs
-    ````
+    ---
+    Benchmarking cond against hand written if/elses
+      cond:           2 hnsecs
+      hand written 1: 0 hnsecs
+      hand written 2: 0 hnsecs
+    ---
 */
 template cond(statements...) {
     import std.traits: isExpressions;

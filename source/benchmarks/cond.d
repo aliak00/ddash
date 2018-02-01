@@ -54,10 +54,11 @@ void profile()() {
     import std.stdio;
     import std.datetime.stopwatch: benchmark;
 
+    writeln("Benchmarking cond against hand written if/elses");
     auto r = benchmark!(f!cond1, f!cond2, f!cond3)(5_000_000);
-    writeln("functional:     ", r[0]);
-    writeln("hand written 1: ", r[1]);
-    writeln("hand written 2: ", r[2]);
+    writeln("  cond:           ", r[0]);
+    writeln("  hand written 1: ", r[1]);
+    writeln("  hand written 2: ", r[2]);
 }
 
 auto f(alias g)() {
