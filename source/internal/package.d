@@ -80,6 +80,11 @@ auto ref equalityComparator(alias pred = null, T, U)(auto ref T a, auto ref U b)
     }
     else static if (isUnaryOver!(pred, T))
     {
+        import std.traits: CommonType;
+        static assert(
+            !is(CommonType!(T, U) == void),
+            "parameter types " ~ T.stringof ~ " and " ~ U.stringof ~ " are not compatible"
+        );
         import std.functional: unaryFun;
         return unaryFun!pred(a) == unaryFun!pred(b);
     }
@@ -96,4 +101,5 @@ unittest {
     assert( equalityComparator!((a, b) => a != b)(2, 4));
     assert( equalityComparator!q{a % 2 == 0}(2, 4));
     assert( equalityComparator!q{a != b}(2, 4));
+    static assert(!__traits(compiles, equalityComparator!(a => a)(1, "hi")));
 }
