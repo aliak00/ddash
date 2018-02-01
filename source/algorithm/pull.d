@@ -16,9 +16,8 @@ unittest {
     farr = [2.1, 1.2];
     assert(farr.pull!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]) == [1.2]);
 
-    // What is this supposed to mean...
-    //arr = [1, 2, 3, 4, 5];
-    //arr.pull!"a % 2 == 0"(3, 5).writeln;
+    arr = [1, 2, 3, 4, 5];
+    assert(arr.pull!"a == b"(3, 5) == [1, 2, 4]);
 }
 
 import common;
@@ -38,6 +37,7 @@ ref pull(alias pred = null, Range, Values...)(return ref Range range, Values val
     import algorithm: concat;
     import internal: equalityComparator;
     alias equal = (a, b) => equalityComparator!pred(a, b);
-    range = range.remove!(a => values.concat.canFind!equal(a));
+    auto unwanted = concat(values);
+    range = range.remove!(a => unwanted.canFind!equal(a));
     return range;
 }
