@@ -28,6 +28,8 @@ unittest {
     assert(abs(11) == 11);
 }
 
+import common;
+
 /**
     Takes pairs of predicates and transforms and uses the first transform that a predicate
     return true for.
@@ -56,18 +58,22 @@ unittest {
     ---
 */
 template cond(statements...) {
-    import std.traits: isExpressions;
+    import std.traits: isExpressions, isCallable, arity;
     import std.functional: unaryFun;
     import utils.traits: isUnaryOver;
     static template resolve(alias f) {
         auto resolve(V...)(V values) {
-            static if (isExpressions!f)
-            {
-                return f;
-            }
-            else static if (isUnaryOver!(f, V))
+            static if (isUnaryOver!(f, V))
             {
                 return f(values);
+            }
+            else static if (isCallable!f && arity!f == 0)
+            {
+                return f();
+            }
+            else static if (isExpressions!f)
+            {
+                return f;
             }
             else
             {
@@ -94,6 +100,52 @@ template cond(statements...) {
                 return resolve!(statements[I * 2 + 1])(value);
             }
         }}
-        return resolve!(statements[$ - 1])(value);
+        // Return default case only if one was provided
+        static if (cases * 2 < statements.length)
+        {
+            return resolve!(statements[$ - 1])(value);
+        }
+        else
+        {
+            static if (statements.length > 0)
+            {
+                static assert(
+                    is(typeof(return) == void),
+                    "no default for " ~ typeof(return).stringof
+                        ~ " return. if any transform returns non void a default transform must be provided"
+                    );
+            }
+            return;
+        }
     }
+}
+
+unittest {
+    static assert(
+        is(
+            typeof(
+                cond!(
+                    1, () {}
+                )(3)
+            )
+            == void
+        )
+    );
+
+    // If transforms return, default must be provided
+    static assert(
+        !__traits(
+            compiles,
+            {
+                cond!(
+                    1, 2
+                )(3);
+            }
+        )
+    );
+}
+
+unittest {
+    static auto g() { return 10; }
+    assert(cond!(1, g, 4)(1) == 10);
 }
