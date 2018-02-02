@@ -19,6 +19,8 @@ unittest {
     assert(1.0.isTruthy == true);
 }
 
+import common;
+
 import std.traits: ifTestable, isArray, isPointer, isFloatingPoint;
 import optional: isOptional, none;
 
@@ -42,3 +44,6 @@ bool isTruthy(T)(auto ref T t) if (isFloatingPoint!T) {
     import std.math: isNaN;
     return t && !t.isNaN;
 }
+
+/// Opposite of `isTruthy`
+alias isFalsey = from!"std.functional".not!isTruthy;

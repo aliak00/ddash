@@ -17,7 +17,7 @@ unittest {
     assert(farr.pull!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]) == [1.2]);
 
     arr = [1, 2, 3, 4, 5];
-    assert(arr.pull!"a == b"(3, 5) == [1, 2, 4]);
+    assert(arr.pull!"a == b - 1"(4, 6) == [1, 2, 4]);
 }
 
 ///
@@ -68,20 +68,24 @@ if (from!"std.range".isInputRange!Range && member.length)
     return range.pullBase!(member, pred)(values);
 }
 
-ref pullBase(string member, alias pred, Range, Values...)(return ref Range range, Values values) {
+private ref pullBase(string member, alias pred, Range, Values...)(return ref Range range, Values values) {
     import std.algorithm: canFind, remove;
     import algorithm: concat;
     import internal: equalityComparator, valueBy;
-    alias equal = (a, b) => equalityComparator!pred(a, b);
+    // elements from values will be lhs
+    alias equal = (a, b) => equalityComparator!pred(b, a);
     auto unwanted = concat(values);
     static if (member == "")
     {
-        alias f = (a) => a;
+        alias transform = (a) => a;
     }
     else
     {
-        alias f = (a) => a.valueBy!member;
+        alias transform = (a) => a.valueBy!member;
     }
-    range = range.remove!(a => unwanted.canFind!equal(f(a)));
+    range = range
+        .remove!(a => unwanted
+            .canFind!equal(transform(a))
+        );
     return range;
 }
