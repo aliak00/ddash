@@ -92,7 +92,7 @@ struct Optional(T) {
         return this.empty ? null : &this.bag[0];
     }
 
-    /// Converts value to string `some(T)`` or `no!T``
+    /// Converts value to string `"some(T)"` or `"no!T"`
     string toString() {
         import std.conv: to;
         if (this.bag.length == 0) {
