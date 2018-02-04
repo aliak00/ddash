@@ -26,6 +26,18 @@ unittest {
     assert(abs(5) == 500);
     assert(abs(-3) == 3);
     assert(abs(11) == 11);
+
+    alias str = cond!(
+        a => a < 1, "1",
+        a => a < 5, "5",
+        a => a < 10, "10",
+        "moar"
+    );
+
+    assert(str(0) == "1");
+    assert(str(2) == "5");
+    assert(str(7) == "10");
+    assert(str(11) == "moar");
 }
 
 import common;
@@ -34,8 +46,20 @@ import common;
     Takes pairs of predicates and transforms and uses the first transform that a predicate
     return true for.
 
-    Each predicate and transform can be either an expression, or a unary function. If none
-    of the predicates match, the last supplied transform will be used.
+    ---
+    cond!(
+        pred1, trsnaform1,
+        pred2, trsnaform2,
+        .
+        .
+        predN, trsnaformN,
+        default
+    )(value);
+    ---
+
+    `predN` can either be a unary function or an expression. `transformN` can be a unary,
+    or binary function, or an expression. The unary function cannot be a string since
+    narrow stirngs will be treated as values.
 
     Params:
         statements = pairs of predicates and transforms followed by a default transform
@@ -58,12 +82,12 @@ import common;
     ---
 */
 template cond(statements...) {
-    import std.traits: isExpressions, isCallable, arity;
+    import std.traits: isExpressions, isCallable, arity, isNarrowString;
     import std.functional: unaryFun;
     import utils.traits: isUnaryOver;
     static template resolve(alias f) {
         auto resolve(V...)(V values) {
-            static if (isUnaryOver!(f, V))
+            static if (isUnaryOver!(f, V) && !isNarrowString!(typeof(f)))
             {
                 return f(values);
             }
