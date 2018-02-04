@@ -46,6 +46,8 @@ import common;
     Takes pairs of predicates and transforms and uses the first transform that a predicate
     return true for.
 
+    For example in the following call:
+
     ---
     cond!(
         pred1, trsnaform1,
@@ -59,7 +61,11 @@ import common;
 
     `predN` can either be a unary function or an expression. `transformN` can be a unary,
     or binary function, or an expression. The unary function cannot be a string since
-    narrow stirngs will be treated as values.
+    narrow strings will be treated as values. `default` is treated as a transform.
+
+    All transforms must return a common type, or void. If there's a common return then a
+    default transform must be provided. If all the transforms return void then a default
+    is not needed.
 
     Params:
         statements = pairs of predicates and transforms followed by a default transform
