@@ -1,5 +1,18 @@
-/// Provides acces to front of a range
+/**
+    Provides methods for accessing the front of a range
+*/
 module range.front;
+
+///
+unittest {
+    import std.algorithm: filter;
+    import std.range: iota, takeNone, drop;
+    import optional: some, none;
+    auto evens = 10.iota.filter!"a % 2 == 0".drop(2);
+    assert(evens.withFront!"a" == some(4));
+    assert(evens.takeNone.maybeFront == none);
+    // assert(evens.takeNone.front(100) == 100);
+}
 
 import common;
 
@@ -15,7 +28,7 @@ if (from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!R
 ///
 unittest {
     assert((int[]).init.front(7) == 7);
-    assert([1].front(3) == 1);
+    assert([1, 2].front(3) == 1);
 }
 
 /**
@@ -23,18 +36,20 @@ unittest {
 */
 auto withFront(alias fun, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: empty, front, ElementType;
-    alias R = typeof(fun(ElementType!Range.init));
+    import std.functional: unaryFun;
+    alias f = unaryFun!fun;
+    alias R = typeof(f(ElementType!Range.init));
     static if (is(R == void))
     {
         import optional: some;
         if (!range.empty) {
-            some(fun(range.front));
+            some(f(range.front));
         }
     }
     else
     {
         import optional: some, no;
-        return range.empty ? no!R : some(fun(range.front));
+        return range.empty ? no!R : some(f(range.front));
     }
 }
 
@@ -42,7 +57,8 @@ auto withFront(alias fun, Range)(Range range) if (from!"std.range".isInputRange!
 unittest {
     import optional: some, none;
     assert((int[]).init.withFront!(a => a * a) == none);
-    assert([3].withFront!(a => a * a) == some(9));
+    assert([3, 2].withFront!(a => a * a) == some(9));
+    assert([3, 2].withFront!"a + 1" == some(4));
 }
 
 /**
@@ -74,4 +90,3 @@ unittest {
     assert((A[]).init.maybeFront.f == none);
     assert([A(3), A(5)].maybeFront.f == some(3));
 }
-
