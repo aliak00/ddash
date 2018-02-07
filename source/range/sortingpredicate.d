@@ -16,7 +16,7 @@ unittest {
 import common;
 
 /**
-    Given a `SortedRange` `sortingPredicate(a, b)` will call in to the predicate
+    Given a `SortedRange`, `sortingPredicate(a, b)` will call in to the predicate
     that was used to create the `SortedRange`
 */
 auto sortingPredicate(Range, T, U)(Range range, auto ref T a, auto ref U b)

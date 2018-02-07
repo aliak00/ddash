@@ -103,6 +103,10 @@ $(TR
     $(TD $(DDOX_NAMED_REF algorithm.remove, `remove`))
     $(TD Removed elements from a range by unary predicate)
     )
+$(TR
+    $(TD `reverse`)
+    $(TD Reverses a range in place)
+    )
 )
 */
 module algorithm;
@@ -201,4 +205,22 @@ public {
     import algorithm.nth;
     import algorithm.pull;
     import algorithm.remove;
+
+    /// Reverses the range by mutating it
+    void reverse(Range)(ref Range range)
+    if (from!"std.range".isBidirectionalRange!Range
+        && !from!"std.range".isRandomAccessRange!Range
+        && from!"std.range".hasSwappableElements!Range
+        || (from!"std.range".isRandomAccessRange!Range && from!"std.range".hasLength!Range))
+    {
+        import std.algorithm: reverse;
+        range.reverse;
+    }
+
+    ///
+    unittest {
+        auto arr = [1, 2, 3, 4];
+        arr.reverse;
+        assert(arr.equal([4, 3, 2, 1]));
+    }
 }
