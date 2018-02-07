@@ -99,6 +99,10 @@ $(TR
     $(TD $(DDOX_NAMED_REF algorithm.pull, `pull`))
     $(TD Pulls elements out of a range)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF algorithm.remove, `remove`))
+    $(TD Removed elements from a range by unary predicate)
+    )
 )
 */
 module algorithm;
@@ -196,4 +200,5 @@ public {
     import algorithm.lastindexof;
     import algorithm.nth;
     import algorithm.pull;
+    import algorithm.remove;
 }
