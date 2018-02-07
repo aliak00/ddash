@@ -11,7 +11,7 @@ unittest {
     auto evens = 10.iota.filter!"a % 2 == 0".array;
     assert(evens.withBack!"a" == some(8));
     assert(evens.takeNone.maybeBack == none);
-    // assert(evens.takeNone.front(100) == 100);
+    assert(evens.takeNone.backOr(100) == 100);
 }
 
 import common;
@@ -19,7 +19,7 @@ import common;
 /**
     Retrieves the back of a range or a default value
 */
-auto back(Range, T)(Range range, lazy T defaultValue)
+auto backOr(Range, T)(Range range, lazy T defaultValue)
 if (from!"std.range".isBidirectionalRange!Range && is(T : from!"std.range".ElementType!Range)) {
     import std.range: empty, back;
     return range.empty ? defaultValue : range.back;
@@ -27,8 +27,8 @@ if (from!"std.range".isBidirectionalRange!Range && is(T : from!"std.range".Eleme
 
 ///
 unittest {
-    assert((int[]).init.back(7) == 7);
-    assert([1, 2].back(3) == 2);
+    assert((int[]).init.backOr(7) == 7);
+    assert([1, 2].backOr(3) == 2);
 }
 
 /**

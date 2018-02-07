@@ -11,7 +11,7 @@ unittest {
     auto evens = 10.iota.filter!"a % 2 == 0".drop(2);
     assert(evens.withFront!"a" == some(4));
     assert(evens.takeNone.maybeFront == none);
-    // assert(evens.takeNone.front(100) == 100);
+    assert(evens.takeNone.frontOr(100) == 100);
 }
 
 import common;
@@ -19,7 +19,7 @@ import common;
 /**
     Retrieves the front of a range or a default value
 */
-auto front(Range, T)(Range range, lazy T defaultValue)
+auto frontOr(Range, T)(Range range, lazy T defaultValue)
 if (from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!Range)) {
     import std.range: empty, front;
     return range.empty ? defaultValue : range.front;
@@ -27,8 +27,8 @@ if (from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!R
 
 ///
 unittest {
-    assert((int[]).init.front(7) == 7);
-    assert([1, 2].front(3) == 1);
+    assert((int[]).init.frontOr(7) == 7);
+    assert([1, 2].frontOr(3) == 1);
 }
 
 /**
