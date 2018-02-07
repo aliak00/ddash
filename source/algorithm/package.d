@@ -107,6 +107,10 @@ $(TR
     $(TD `reverse`)
     $(TD Reverses a range in place)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF algorithm.slice, `slice`))
+    $(TD Creates a slice of range from start up to, but not including, end)
+    )
 )
 */
 module algorithm;
@@ -223,4 +227,6 @@ public {
         arr.reverse;
         assert(arr.equal([4, 3, 2, 1]));
     }
+
+    import algorithm.slice;
 }

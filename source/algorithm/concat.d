@@ -153,8 +153,12 @@ auto concat(Values...)(Values values) if (from!"utils.traits".areCombinable!Valu
                 }
                 else static if (isInputRange!(Values[I]))
                 {
-                    import algorithm: join;
-                    mixin(link(I, q{ values[I].join("") }));
+                    // If you don't rename you get a conflict if std.array is included
+                    // becuase that has .join as well (And we include it in the unittest version)
+                    //
+                    // Interestingly, "import algorithm: myJoin = join" does not work either
+                    import algorithm.join: myJoin = join;
+                    mixin(link(I, q{ values[I].myJoin("") }));
                 }
                 else static if (isSomeChar!(Values[I]))
                 {
