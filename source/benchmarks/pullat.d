@@ -1,7 +1,7 @@
-module benchmarks.excludingindices;
+module benchmarks.pullat;
 
 void profile()() {
-    import algorithm: excludingIndices;
+    import algorithm: pullAt;
 
     import std.stdio;
     import std.datetime.stopwatch: benchmark;
@@ -21,21 +21,21 @@ void profile()() {
     auto indices = randoms.take(count / 2).array;
     auto sortedIndices = indices.array.sort;
 
-    writeln("Benchmarking excludingIndices against filter/canFind:");
+    writeln("Benchmarking pullAt against filter/canFind:");
     writeln("  numbers: ", numbers);
     writeln("  indices: ", indices);
 
     alias stdExclude = (numbers, indicies) => numbers.array.sort.enumerate.filter!(a => !indicies.canFind(a[0])).map!(a => a[1]);
     alias stdExcludeSorted = (numbers, indicies) => numbers.enumerate.filter!(a => !indicies.contains(a[0])).map!(a => a[1]);
     auto r1 = benchmark!(
-        () => numbers.excludingIndices(SingleIndices),
-        () => numbers.excludingIndices(indices),
-        () => numbers.excludingIndices(sortedIndices),
+        () => numbers.pullAt(SingleIndices),
+        () => numbers.pullAt(indices),
+        () => numbers.pullAt(sortedIndices),
         () => stdExclude(numbers, indices),
         () => stdExcludeSorted(numbers, sortedIndices),
     )(10000);
 
-    writeln("excludingIndices: ");
+    writeln("pullAt: ");
     writeln("  single args:    ", r1[0]);
     writeln("  single range:   ", r1[1]);
     writeln("  sorted range:   ", r1[2]);
@@ -43,14 +43,14 @@ void profile()() {
     writeln("  canFind sorted: ", r1[4]);
 
     auto r2 = benchmark!(
-        () => numbers.excludingIndices(SingleIndices).array,
-        () => numbers.excludingIndices(indices).array,
-        () => numbers.excludingIndices(sortedIndices).array,
+        () => numbers.pullAt(SingleIndices).array,
+        () => numbers.pullAt(indices).array,
+        () => numbers.pullAt(sortedIndices).array,
         () => stdExclude(numbers, indices).array,
         () => stdExcludeSorted(numbers, sortedIndices).array,
     )(10000);
 
-    writeln("excludingIndices (with .array): ");
+    writeln("pullAt (with .array): ");
     writeln("  single args:    ", r2[0]);
     writeln("  single range:   ", r2[1]);
     writeln("  sorted range:   ", r2[2]);
