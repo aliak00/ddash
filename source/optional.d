@@ -192,6 +192,34 @@ unittest {
     assert(a != none);
 }
 
+/// Checks if T is an optional type
+template isOptional(T) {
+    static if(is(T U == Optional!U))
+    {
+        enum isOptional = true;
+    }
+    else
+    {
+        enum isOptional = false;
+    }
+}
+
+///
+unittest {
+    assert(isOptional!(Optional!int) == true);
+    assert(isOptional!int == false);
+    assert(isOptional!(int[]) == false);
+}
+
+/// Returns the target type of a optional.
+alias OptionalTarget(T : Optional!T) = T;
+
+///
+unittest {
+    static assert(is(OptionalTarget!(Optional!int) == int));
+    static assert(is(OptionalTarget!(Optional!(float*)) == float*));
+}
+
 unittest {
     auto a = some(3);
     assert(a + 3 == some(6));
@@ -298,33 +326,6 @@ unittest {
     }
     Object a = new A;
     assert(some(cast(A)a).toString == "some!A(A)");
-}
-
-/// Checks if T is an optional type
-template isOptional(T) {
-    static if(is(T U == Optional!U))
-    {
-        enum isOptional = true;
-    }
-    else
-    {
-        enum isOptional = false;
-    }
-}
-
-///
-unittest {
-    assert(isOptional!(Optional!int) == true);
-    assert(isOptional!int == false);
-    assert(isOptional!(int[]) == false);
-}
-
-/// Returns the target type of a optional.
-alias OptionalTarget(T : Optional!T) = T;
-
-unittest {
-    static assert(is(OptionalTarget!(Optional!int) == int));
-    static assert(is(OptionalTarget!(Optional!(float*)) == float*));
 }
 
 unittest {
