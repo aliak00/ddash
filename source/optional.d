@@ -26,6 +26,8 @@ unittest {
     assert(c.f == some(4));
 }
 
+import common;
+
 struct None {
     // Space is here else ddox test above includes text "struct Node" in its code block
 }
@@ -45,10 +47,19 @@ immutable none = None();
 struct Optional(T) {
     import std.traits: isPointer, PointerTarget;
     import std.range: hasAssignableElements;
+
     T[] bag;
-    this(U : T)(U u) {
+
+    this(U)(U u) pure {
         this.bag = [u];
     }
+    this(None) pure {
+        this.bag = [];
+    }
+    this(this) pure {
+        this.bag = this.bag.dup;
+    }
+
     bool empty() const @property {
         return this.bag.length == 0;
     }
@@ -59,72 +70,77 @@ struct Optional(T) {
         this.bag = [];
     }
 
-    /// Set to none
-    void opAssign(None _) {
-        this.bag = [];
-    }
-
     static if (hasAssignableElements!(T[]))
     {
         /// Sets value to `t`
         void opAssign(T t) {
-            this.bag = [t];
+            if (this.empty) {
+                this.bag = [t];
+            } else {
+                this.bag[0] = t;
+            }
         }
     }
 
-    /// Checks if value == `none`
+    /// Ditto
+    void opAssign(None _) {
+        this.bag = [];
+    }
+
+    /**
+        Checks if two optionals contain the same value, false if either value is `none`
+    */
+    bool opEquals(U : T)(auto ref Optional!U rhs) const {
+        return this.bag == rhs.bag;
+    }
+
+    /// Ditto
     bool opEquals(None _) const {
         return this.bag.length == 0;
     }
-    /**
-        Checks if two optionals contain the same value
-    */
-    bool opEquals(U : T)(const auto ref Optional!U rhs) const {
-        return this.bag == rhs.bag;
-    }
-    /**
-        Get pointer to value
 
-        Returns:
-            Pointer to value or null if empty
-    */
-    T* unwrap() {
-        return this.empty ? null : &this.bag[0];
-    }
-
-    /// Converts value to string `"some(T)"` or `"no!T"`
-    string toString() {
-        import std.conv: to;
-        if (this.bag.length == 0) {
-            return "no!" ~ T.stringof;
-        }
-        return "some!" ~ T.stringof ~ "(" ~ front.to!string ~ ")";
-    }
-
-    /**
-        True if `rhs` is equal to value contained
-    */
+    /// Ditto
     bool opEquals(U : T)(const auto ref U rhs) const {
         return !empty && front == rhs;
     }
 
     /**
-        Dereferences the optional if it is a pointer type
-
-        Returns:
-            Another optional that either contains the dereferenced
-            value or none
+        If the optional is some value it returns an optional of some `op value`
     */
-    auto opUnary(string op)() inout if (op == "*" && isPointer!T) {
-        alias P = PointerTarget!T;
-        return empty ? no!P : some!P(*front);
+    auto opUnary(string op)() const if (op != "++" && op != "--") {
+        static if (op == "*" && isPointer!T)
+        {
+            alias P = PointerTarget!T;
+            return empty ? no!P : some!P(*front);
+        }
+        else
+        {
+            if (empty) {
+                return no!T;
+            } else {
+                auto val = mixin(op ~ "front");
+                return some!T(val);
+            }
+        }
+    }
+
+    /// Ditto
+    auto opUnary(string op)() if (op == "++" || op == "--") {
+        return empty ? no!T : some!T(mixin(op ~ "front"));
     }
 
     /**
         If the optional is some value it returns an optional of some `value op rhs`
     */
-    auto ref opBinary(string op, U : T)(auto ref U rhs) {
+    auto ref opBinary(string op, U : T)(auto ref U rhs) const {
         return empty ? no!T : some!T(mixin("front"  ~ op ~ "rhs"));
+    }
+
+    /**
+        If the optional is some value it returns an optional of some `rhs op value`
+    */
+    auto ref opBinaryRight(string op, U : T)(auto ref U rhs) const {
+        return empty ? no!T : some!T(mixin("rhs"  ~ op ~ "front"));
     }
 
     /**
@@ -136,16 +152,120 @@ struct Optional(T) {
             An optional of whatever `fn` returns
     */
     auto opDispatch(string fn, Args...)(Args args) if (!isOptional!T) {
-        static if (Args.length) {
+        static if (Args.length)
+        {
             alias C = () => mixin("front." ~ fn)(args);
-        } else {
+        }
+        else
+        {
             alias C = () => mixin("front." ~ fn);
         }
         alias R = typeof(C());
-        static if (isPointer!T) {
+        static if (isPointer!T)
+        {
             return this.empty || front is null ? no!R : some(C());
-        } else  {
+        }
+        else
+        {
             return this.empty ? no!R : some(C());
+        }
+    }
+
+    /**
+        Converts this optional to one with the internal value converted
+
+        Returns
+            Optional!U that has some value or none
+    */
+    auto to(U)() const {
+        static if (isOptional!U)
+        {
+            alias V = OptionalTarget!U;
+            return empty ? no!V : some!V(cast(V)front);
+        }
+        else
+        {
+            return empty ? no!U : some!U(cast(U)front);
+        }
+    }
+
+    /**
+        Get pointer to value
+
+        Returns:
+            Pointer to value or null if empty
+    */
+    const(T)* unwrap() const {
+        return this.empty ? null : &this.bag[0];
+    }
+
+    /// Converts value to string `"some(T)"` or `"no!T"`
+    string toString() {
+        import std.conv: to;
+        if (this.bag.length == 0) {
+            return "no!" ~ T.stringof;
+        }
+        // TODO: UFCS on front.to does not work here.
+        return "some!" ~ T.stringof ~ "(" ~ to!string(front) ~ ")";
+    }
+}
+
+unittest {
+    // TODO: figure out all cases of opDispatch
+    import std.meta: AliasSeq;
+    struct A {
+        enum str = "str";
+        static immutable arr = [1, 2, 3];
+    }
+
+    foreach (T; AliasSeq!(Optional!A, const Optional!A, immutable Optional!A)) {
+
+    }
+}
+
+unittest {
+    import std.meta: AliasSeq;
+    foreach (T; AliasSeq!(Optional!int, const Optional!int, immutable Optional!int)) {
+        T a = 10;
+        T b = none;
+        static assert(!__traits(compiles, { int x = a; }));
+        static assert(!__traits(compiles, { void func(int n){} func(a); }));
+        assert(a == 10);
+        assert(b == none);
+        assert(a != 20);
+        assert(a != none);
+        assert(+a == some(10));
+        assert(-a == some(-10));
+        assert(+b == none);
+        assert(-b == none);
+        assert(a.to!double == some(10.0));
+        assert(b.to!double == none);
+        assert(a + 10 == some(20));
+        assert(b + 10 == none);
+        assert(a - 5 == some(5));
+        assert(b - 5 == none);
+        assert(a * 20 == some(200));
+        assert(b * 20 == none);
+        assert(a / 2 == some(5));
+        assert(b / 2 == none);
+        assert(10 + a == some(20));
+        assert(10 + b == none);
+        assert(15 - a == some(5));
+        assert(15 - b == none);
+        assert(20 * a == some(200));
+        assert(20 * b == none);
+        assert(50 / a == some(5));
+        assert(50 / b == none);
+        static if (is(T == Optional!int))  // mutable
+        {
+            assert(++a == some(11));
+            assert(a++ == some(11));
+            assert(a == some(12));
+            assert(--a == some(11));
+            assert(a-- == some(11));
+            assert(a == some(10));
+            a = a;
+            a = 20; assert(a == some(20));
         }
     }
 }
