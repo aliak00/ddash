@@ -285,7 +285,7 @@ unittest {
         }
     }
 
-    auto a = optional(A());
+    auto a = some(A());
     auto b = no!A;
     assert(a.aField == some("aField"));
     assert(b.aField == no!string);
@@ -352,18 +352,6 @@ unittest {
     }
 }
 
-/// Type constructor for inferring `T`
-auto optional(T)(T t) {
-    return Optional!T(t);
-}
-
-///
-unittest {
-    import std.array;
-    import std.algorithm: map;
-    assert([1, 2, 3].map!optional.array == [some(1), some(2), some(3)]);
-}
-
 /// Type constructor for an optional having some value of `T`
 auto some(T)(T t) {
     return Optional!T(t);
@@ -376,6 +364,9 @@ unittest {
     a = 9;
     assert(a == some(9));
     assert(a != none);
+
+    import std.algorithm: map;
+    assert([1, 2, 3].map!some.array == [some(1), some(2), some(3)]);
 }
 
 /// Type constructor for an optional having no value of `T`
@@ -433,9 +424,9 @@ unittest {
     auto n = no!(int);
     auto nc = no!(const int);
     auto ni = no!(immutable int);
-    auto o = optional!(int)(3);
-    auto oc = optional!(const int)(3);
-    auto oi = optional!(immutable int)(3);
+    auto o = some!(int)(3);
+    auto oc = some!(const int)(3);
+    auto oi = some!(immutable int)(3);
 
     assert(o != n);
     assert(o != nc);
