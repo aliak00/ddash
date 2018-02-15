@@ -192,9 +192,18 @@ struct Optional(T) {
 
             static if (property.canWrite)
             {
-                @property void opDispatch(V)(auto ref V v) {
-                    if (!empty) {
-                        mixin("front." ~ name ~ " = v;");
+                @property auto ref opDispatch(V)(auto ref V v) {
+                    alias C = () => mixin("front." ~ name ~ " = v");
+                    alias R = typeof(C());
+                    static if (!is(R == void))
+                    {
+                        return isEmpty(this) ? no!R : some(C());
+                    }
+                    else
+                    {
+                        if (!isEmpty(this)) {
+                            C();
+                        }
                     }
                 }
             }
