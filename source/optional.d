@@ -45,7 +45,7 @@ immutable none = None();
     an optional if T is a pointer type (or nullable)
 */
 struct Optional(T) {
-    import std.traits: isPointer, PointerTarget;
+    import std.traits: isPointer, PointerTarget, hasMember;
     import std.range: hasAssignableElements;
 
     T[] bag;
@@ -151,23 +151,73 @@ struct Optional(T) {
         Returns:
             An optional of whatever `fn` returns
     */
-    auto opDispatch(string fn, Args...)(Args args) if (!isOptional!T) {
-        static if (Args.length)
-        {
-            alias C = () => mixin("front." ~ fn)(args);
-        }
-        else
-        {
-            alias C = () => mixin("front." ~ fn);
-        }
-        alias R = typeof(C());
+    template opDispatch(string name) if (hasMember!(T, name)) {
+        import utils.traits: hasProperty, isManifestAssignable;
+
+        static assert(
+            !isManifestAssignable!(T, name),
+            "Cannot call manifest assignable field name in Optionl!" ~ T.stringof
+        );
+
         static if (isPointer!T)
         {
-            return this.empty || front is null ? no!R : some(C());
+            alias isEmpty = (self) => self.empty || self.front is null;
         }
         else
         {
-            return this.empty ? no!R : some(C());
+            alias isEmpty = (self) => self.empty;
+        }
+
+        static if (is(typeof(__traits(getMember, T, name)) == function))
+        {
+            // non template function
+            auto ref opDispatch(Args...)(auto ref Args args) {
+                alias C = () => mixin("front." ~ name)(args);
+                alias R = typeof(C());
+                return isEmpty(this) ? no!R : some(C());
+            }
+        }
+        else static if (hasProperty!(T, name))
+        {
+            import utils.traits: propertySemantics;
+            enum property = propertySemantics!(T, name);
+            static if (property.canRead)
+            {
+                @property auto ref opDispatch()() {
+                    alias C = () => mixin("front." ~ name);
+                    alias R = typeof(C());
+                    return isEmpty(this) ? no!R : some(C());
+                }
+            }
+
+            static if (property.canWrite)
+            {
+                @property void opDispatch(V)(auto ref V v) {
+                    if (!empty) {
+                        mixin("front." ~ name ~ " = v;");
+                    }
+                }
+            }
+        }
+        else static if (is(typeof(mixin("front." ~ name))))
+        {
+            auto ref opDispatch()() {
+                alias C = () => mixin("front." ~ name);
+                alias R = typeof(C());
+                return isEmpty(this) ? no!R : some(C());
+            }
+        }
+        else
+        {
+            // member template
+            template opDispatch(Ts...) {
+                enum targs = Ts.length ? "!Ts" : "";
+                auto ref opDispatch(Args...)(auto ref Args args) {
+                    alias C = () => mixin("front." ~ name ~ targs ~ "(args)");
+                    alias R = typeof(C());
+                    return isEmpty(this) ? no!R : some(C());
+                }
+            }
         }
     }
 
@@ -211,16 +261,48 @@ struct Optional(T) {
 }
 
 unittest {
-    // TODO: figure out all cases of opDispatch
-    import std.meta: AliasSeq;
     struct A {
-        enum str = "str";
-        static immutable arr = [1, 2, 3];
+        enum aManifestConstant = "aManifestConstant";
+        static immutable aStaticImmutable = "aStaticImmutable";
+        auto aField = "aField";
+        auto aNonTemplateFunctionArity0() {
+            return "aNonTemplateFunctionArity0";
+        }
+        auto aNonTemplateFunctionArity1(string value) {
+            return "aNonTemplateFunctionArity1";
+        }
+        @property string aProperty() {
+            return aField;
+        }
+        @property void aProperty(string value) {
+            aField = value;
+        }
+        string aTemplateFunctionArity0()() {
+            return "aTemplateFunctionArity0";
+        }
+        string aTemplateFunctionArity1(string T)() {
+            return "aTemplateFunctionArity1";
+        }
     }
 
-    foreach (T; AliasSeq!(Optional!A, const Optional!A, immutable Optional!A)) {
-
-    }
+    auto a = optional(A());
+    auto b = no!A;
+    assert(a.aField == some("aField"));
+    assert(b.aField == no!string);
+    assert(a.aNonTemplateFunctionArity0 == some("aNonTemplateFunctionArity0"));
+    assert(b.aNonTemplateFunctionArity0 == no!string);
+    assert(a.aNonTemplateFunctionArity1("") == some("aNonTemplateFunctionArity1"));
+    assert(b.aNonTemplateFunctionArity1("") == no!string);
+    assert(a.aProperty == some("aField"));
+    assert(b.aProperty == no!string);
+    a.aProperty = "newField";
+    b.aProperty = "newField";
+    assert(a.aProperty == some("newField"));
+    assert(b.aProperty == no!string);
+    assert(a.aTemplateFunctionArity0 == some("aTemplateFunctionArity0"));
+    assert(b.aTemplateFunctionArity0 == no!string);
+    assert(a.aTemplateFunctionArity1!("") == some("aTemplateFunctionArity1"));
+    assert(b.aTemplateFunctionArity1!("") == no!string);
 }
 
 unittest {
@@ -314,7 +396,7 @@ unittest {
 
 /// Checks if T is an optional type
 template isOptional(T) {
-    static if(is(T U == Optional!U))
+    static if (is(T U == Optional!U))
     {
         enum isOptional = true;
     }
@@ -423,6 +505,7 @@ unittest {
 }
 
 unittest {
+    static assert(!__traits(compiles, some(3).max));
     static assert(!__traits(compiles, some(some(3)).max));
 }
 
