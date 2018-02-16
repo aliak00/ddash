@@ -254,11 +254,12 @@ unittest {
 auto propertySemantics(T, string name)() if (hasProperty!(T, name)) {
     import std.typecons: tuple;
     enum overloads = __traits(getOverloads, T, name).length;
-    static if (overloads > 1 || is(typeof(mixin("T.init." ~ name))))
+    enum canInstantiateAsField = is(typeof(mixin("T.init." ~ name)));
+    static if (overloads > 1 || canInstantiateAsField)
         enum canRead = true;
     else
         enum canRead = false;
-    static if (overloads > 1 || !is(typeof(mixin("T.init." ~ name))))
+    static if (overloads > 1 || !canInstantiateAsField)
         enum canWrite = true;
     else
         enum canWrite = false;
