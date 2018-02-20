@@ -230,34 +230,6 @@ struct Optional(T) {
         }
     }
 
-    /**
-        Converts this optional to one with the internal value converted
-
-        Returns
-            Optional!U that has some value or none
-    */
-    auto to(U)() const {
-        static if (isOptional!U)
-        {
-            alias V = OptionalTarget!U;
-            return empty ? no!V : some!V(cast(V)front);
-        }
-        else
-        {
-            return empty ? no!U : some!U(cast(U)front);
-        }
-    }
-
-    /**
-        Get pointer to value
-
-        Returns:
-            Pointer to value or null if empty
-    */
-    const(T)* unwrap() const {
-        return this.empty ? null : &this.bag[0];
-    }
-
     /// Converts value to string `"some(T)"` or `"no!T"`
     string toString() {
         import std.conv: to;
@@ -329,8 +301,6 @@ unittest {
         assert(-a == some(-10));
         assert(+b == none);
         assert(-b == none);
-        assert(a.to!double == some(10.0));
-        assert(b.to!double == none);
         assert(a + 10 == some(20));
         assert(b + 10 == none);
         assert(a - 5 == some(5));
@@ -356,9 +326,20 @@ unittest {
             assert(a-- == some(11));
             assert(a == some(10));
             a = a;
-            a = 20; assert(a == some(20));
+            assert(a == some(10));
+            a = 20;
+            assert(a == some(20));
         }
     }
+}
+
+unittest {
+    import std.algorithm: map;
+    import std.conv: to;
+    auto a = some(10);
+    auto b = no!int;
+    assert(a.map!(to!double).equal([10.0]));
+    assert(b.map!(to!double).empty);
 }
 
 /// Type constructor for an optional having some value of `T`
