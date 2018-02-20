@@ -17,13 +17,13 @@ unittest {
     }
 
     auto b = some(A());
-    assert(b.f == some(4));
+    assert(b.dispatch.f == some(4));
 
     auto c = no!(A*);
-    assert(c.f == none);
+    assert(c.dispatch.f == none);
 
     c = new A;
-    assert(c.f == some(4));
+    assert(c.dispatch.f == some(4));
 }
 
 import common;
@@ -36,6 +36,92 @@ struct None {
     Represents an empty optional value. This is used for convenience
 */
 immutable none = None();
+
+private struct OptionalDispatcher(T, from!"std.typecons".Flag!"refOptional" isRef = from!"std.typecons".No.refOptional) {
+
+    import std.traits: hasMember;
+    import std.typecons: Yes;
+
+    static if (isRef == Yes.refOptional)
+        Optional!T* self;
+    else
+        Optional!T self;
+
+    alias self this;
+
+    bool empty() {
+        import std.traits: isPointer;
+        static if (isPointer!T)
+            return self.empty || self.front is null;
+        else
+            return self.empty;
+    }
+
+    template opDispatch(string name) if (hasMember!(T, name)) {
+        import utils.traits: hasProperty, isManifestAssignable;
+
+        static if (is(typeof(__traits(getMember, T, name)) == function))
+        {
+            // non template function
+            auto ref opDispatch(Args...)(auto ref Args args) {
+                alias C = () => mixin("self.front." ~ name)(args);
+                alias R = typeof(C());
+                return empty ? OptionalDispatcher!R(no!R) : OptionalDispatcher!R(some(C()));
+            }
+        }
+        else static if (hasProperty!(T, name))
+        {
+            import utils.traits: propertySemantics;
+            enum property = propertySemantics!(T, name);
+            static if (property.canRead)
+            {
+                @property auto ref opDispatch()() {
+                    alias C = () => mixin("self.front." ~ name);
+                    alias R = typeof(C());
+                    return empty ? OptionalDispatcher!R(no!R) : OptionalDispatcher!R(some(C()));
+                }
+            }
+
+            static if (property.canWrite)
+            {
+                @property auto ref opDispatch(V)(auto ref V v) {
+                    alias C = () => mixin("self.front." ~ name ~ " = v");
+                    alias R = typeof(C());
+                    static if (!is(R == void))
+                        return empty ? OptionalDispatcher!R(no!R) : OptionalDispatcher!R(some(C()));
+                    else
+                        if (!empty) {
+                            C();
+                        }
+                }
+            }
+        }
+        else static if (isManifestAssignable!(T, name))
+        {
+            enum opDispatch = dispatcher(mixin("self.front." ~ name));
+        }
+        else static if (is(typeof(mixin("self.front." ~ name))))
+        {
+            auto ref opDispatch()() {
+                alias C = () => mixin("self.front." ~ name);
+                alias R = typeof(C());
+                return empty ? OptionalDispatcher!R(no!R) : OptionalDispatcher!R(some(C()));
+            }
+        }
+        else
+        {
+            // member template
+            template opDispatch(Ts...) {
+                enum targs = Ts.length ? "!Ts" : "";
+                auto ref opDispatch(Args...)(auto ref Args args) {
+                    alias C = () => mixin("self.front." ~ name ~ targs ~ "(args)");
+                    alias R = typeof(C());
+                    return empty ? OptionalDispatcher!R(no!R) : OptionalDispatcher!R(some(C()));
+                }
+            }
+        }
+    }
+}
 
 /**
     Optional type. Also known as a Maybe type in some languages.
@@ -144,90 +230,24 @@ struct Optional(T) {
     }
 
     /**
-        Dispatches all calls to internal value even if there isn't one
-
-        Supports function calls and readonly properties or member variables
+        Calls dot operator on the internal object if not empty
 
         Returns:
-            An optional of whatever `fn` returns
+            A type aliased to Optional!T where T's fields take precendence with the dot operator
     */
-    template opDispatch(string name) if (hasMember!(T, name)) {
-        import utils.traits: hasProperty, isManifestAssignable;
+    auto dispatch() {
+        import std.typecons: Yes;
+        return OptionalDispatcher!(T, Yes.refOptional)(&this);
+    }
 
-        static assert(
-            !isManifestAssignable!(T, name),
-            "Cannot call manifest assignable field name in Optionl!" ~ T.stringof
-        );
+    /**
+        Get pointer to value
 
-        static if (isPointer!T)
-        {
-            alias isEmpty = (self) => self.empty || self.front is null;
-        }
-        else
-        {
-            alias isEmpty = (self) => self.empty;
-        }
-
-        static if (is(typeof(__traits(getMember, T, name)) == function))
-        {
-            // non template function
-            auto ref opDispatch(Args...)(auto ref Args args) {
-                alias C = () => mixin("front." ~ name)(args);
-                alias R = typeof(C());
-                return isEmpty(this) ? no!R : some(C());
-            }
-        }
-        else static if (hasProperty!(T, name))
-        {
-            import utils.traits: propertySemantics;
-            enum property = propertySemantics!(T, name);
-            static if (property.canRead)
-            {
-                @property auto ref opDispatch()() {
-                    alias C = () => mixin("front." ~ name);
-                    alias R = typeof(C());
-                    return isEmpty(this) ? no!R : some(C());
-                }
-            }
-
-            static if (property.canWrite)
-            {
-                @property auto ref opDispatch(V)(auto ref V v) {
-                    alias C = () => mixin("front." ~ name ~ " = v");
-                    alias R = typeof(C());
-                    static if (!is(R == void))
-                    {
-                        return isEmpty(this) ? no!R : some(C());
-                    }
-                    else
-                    {
-                        if (!isEmpty(this)) {
-                            C();
-                        }
-                    }
-                }
-            }
-        }
-        else static if (is(typeof(mixin("front." ~ name))))
-        {
-            auto ref opDispatch()() {
-                alias C = () => mixin("front." ~ name);
-                alias R = typeof(C());
-                return isEmpty(this) ? no!R : some(C());
-            }
-        }
-        else
-        {
-            // member template
-            template opDispatch(Ts...) {
-                enum targs = Ts.length ? "!Ts" : "";
-                auto ref opDispatch(Args...)(auto ref Args args) {
-                    alias C = () => mixin("front." ~ name ~ targs ~ "(args)");
-                    alias R = typeof(C());
-                    return isEmpty(this) ? no!R : some(C());
-                }
-            }
-        }
+        Returns:
+            Pointer to value or null if empty
+    */
+    const(T)* unwrap() const {
+        return this.empty ? null : &this.bag[0];
     }
 
     /// Converts value to string `"some(T)"` or `"no!T"`
@@ -239,6 +259,19 @@ struct Optional(T) {
         // TODO: UFCS on front.to does not work here.
         return "some!" ~ T.stringof ~ "(" ~ to!string(front) ~ ")";
     }
+}
+
+/**
+    Map an optional value to some other value
+
+    Params:
+        f = mapping function
+
+    Returns:
+        `some(f(unwrappedValue))` or `none`
+*/
+Optional!U map(alias f, T, U = typeof(f(T.init)))(inout Optional!T opt) {
+    return opt.empty ? no!U : some(f(opt.front));
 }
 
 unittest {
@@ -264,30 +297,39 @@ unittest {
         string aTemplateFunctionArity1(string T)() {
             return "aTemplateFunctionArity1";
         }
+        string dispatch() {
+            return "dispatch";
+        }
     }
 
     auto a = some(A());
     auto b = no!A;
-    assert(a.aField == some("aField"));
-    assert(b.aField == no!string);
-    assert(a.aNonTemplateFunctionArity0 == some("aNonTemplateFunctionArity0"));
-    assert(b.aNonTemplateFunctionArity0 == no!string);
-    assert(a.aNonTemplateFunctionArity1("") == some("aNonTemplateFunctionArity1"));
-    assert(b.aNonTemplateFunctionArity1("") == no!string);
-    assert(a.aProperty == some("aField"));
-    assert(b.aProperty == no!string);
-    a.aProperty = "newField";
-    b.aProperty = "newField";
-    assert(a.aProperty == some("newField"));
-    assert(b.aProperty == no!string);
-    assert(a.aTemplateFunctionArity0 == some("aTemplateFunctionArity0"));
-    assert(b.aTemplateFunctionArity0 == no!string);
-    assert(a.aTemplateFunctionArity1!("") == some("aTemplateFunctionArity1"));
-    assert(b.aTemplateFunctionArity1!("") == no!string);
+    assert(a.dispatch.aField == some("aField"));
+    assert(b.dispatch.aField == no!string);
+    assert(a.dispatch.aNonTemplateFunctionArity0 == some("aNonTemplateFunctionArity0"));
+    assert(b.dispatch.aNonTemplateFunctionArity0 == no!string);
+    assert(a.dispatch.aNonTemplateFunctionArity1("") == some("aNonTemplateFunctionArity1"));
+    assert(b.dispatch.aNonTemplateFunctionArity1("") == no!string);
+    assert(a.dispatch.aProperty == some("aField"));
+    assert(b.dispatch.aProperty == no!string);
+    a.dispatch.aProperty = "newField";
+    b.dispatch.aProperty = "newField";
+    assert(a.dispatch.aProperty == some("newField"));
+    assert(b.dispatch.aProperty == no!string);
+    assert(a.dispatch.aTemplateFunctionArity0 == some("aTemplateFunctionArity0"));
+    assert(b.dispatch.aTemplateFunctionArity0 == no!string);
+    assert(a.dispatch.aTemplateFunctionArity1!("") == some("aTemplateFunctionArity1"));
+    assert(b.dispatch.aTemplateFunctionArity1!("") == no!string);
+    assert(a.dispatch.dispatch == some("dispatch"));
+    assert(b.dispatch.dispatch == no!string);
+    // TODO: Find way to make names not in T fall back to Optional!T
+    // a.dispatch.unwrap.writeln;
 }
 
 unittest {
     import std.meta: AliasSeq;
+    import std.conv: to;
+    import std.algorithm: map;
     foreach (T; AliasSeq!(Optional!int, const Optional!int, immutable Optional!int)) {
         T a = 10;
         T b = none;
@@ -298,6 +340,7 @@ unittest {
         assert(a != 20);
         assert(a != none);
         assert(+a == some(10));
+        assert(-b == none);
         assert(-a == some(-10));
         assert(+b == none);
         assert(-b == none);
@@ -457,8 +500,8 @@ unittest {
     auto a = some(Object());
     auto b = no!Object;
 
-    assert(a.f() == some(7));
-    assert(b.f() == no!int);
+    assert(a.dispatch.f() == some(7));
+    assert(b.dispatch.f() == no!int);
 }
 
 unittest {
@@ -478,11 +521,11 @@ unittest {
     auto a = some(new A(new B));
     auto b = some(new A);
 
-    assert(a.b.f == some(8));
-    assert(a.b.m == some(3));
+    assert(a.dispatch.b.f == some(8));
+    assert(a.dispatch.b.m == some(3));
 
-    assert(b.b.f == no!int);
-    assert(b.b.m == no!int);
+    assert(b.dispatch.b.f == no!int);
+    assert(b.dispatch.b.m == no!int);
 }
 
 unittest {

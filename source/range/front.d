@@ -87,6 +87,6 @@ unittest {
         }
     }
 
-    assert((A[]).init.maybeFront.f == none);
-    assert([A(3), A(5)].maybeFront.f == some(3));
+    assert((A[]).init.maybeFront.dispatch.f == none);
+    assert([A(3), A(5)].maybeFront.dispatch.f == some(3));
 }
