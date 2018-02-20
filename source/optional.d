@@ -49,16 +49,16 @@ private struct OptionalDispatcher(T, from!"std.typecons".Flag!"refOptional" isRe
 
     alias self this;
 
-    bool empty() {
-        import std.traits: isPointer;
-        static if (isPointer!T)
-            return self.empty || self.front is null;
-        else
-            return self.empty;
-    }
-
     template opDispatch(string name) if (hasMember!(T, name)) {
         import utils.traits: hasProperty, isManifestAssignable;
+
+        bool empty() {
+            import std.traits: isPointer;
+            static if (isPointer!T)
+                return self.empty || self.front is null;
+            else
+                return self.empty;
+        }
 
         static if (is(typeof(__traits(getMember, T, name)) == function))
         {
@@ -131,7 +131,7 @@ private struct OptionalDispatcher(T, from!"std.typecons".Flag!"refOptional" isRe
     an optional if T is a pointer type (or nullable)
 */
 struct Optional(T) {
-    import std.traits: isPointer, PointerTarget, hasMember;
+    import std.traits: isPointer, hasMember;
     import std.range: hasAssignableElements;
 
     T[] bag;
@@ -196,6 +196,7 @@ struct Optional(T) {
     auto opUnary(string op)() const if (op != "++" && op != "--") {
         static if (op == "*" && isPointer!T)
         {
+            import std.traits: PointerTarget;
             alias P = PointerTarget!T;
             return empty ? no!P : some!P(*front);
         }
@@ -261,19 +262,6 @@ struct Optional(T) {
     }
 }
 
-/**
-    Map an optional value to some other value
-
-    Params:
-        f = mapping function
-
-    Returns:
-        `some(f(unwrappedValue))` or `none`
-*/
-Optional!U map(alias f, T, U = typeof(f(T.init)))(inout Optional!T opt) {
-    return opt.empty ? no!U : some(f(opt.front));
-}
-
 unittest {
     struct A {
         enum aManifestConstant = "aManifestConstant";
@@ -322,8 +310,6 @@ unittest {
     assert(b.dispatch.aTemplateFunctionArity1!("") == no!string);
     assert(a.dispatch.dispatch == some("dispatch"));
     assert(b.dispatch.dispatch == no!string);
-    // TODO: Find way to make names not in T fall back to Optional!T
-    // a.dispatch.unwrap.writeln;
 }
 
 unittest {
