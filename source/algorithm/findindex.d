@@ -24,7 +24,7 @@ import common;
 */
 auto findIndex(alias pred, Range)(Range range, size_t fromIndex = 0)
 if (from!"std.range".isInputRange!Range
-    && from!"utils.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range) )
+    && from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range) )
 {
     import std.range: drop;
     import std.functional: unaryFun;

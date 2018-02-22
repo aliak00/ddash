@@ -20,7 +20,7 @@ import common;
     that was used to create the `SortedRange`
 */
 auto sortingPredicate(Range, T, U)(Range range, auto ref T a, auto ref U b)
-if (from!"std.range".isInputRange!Range && from!"utils.traits".isSortedRange!Range)
+if (from!"std.range".isInputRange!Range && from!"bolts.range".isSortedRange!Range)
 {
     import std.range: SortedRange;
     static if (is(Range : SortedRange!P, P...))

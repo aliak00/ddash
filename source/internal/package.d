@@ -64,7 +64,7 @@ unittest {
 }
 
 auto ref equalityComparator(alias pred = null, T, U)(auto ref T a, auto ref U b) {
-    import utils.traits: isNullType, isUnaryOver;
+    import bolts.traits: isNullType, isUnaryOver;
     static if (isNullType!pred)
     {
         import std.range: isInputRange;

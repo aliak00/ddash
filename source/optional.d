@@ -50,7 +50,7 @@ private struct OptionalDispatcher(T, from!"std.typecons".Flag!"refOptional" isRe
     alias self this;
 
     template opDispatch(string name) if (hasMember!(T, name)) {
-        import utils.traits: hasProperty, isManifestAssignable;
+        import bolts.traits: hasProperty, isManifestAssignable;
 
         bool empty() {
             import std.traits: isPointer;
@@ -71,7 +71,7 @@ private struct OptionalDispatcher(T, from!"std.typecons".Flag!"refOptional" isRe
         }
         else static if (hasProperty!(T, name))
         {
-            import utils.traits: propertySemantics;
+            import bolts.traits: propertySemantics;
             enum property = propertySemantics!(T, name);
             static if (property.canRead)
             {

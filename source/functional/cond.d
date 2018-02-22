@@ -90,7 +90,7 @@ import common;
 template cond(statements...) {
     import std.traits: isExpressions, isCallable, arity, isNarrowString;
     import std.functional: unaryFun;
-    import utils.traits: isUnaryOver;
+    import bolts.traits: isUnaryOver;
     static template resolve(alias f) {
         auto resolve(V...)(V values) {
             static if (isUnaryOver!(f, V) && !isNarrowString!(typeof(f)))

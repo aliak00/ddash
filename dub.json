@@ -6,5 +6,8 @@
 	"description": "Utility library for D",
 	"copyright": "Copyright © 2017, Ali Akhtarzada",
 	"license": "Boost",
-	"targetPath": "bin"
+    "targetPath": "bin",
+    "dependencies": {
+        "bolts": "~>0.1.0"
+    }
 }

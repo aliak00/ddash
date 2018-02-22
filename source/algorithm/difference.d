@@ -29,7 +29,8 @@ struct Difference(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && fr
     alias E = ElementType!R1;
 
     private void moveToNextElement() {
-        import utils.traits: isBinaryOver, isSortedRange, isNullType;
+        import bolts.traits: isBinaryOver, isNullType;
+        import bolts.range: isSortedRange;
         import std.range: empty, front, popFront;
         static if (!isBinaryOver!(pred, E) && isSortedRange!R1 && isSortedRange!R2)
         {
@@ -106,9 +107,9 @@ struct Difference(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && fr
 */
 auto difference(alias pred = null, Range, Rs...)(Range range, Rs values)
 if (from!"std.range".isInputRange!Range
-    && (from!"utils.traits".isNullType!pred
-        || from!"utils.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range)
-        || from!"utils.traits".isBinaryOver!(pred, from!"std.range".ElementType!Range)))
+    && (from!"bolts.traits".isNullType!pred
+        || from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range)
+        || from!"bolts.traits".isBinaryOver!(pred, from!"std.range".ElementType!Range)))
 {
     static if (!Rs.length)
     {
@@ -118,13 +119,13 @@ if (from!"std.range".isInputRange!Range
     {
         import std.range: ElementType;
         import algorithm: concat;
-        import utils.traits: isNullType, isUnaryOver;
+        import bolts.traits: isNullType, isUnaryOver;
 
         auto combinedValues = values.concat;
         static assert (is(ElementType!(typeof(combinedValues)) : ElementType!Range));
 
         // import std.algorithm: sort;
-        // import utils.traits: isSortedRange;
+        // import bolts.range: isSortedRange;
         // pragma(msg,
         //     __FUNCTION__,
         //     "\n  pred: ", typeof(pred),

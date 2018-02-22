@@ -136,14 +136,14 @@ auto pullAt(Range, Indices...)(Range range, Indices indices)
 if (from!"std.range".isInputRange!Range
     && from!"std.meta".allSatisfy!(
         from!"std.traits".isIntegral,
-        from!"utils.meta".FlattenRanges!Indices
+        from!"bolts.meta".FlattenRanges!Indices
     )
 ) {
     import std.algorithm: sort;
     import std.range: empty, popFront, front, isInputRange;
     import std.array;
     import algorithm: concat;
-    import utils.traits: isSortedRange;
+    import bolts.range: isSortedRange;
 
     // If we only have one element or we are a sorted range then there's no need to sort
     static if (Indices.length == 1 && (!isInputRange!(Indices[0]) || isSortedRange!(Indices[0])))
