@@ -6,5 +6,4 @@ module range;
 public {
     import range.front;
     import range.back;
-    import range.sortingpredicate;
 }

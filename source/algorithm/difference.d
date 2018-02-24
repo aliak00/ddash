@@ -34,14 +34,14 @@ struct Difference(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && fr
         import std.range: empty, front, popFront;
         static if (!isBinaryOver!(pred, E) && isSortedRange!R1 && isSortedRange!R2)
         {
-            import range: sortingPredicate;
+            import bolts.range: sortingPredicate;
             static if (isNullType!pred)
             {
-                alias comp = (a, b) => r1.sortingPredicate(a, b);
+                alias comp = (a, b) => sortingPredicate!R1(a, b);
             }
             else
             {
-                alias comp = (a, b) => r1.sortingPredicate(pred(a), pred(b));
+                alias comp = (a, b) => sortingPredicate!R1(pred(a), pred(b));
             }
 
             while (!this.r1.empty) {
