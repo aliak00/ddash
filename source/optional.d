@@ -544,7 +544,6 @@ unittest {
 unittest {
     static import std.uni;
     import std.range: only;
-    import std.algorithm: equal;
     import std.algorithm: joiner, map;
 
     static maybeValues = [no!string, some("hello"), some("world")];

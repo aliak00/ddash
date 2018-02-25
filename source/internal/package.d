@@ -70,7 +70,6 @@ auto ref equalityComparator(alias pred = null, T, U)(auto ref T a, auto ref U b)
         import std.range: isInputRange;
         static if (isInputRange!T && isInputRange!U)
         {
-            import std.algorithm: equal;
             return equal(a, b);
         }
         else
