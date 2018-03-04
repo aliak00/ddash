@@ -2,6 +2,6 @@
 	"fileVersion": 1,
 	"versions": {
 		"bolts": "0.1.2",
-		"optional": "0.1.0"
+		"optional": "0.3.0"
 	}
 }

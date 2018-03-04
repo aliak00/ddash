@@ -9,6 +9,6 @@
     "targetPath": "bin",
     "dependencies": {
         "bolts": "~>0.1.0",
-        "optional": "~>0.1.0"
+        "optional": "~>0.3.0"
     }
 }
