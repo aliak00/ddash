@@ -70,10 +70,10 @@ if (from!"std.range".isInputRange!Range && member.length)
 
 private ref pullBase(string member, alias pred, Range, Values...)(return ref Range range, Values values) {
     import std.algorithm: canFind, remove;
-    import algorithm: concat;
-    import internal: equalityComparator, valueBy;
+    import algorithm: concat, equal;
+    import internal: valueBy;
     // elements from values will be lhs
-    alias equal = (a, b) => equalityComparator!pred(b, a);
+    alias reverseEqual = (a, b) => equal!pred(b, a);
     auto unwanted = concat(values);
     static if (member == "")
     {
@@ -85,7 +85,7 @@ private ref pullBase(string member, alias pred, Range, Values...)(return ref Ran
     }
     range = range
         .remove!(a => unwanted
-            .canFind!equal(transform(a))
+            .canFind!reverseEqual(transform(a))
         );
     return range;
 }

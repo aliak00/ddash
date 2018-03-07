@@ -56,9 +56,9 @@ struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && 
         else
         {
             import std.algorithm: canFind;
-            import internal: equalityComparator;
-            alias equal = (a, b) => equalityComparator!pred(a, b);
-            while (!this.r1.empty && !this.r2.canFind!equal(this.r1.front)) {
+            import algorithm: equal;
+            alias eq = (a, b) => equal!pred(a, b);
+            while (!this.r1.empty && !this.r2.canFind!eq(this.r1.front)) {
                 this.r1.popFront;
             }
         }

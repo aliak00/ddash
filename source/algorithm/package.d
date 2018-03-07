@@ -36,6 +36,10 @@ $(TR
     $(TD Elements are dropped from the beginning until predicate returns false)
     )
 $(TR
+    $(TD $(DDOX_NAMED_REF algorithm.equal, `equal`))
+    $(TD Tells you if two things are equal)
+    )
+$(TR
     $(TD $(DDOX_NAMED_REF algorithm.fill, `fill`))
     $(TD Assigns value to each element of input range.)
     )
@@ -107,6 +111,10 @@ $(TR
     $(TD $(DDOX_NAMED_REF algorithm.slice, `slice`))
     $(TD Creates a slice of range from start up to, but not including, end)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF algorithm.zip, `zip`))
+    $(TD Zips up ranges together)
+    )
 )
 */
 module algorithm;
@@ -159,6 +167,7 @@ public {
         assert([1, 2, 3, 4].dropWhile!(a => a < 3).array == [1, 2]);
     }
 
+    import algorithm.equal;
     import algorithm.fill;
     import algorithm.findindex;
     import algorithm.findlastindex;
@@ -224,4 +233,5 @@ public {
     }
 
     import algorithm.slice;
+    import algorithm.zip;
 }
