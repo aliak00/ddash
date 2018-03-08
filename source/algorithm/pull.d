@@ -51,7 +51,7 @@ if (from!"std.range".isInputRange!Range)
 }
 
 /**
-    Removes elements from a range by a publicly visible member variable or property of `ElemntType!Range`
+    Removes elements from a range by a publicly visible field of `ElemntType!Range`
 
     Params:
         range = a mutable range
