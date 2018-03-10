@@ -4,7 +4,7 @@ module algorithm.join;
 ///
 unittest {
     assert([1, 2, 3].join(',') == "1,2,3");
-    assert([1, 2, 3].join == "1,2,3");
+    assert([1, 2, 3].join == "123");
     assert([1, 2, 3].join("-") == "1-2-3");
 }
 
@@ -31,6 +31,11 @@ string join(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!(from
 }
 
 /// ditto
-string join(Range, S)(Range range, S sep = ',') if (from!"std.traits".isSomeChar!S) {
+string join(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!S) {
     return range.join([sep]);
+}
+
+///
+string join(Range)(Range range) {
+    return range.join("");
 }

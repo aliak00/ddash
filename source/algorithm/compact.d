@@ -72,7 +72,7 @@ auto compactBy(string member, Range)(Range range) if (from!"std.range".isInputRa
     import utils: isTruthy;
     import internal: valueBy;
     return range
-        .filter!(a => a.valueBy!member.isTruthy);
+        .filter!(a => valueBy!member(a).isTruthy);
 }
 
 ///
