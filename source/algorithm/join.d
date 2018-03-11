@@ -11,11 +11,11 @@ unittest {
 import common;
 
 /**
-    Ditto
+    Converts all elements in range into a string separated by separator.
 
     Params:
         range = an input range
-        sep = string/char to be used as seperator
+        sep = string/char to be used as seperator, default is empty.
 
     Returns:
         New string
@@ -35,7 +35,7 @@ string join(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!S) {
     return range.join([sep]);
 }
 
-///
+/// Ditto
 string join(Range)(Range range) {
     return range.join("");
 }
