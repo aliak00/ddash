@@ -8,8 +8,17 @@ module algorithm.flatten;
 
 ///
 unittest {
-    assert([[[1]], [[]], [[2], [3]], [[4]]].flatten.equal([[1], [], [2], [3], [4]]));
+    const arrayOfArrays = [[[1]], [[]], [[2], [3]], [[4]]];
+
+    // remove falsey values
+    assert(arrayOfArrays.flatten.equal([[1], [], [2], [3], [4]]));
     assert([[1], [], [2, 3], [4]].flatten.equal([1, 2, 3, 4]));
+
+    // remove falsey values all the way down
+    assert(arrayOfArrays.flattenDeep.equal([1, 2, 3, 4]));
+
+    import optional;
+    assert([some(some(3)), no!(Optional!int), some(some(2))].flattenDeep.equal([3, 2]));
 }
 
 import common;
@@ -60,4 +69,20 @@ unittest {
     import optional;
     assert([some(3), no!int, some(2)].flatten.equal([3, 2]));
     assert([some(some(3)), no!(Optional!int), some(some(2))].flatten.equal([some(3), some(2)]));
+}
+
+/// Like flatten except it's recursive
+auto flattenDeep(Range)(Range range) if (from!"std.range".isInputRange!Range) {
+    import std.range: ElementType, isInputRange;
+    import algorithm: flatten;
+    static if (isInputRange!(ElementType!Range))
+    {
+        return range
+            .flatten
+            .flattenDeep;
+    }
+    else
+    {
+        return range.flatten;
+    }
 }

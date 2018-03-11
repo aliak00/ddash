@@ -57,11 +57,7 @@ $(TR
     )
 $(TR
     $(TD $(DDOX_NAMED_REF algorithm.flatten, `flatten`))
-    $(TD Flattens range a single level deep.)
-    )
-$(TR
-    $(TD $(DDOX_NAMED_REF algorithm.flattendeep, `flattenDeep`))
-    $(TD Flattens range recursively)
+    $(TD Flattens a range by removing $(DDOX_NAMED_REF utils.isFalsey, `falsey`) values)
     )
 $(TR
     $(TD $(DDOX_NAMED_REF algorithm.frompairs, `fromPairs`))
@@ -183,7 +179,6 @@ public {
     }
 
     import algorithm.flatten;
-    import algorithm.flattendeep;
     import algorithm.frompairs;
     import algorithm.indexof;
 
