@@ -8,7 +8,7 @@ module algorithm.flatten;
 
 ///
 unittest {
-    const arrayOfArrays = [[[1]], [[]], [[2], [3]], [[4]]];
+    auto arrayOfArrays = [[[1]], [[]], [[2], [3]], [[4]]];
 
     // remove falsey values
     assert(arrayOfArrays.flatten.equal([[1], [], [2], [3], [4]]));
