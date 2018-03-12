@@ -54,16 +54,6 @@ $(TR
     $(TD Assigns value to each element of input range.)
     )
 $(TR
-    $(TD `algorithm.findindex`)
-    $(TD $(DDOX_NAMED_REF algorithm.findindex, `findIndex`))
-    $(TD Returns `optional` index of the first element predicate returns true for.)
-    )
-$(TR
-    $(TD `algorithm.findlastindex`)
-    $(TD $(DDOX_NAMED_REF algorithm.findlastindex, `findLastIndex`))
-    $(TD Returns `optional` index of the last element predicate returns true for.)
-    )
-$(TR
     $(TD `algorithm.first`)
     $(TD `first`)
     $(TD Returns `optional` front of range)
@@ -85,6 +75,14 @@ $(TR
     $(TD -)
     $(TD `last`)
     $(TD Returns `optional` back of range)
+    )
+$(TR
+    $(TD `algorithm.index`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.index.index, `index`)<br>
+        $(DDOX_NAMED_REF algorithm.index.lastIndex, `lastIndex`)
+        )
+    $(TD Returns `optional` index of an element in a range.)
     )
 $(TR
     $(TD `algorithm.indexof`)
@@ -165,8 +163,6 @@ public {
     import algorithm.drop;
     import algorithm.equal;
     import algorithm.fill;
-    import algorithm.findindex;
-    import algorithm.findlastindex;
 
     /// Returns `optional` front of range
     alias first = from!"range".maybeFront;
@@ -180,6 +176,7 @@ public {
 
     import algorithm.flatten;
     import algorithm.frompairs;
+    import algorithm.index;
     import algorithm.indexof;
 
     /// Gets all but the last element of a range
