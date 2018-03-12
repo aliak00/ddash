@@ -88,7 +88,6 @@ bool equal(alias pred = null, T, U)(auto ref T lhs, auto ref U rhs) {
         True if successful evaluation of predicates or values equal
 */
 bool equalBy(string member, alias pred = null, T, U)(auto ref T lhs, auto ref U rhs)
-if (member.length)
 {
     return equalBase!(member, pred)(lhs, rhs);
 }

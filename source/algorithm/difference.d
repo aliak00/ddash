@@ -20,7 +20,7 @@ unittest {
 
 import common;
 
-struct Difference(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && from!"std.range".isInputRange!R2) {
+struct Difference(string member, alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && from!"std.range".isInputRange!R2) {
     import std.range: ElementType;
 
     R1 r1;
@@ -58,7 +58,7 @@ struct Difference(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && fr
         {
             import std.algorithm: canFind;
             import algorithm: equal;
-            alias eq = (a, b) => equal!pred(a, b);
+            alias eq = (a, b) => equalBy!(member, pred)(a, b);
             while (!this.r1.empty && this.r2.canFind!eq(this.r1.front)) {
                 this.r1.popFront;
             }
@@ -111,59 +111,7 @@ if (from!"std.range".isInputRange!Range
         || from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range)
         || from!"bolts.traits".isBinaryOver!(pred, from!"std.range".ElementType!Range)))
 {
-    static if (!Rs.length)
-    {
-        return range;
-    }
-    else
-    {
-        import std.range: ElementType;
-        import algorithm: concat;
-        import bolts.traits: isNullType, isUnaryOver;
-
-        auto combinedValues = values.concat;
-        static assert (is(ElementType!(typeof(combinedValues)) : ElementType!Range));
-
-        // import std.algorithm: sort;
-        // import bolts.range: isSortedRange;
-        // pragma(msg,
-        //     __FUNCTION__,
-        //     "\n  pred: ", typeof(pred),
-        //     "\n  combinedValues: ", typeof(combinedValues),
-        //     "\n  canSortRange: ", is(typeof(range.sort)),
-        //     "\n  canSortCombinedValues: ", is(typeof(combinedValues.sort)),
-        //     "\n  r1Sorted: ", isSortedRange!Range,
-        //     "\n  r2Sorted: ", isSortedRange!(typeof(combinedValues)),
-        // );
-        static if (isNullType!pred || isUnaryOver!(pred, ElementType!Range))
-        {
-            import std.algorithm: sort;
-            static if (is(typeof(range.sort)))
-            {
-                auto r1 = range.sort;
-            }
-            else
-            {
-                auto r1 = range;
-            }
-
-            static if (is(typeof(combinedValues.sort)))
-            {
-                auto r2 = combinedValues.sort;
-            }
-            else
-            {
-                auto r2 = combinedValues;
-            }
-        }
-        else
-        {
-            auto r1 = range;
-            auto r2 = combinedValues;
-        }
-
-        return Difference!(pred, typeof(r1), typeof(r2))(r1, r2);
-    }
+    return differenceBase!("", pred)(range, values);
 }
 
 unittest {
@@ -194,9 +142,73 @@ unittest {
     assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([1.2]));
 }
 
+auto differenceBy(string member, alias pred = null, Range, Rs...)(Range range, Rs values)
+if (from!"std.range".isInputRange!Range
+    && member.length > 0
+    && (from!"bolts.traits".isNullType!pred
+        || from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range)
+        || from!"bolts.traits".isBinaryOver!(pred, from!"std.range".ElementType!Range)))
+{
+    return differenceBase!(member, pred)(range, values);
+}
+
+///
 unittest {
     struct A {
         int value;
     }
+    // with normal difference
     assert([A(1), A(2), A(3)].difference!((a, b) => a.value == b.value)([A(2), A(3)]).equal([A(1)]));
+
+    // by using the By() version
+    assert([A(1), A(2), A(3)].differenceBy!"value"([A(2), A(3)]).equal([A(1)]));
+}
+
+auto differenceBase(string member, alias pred, Range, Values...)(Range range, Values values)
+if (from!"std.range".isInputRange!Range
+    && from!"bolts.traits".areCombinable!(Range, Values)
+    && (from!"bolts.traits".isNullType!pred
+        || from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range)
+        || from!"bolts.traits".isBinaryOver!(pred, from!"std.range".ElementType!Range)))
+{
+    static if (!Values.length)
+    {
+        return range;
+    }
+    else
+    {
+        import std.range: ElementType;
+        import algorithm: concat;
+        import bolts.traits: isBinaryOver;
+
+        auto combinedValues = values.concat;
+        static assert(
+            is(ElementType!(typeof(combinedValues)) : ElementType!Range),
+            "Cannot get difference between supplied range of element type `"
+                ~ ElementType!Range.stringof
+                ~ "` and values of element type `"
+            ~ ElementType!(typeof(combinedValues)).stringof ~ "`"
+        );
+
+        static if (!isBinaryOver!(pred, ElementType!Range) && member.length == 0)
+        {
+            import std.algorithm: sort;
+            static if (is(typeof(range.sort)))
+                auto r1 = range.sort;
+            else
+                auto r1 = range;
+
+            static if (is(typeof(combinedValues.sort)))
+                auto r2 = combinedValues.sort;
+            else
+                auto r2 = combinedValues;
+        }
+        else
+        {
+            auto r1 = range;
+            auto r2 = combinedValues;
+        }
+
+        return Difference!(member, pred, typeof(r1), typeof(r2))(r1, r2);
+    }
 }
