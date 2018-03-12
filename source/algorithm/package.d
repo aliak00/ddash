@@ -108,6 +108,10 @@ $(TR
     $(TD Creates a slice of range from start up to, but not including, end)
     )
 $(TR
+    $(TD $(DDOX_NAMED_REF algorithm.sort, `sort`))
+    $(TD Provides various ways for sorting a range)
+    )
+$(TR
     $(TD $(DDOX_NAMED_REF algorithm.zip, `zip`))
     $(TD Zips up ranges together)
     )
