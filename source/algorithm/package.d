@@ -31,24 +31,14 @@ $(TR
     $(TD Creates a range of values not included in the other given set of values)
     )
 $(TR
-    $(TD -)
-    $(TD `drop`)
-    $(TD Creates a range with `n` elements dropped from the beginning)
-    )
-$(TR
-    $(TD -)
-    $(TD `dropRight`)
-    $(TD Creates a range with `n` elements dropped from the end)
-    )
-$(TR
-    $(TD `algorithm.droprightwhile`)
-    $(TD $(DDOX_NAMED_REF algorithm.droprightwhile, `dropRightWhile`))
-    $(TD Elements are dropped from the end until predicate returns false)
-    )
-$(TR
-    $(TD -)
-    $(TD `dropWhile`)
-    $(TD Elements are dropped from the beginning until predicate returns false)
+    $(TD `algorithm.drop`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.drop.drop, `drop`)<br>
+        $(DDOX_NAMED_REF algorithm.drop.dropRight, `dropRight`)<br>
+        $(DDOX_NAMED_REF algorithm.drop.dropWhile, `dropWhile`)<br>
+        $(DDOX_NAMED_REF algorithm.drop.dropRightWhile, `dropRightWhile`)<br>
+        )
+    $(TD Drops elements from a range)
     )
 $(TR
     $(TD `algorithm.equal`)
@@ -172,46 +162,7 @@ public {
     import algorithm.compact;
     import algorithm.concat;
     import algorithm.difference;
-
-    /// Creates a slice of a range with n elements dropped from the beginning.
-    auto drop(Range)(Range r, size_t n = 1) if (from!"std.range".isInputRange!Range) {
-        import std.range: stdDrop = drop;
-        return r.stdDrop(n);
-    }
-
-    ///
-    unittest {
-        import std.array;
-        assert([1, 2, 3].drop.array == [2, 3]);
-    }
-
-    /// Creates a slice of range with n elements dropped from the end.
-    auto dropRight(Range)(Range r, size_t n = 1) if (from!"std.range".isBidirectionalRange!Range) {
-        import std.range: stdDropBack = dropBack;
-        return r.stdDropBack(n);
-    }
-
-    ///
-    unittest {
-        import std.array;
-        assert([1, 2, 3].dropRight.array == [1, 2]);
-    }
-
-    import algorithm.droprightwhile;
-
-    /// Elements are dropped from the beginning until predicate returns false
-    auto dropWhile(alias pred, Range)(Range range) if (from!"std.range".isInputRange!Range) {
-        import std.algorithm: until;
-        import std.functional: not;
-        return range.until!(not!pred);
-    }
-
-    ///
-    unittest {
-        import std.array;
-        assert([1, 2, 3, 4].dropWhile!(a => a < 3).array == [1, 2]);
-    }
-
+    import algorithm.drop;
     import algorithm.equal;
     import algorithm.fill;
     import algorithm.findindex;
