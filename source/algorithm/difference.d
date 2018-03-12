@@ -156,7 +156,6 @@ unittest {
 */
 auto differenceBy(string member, alias pred = null, Range, Rs...)(Range range, Rs values)
 if (from!"std.range".isInputRange!Range
-    && member.length > 0
     && (from!"bolts.traits".isNullType!pred
         || from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range)
         || from!"bolts.traits".isBinaryOver!(pred, from!"std.range".ElementType!Range)))

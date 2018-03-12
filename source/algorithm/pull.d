@@ -63,7 +63,7 @@ if (from!"std.range".isInputRange!Range)
         Modified range
 */
 ref pullBy(string member, alias pred = null, Range, Values...)(return ref Range range, Values values)
-if (from!"std.range".isInputRange!Range && member.length)
+if (from!"std.range".isInputRange!Range)
 {
     return range.pullBase!(member, pred)(values);
 }

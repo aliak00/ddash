@@ -67,7 +67,7 @@ unittest {
     Returns:
         compacted range
 */
-auto compactBy(string member, Range)(Range range) if (from!"std.range".isInputRange!Range && member.length) {
+auto compactBy(string member, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: filter;
     import utils: isTruthy;
     import internal: valueBy;
