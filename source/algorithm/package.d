@@ -2,117 +2,162 @@
     Contains a number of algorithms
 
 $(TABLE
-$(TR $(TH Function Name) $(TH Description))
+$(TR $(TH Module) $(TH Function Name) $(TH Description))
 $(TR
+    $(TD `algorithm.chunk`)
     $(TD $(DDOX_NAMED_REF algorithm.chunk, `chunk`))
     $(TD Creates an array of elements split into groups the length of size.)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.compact, `compact`))
+    $(TD `algorithm.compact`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.compact.compact, `compact`)<br>
+        $(DDOX_NAMED_REF algorithm.compact.compactBy, `compactBy`)<br>
+        $(DDOX_NAMED_REF algorithm.compact.compactValues, `compactValues`)<br>
+        )
     $(TD Creates a range with all falsey values removed.)
     )
 $(TR
+    $(TD `algorithm.concat`)
     $(TD $(DDOX_NAMED_REF algorithm.concat, `concat`))
     $(TD Concatenate ranges and values together to a new range)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.difference, `difference`))
+    $(TD `algorithm.difference`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.difference.difference, `difference`)<br>
+        $(DDOX_NAMED_REF algorithm.difference.differenceBy, `differenceBy`)<br>
+        )
     $(TD Creates a range of values not included in the other given set of values)
     )
 $(TR
+    $(TD -)
     $(TD `drop`)
     $(TD Creates a range with `n` elements dropped from the beginning)
     )
 $(TR
+    $(TD -)
     $(TD `dropRight`)
     $(TD Creates a range with `n` elements dropped from the end)
     )
 $(TR
+    $(TD `algorithm.droprightwhile`)
     $(TD $(DDOX_NAMED_REF algorithm.droprightwhile, `dropRightWhile`))
     $(TD Elements are dropped from the end until predicate returns false)
     )
 $(TR
+    $(TD -)
     $(TD `dropWhile`)
     $(TD Elements are dropped from the beginning until predicate returns false)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.equal, `equal`))
+    $(TD `algorithm.equal`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.equal.equal, `equal`)<br>
+        $(DDOX_NAMED_REF algorithm.equal.equalBy, `equalBy`)<br>
+        )
     $(TD Tells you if two things are equal)
     )
 $(TR
+    $(TD `algorithm.fill`)
     $(TD $(DDOX_NAMED_REF algorithm.fill, `fill`))
     $(TD Assigns value to each element of input range.)
     )
 $(TR
+    $(TD `algorithm.findindex`)
     $(TD $(DDOX_NAMED_REF algorithm.findindex, `findIndex`))
     $(TD Returns `optional` index of the first element predicate returns true for.)
     )
 $(TR
+    $(TD `algorithm.findlastindex`)
     $(TD $(DDOX_NAMED_REF algorithm.findlastindex, `findLastIndex`))
     $(TD Returns `optional` index of the last element predicate returns true for.)
     )
 $(TR
+    $(TD `algorithm.first`)
     $(TD `first`)
     $(TD Returns `optional` front of range)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.flatten, `flatten`))
+    $(TD `algorithm.flatten`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.flatten.flatten, `flatten`)<br>
+        $(DDOX_NAMED_REF algorithm.flatten.flattenDeep, `flattenDeep`)<br>
+        )
     $(TD Flattens a range by removing $(DDOX_NAMED_REF utils.isFalsey, `falsey`) values)
     )
 $(TR
+    $(TD `algorithm.frompairs`)
     $(TD $(DDOX_NAMED_REF algorithm.frompairs, `fromPairs`))
     $(TD Returns a newly allocated associative array from a range of key/value tuples)
     )
 $(TR
+    $(TD -)
     $(TD `last`)
     $(TD Returns `optional` back of range)
     )
 $(TR
+    $(TD `algorithm.indexof`)
     $(TD $(DDOX_NAMED_REF algorithm.indexof, `indexOf`))
     $(TD Finds the first element in a range that equals some value)
     )
 $(TR
+    $(TD -)
     $(TD `initial`)
     $(TD Gets all but the last element of a range)
     )
 $(TR
+    $(TD `algorithm.intersection`)
     $(TD $(DDOX_NAMED_REF algorithm.intersection, `intersection`))
     $(TD Creates a range of unique values that are included in the other given set of values)
     )
 $(TR
+    $(TD `algorithm.join`)
     $(TD $(DDOX_NAMED_REF algorithm.join, `join`))
     $(TD Converts all elements in range into a string separated by separator.)
     )
 $(TR
+    $(TD `algorithm.lastindexof`)
     $(TD $(DDOX_NAMED_REF algorithm.lastindexof, `lastIndexOf`))
     $(TD Finds the last element in a range that equals some value)
     )
 $(TR
+    $(TD `algorithm.nth`)
     $(TD $(DDOX_NAMED_REF algorithm.nth, `nth`))
     $(TD Returns the element at nth index of range)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.pull, `pull`))
+    $(TD `algorithm.pull`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.pull.pull, `pull`)<br>
+        $(DDOX_NAMED_REF algorithm.pull.pullAt, `pullAt`)<br>
+        $(DDOX_NAMED_REF algorithm.pull.pullBy, `pullBy`)<br>
+        )
     $(TD Pulls elements out of a range)
     )
 $(TR
+    $(TD `algorithm.remove`)
     $(TD $(DDOX_NAMED_REF algorithm.remove, `remove`))
     $(TD Removed elements from a range by unary predicate)
     )
 $(TR
+    $(TD -)
     $(TD `reverse`)
     $(TD Reverses a range in place)
     )
 $(TR
+    $(TD `algorithm.slice`)
     $(TD $(DDOX_NAMED_REF algorithm.slice, `slice`))
     $(TD Creates a slice of range from start up to, but not including, end)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.sort, `sort`))
+    $(TD `algorithm.sort`)
+    $(TD $(DDOX_NAMED_REF algorithm.sort.sortBy, `sortBy`))
     $(TD Provides various ways for sorting a range)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF algorithm.zip, `zip`))
+    $(TD `algorithm.zip`)
+    $(TD $(DDOX_NAMED_REF algorithm.zip.zipEach, `zipEach`))
     $(TD Zips up ranges together)
     )
 )

@@ -142,6 +142,18 @@ unittest {
     assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([1.2]));
 }
 
+/**
+    Same as `difference` except you can make it operatete on a publicly accessible member of ElementType!Range
+
+    Params:
+        member = which member in `ElementType!Range` to find difference over
+        pred = unary transformation or binary comparator
+        range = the range to inspect
+        values = ranges or single values to exclude
+
+    SeeAlso:
+        `difference`
+*/
 auto differenceBy(string member, alias pred = null, Range, Rs...)(Range range, Rs values)
 if (from!"std.range".isInputRange!Range
     && member.length > 0
