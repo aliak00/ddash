@@ -4,13 +4,20 @@ module algorithm.index;
 ///
 unittest {
     import optional: some, none;
-    assert([1, 2, 3, 4].index!(a => a % 2 == 0) == some(1));
-    assert([1, 2, 3, 4].lastIndex!(a => a % 2 == 0) == some(3));
 
-    assert([1, 2, 3, 4].index!(a => a == 5) == none);
+    auto arr1 = [1, 2, 3, 4];
 
-    assert([1, 2, 3, 4].lastIndex!(a => a % 2 == 0)(2) == some(1));
+    assert(arr1.indexWhere!(a => a % 2 == 0) == some(1));
+    assert(arr1.lastIndexWhere!(a => a % 2 == 0) == some(3));
+
+    assert(arr1.indexWhere!(a => a == 5) == none);
+    assert(arr1.lastIndexWhere!(a => a % 2 == 0)(2) == some(1));
+
+    auto arr2 = [1, 2, 1, 2];
+
+    assert(arr2.indexOf(2) == some(1));
 }
+
 
 import common;
 
@@ -25,25 +32,23 @@ import common;
     Returns:
         `some!size_t` or `none` if no element was found
 */
-auto index(alias pred, Range)(Range range, size_t fromIndex = 0)
+auto indexWhere(alias pred, Range)(Range range, size_t fromIndex = 0)
 if (from!"std.range".isInputRange!Range
-    && from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range) )
+    && from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range))
 {
     import std.range: drop;
     import std.functional: unaryFun;
-    import phobos: stdCountUntil = countUntil;
-    import optional: some;
-    alias fun = unaryFun!pred;
+    import phobos: countUntil;
     auto r = range.drop(fromIndex);
-    return r.stdCountUntil!((a, b) => fun(a))(r) + fromIndex;
+    return r.countUntil!((a, b) => unaryFun!pred(a))(r) + fromIndex;
 }
 
 ///
 unittest {
     import optional: some, none;
-    assert([1, 2, 3, 4].index!(a => a % 2 == 0) == some(1));
-    assert([1, 2, 3, 4].index!(a => a == 5) == none);
-    assert([1, 2, 3, 4].index!(a => a % 2 == 0)(2) == some(3));
+    assert([1, 2, 3, 4].indexWhere!(a => a % 2 == 0) == some(1));
+    assert([1, 2, 3, 4].indexWhere!(a => a == 5) == none);
+    assert([1, 2, 3, 4].indexWhere!(a => a % 2 == 0)(2) == some(3));
 }
 
 /**
@@ -57,22 +62,80 @@ unittest {
     Returns:
         `some!size_t` or `none` if no element was found
 */
-auto lastIndex(alias pred, Range)(Range range, size_t fromIndex = 0)
-if (from!"std.range".isBidirectionalRange!Range)
+auto lastIndexWhere(alias pred, Range)(Range range, size_t fromIndex = 0)
+if (from!"std.range".isBidirectionalRange!Range
+    && from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range))
 {
     import std.range: retro, walkLength;
-    import algorithm: index;
     import range: withFront;
     return range
         .retro
-        .index!pred(fromIndex)
+        .indexWhere!pred(fromIndex)
         .withFront!(a => range.walkLength - a - 1);
 }
 
 ///
 unittest {
     import optional: some, none;
-    assert([1, 2, 3, 4].lastIndex!(a => a % 2 == 0) == some(3));
-    assert([1, 2, 3, 4].lastIndex!(a => a == 5) == none);
-    assert([1, 2, 3, 4].lastIndex!(a => a % 2 == 0)(2) == some(1));
+    assert([1, 2, 3, 4].lastIndexWhere!(a => a % 2 == 0) == some(3));
+    assert([1, 2, 3, 4].lastIndexWhere!(a => a == 5) == none);
+    assert([1, 2, 3, 4].lastIndexWhere!(a => a % 2 == 0)(2) == some(1));
+}
+
+/**
+    Finds the first element in a range that equals some value
+
+    Params:
+        range = an input range
+        value = value to search for
+        fromIndex = which index to start searching from
+
+    Returns:
+        An `Optional!T`
+*/
+auto indexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!"std.range".isInputRange!Range) {
+    import std.range: drop;
+    import phobos: countUntil;
+    import range: withFront;
+    return range
+        .drop(fromIndex)
+        .countUntil(value)
+        .withFront!(a => a + fromIndex);
+}
+
+///
+unittest {
+    import optional;
+    assert([1, 2, 1, 2].indexOf(2) == some(1));
+    assert([1, 2, 1, 2].indexOf(2, 2) == some(3));
+    assert([1, 2, 1, 2].indexOf(3) == none);
+}
+
+/**
+    Finds the first element in a range that equals some value
+
+    Params:
+        range = an input range
+        value = value to search for
+        fromIndex = which index from the end to start searching from
+
+    Returns:
+        An `optional!T`
+*/
+auto lastIndexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!"std.range".isBidirectionalRange!Range) {
+    import std.range: retro, walkLength;
+    import algorithm: indexOf;
+    import range: withFront;
+    return range
+        .retro
+        .indexOf(value, fromIndex)
+        .withFront!(a => range.walkLength - a - 1);
+}
+
+///
+unittest {
+    import optional;
+    assert([1, 2, 1, 2].indexOf(2) == some(1));
+    assert([1, 2, 1, 2].indexOf(2, 2) == some(3));
+    assert([1, 2, 1, 2].indexOf(3) == none);
 }

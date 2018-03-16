@@ -79,15 +79,12 @@ $(TR
 $(TR
     $(TD `algorithm.index`)
     $(TD
-        $(DDOX_NAMED_REF algorithm.index.index, `index`)<br>
-        $(DDOX_NAMED_REF algorithm.index.lastIndex, `lastIndex`)
+        $(DDOX_NAMED_REF algorithm.index.indexWhere, `indexWhere`)<br>
+        $(DDOX_NAMED_REF algorithm.index.lastIndexWhere, `lastIndexWhere`)<br>
+        $(DDOX_NAMED_REF algorithm.index.indexOf, `indexOf`)<br>
+        $(DDOX_NAMED_REF algorithm.index.lastIndexOf, `lastIndexOf`)<br>
         )
     $(TD Returns `optional` index of an element in a range.)
-    )
-$(TR
-    $(TD `algorithm.indexof`)
-    $(TD $(DDOX_NAMED_REF algorithm.indexof, `indexOf`))
-    $(TD Finds the first element in a range that equals some value)
     )
 $(TR
     $(TD -)
@@ -103,11 +100,6 @@ $(TR
     $(TD `algorithm.join`)
     $(TD $(DDOX_NAMED_REF algorithm.join, `join`))
     $(TD Converts all elements in range into a string separated by separator.)
-    )
-$(TR
-    $(TD `algorithm.lastindexof`)
-    $(TD $(DDOX_NAMED_REF algorithm.lastindexof, `lastIndexOf`))
-    $(TD Finds the last element in a range that equals some value)
     )
 $(TR
     $(TD `algorithm.nth`)
@@ -177,7 +169,6 @@ public {
     import algorithm.flatten;
     import algorithm.frompairs;
     import algorithm.index;
-    import algorithm.indexof;
 
     /// Gets all but the last element of a range
     alias initial = (range) => from!"std.range".dropBack(range, 1);
@@ -201,7 +192,6 @@ public {
         assert((int[]).init.last == none);
     }
 
-    import algorithm.lastindexof;
     import algorithm.nth;
     import algorithm.pull;
     import algorithm.remove;
