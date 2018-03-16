@@ -118,7 +118,10 @@ $(TR
     )
 $(TR
     $(TD `algorithm.nth`)
-    $(TD $(DDOX_NAMED_REF algorithm.nth.nthOr, `nthOr`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.nth.nth, `nth`)<br>
+        $(DDOX_NAMED_REF algorithm.nth.nthOr, `nthOr`)<br>
+    )
     $(TD)
     $(TD Returns the element at nth index of range)
     )
