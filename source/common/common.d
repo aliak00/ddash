@@ -8,4 +8,5 @@ version (unittest) {
     public import std.stdio;
     public import algorithm.equal;
     public import std.array;
+    public import std.typecons: Yes, No;
 }
