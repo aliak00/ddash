@@ -148,10 +148,14 @@ $(TR
     $(TD Reverses a range in place)
     )
 $(TR
-    $(TD `algorithm.slice`)
-    $(TD $(DDOX_NAMED_REF algorithm.slice, `slice`))
+    $(TD `algorithm.slicing`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.slicing.slice, `slice`)<br>
+        $(DDOX_NAMED_REF algorithm.slicing.tail, `tail`)<br>
+        $(DDOX_NAMED_REF algorithm.slicing.initial, `initial`)<br>
+    )
     $(TD)
-    $(TD Creates a slice of range from start up to, but not including, end)
+    $(TD Creates a slice of a range)
     )
 $(TR
     $(TD `algorithm.sort`)
@@ -195,15 +199,6 @@ public {
     import algorithm.frompairs;
     import algorithm.index;
 
-    /// Gets all but the last element of a range
-    alias initial = (range) => from!"std.range".dropBack(range, 1);
-
-    ///
-    unittest {
-        import std.array;
-        assert([1, 2, 3, 4].initial.array == [1, 2, 3]);
-    }
-
     import algorithm.intersection;
     import algorithm.join;
 
@@ -239,6 +234,6 @@ public {
         assert(arr.equal([4, 3, 2, 1]));
     }
 
-    import algorithm.slice;
+    import algorithm.slicing;
     import algorithm.zip;
 }

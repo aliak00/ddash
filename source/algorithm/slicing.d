@@ -1,14 +1,20 @@
 /**
     Returns a slice of a range
 */
-module algorithm.slice;
+module algorithm.slicing;
 
 ///
 unittest {
-    assert([1, 2, 3, 4, 5].slice(1).equal([2, 3, 4, 5]));
-    assert([1, 2, 3, 4, 5].slice(0, 0).empty);
-    assert([1, 2, 3, 4, 5].slice(1, 3).equal([2, 3]));
-    assert([1, 2, 3, 4, 5].slice(0, -2).equal([1, 2, 3]));
+    auto arr = [1, 2, 3, 4, 5];
+
+    assert(arr.slice(1).equal([2, 3, 4, 5]));
+    assert(arr.slice(0, 0).empty);
+    assert(arr.slice(1, 3).equal([2, 3]));
+    assert(arr.slice(0, -2).equal([1, 2, 3]));
+
+    assert(arr.initial.equal([1, 2, 3, 4]));
+
+    assert(arr.tail.equal([2, 3, 4, 5]));
 }
 
 import common;
@@ -40,4 +46,22 @@ auto slice(Range)(Range range, size_t start, int end) {
 auto slice(Range)(Range range, size_t start) {
     import std.range: drop;
     return range.drop(start);
+}
+
+/// Gets all but the first element of a range
+alias tail = (range) => from!"std.range".drop(range, 1);
+
+///
+unittest {
+    assert((int[]).init.tail.equal([]));
+    assert([1, 2, 3, 4].tail.equal([2, 3, 4]));
+}
+
+/// Gets all but the last element of a range
+alias initial = (range) => from!"std.range".dropBack(range, 1);
+
+///
+unittest {
+    assert((int[]).init.initial.equal([]));
+    assert([1, 2, 3, 4].initial.equal([1, 2, 3]));
 }
