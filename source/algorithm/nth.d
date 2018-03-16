@@ -147,3 +147,23 @@ unittest {
     assert([1, 2].nth!(No.wrap)(2) == none);
     assert([1, 2].nth!(Yes.wrap)(2) == some(1));
 }
+
+/// Returns `optional` front of range
+alias first = from!"range".maybeFront;
+
+///
+unittest {
+    import optional: some, none;
+    assert([1, 2].first == some(1));
+    assert((int[]).init.first == none);
+}
+
+/// Returns `optional` end of range
+alias last = from!"range".maybeBack;
+
+///
+unittest {
+    import optional: some, none;
+    assert([1, 2].last == some(2));
+    assert((int[]).init.last == none);
+}

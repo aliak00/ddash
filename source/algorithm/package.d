@@ -61,12 +61,6 @@ $(TR
     $(TD Assigns value to each element of input range.)
     )
 $(TR
-    $(TD `algorithm.first`)
-    $(TD `first`)
-    $(TD)
-    $(TD Returns `optional` front of range)
-    )
-$(TR
     $(TD `algorithm.flatten`)
     $(TD
         $(DDOX_NAMED_REF algorithm.flatten.flatten, `flatten`)<br>
@@ -82,12 +76,6 @@ $(TR
     $(TD Returns a newly allocated associative array from a range of key/value tuples)
     )
 $(TR
-    $(TD -)
-    $(TD `last`)
-    $(TD)
-    $(TD Returns `optional` back of range)
-    )
-$(TR
     $(TD `algorithm.index`)
     $(TD
         $(DDOX_NAMED_REF algorithm.index.indexWhere, `indexWhere`)<br>
@@ -97,12 +85,6 @@ $(TR
         )
     $(TD)
     $(TD Returns `optional` index of an element in a range.)
-    )
-$(TR
-    $(TD -)
-    $(TD `initial`)
-    $(TD)
-    $(TD Gets all but the last element of a range)
     )
 $(TR
     $(TD `algorithm.intersection`)
@@ -121,6 +103,8 @@ $(TR
     $(TD
         $(DDOX_NAMED_REF algorithm.nth.nth, `nth`)<br>
         $(DDOX_NAMED_REF algorithm.nth.nthOr, `nthOr`)<br>
+        $(DDOX_NAMED_REF algorithm.nth.first, `first`)<br>
+        $(DDOX_NAMED_REF algorithm.nth.last, `last`)<br>
     )
     $(TD)
     $(TD Returns the element at nth index of range)
@@ -184,34 +168,11 @@ public {
     import algorithm.drop;
     import algorithm.equal;
     import algorithm.fill;
-
-    /// Returns `optional` front of range
-    alias first = from!"range".maybeFront;
-
-    ///
-    unittest {
-        import optional: some, none;
-        assert([1, 2].first == some(1));
-        assert((int[]).init.first == none);
-    }
-
     import algorithm.flatten;
     import algorithm.frompairs;
     import algorithm.index;
-
     import algorithm.intersection;
     import algorithm.join;
-
-    /// Returns `optional` end of range
-    alias last = from!"range".maybeBack;
-
-    ///
-    unittest {
-        import optional: some, none;
-        assert([1, 2].last == some(2));
-        assert((int[]).init.last == none);
-    }
-
     import algorithm.nth;
     import algorithm.pull;
     import algorithm.remove;
