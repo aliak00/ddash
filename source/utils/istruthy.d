@@ -5,44 +5,59 @@ module utils.istruthy;
 
 ///
 unittest {
-    import optional: some, no;
-    assert(true.isTruthy == true);
-    assert(1.isTruthy == true);
-    assert(0.isTruthy == false);
-    assert((new int(3)).isTruthy == true);
-    assert(no!int.isTruthy == false);
-    assert(some(3).isTruthy == true);
-    assert(((int[]).init).isTruthy == false);
-    assert([1].isTruthy == true);
-    assert(double.nan.isTruthy == false);
-    assert(0.0.isTruthy == false);
-    assert(1.0.isTruthy == true);
+    assert( isTruthy(true));
+    assert( isTruthy(1));
+    assert(!isTruthy(0));
+    assert( isTruthy((new int(3))));
+    assert(!isTruthy(((int[]).init)));
+    assert( isTruthy([1]));
+    assert(!isTruthy(double.nan));
+    assert(!isTruthy(0.0));
+    assert( isTruthy(1.0));
+
+    class C {}
+    C c;
+    assert(!isTruthy(c));
+    c = new C;
+    assert( isTruthy(c));
+
+    struct S {}
+    S s;
+    assert(!__traits(compiles, isTruthy(s)));
 }
 
 import common;
 
-import std.traits: ifTestable, isArray, isPointer, isFloatingPoint;
-import optional: isOptional, none;
+/**
+    Returns true if value is "truthy"
 
-/// True if `cast(bool)t == true`
-bool isTruthy(T)(auto ref T t) if (ifTestable!T && !isArray!T && !isFloatingPoint!T) {
-    return cast(bool)t ? true : false;
-}
+    Params:
+        value = any value
 
-/// True if length is `0`
-bool isTruthy(T)(auto ref T t) if (isArray!T) {
-    return t.length ? true : false;
-}
-
-/// True if value is `none`
-bool isTruthy(T)(auto ref T t) if (isOptional!T) {
-    return t != none;
-}
-
-/// True if not `NaN`
-bool isTruthy(T)(auto ref T t) if (isFloatingPoint!T) {
-    import std.math: isNaN;
-    return t && !t.isNaN;
+    Returns:
+        true if truthy
+*/
+bool isTruthy(T)(auto ref T value) {
+    import std.traits: ifTestable, isArray, isPointer, isFloatingPoint;
+    import std.range: isInputRange;
+    static if (is(T == class) || isPointer!T)
+        return value !is null;
+    else static if (isArray!T)
+        return value.length != 0;
+    else static if (isInputRange!T)
+        return !value.empty;
+    else static if (isFloatingPoint!T)
+    {
+        import std.math: isNaN;
+        return value && !value.isNaN;
+    }
+    else static if (ifTestable!T)
+        return cast(bool)value;
+    else
+        static assert(
+            false,
+            "Cannot determine truthyness of type " ~ T.stringof
+        );
 }
 
 /// Opposite of `isTruthy`
