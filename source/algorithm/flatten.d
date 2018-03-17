@@ -39,9 +39,8 @@ import common;
 auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;
     import std.traits: isPointer;
-    import optional: isOptional;
     alias E = ElementType!Range;
-    static if (isOptional!E || isPointer!E)
+    static if (isPointer!E)
     {
         import std.algorithm: map, filter;
         import utils: isTruthy, deref;
