@@ -37,11 +37,8 @@ unittest {
 auto ref valueBy(string member = "", T)(auto ref T value) {
     static if (member != "")
     {
-        static assert(__traits(hasMember, T, member), T.stringof ~ " has no member " ~ member);
-        static assert(
-            __traits(getProtection, __traits(getMember, T, member)) == "public",
-            T.stringof ~ "." ~ member ~ " is not public"
-        );
+        import bolts: hasMember;
+        static assert(hasMember!(T, member).withProtection!"public");
         return mixin("value." ~ member);
     }
     else
