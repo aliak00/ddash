@@ -52,16 +52,6 @@ unittest {
 }
 
 unittest {
-    auto intPointerArray = [
-        (new int(3)),
-        null,
-        (new int(7)),
-        null,
-    ];
-    assert(intPointerArray.flatMap!(a => a).equal([3, 7]));
-}
-
-unittest {
     auto intArrayOfArrays = [
         [3],
         [],

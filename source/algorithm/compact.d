@@ -1,34 +1,41 @@
 /**
-    Creates a range with all falsey values removed.
-
-    See_also:
-        `utils.istruthy`
+    Compacts a range
 */
 module algorithm.compact;
 
 ///
 unittest {
     import optional: no, some;
+    import utils: isFalsey;
 
     // compact falsy values
-    assert([0, 1, 2, 0, 3].compact.equal([1, 2, 3]));
+    assert([0, 1, 2, 0, 3].compact!isFalsey.equal([1, 2, 3]));
 
     // compact empty arrays
-    assert([[1], [], [2]].compact.equal([[1], [2]]));
+    assert([[1], [], [2]].compact!isFalsey.equal([[1], [2]]));
 
     // compact optionals
-    assert([some(2), no!int].compact.equal([some(2)]));
+    assert([some(2), no!int].compact!isFalsey.equal([some(2)]));
+
+    class C {
+        int i;
+        this(int i) { this.i = i; }
+    }
+
+    import std.algorithm: map;
+    auto arr = [new C(1), null, new C(2), null];
+    assert(arr.compact.map!"a.i".equal([1, 2]));
 
     struct A {
         int x;
     }
 
     // compact by a object member
-    assert([A(7), A(0)].compactBy!"x".equal([A(7)]));
+    assert([A(7), A(0)].compactBy!("x", isFalsey).equal([A(7)]));
 
     // compact an associative array
     auto aa = ["a": 1, "b": 0, "c": 2];
-    assert(aa.compactValues == ["a": 1, "c": 2]);
+    assert(aa.compactValues!isFalsey == ["a": 1, "c": 2]);
 }
 
 import common;
@@ -37,24 +44,32 @@ import common;
     Compacts a range
 
     Params:
+        pred = a unary predicate that returns true if value should be compacted
         range = an input range
 
     Returns:
         compacted range
 */
-auto compact(Range)(Range range) if (from!"std.range".isInputRange!Range) {
-    import std.algorithm: filter;
-    import utils: isTruthy;
-    return range
-        .filter!(a => a.isTruthy);
+auto compact(alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+    return compactBase!("", pred)(range);
 }
 
 ///
 unittest {
     import optional: no, some;
-    assert([0, 1, 2, 0, 3].compact.equal([1, 2, 3]));
-    assert([[1], [], [2]].compact.equal([[1], [2]]));
-    assert([some(2), no!int].compact.equal([some(2)]));
+    import utils: isFalsey;
+    assert([0, 1, 2, 0, 3].compact!(isFalsey).equal([1, 2, 3]));
+    assert([[1], [], [2]].compact!isFalsey.equal([[1], [2]]));
+    assert([some(2), no!int].compact!isFalsey.equal([some(2)]));
+
+    class C {
+        int i;
+        this(int i) { this.i = i; }
+    }
+
+    import std.algorithm: map;
+    auto arr = [new C(1), null, new C(2), null];
+    assert(arr.compact.map!(a => a.i).equal([1, 2]));
 }
 
 /**
@@ -62,52 +77,73 @@ unittest {
 
     Params:
         member = which member in `ElementType!Range` to compact by
+        pred = a unary predicate that returns true if value should be compacted
         range = an input range
 
     Returns:
         compacted range
 */
-auto compactBy(string member, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+auto compactBy(string member, alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+    return compactBase!(member, pred)(range);
+}
+
+private auto compactBase(string member, alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: filter;
-    import utils: isTruthy;
+    import bolts: isNullType, isUnaryOver;
     import internal: valueBy;
-    return range
-        .filter!(a => valueBy!member(a).isTruthy);
+    import std.range: ElementType;
+    static if (isNullType!pred)
+    {
+        alias fun = (a) => valueBy!member(a) !is null;
+    }
+    else static if (isUnaryOver!(pred, typeof(valueBy!member(ElementType!Range.init))))
+    {
+        alias fun = a => !pred(valueBy!member(a));
+    }
+    else
+    {
+        static assert(0, "predicate must either be null or bool function(" ~ ElementType!Range.stringof ~ ")");
+    }
+
+    return range.filter!fun;
 }
 
 ///
 unittest {
+    import utils: isFalsey;
     struct A {
         int x;
         private int y;
     }
-    assert([A(3, 2), A(0, 1)].compactBy!"x".equal([A(3, 2)]));
-    assert(!__traits(compiles, [A(3, 2)].compactBy!"y"));
-    assert(!__traits(compiles, [A(3, 2)].compactBy!"z"));
-    assert(!__traits(compiles, [A(3, 2)].compactBy!""));
+    assert([A(3, 2), A(0, 1)].compactBy!("x", isFalsey).equal([A(3, 2)]));
+    assert(!__traits(compiles, [A(3, 2)].compactBy!("y", isFalsey)));
+    assert(!__traits(compiles, [A(3, 2)].compactBy!("z", isFalsey)));
+    assert(!__traits(compiles, [A(3, 2)].compactBy!("", isFalsey)));
 }
 
 /**
     Compacts an associative array by its values
 
     Params:
+        pred = a unary predicate that returns true if value should be compacted
         aa = compacted associated array
 
     Returns:
         compacted associtive array
 */
-auto compactValues(T, U)(T[U] aa) {
+auto compactValues(alias pred = null, T, U)(T[U] aa) {
     import std.array: byPair, assocArray;
     return aa
         .byPair
-        .compactBy!"value"
+        .compactBy!("value", pred)
         .assocArray;
 }
 
 ///
 unittest {
+    import utils: isFalsey;
     auto aa = ["a": 1, "b": 0, "c": 2];
-    assert(aa.compactValues == ["a": 1, "c": 2]);
+    assert(aa.compactValues!isFalsey == ["a": 1, "c": 2]);
 }
 
 /**
@@ -119,30 +155,21 @@ unittest {
     Returns:
         Compacted array of values cast to common type T
 */
-template compact(Values...) if (!is(from!"std.traits".CommonType!Values == void)) {
-    import std.traits: CommonType;
-    import utils: isTruthy;
-    alias T = CommonType!Values;
-    auto compact(Values values) {
-        T[] array;
-        static foreach (i; 0 .. Values.length)
-        {
-            if (isTruthy(values[i])) {
-                array ~= cast(T)(values[i]);
-            }
-        }
-        return array;
-    }
+auto compact(alias pred = null, Values...)(Values values) if (!is(from!"std.traits".CommonType!Values == void)) {
+    import algorithm: concat;
+    return concat(values)
+        .compactBase!("", pred);
 }
 
 ///
 unittest {
-    auto a = compact(1, 0, 2, 0, 3);
-    auto b = compact(1, 0, 2.0, 0, 3);
+    import utils: isFalsey;
+    auto a = compact!isFalsey(1, 0, 2, 0, 3);
+    auto b = compact!isFalsey(1, 0, 2.0, 0, 3);
 
-    assert(a == [1, 2, 3]);
-    assert(b == [1, 2, 3]);
+    assert(a.equal([1, 2, 3]));
+    assert(b.equal([1, 2, 3]));
 
-    static assert(is(typeof(a) == int[]));
-    static assert(is(typeof(b) == double[]));
+    static assert(is(typeof(a.array) == int[]));
+    static assert(is(typeof(b.array) == double[]));
 }
