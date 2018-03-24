@@ -19,6 +19,9 @@ import common;
 
     Returns:
         New string
+
+    Since:
+        0.1.0
 */
 string join(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!(from!"std.range".ElementType!S)) {
     import std.algorithm: joiner, map;

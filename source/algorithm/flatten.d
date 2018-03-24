@@ -28,6 +28,9 @@ import common;
 
     Returns:
         A flattened range
+
+    Since:
+        0.1.0
 */
 auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;
@@ -53,7 +56,18 @@ unittest {
     assert([some(some(3)), no!(Optional!int), some(some(2))].flatten.equal([some(3), some(2)]));
 }
 
-/// Like `flatten` except it's recursive
+/**
+    Flattens a range all the way down
+
+    Params:
+        range = an input range
+
+    Returns:
+        A flattened range
+
+    Since:
+        0.1.0
+*/
 auto flattenDeep(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;
     import algorithm: flatten;

@@ -7,6 +7,9 @@ import common;
 
 /**
     Sorts a range using the standard library sort by a publicly visible member variable or property of `ElemntType!Range`
+
+    Since:
+        0.1.0
 */
 auto sortBy(string member, alias less = "a < b", Range)(Range range) {
     import std.algorithm: stdSort = sort;

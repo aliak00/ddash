@@ -29,6 +29,9 @@ unittest {
 
     Returns
         The value at the nth index of range or defaultValue i not found
+
+    Since:
+        0.1.0
 */
 auto nthOr(
     from!"std.typecons".Flag!"wrap" wrap = from!"std.typecons".No.wrap,
@@ -92,6 +95,9 @@ unittest {
 
     Returns
         The value at the nth index of range or defaultValue i not found
+
+    Since:
+        0.1.0
 */
 auto nth(
     from!"std.typecons".Flag!"wrap" wrap = from!"std.typecons".No.wrap,

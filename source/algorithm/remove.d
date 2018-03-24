@@ -18,6 +18,9 @@ import common;
     Params:
         pred = unary predicate that returns true if you want an element removed
         range = the range to remove element from
+
+    Since:
+        0.1.0
 */
 void remove(alias pred, Range)(ref Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: stdRemove = remove;

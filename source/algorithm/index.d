@@ -31,6 +31,9 @@ import common;
 
     Returns:
         `some!size_t` or `none` if no element was found
+
+    Since:
+        0.1.0
 */
 auto indexWhere(alias pred, Range)(Range range, size_t fromIndex = 0)
 if (from!"std.range".isInputRange!Range
@@ -61,6 +64,9 @@ unittest {
 
     Returns:
         `some!size_t` or `none` if no element was found
+
+    Since:
+        0.1.0
 */
 auto lastIndexWhere(alias pred, Range)(Range range, size_t fromIndex = 0)
 if (from!"std.range".isBidirectionalRange!Range
@@ -92,6 +98,9 @@ unittest {
 
     Returns:
         An `Optional!T`
+
+    Since:
+        0.1.0
 */
 auto indexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!"std.range".isInputRange!Range) {
     import std.range: drop;
@@ -121,6 +130,9 @@ unittest {
 
     Returns:
         An `optional!T`
+
+    Since:
+        0.1.0
 */
 auto lastIndexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!"std.range".isBidirectionalRange!Range) {
     import std.range: retro, walkLength;

@@ -103,6 +103,9 @@ struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && 
 
     Returns:
         New array of filtered results. If `Rs` is empty, then empty `range` is returned
+
+    Since:
+        0.1.0
 */
 auto intersection(alias pred = null, Range, Rs...)(Range range, Rs values)
 if (from!"std.range".isInputRange!Range
@@ -124,17 +127,6 @@ if (from!"std.range".isInputRange!Range
         auto combinedValues = values.concat;
         static assert (is(ElementType!(typeof(combinedValues)) : ElementType!Range));
 
-        // import std.algorithm: sort;
-        // import bolts.range: isSortedRange;
-        // pragma(msg,
-        //     __FUNCTION__,
-        //     "\n  pred: ", typeof(pred),
-        //     "\n  combinedValues: ", typeof(combinedValues),
-        //     "\n  canSortRange: ", is(typeof(range.sort)),
-        //     "\n  canSortCombinedValues: ", is(typeof(combinedValues.sort)),
-        //     "\n  r1Sorted: ", isSortedRange!Range,
-        //     "\n  r2Sorted: ", isSortedRange!(typeof(combinedValues)),
-        // );
         static if (isNullType!pred || isUnaryOver!(pred, ElementType!Range))
         {
             import std.algorithm: sort;

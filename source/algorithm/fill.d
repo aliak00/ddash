@@ -18,15 +18,30 @@ unittest {
 
 import common;
 
-/// Ditto
-void fill(Range, T)(ref Range range, auto ref T value, size_t start = 0, size_t end = size_t.max)
-if (from!"std.range".isInputRange!Range
+/**
+    Fills a range with a value from `startIndex` to `endIndex`
+
+    Params:
+        range = mutable input range
+        value = which value to fill the range with
+        startIndex = at which index to start filling the range
+        endIndex = at which index to stop filling the range (this index is not filled)
+
+    Since:
+        0.1.0
+*/
+void fill(Range, T)(ref Range range, auto ref T value, size_t startIndex = 0, size_t endIndex = size_t.max)
+if (from!"std.range".isForwardRange!Range
     && is(T : from!"std.range".ElementType!Range)
     && is(typeof(range[] = value)))
 {
     import std.algorithm: stdFill = fill;
     import std.range: drop, take, refRange, save;
-    refRange(&range).save.drop(start).take(end - start).stdFill(value);
+    refRange(&range)
+        .save
+        .drop(startIndex)
+        .take(endIndex - startIndex)
+        .stdFill(value);
 }
 
 unittest {

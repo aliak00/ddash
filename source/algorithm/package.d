@@ -98,10 +98,18 @@ $(TR
 $(TR
     $(TD `algorithm.fill`)
     $(TD
-        $(DDOX_NAMED_REF algorithm.fill, `fill`)
+        $(DDOX_NAMED_REF algorithm.fill.fill, `fill`)
         )
     $(TD mutates)
     $(TD Assigns value to each element of input range.)
+    )
+$(TR
+    $(TD `algorithm.flatmap`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.flatmap.flatMap, `flatMap`)
+        )
+    $(TD)
+    $(TD Maps and flattens a range.)
     )
 $(TR
     $(TD `algorithm.flatten`)
@@ -110,7 +118,7 @@ $(TR
         $(DDOX_NAMED_REF algorithm.flatten.flattenDeep, `flattenDeep`)<br>
         )
     $(TD)
-    $(TD Flattens a range by removing $(DDOX_NAMED_REF utils.isFalsey, `falsey`) values)
+    $(TD Flattens a range by removing nesting levels values)
     )
 $(TR
     $(TD `algorithm.frompairs`)
@@ -225,6 +233,7 @@ public {
     import algorithm.drop;
     import algorithm.equal;
     import algorithm.fill;
+    import algorithm.flatmap;
     import algorithm.flatten;
     import algorithm.frompairs;
     import algorithm.index;

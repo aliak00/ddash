@@ -22,6 +22,9 @@ import common;
 
     Returns:
         new range
+
+    Since:
+        0.1.0
 */
 auto drop(Range)(Range range, size_t n = 1) if (from!"std.range".isInputRange!Range) {
     import std.range: stdDrop = drop;
@@ -43,6 +46,9 @@ unittest {
 
     Returns:
         new range
+
+    Since:
+        0.1.0
 */
 auto dropRight(Range)(Range range, size_t n = 1) if (from!"std.range".isBidirectionalRange!Range) {
     import std.range: stdDropBack = dropBack;
@@ -64,6 +70,9 @@ unittest {
 
     Returns:
         new range
+
+    Since:
+        0.1.0
 */
 auto dropWhile(alias pred, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.functional: unaryFun;
@@ -87,6 +96,9 @@ unittest {
 
     Returns:
         new range
+
+    Since:
+        0.1.0
 */
 auto dropRightWhile(alias pred, Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
     import std.functional: unaryFun;

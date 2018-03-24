@@ -49,6 +49,9 @@ import common;
 
     Returns:
         compacted range
+
+    Since:
+        0.1.0
 */
 auto compact(alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     return compactBase!("", pred)(range);
@@ -82,6 +85,9 @@ unittest {
 
     Returns:
         compacted range
+
+    Since:
+        0.1.0
 */
 auto compactBy(string member, alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     return compactBase!(member, pred)(range);
@@ -138,6 +144,9 @@ unittest {
 
     Returns:
         compacted associtive array
+
+    Since:
+        0.1.0
 */
 auto compactValues(alias pred = null, T, U)(T[U] aa) {
     import std.array: byPair, assocArray;
@@ -162,6 +171,9 @@ unittest {
 
     Returns:
         Compacted array of values cast to common type T
+
+    Since:
+        0.1.0
 */
 auto compact(alias pred = null, Values...)(Values values) if (!is(from!"std.traits".CommonType!Values == void)) {
     import algorithm: concat;

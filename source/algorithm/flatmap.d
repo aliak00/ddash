@@ -1,3 +1,4 @@
+/// Flatmaps a range
 module algorithm.flatmap;
 import common;
 
@@ -23,12 +24,22 @@ unittest {
 
 /**
     Flatmaps a range of elemenents
+
+    Params:
+        unaryPred = unary mapping function
+        range = an input range
+
+    Returns:
+        New range that has been mapped and flattened
+
+    Since:
+        0.1.0
 */
-auto flatMap(alias fun, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+auto flatMap(alias unaryPred, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: map;
     import algorithm: flatten;
     return range
-        .map!fun
+        .map!unaryPred
         .flatten;
 }
 

@@ -96,6 +96,9 @@ import common;
           join      (array):      9 ms, 243 μs, and 7 hnsecs
           appender  (array):      3 ms, 57 μs, and 8 hnsecs
         ---
+
+    Since:
+        0.1.0
 */
 auto concat(Values...)(Values values) if (from!"bolts.traits".areCombinable!Values) {
     import std.range: isInputRange, chain, only;

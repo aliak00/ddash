@@ -66,6 +66,9 @@ import common;
 
     Returns:
         True if successful evaluation of predicates or values equal
+
+    Since:
+        0.1.0
 */
 bool equal(alias pred = null, T, U)(auto ref T lhs, auto ref U rhs) {
     return equalBase!("", pred)(lhs, rhs);
@@ -86,6 +89,9 @@ bool equal(alias pred = null, T, U)(auto ref T lhs, auto ref U rhs) {
 
     Returns:
         True if successful evaluation of predicates or values equal
+
+    Since:
+        0.1.0
 */
 bool equalBy(string member, alias pred = null, T, U)(auto ref T lhs, auto ref U rhs)
 {

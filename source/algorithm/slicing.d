@@ -29,6 +29,12 @@ import common;
         range = the input range to slice
         start = at which index to start the slice
         end = which index to end the slice
+
+    Returns:
+        A range
+
+    Since:
+        0.1.0
 */
 auto slice(Range)(Range range, size_t start, int end) {
     import std.range: drop, take, takeNone, walkLength;
@@ -48,7 +54,18 @@ auto slice(Range)(Range range, size_t start) {
     return range.drop(start);
 }
 
-/// Gets all but the first element of a range
+/**
+    Gets all but the first element of a range
+
+    Params:
+        range = an input range
+
+    Returns:
+        A range
+
+    Since:
+        0.1.0
+*/
 alias tail = (range) => from!"std.range".drop(range, 1);
 
 ///
@@ -57,7 +74,18 @@ unittest {
     assert([1, 2, 3, 4].tail.equal([2, 3, 4]));
 }
 
-/// Gets all but the last element of a range
+/**
+    Gets all but the last element of a range
+
+    Params:
+        range = an input range
+
+    Returns:
+        A range
+
+    Since:
+        0.1.0
+*/
 alias initial = (range) => from!"std.range".dropBack(range, 1);
 
 ///
