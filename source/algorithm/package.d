@@ -160,14 +160,6 @@ $(TR
     $(TD Creates a range of unique values that are included in the other given set of values)
     )
 $(TR
-    $(TD `algorithm.join`)
-    $(TD
-        $(DDOX_NAMED_REF algorithm.join, `join`)
-        )
-    $(TD)
-    $(TD Converts all elements in range into a string separated by separator.)
-    )
-$(TR
     $(TD `algorithm.nth`)
     $(TD
         $(DDOX_NAMED_REF algorithm.nth.nth, `nth`)<br>
@@ -223,6 +215,14 @@ $(TR
     $(TD Provides various ways for sorting a range)
     )
 $(TR
+    $(TD `algorithm.stringify`)
+    $(TD
+        $(DDOX_NAMED_REF algorithm.stringify.stringify, `stringify`)
+        )
+    $(TD)
+    $(TD Converts all elements in range into a string separated by separator.)
+    )
+$(TR
     $(TD `algorithm.zip`)
     $(TD
         $(DDOX_NAMED_REF algorithm.zip.zipEach, `zipEach`)
@@ -250,7 +250,6 @@ public {
     import algorithm.frompairs;
     import algorithm.index;
     import algorithm.intersection;
-    import algorithm.join;
     import algorithm.nth;
     import algorithm.pull;
     import algorithm.remove;
@@ -274,5 +273,7 @@ public {
     }
 
     import algorithm.slicing;
+    import algorithm.sort;
+    import algorithm.stringify;
     import algorithm.zip;
 }

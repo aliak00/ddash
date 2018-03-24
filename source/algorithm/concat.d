@@ -160,8 +160,8 @@ auto concat(Values...)(Values values) if (from!"bolts.traits".areCombinable!Valu
                     // becuase that has .join as well (And we include it in the unittest version)
                     //
                     // Interestingly, "import algorithm: myJoin = join" does not work either
-                    import algorithm.join: myJoin = join;
-                    mixin(link(I, q{ values[I].myJoin("") }));
+                    import algorithm.stringify;
+                    mixin(link(I, q{ values[I].stringify }));
                 }
                 else static if (isSomeChar!(Values[I]))
                 {

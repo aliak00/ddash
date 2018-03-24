@@ -1,11 +1,11 @@
 /// Converts all elements in range into a string separated by separator.
-module algorithm.join;
+module algorithm.stringify;
 
 ///
 unittest {
-    assert([1, 2, 3].join(',') == "1,2,3");
-    assert([1, 2, 3].join == "123");
-    assert([1, 2, 3].join("-") == "1-2-3");
+    assert([1, 2, 3].stringify(',') == "1,2,3");
+    assert([1, 2, 3].stringify == "123");
+    assert([1, 2, 3].stringify("-") == "1-2-3");
 }
 
 import common;
@@ -19,11 +19,8 @@ import common;
 
     Returns:
         New string
-
-    Since:
-        0.1.0
 */
-string join(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!(from!"std.range".ElementType!S)) {
+string stringify(Range, S)(Range range, S sep = "") if (from!"std.traits".isSomeString!S) {
     import std.algorithm: joiner, map;
     import std.conv: to;
     import std.array;
@@ -34,11 +31,7 @@ string join(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!(from
 }
 
 /// ditto
-string join(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!S) {
-    return range.join([sep]);
-}
-
-/// Ditto
-string join(Range)(Range range) {
-    return range.join("");
+string stringify(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!S) {
+    import std.conv: to;
+    return range.stringify(sep.to!string);
 }
