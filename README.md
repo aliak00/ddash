@@ -19,7 +19,10 @@ A utility library that was inspired by the a javascript library called [lodash](
     auto aa = ["a": 1, "b": 0, "c": 2];
     assert(aa.compactValues!(a => a == 0) == ["a": 1, "c": 2]);
     ```
-* operated on in parts:
+
+Furthermore, a number of algorithms allow you to:
+
+* operate on members of types:
 
     This would be akin to passing in a predicate that extracts a member variable from a type to operate on instead of operating on the whole type. These algorithms usually have a `By` prefix:
     ```d
@@ -31,11 +34,19 @@ A utility library that was inspired by the a javascript library called [lodash](
     auto arr2 = [new C(2), new C(3)];
     assert(arr1.equalBy!"x"(arr2));
     ```
-* operated on via unary or binary predicates:
+* operate via unary or binary predicates:
     ```d
     import std.math: ceil;
     assert([2.1, 1.2].difference!ceil([2.3, 3.4]).equal([1.2]));
     assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([1.2]));
+    ```
+* or both:
+    ```d
+    struct A {
+        int x;
+    }
+    auto arr = [A(4), A(8), A(12)];
+    assert(arr.pullBy!("x", a => a / 2)(5, 9).array == [A(12)]);
     ```
 
 ### Features:

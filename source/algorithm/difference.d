@@ -104,6 +104,9 @@ struct Difference(string member, alias pred, R1, R2) if (from!"std.range".isInpu
 
     Returns:
         New array of filtered results. If `Rs` is empty, then `range` is returned
+
+    Since:
+        0.1.0
 */
 auto difference(alias pred = null, Range, Rs...)(Range range, Rs values)
 if (from!"std.range".isInputRange!Range
@@ -153,6 +156,9 @@ unittest {
 
     SeeAlso:
         `difference`
+
+    Since:
+        0.1.0
 */
 auto differenceBy(string member, alias pred = null, Range, Rs...)(Range range, Rs values)
 if (from!"std.range".isInputRange!Range
