@@ -92,17 +92,25 @@ private auto compactBase(string member, alias pred = null, Range)(Range range) i
     import bolts: isNullType, isUnaryOver;
     import internal: valueBy;
     import std.range: ElementType;
+
+    alias E = ElementType!Range;
+
     static if (isNullType!pred)
     {
+        import bolts: isNullable;
+        static assert(
+            isNullable!E,
+            "Cannot compact non-nullable type `" ~ E.stringod ~ "'",
+        );
         alias fun = (a) => valueBy!member(a) !is null;
     }
-    else static if (isUnaryOver!(pred, typeof(valueBy!member(ElementType!Range.init))))
+    else static if (isUnaryOver!(pred, typeof(valueBy!member(E.init))))
     {
         alias fun = a => !pred(valueBy!member(a));
     }
     else
     {
-        static assert(0, "predicate must either be null or bool function(" ~ ElementType!Range.stringof ~ ")");
+        static assert(0, "predicate must either be null or bool function(" ~ E.stringof ~ ")");
     }
 
     return range.filter!fun;

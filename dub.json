@@ -8,7 +8,7 @@
 	"license": "Boost",
     "targetPath": "bin",
     "dependencies": {
-        "bolts": "~>0.2.0",
+        "bolts": "~>0.3.0",
         "optional": "~>0.3.0"
     }
 }
