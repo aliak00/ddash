@@ -38,7 +38,7 @@ if (from!"std.range".isInputRange!Range
 {
     import std.range: drop;
     import std.functional: unaryFun;
-    import phobos: countUntil;
+    import internal: countUntil;
     auto r = range.drop(fromIndex);
     return r.countUntil!((a, b) => unaryFun!pred(a))(r) + fromIndex;
 }
@@ -95,7 +95,7 @@ unittest {
 */
 auto indexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!"std.range".isInputRange!Range) {
     import std.range: drop;
-    import phobos: countUntil;
+    import internal: countUntil;
     import range: withFront;
     return range
         .drop(fromIndex)

@@ -1,11 +1,50 @@
 /**
-    Contains a number of algorithms
+    Contains a number of algorithms that operate on sequences. These sequences can be:
+    <li>$(LINK2 https://dlang.org/spec/template.html#variadic-templates, value sequences):
+    ---
+    assert(1.concat(2, 3, 4).array == [1, 2, 3, 4]);
+    ---
+    <li>$(LINK2 https://dlang.org/phobos/std_range_primitives.html, ranges):
+    ---
+    assert(1.concat([2, 3, 4]).array == [1, 2, 3, 4]);
+    ---
+    <li>a mixture of the above two:
+    ---
+    assert(1.concat([2, 3], 4).array == [1, 2, 3, 4]);
+    ---
+    <li>$(LINK2 https://dlang.org/spec/hash-map.html, associative arrays):
+    ---
+    auto aa = ["a": 1, "b": 0, "c": 2];
+    assert(aa.compactValues!(a => a == 0) == ["a": 1, "c": 2]);
+    ---
+    <li>operated on in parts:
+
+    This would be akin to passing in a predicate that extracts a member variable from a type to
+    operate on instead of operating on the whole type. These algorithms usually have a `By` prefix:
+    ---
+    class C {
+        int x;
+    }
+    auto arr1 = [new C(2), new C(3)];
+    auto arr2 = [new C(2), new C(3)];
+    assert(arr1.equalBy!"x"(arr2));
+    ---
+    <li>operated on via unary or binary predicates:
+    ---
+    import std.math: ceil;
+    assert([2.1, 1.2].difference!ceil([2.3, 3.4]).equal([1.2]));
+    assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([1.2]));
+    ---
+
+Algorithms:
 
 $(TABLE
 $(TR $(TH Module) $(TH Functions) $(TH Properties) $(TH Description))
 $(TR
     $(TD `algorithm.chunk`)
-    $(TD $(DDOX_NAMED_REF algorithm.chunk, `chunk`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.chunk, `chunk`)
+        )
     $(TD)
     $(TD Creates an array of elements split into groups the length of size.)
     )
@@ -17,13 +56,15 @@ $(TR
         $(DDOX_NAMED_REF algorithm.compact.compactValues, `compactValues`)<br>
         )
     $(TD)
-    $(TD Creates a range with all falsey values removed.)
+    $(TD Creates a range or associative array with all null/predicate values removed.)
     )
 $(TR
     $(TD `algorithm.concat`)
-    $(TD $(DDOX_NAMED_REF algorithm.concat, `concat`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.concat, `concat`)
+        )
     $(TD)
-    $(TD Concatenate ranges and values together to a new range)
+    $(TD Concatenates ranges and values together to a new range)
     )
 $(TR
     $(TD `algorithm.difference`)
@@ -56,7 +97,9 @@ $(TR
     )
 $(TR
     $(TD `algorithm.fill`)
-    $(TD $(DDOX_NAMED_REF algorithm.fill, `fill`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.fill, `fill`)
+        )
     $(TD mutates)
     $(TD Assigns value to each element of input range.)
     )
@@ -71,7 +114,9 @@ $(TR
     )
 $(TR
     $(TD `algorithm.frompairs`)
-    $(TD $(DDOX_NAMED_REF algorithm.frompairs, `fromPairs`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.frompairs, `fromPairs`)
+        )
     $(TD)
     $(TD Returns a newly allocated associative array from a range of key/value tuples)
     )
@@ -88,13 +133,17 @@ $(TR
     )
 $(TR
     $(TD `algorithm.intersection`)
-    $(TD $(DDOX_NAMED_REF algorithm.intersection, `intersection`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.intersection, `intersection`)
+        )
     $(TD)
     $(TD Creates a range of unique values that are included in the other given set of values)
     )
 $(TR
     $(TD `algorithm.join`)
-    $(TD $(DDOX_NAMED_REF algorithm.join, `join`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.join, `join`)
+        )
     $(TD)
     $(TD Converts all elements in range into a string separated by separator.)
     )
@@ -121,13 +170,17 @@ $(TR
     )
 $(TR
     $(TD `algorithm.remove`)
-    $(TD $(DDOX_NAMED_REF algorithm.remove, `remove`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.remove, `remove`)
+        )
     $(TD mutates)
     $(TD Removed elements from a range by unary predicate)
     )
 $(TR
     $(TD)
-    $(TD `reverse`)
+    $(TD
+        `reverse`
+        )
     $(TD mutates)
     $(TD Reverses a range in place)
     )
@@ -143,13 +196,17 @@ $(TR
     )
 $(TR
     $(TD `algorithm.sort`)
-    $(TD $(DDOX_NAMED_REF algorithm.sort.sortBy, `sortBy`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.sort.sortBy, `sortBy`)
+        )
     $(TD)
     $(TD Provides various ways for sorting a range)
     )
 $(TR
     $(TD `algorithm.zip`)
-    $(TD $(DDOX_NAMED_REF algorithm.zip.zipEach, `zipEach`))
+    $(TD
+        $(DDOX_NAMED_REF algorithm.zip.zipEach, `zipEach`)
+        )
     $(TD)
     $(TD Zips up ranges together)
     )

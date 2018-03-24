@@ -21,6 +21,13 @@ import common;
 
     Returns:
         Range of chunks
+
+    Differences_between:
+        <li>$(LINK2 https://dlang.org/library/std/range/chunks.html, phobos.std.range.chunk) - treats `0` as a valid chunk size
+        <li>$(LINK2 https://lodash.com/docs/4.17.5#chunk, lodash.chunks) - none intended
+
+    Since:
+        0.1.0
 */
 auto chunk(Range)(Range range, size_t size) if (from!"std.range".isInputRange!Range) {
     import std.range: chunks, takeNone;

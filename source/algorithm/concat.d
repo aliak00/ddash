@@ -10,7 +10,7 @@ unittest {
     // Concat stuff
     assert([1, 2, 3].concat(4, [5], [6, 7], 8).equal(1.iota(9)));
 
-    // Concat ingle element
+    // Concat single element
     assert([1].concat(2).equal([1, 2]));
 
     // Implicitly convertible doubles with ints
