@@ -217,7 +217,8 @@ $(TR
 $(TR
     $(TD `algorithm.stringify`)
     $(TD
-        $(DDOX_NAMED_REF algorithm.stringify.stringify, `stringify`)
+        $(DDOX_NAMED_REF algorithm.stringify.stringify, `stringify`)<br>
+        $(DDOX_NAMED_REF algorithm.stringify.stringifySeperatedBy, `stringifySeperatedBy`)<br>
         )
     $(TD)
     $(TD Converts all elements in range into a string separated by separator.)

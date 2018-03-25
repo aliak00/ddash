@@ -3,9 +3,9 @@ module algorithm.stringify;
 
 ///
 unittest {
-    assert([1, 2, 3].stringify(',') == "1,2,3");
+    assert([1, 2, 3].stringifySeperatedBy(',') == "1,2,3");
     assert([1, 2, 3].stringify == "123");
-    assert([1, 2, 3].stringify("-") == "1-2-3");
+    assert([1, 2, 3].stringifySeperatedBy("-") == "1-2-3");
 }
 
 import common;
@@ -19,8 +19,11 @@ import common;
 
     Returns:
         New string
+
+    Since:
+        0.1.0
 */
-string stringify(Range, S)(Range range, S sep = "") if (from!"std.traits".isSomeString!S) {
+string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".isSomeString!S) {
     import std.algorithm: joiner, map;
     import std.conv: to;
     import std.array;
@@ -31,7 +34,24 @@ string stringify(Range, S)(Range range, S sep = "") if (from!"std.traits".isSome
 }
 
 /// ditto
-string stringify(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!S) {
+string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!S) {
     import std.conv: to;
-    return range.stringify(sep.to!string);
+    return range.stringifySeperatedBy(sep.to!string);
+}
+
+/**
+    Converts a list of values in to a string
+
+    Params:
+        values = combinable sequence of values
+
+    Returns:
+        New string
+
+    Since:
+        0.1.0
+*/
+string stringify(Values...)(Values values) {
+    import algorithm: concat;
+    return concat(values).stringifySeperatedBy("");
 }
