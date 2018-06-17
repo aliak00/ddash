@@ -1,0 +1,5 @@
+{
+    "name": "common",
+    "targetType": "library",
+    "targetPath": "../bin"
+}
