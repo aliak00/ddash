@@ -1,4 +1,4 @@
-module benchmarks.concat;
+module ddash.benchmarks.concat;
 
 import ddash.common;
 //
@@ -127,7 +127,7 @@ void profile()() {
     alias RangeArgs = AliasSeq!(1.iota.array, 3.iota.array, 10.iota.array);
     auto r2 = benchmark!(
         () => cast(void)concat(RangeArgs),
-        () => concatRecurse(RangeArgs),
+        () => cast(void)concatRecurse(RangeArgs),
         () => concatEager(RangeArgs),
         () => concat(RangeArgs).array,
         () => concatRecurse(RangeArgs).array,
@@ -145,7 +145,7 @@ void profile()() {
     alias MixedArgs = AliasSeq!(1, 2, 3, 1.iota.array, 3.iota.array, 10.iota.array);
     auto r3 = benchmark!(
         () => cast(void)concat(MixedArgs),
-        () => concatRecurse(MixedArgs),
+        () => cast(void)concatRecurse(MixedArgs),
         () => concatEager(MixedArgs),
         () => concat(MixedArgs).array,
         () => concatRecurse(MixedArgs).array,
@@ -163,7 +163,7 @@ void profile()() {
     alias StringArgs = AliasSeq!("hello ", "world", "!", 'c', 'c');
     auto r4 = benchmark!(
         () => cast(void)concat(StringArgs),
-        () => concatRecurse(StringArgs),
+        () => cast(void)concatRecurse(StringArgs),
         () => concat(StringArgs).array,
         () => concatRecurse(StringArgs).array,
     )(10000);
@@ -174,7 +174,7 @@ void profile()() {
     writeln("  concat         (array): ", r4[2]);
     writeln("  concatRecurse  (array): ", r4[3]);
 
-    import algorithm: join;
+    import ddash.algorithm: stringify;
     alias OnlyStrings = AliasSeq!("hello ", "world", "!", "'c'", "'c'");
 
     auto useAppender(string[] strings) {
@@ -187,18 +187,18 @@ void profile()() {
     }
     auto r5 = benchmark!(
         () => cast(void)concat(OnlyStrings),
-        () => join([OnlyStrings], ""),
+        () => stringify(OnlyStrings),
         () => useAppender([OnlyStrings]),
         () => concat(OnlyStrings).array,
-        () => join([OnlyStrings], "").array,
+        () => stringify(OnlyStrings).array,
         () => useAppender([OnlyStrings]).data,
     )(10000);
 
-    writeln("concat strings vs appender and join");
+    writeln("concat strings vs appender and stringify");
     writeln("  concat:                 ", r5[0]);
-    writeln("  join:                   ", r5[1]);
+    writeln("  stringify:              ", r5[1]);
     writeln("  appender:               ", r5[2]);
     writeln("  concat    (array):      ", r5[3]);
-    writeln("  join      (array):      ", r5[4]);
+    writeln("  stringify (array):      ", r5[4]);
     writeln("  appender  (array):      ", r5[5]);
 }

@@ -1,4 +1,4 @@
-module benchmarks.difference;
+module ddash.benchmarks.intersection;
 
 import std.stdio;
 import std.algorithm: sort;
@@ -7,14 +7,14 @@ import std.datetime.stopwatch: benchmark;
 import std.random: uniform;
 import std.range: generate, take;
 
-import algorithm: difference;
+import ddash.algorithm: intersection;
 
 void diff(R1, R2)(R1 r1, R2 r2) {
-    auto r = r1.difference(r2).array;
+    auto r = r1.intersection(r2).array;
 }
 
 void profile()() {
-    static foreach (count; [4, 8, 16, 20, 50, 100, 1000]) {{
+    static foreach (count; [4, 8, 16, 20, 50, 100, 500]) {{
         alias randoms = generate!(() => uniform(0, count));
 
         auto sortableR1 = randoms.take(count).array;

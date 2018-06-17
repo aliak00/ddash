@@ -1,7 +1,7 @@
-module benchmarks.cond;
+module ddash.benchmarks.cond;
 
 void profile()() {
-    import functional: cond;
+    import ddash.functional: cond;
 
     alias lessThanZero = (a) => a < 0;
     alias greaterOrEqualThan10 = (a) => a >= 10;

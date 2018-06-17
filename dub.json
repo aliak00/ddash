@@ -22,10 +22,29 @@
         "./range/",
         "./common/"
     ],
-    "sourcePaths": [
-        "./algorithm/",
-        "./functional/",
-        "./utils/",
-        "./range/"
+    "configurations": [
+        {
+            "name": "unittest",
+            "sourcePaths": [
+                "./algorithm/",
+                "./functional/",
+                "./utils/",
+                "./range/"
+            ]
+        },
+        {
+            "name": "benchmark",
+            "targetType": "executable",
+            "sourcePaths": [
+                "./benchmarks/"
+            ],
+            "importPaths": [
+                "./",
+                "./benchmarks/"
+            ],
+            "buildOptions": [
+                "optimize"
+            ]
+        }
     ]
 }

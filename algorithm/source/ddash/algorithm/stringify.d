@@ -52,6 +52,6 @@ string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".
         0.1.0
 */
 string stringify(Values...)(Values values) {
-    import ddash.algorithm: concat;
+    import ddash.algorithm.concat;
     return concat(values).stringifySeperatedBy("");
 }

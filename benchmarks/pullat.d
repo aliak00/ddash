@@ -1,7 +1,7 @@
-module benchmarks.pullat;
+module ddash.benchmarks.pullat;
 
 void profile()() {
-    import algorithm: pullAt;
+    import ddash.algorithm: pullAt;
 
     import std.stdio;
     import std.datetime.stopwatch: benchmark;
