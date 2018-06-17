@@ -53,15 +53,15 @@ Algorithms:
 $(TABLE
 $(TR $(TH Module) $(TH Functions) $(TH Properties) $(TH Description))
 $(TR
-    $(TD `algorithm.chunk`)
+    $(TD `chunk`)
     $(TD
-        $(DDOX_NAMED_REF algorithm.chunk, `chunk`)
+        $(DDOX_NAMED_REF algorithm.chunk.chunk, `chunk`)
         )
     $(TD)
     $(TD Creates an array of elements split into groups the length of size.)
     )
 $(TR
-    $(TD `algorithm.compact`)
+    $(TD `compact`)
     $(TD
         $(DDOX_NAMED_REF algorithm.compact.compact, `compact`)<br>
         $(DDOX_NAMED_REF algorithm.compact.compactBy, `compactBy`)<br>
@@ -71,15 +71,15 @@ $(TR
     $(TD Creates a range or associative array with all null/predicate values removed.)
     )
 $(TR
-    $(TD `algorithm.concat`)
+    $(TD `concat`)
     $(TD
-        $(DDOX_NAMED_REF algorithm.concat, `concat`)
+        $(DDOX_NAMED_REF algorithm.concat.concat, `concat`)
         )
     $(TD)
     $(TD Concatenates ranges and values together to a new range)
     )
 $(TR
-    $(TD `algorithm.difference`)
+    $(TD `difference`)
     $(TD
         $(DDOX_NAMED_REF algorithm.difference.difference, `difference`)<br>
         $(DDOX_NAMED_REF algorithm.difference.differenceBy, `differenceBy`)<br>
@@ -88,7 +88,7 @@ $(TR
     $(TD Creates a range of values not included in the other given set of values)
     )
 $(TR
-    $(TD `algorithm.drop`)
+    $(TD `drop`)
     $(TD
         $(DDOX_NAMED_REF algorithm.drop.drop, `drop`)<br>
         $(DDOX_NAMED_REF algorithm.drop.dropRight, `dropRight`)<br>
@@ -99,7 +99,7 @@ $(TR
     $(TD Drops elements from a range)
     )
 $(TR
-    $(TD `algorithm.equal`)
+    $(TD `equal`)
     $(TD
         $(DDOX_NAMED_REF algorithm.equal.equal, `equal`)<br>
         $(DDOX_NAMED_REF algorithm.equal.equalBy, `equalBy`)<br>
@@ -108,7 +108,7 @@ $(TR
     $(TD Tells you if two things are equal)
     )
 $(TR
-    $(TD `algorithm.fill`)
+    $(TD `fill`)
     $(TD
         $(DDOX_NAMED_REF algorithm.fill.fill, `fill`)
         )
@@ -116,7 +116,7 @@ $(TR
     $(TD Assigns value to each element of input range.)
     )
 $(TR
-    $(TD `algorithm.flatmap`)
+    $(TD `flatmap`)
     $(TD
         $(DDOX_NAMED_REF algorithm.flatmap.flatMap, `flatMap`)
         )
@@ -124,7 +124,7 @@ $(TR
     $(TD Maps and flattens a range.)
     )
 $(TR
-    $(TD `algorithm.flatten`)
+    $(TD `flatten`)
     $(TD
         $(DDOX_NAMED_REF algorithm.flatten.flatten, `flatten`)<br>
         $(DDOX_NAMED_REF algorithm.flatten.flattenDeep, `flattenDeep`)<br>
@@ -133,15 +133,15 @@ $(TR
     $(TD Flattens a range by removing nesting levels values)
     )
 $(TR
-    $(TD `algorithm.frompairs`)
+    $(TD `frompairs`)
     $(TD
-        $(DDOX_NAMED_REF algorithm.frompairs, `fromPairs`)
+        $(DDOX_NAMED_REF algorithm.frompairs.frompairs, `fromPairs`)
         )
     $(TD)
     $(TD Returns a newly allocated associative array from a range of key/value tuples)
     )
 $(TR
-    $(TD `algorithm.index`)
+    $(TD `index`)
     $(TD
         $(DDOX_NAMED_REF algorithm.index.indexWhere, `indexWhere`)<br>
         $(DDOX_NAMED_REF algorithm.index.lastIndexWhere, `lastIndexWhere`)<br>
@@ -152,7 +152,7 @@ $(TR
     $(TD Returns `optional` index of an element in a range.)
     )
 $(TR
-    $(TD `algorithm.intersection`)
+    $(TD `intersection`)
     $(TD
         $(DDOX_NAMED_REF algorithm.intersection, `intersection`)
         )
@@ -160,7 +160,7 @@ $(TR
     $(TD Creates a range of unique values that are included in the other given set of values)
     )
 $(TR
-    $(TD `algorithm.nth`)
+    $(TD `nth`)
     $(TD
         $(DDOX_NAMED_REF algorithm.nth.nth, `nth`)<br>
         $(DDOX_NAMED_REF algorithm.nth.nthOr, `nthOr`)<br>
@@ -171,7 +171,7 @@ $(TR
     $(TD Returns the element at nth index of range)
     )
 $(TR
-    $(TD `algorithm.pull`)
+    $(TD `pull`)
     $(TD
         $(DDOX_NAMED_REF algorithm.pull.pull, `pull`)<br>
         $(DDOX_NAMED_REF algorithm.pull.pullAt, `pullAt`)<br>
@@ -181,23 +181,23 @@ $(TR
     $(TD Pulls elements out of a range)
     )
 $(TR
-    $(TD `algorithm.remove`)
+    $(TD `remove`)
     $(TD
-        $(DDOX_NAMED_REF algorithm.remove, `remove`)
+        $(DDOX_NAMED_REF algorithm.remove.remove, `remove`)
         )
     $(TD mutates)
     $(TD Removed elements from a range by unary predicate)
     )
 $(TR
-    $(TD)
+    $(TD `reverse``)
     $(TD
-        `reverse`
+        $(DDOX_NAMED_REF algorithm.reverse.reverse, `reverse`)
         )
     $(TD mutates)
     $(TD Reverses a range in place)
     )
 $(TR
-    $(TD `algorithm.slicing`)
+    $(TD `slicing`)
     $(TD
         $(DDOX_NAMED_REF algorithm.slicing.slice, `slice`)<br>
         $(DDOX_NAMED_REF algorithm.slicing.tail, `tail`)<br>
@@ -207,7 +207,7 @@ $(TR
     $(TD Creates a slice of a range)
     )
 $(TR
-    $(TD `algorithm.sort`)
+    $(TD `sort`)
     $(TD
         $(DDOX_NAMED_REF algorithm.sort.sortBy, `sortBy`)
         )
@@ -215,7 +215,7 @@ $(TR
     $(TD Provides various ways for sorting a range)
     )
 $(TR
-    $(TD `algorithm.stringify`)
+    $(TD `stringify`)
     $(TD
         $(DDOX_NAMED_REF algorithm.stringify.stringify, `stringify`)<br>
         $(DDOX_NAMED_REF algorithm.stringify.stringifySeperatedBy, `stringifySeperatedBy`)<br>
@@ -224,7 +224,7 @@ $(TR
     $(TD Converts all elements in range into a string separated by separator.)
     )
 $(TR
-    $(TD `algorithm.zip`)
+    $(TD `zip`)
     $(TD
         $(DDOX_NAMED_REF algorithm.zip.zipEach, `zipEach`)
         )
@@ -254,25 +254,7 @@ public {
     import ddash.algorithm.nth;
     import ddash.algorithm.pull;
     import ddash.algorithm.remove;
-
-    /// Reverses the range by mutating it
-    void reverse(Range)(ref Range range)
-    if (from!"std.range".isBidirectionalRange!Range
-        && !from!"std.range".isRandomAccessRange!Range
-        && from!"std.range".hasSwappableElements!Range
-        || (from!"std.range".isRandomAccessRange!Range && from!"std.range".hasLength!Range))
-    {
-        import std.algorithm: reverse;
-        range.reverse;
-    }
-
-    ///
-    unittest {
-        auto arr = [1, 2, 3, 4];
-        arr.reverse;
-        assert(arr.equal([4, 3, 2, 1]));
-    }
-
+    import ddash.algorithm.reverse;
     import ddash.algorithm.slicing;
     import ddash.algorithm.sort;
     import ddash.algorithm.stringify;
