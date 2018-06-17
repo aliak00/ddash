@@ -1,6 +1,6 @@
 module benchmarks.concat;
 
-import common;
+import ddash.common;
 //
 // An concatEager version of concat just for testing. Tests in release show that this is
 // never faster in any case.
@@ -95,7 +95,7 @@ unittest {
 }
 
 void profile()() {
-    import algorithm.concat;
+    import ddash.algorithm.concat;
 
     import std.array;
     import std.stdio;

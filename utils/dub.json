@@ -1,0 +1,8 @@
+{
+    "name": "utils",
+    "targetType": "library",
+    "targetPath": "../bin",
+    "dependencies": {
+        "ddash:common": "*"
+    }
+}

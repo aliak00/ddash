@@ -1,14 +1,31 @@
 {
-	"name": "lodashd",
-	"authors": [
-		"Ali Akhtarzada"
-	],
-	"description": "Utility library for D",
-	"copyright": "Copyright © 2017, Ali Akhtarzada",
-	"license": "Boost",
+    "name": "ddash",
+    "authors": [
+        "Ali Akhtarzada"
+    ],
+    "description": "Utility library for D",
+    "copyright": "Copyright © 2017, Ali Akhtarzada",
+    "license": "MIT",
     "targetPath": "bin",
     "dependencies": {
         "bolts": "~>0.3.0",
-        "optional": "~>0.3.0"
-    }
+        "optional": "~>0.4.0",
+        "ddash:algorithm": "*",
+        "ddash:functional": "*",
+        "ddash:range": "*",
+        "ddash:utils": "*"
+    },
+    "subPackages": [
+        "./algorithm/",
+        "./functional/",
+        "./utils/",
+        "./range/",
+        "./common/"
+    ],
+    "sourcePaths": [
+        "./algorithm/",
+        "./functional/",
+        "./utils/",
+        "./range/"
+    ]
 }

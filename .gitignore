@@ -5,12 +5,14 @@ docs/*
 !docs/styles/
 !docs/prettify/
 
-lodashd.so
-lodashd.dylib
-lodashd.dll
-lodashd.a
-lodashd.lib
-lodashd-test-*
+.DS_Store
+
+ddash.so
+ddash.dylib
+ddash.dll
+ddash.a
+ddash.lib
+ddash-test-*
 *.exe
 *.o
 *.obj
