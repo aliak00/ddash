@@ -6,21 +6,16 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "dub run",
+            "command": "dub test",
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
         },
         {
-            "label": "debug",
+            "label": "benchmark",
             "type": "shell",
-            "command": "dub build --compiler=ldc2"
-        },
-        {
-            "label": "test",
-            "type": "shell",
-            "command": "dub test"
+            "command": "dub run --config=benchmark --compiler=ldc2"
         }
     ]
 }

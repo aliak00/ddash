@@ -7,7 +7,7 @@ void main() {
     static import ddash.benchmarks.pullat;
     ddash.benchmarks.concat.profile!();
     ddash.benchmarks.cond.profile!();
-    // ddash.benchmarks.difference.profile!();
+    ddash.benchmarks.difference.profile!();
     ddash.benchmarks.intersection.profile!();
     ddash.benchmarks.pullat.profile!();
 }

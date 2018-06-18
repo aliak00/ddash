@@ -57,7 +57,7 @@ struct Difference(string member, alias pred, R1, R2) if (from!"std.range".isInpu
         else
         {
             import std.algorithm: canFind;
-            import ddash.algorithm: equal;
+            import ddash.algorithm: equalBy;
             alias eq = (a, b) => equalBy!(member, pred)(a, b);
             while (!this.r1.empty && this.r2.canFind!eq(this.r1.front)) {
                 this.r1.popFront;
