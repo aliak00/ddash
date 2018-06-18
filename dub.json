@@ -41,9 +41,6 @@
             "importPaths": [
                 "./",
                 "./benchmarks/"
-            ],
-            "buildOptions": [
-                "optimize"
             ]
         }
     ]
