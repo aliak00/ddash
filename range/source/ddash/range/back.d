@@ -67,13 +67,18 @@ unittest {
 auto maybeBack(Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
     import std.range: ElementType, empty, back;
     import optional: no, some;
-    return range.empty ? no!(ElementType!Range) : some(range.back);
+    return range.empty ? no!(ElementType!Range) : some!(ElementType!Range)(range.back);
 }
 
 ///
 unittest {
     assert((int[]).init.maybeBack.empty == true);
     assert([1, 2].maybeBack.front == 2);
+}
+
+unittest {
+    const(string)[] args = [];
+    static assert(__traits(compiles, { args.maybeBack; }));
 }
 
 ///

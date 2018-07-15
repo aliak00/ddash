@@ -66,7 +66,7 @@ if (from!"std.range".isInputRange!Range)
 
     static if (wrap == Yes.wrap)
     {
-        return some(get(n % length));
+        return some!T(get(n % length));
     }
     else
     {
