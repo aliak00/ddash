@@ -88,8 +88,8 @@ unittest {
 }
 
 unittest {
-    const(string)[] args = ["a", "b"];
-    auto n = args.nth(0);
+    const(string)[] args = [];
+    static assert(__traits(compiles, { args.nth(0); }));
 }
 
 /// Returns `optional` front of range

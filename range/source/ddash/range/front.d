@@ -67,13 +67,18 @@ unittest {
 auto maybeFront(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, empty, front;
     import optional: no, some;
-    return range.empty ? no!(ElementType!Range) : some(range.front);
+    return range.empty ? no!(ElementType!Range) : some!(ElementType!Range)(range.front);
 }
 
 ///
 unittest {
     assert((int[]).init.maybeFront.empty == true);
     assert([1, 2].maybeFront.front == 1);
+}
+
+unittest {
+    const(string)[] args = [];
+    static assert(__traits(compiles, { args.maybeFront; }));
 }
 
 ///
