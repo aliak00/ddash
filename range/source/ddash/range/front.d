@@ -43,7 +43,7 @@ auto withFront(alias fun, Range)(Range range) if (from!"std.range".isInputRange!
     {
         import optional: some;
         if (!range.empty) {
-            some(f(range.front));
+            f(range.front);
         }
     }
     else

@@ -43,7 +43,7 @@ auto withBack(alias fun, Range)(Range range) if (from!"std.range".isBidirectiona
     {
         import optional: some;
         if (!range.empty) {
-            some(f(range.front));
+            f(range.front);
         }
     }
     else
