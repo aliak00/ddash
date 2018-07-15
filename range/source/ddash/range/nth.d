@@ -73,7 +73,7 @@ if (from!"std.range".isInputRange!Range)
         if (n >= length) {
             return no!T;
         }
-        return some(get(n));
+        return some!T(get(n));
     }
 }
 
@@ -85,6 +85,11 @@ unittest {
     assert((int[]).init.nth(1) == none);
     assert([1, 2].nth!(No.wrap)(2) == none);
     assert([1, 2].nth!(Yes.wrap)(2) == some(1));
+}
+
+unittest {
+    const(string)[] args = ["a", "b"];
+    auto n = args.nth(0);
 }
 
 /// Returns `optional` front of range
