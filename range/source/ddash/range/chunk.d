@@ -5,7 +5,7 @@
         <li>$(LINK2 https://dlang.org/library/std/range/chunks.html, phobos.std.range.chunk) - treats `0` as a valid chunk size
         <li>$(LINK2 https://lodash.com/docs/4.17.5#chunk, lodash.chunks) - none intended
 */
-module ddash.algorithm.chunk;
+module ddash.range.chunk;
 
 ///
 unittest {
@@ -13,7 +13,7 @@ unittest {
     assert([1, 2, 3].chunk(1).equal([[1], [2], [3]]));
 }
 
-import ddash.algorithm.internal.common;
+import ddash.range.internal.common;
 
 /**
     Creates a range of ranges of length `size`. If the range can't be split evenly,

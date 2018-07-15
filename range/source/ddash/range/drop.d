@@ -1,5 +1,5 @@
 /// Drops elements from a range
-module ddash.algorithm.drop;
+module ddash.range.drop;
 
 ///
 unittest {
@@ -10,7 +10,7 @@ unittest {
 
 }
 
-import ddash.algorithm.internal.common;
+import ddash.range.internal.common;
 
 
 /**

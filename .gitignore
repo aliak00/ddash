@@ -1,9 +1,7 @@
 .dub
 docs.json
 __dummy.html
-docs/*
-!docs/styles/
-!docs/prettify/
+docs/
 
 .DS_Store
 

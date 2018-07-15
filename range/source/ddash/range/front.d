@@ -14,7 +14,7 @@ unittest {
     assert(evens.takeNone.frontOr(100) == 100);
 }
 
-import ddash.common;
+import ddash.range.internal.common;
 
 /**
     Retrieves the front of a range or a default value

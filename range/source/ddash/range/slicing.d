@@ -1,7 +1,7 @@
 /**
     Returns a slice of a range
 */
-module ddash.algorithm.slicing;
+module ddash.range.slicing;
 
 ///
 unittest {
@@ -17,7 +17,7 @@ unittest {
     assert(arr.tail.equal([2, 3, 4, 5]));
 }
 
-import ddash.algorithm.internal.common;
+import ddash.range.internal.common;
 
 /**
     Returns a slice of range from start up to, but not including, end
@@ -70,7 +70,7 @@ alias tail = (range) => from!"std.range".drop(range, 1);
 
 ///
 unittest {
-    assert((int[]).init.tail.equal([]));
+    assert((int[]).init.tail.empty);
     assert([1, 2, 3, 4].tail.equal([2, 3, 4]));
 }
 
@@ -90,6 +90,6 @@ alias initial = (range) => from!"std.range".dropBack(range, 1);
 
 ///
 unittest {
-    assert((int[]).init.initial.equal([]));
+    assert((int[]).init.initial.empty);
     assert([1, 2, 3, 4].initial.equal([1, 2, 3]));
 }

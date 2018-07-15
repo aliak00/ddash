@@ -53,15 +53,7 @@ Algorithms:
 $(TABLE
 $(TR $(TH Module) $(TH Functions) $(TH Properties) $(TH Description))
 $(TR
-    $(TD `chunk`)
-    $(TD
-        $(DDOX_NAMED_REF algorithm.chunk.chunk, `chunk`)
-        )
-    $(TD)
-    $(TD Creates an array of elements split into groups the length of size.)
-    )
-$(TR
-    $(TD `compact`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.compact, `compact`))
     $(TD
         $(DDOX_NAMED_REF algorithm.compact.compact, `compact`)<br>
         $(DDOX_NAMED_REF algorithm.compact.compactBy, `compactBy`)<br>
@@ -71,7 +63,7 @@ $(TR
     $(TD Creates a range or associative array with all null/predicate values removed.)
     )
 $(TR
-    $(TD `concat`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.concat, `concat`))
     $(TD
         $(DDOX_NAMED_REF algorithm.concat.concat, `concat`)
         )
@@ -79,7 +71,7 @@ $(TR
     $(TD Concatenates ranges and values together to a new range)
     )
 $(TR
-    $(TD `difference`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.difference, `difference`))
     $(TD
         $(DDOX_NAMED_REF algorithm.difference.difference, `difference`)<br>
         $(DDOX_NAMED_REF algorithm.difference.differenceBy, `differenceBy`)<br>
@@ -88,18 +80,7 @@ $(TR
     $(TD Creates a range of values not included in the other given set of values)
     )
 $(TR
-    $(TD `drop`)
-    $(TD
-        $(DDOX_NAMED_REF algorithm.drop.drop, `drop`)<br>
-        $(DDOX_NAMED_REF algorithm.drop.dropRight, `dropRight`)<br>
-        $(DDOX_NAMED_REF algorithm.drop.dropWhile, `dropWhile`)<br>
-        $(DDOX_NAMED_REF algorithm.drop.dropRightWhile, `dropRightWhile`)<br>
-        )
-    $(TD)
-    $(TD Drops elements from a range)
-    )
-$(TR
-    $(TD `equal`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.equal, `equal`))
     $(TD
         $(DDOX_NAMED_REF algorithm.equal.equal, `equal`)<br>
         $(DDOX_NAMED_REF algorithm.equal.equalBy, `equalBy`)<br>
@@ -108,7 +89,7 @@ $(TR
     $(TD Tells you if two things are equal)
     )
 $(TR
-    $(TD `fill`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.fill, `fill`))
     $(TD
         $(DDOX_NAMED_REF algorithm.fill.fill, `fill`)
         )
@@ -116,7 +97,7 @@ $(TR
     $(TD Assigns value to each element of input range.)
     )
 $(TR
-    $(TD `flatmap`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.flatmap, `flatmap`))
     $(TD
         $(DDOX_NAMED_REF algorithm.flatmap.flatMap, `flatMap`)
         )
@@ -124,7 +105,7 @@ $(TR
     $(TD Maps and flattens a range.)
     )
 $(TR
-    $(TD `flatten`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.flatten, `flatten`))
     $(TD
         $(DDOX_NAMED_REF algorithm.flatten.flatten, `flatten`)<br>
         $(DDOX_NAMED_REF algorithm.flatten.flattenDeep, `flattenDeep`)<br>
@@ -133,15 +114,15 @@ $(TR
     $(TD Flattens a range by removing nesting levels values)
     )
 $(TR
-    $(TD `frompairs`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.frompairs, `frompairs`))
     $(TD
-        $(DDOX_NAMED_REF algorithm.frompairs.frompairs, `fromPairs`)
+        $(DDOX_NAMED_REF algorithm.frompairs.fromPairs, `fromPairs`)
         )
     $(TD)
     $(TD Returns a newly allocated associative array from a range of key/value tuples)
     )
 $(TR
-    $(TD `index`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.index, `index`))
     $(TD
         $(DDOX_NAMED_REF algorithm.index.indexWhere, `indexWhere`)<br>
         $(DDOX_NAMED_REF algorithm.index.lastIndexWhere, `lastIndexWhere`)<br>
@@ -152,7 +133,7 @@ $(TR
     $(TD Returns `optional` index of an element in a range.)
     )
 $(TR
-    $(TD `intersection`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.intersection, `intersection`))
     $(TD
         $(DDOX_NAMED_REF algorithm.intersection, `intersection`)
         )
@@ -160,18 +141,7 @@ $(TR
     $(TD Creates a range of unique values that are included in the other given set of values)
     )
 $(TR
-    $(TD `nth`)
-    $(TD
-        $(DDOX_NAMED_REF algorithm.nth.nth, `nth`)<br>
-        $(DDOX_NAMED_REF algorithm.nth.nthOr, `nthOr`)<br>
-        $(DDOX_NAMED_REF algorithm.nth.first, `first`)<br>
-        $(DDOX_NAMED_REF algorithm.nth.last, `last`)<br>
-    )
-    $(TD)
-    $(TD Returns the element at nth index of range)
-    )
-$(TR
-    $(TD `pull`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.pull, `pull`))
     $(TD
         $(DDOX_NAMED_REF algorithm.pull.pull, `pull`)<br>
         $(DDOX_NAMED_REF algorithm.pull.pullAt, `pullAt`)<br>
@@ -181,7 +151,7 @@ $(TR
     $(TD Pulls elements out of a range)
     )
 $(TR
-    $(TD `remove`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.remove, `remove`))
     $(TD
         $(DDOX_NAMED_REF algorithm.remove.remove, `remove`)
         )
@@ -189,7 +159,7 @@ $(TR
     $(TD Removed elements from a range by unary predicate)
     )
 $(TR
-    $(TD `reverse``)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.reverse, `reverse`))
     $(TD
         $(DDOX_NAMED_REF algorithm.reverse.reverse, `reverse`)
         )
@@ -197,17 +167,7 @@ $(TR
     $(TD Reverses a range in place)
     )
 $(TR
-    $(TD `slicing`)
-    $(TD
-        $(DDOX_NAMED_REF algorithm.slicing.slice, `slice`)<br>
-        $(DDOX_NAMED_REF algorithm.slicing.tail, `tail`)<br>
-        $(DDOX_NAMED_REF algorithm.slicing.initial, `initial`)<br>
-    )
-    $(TD)
-    $(TD Creates a slice of a range)
-    )
-$(TR
-    $(TD `sort`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.sort, `sort`))
     $(TD
         $(DDOX_NAMED_REF algorithm.sort.sortBy, `sortBy`)
         )
@@ -215,7 +175,7 @@ $(TR
     $(TD Provides various ways for sorting a range)
     )
 $(TR
-    $(TD `stringify`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.stringify, `stringify`))
     $(TD
         $(DDOX_NAMED_REF algorithm.stringify.stringify, `stringify`)<br>
         $(DDOX_NAMED_REF algorithm.stringify.stringifySeperatedBy, `stringifySeperatedBy`)<br>
@@ -224,7 +184,7 @@ $(TR
     $(TD Converts all elements in range into a string separated by separator.)
     )
 $(TR
-    $(TD `zip`)
+    $(TD $(DDOX_NAMED_REF ddash.algorithm.zip, `zip`))
     $(TD
         $(DDOX_NAMED_REF algorithm.zip.zipEach, `zipEach`)
         )
@@ -239,11 +199,9 @@ import ddash.algorithm.internal.common;
 
 public {
     import ddash.algorithm.flatmap;
-    import ddash.algorithm.chunk;
     import ddash.algorithm.compact;
     import ddash.algorithm.concat;
     import ddash.algorithm.difference;
-    import ddash.algorithm.drop;
     import ddash.algorithm.equal;
     import ddash.algorithm.fill;
     import ddash.algorithm.flatmap;
@@ -251,11 +209,9 @@ public {
     import ddash.algorithm.frompairs;
     import ddash.algorithm.index;
     import ddash.algorithm.intersection;
-    import ddash.algorithm.nth;
     import ddash.algorithm.pull;
     import ddash.algorithm.remove;
     import ddash.algorithm.reverse;
-    import ddash.algorithm.slicing;
     import ddash.algorithm.sort;
     import ddash.algorithm.stringify;
     import ddash.algorithm.zip;
