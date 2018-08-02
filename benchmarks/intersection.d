@@ -14,7 +14,8 @@ void diff(R1, R2)(R1 r1, R2 r2) {
 }
 
 void profile()() {
-    static foreach (count; [4, 8, 16, 20, 50, 100, 500]) {{
+    writeln("Benchmarking intersection:");
+    static foreach (count; [4, 16, 20, 50, 100]) {{
         alias randoms = generate!(() => uniform(0, count));
 
         auto sortableR1 = randoms.take(count).array;
@@ -31,9 +32,9 @@ void profile()() {
         alias fUnsortable = () => diff(unnsortableR1, unnsortableR2);
 
         auto r = benchmark!(fSorted, fSortable, fUnsortable)(5000);
-        writeln("count: ", count);
-        writeln("  sorted:     ", r[0]);
-        writeln("  sortable:   ", r[1]);
-        writeln("  unsortable: ", r[2]);
+        writeln("  array size: ", count);
+        writeln("    sorted:     ", r[0]);
+        writeln("    sortable:   ", r[1]);
+        writeln("    unsortable: ", r[2]);
     }}
 }

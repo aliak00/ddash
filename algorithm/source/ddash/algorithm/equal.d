@@ -13,7 +13,7 @@ unittest {
     assert( equal!q{a % 2 == 0}(2, 4));
 
     // binary predicate used to compare elements
-    assert( equal!((a, b) => a != b)(2, 4));
+    assert(!equal!((a, b) => a == b)(2, 4));
     assert( equal!q{a != b}(2, 4));
 
     // compare ranges of ranges of different range types but same value types
@@ -56,7 +56,7 @@ import ddash.algorithm.internal.common;
     Compares two things together
 
     It can be customized with a unary or binary predicate. If a unary predicate is provided then it acts as
-    a transformation that is applies to the elements being compare for equality. If a binary predicate is
+    a transformation that is applied to the elements being compared for equality. If a binary predicate is
     provided then that binary predicate is given the values and must return true or false.
 
     Params:
@@ -148,7 +148,12 @@ private bool equalBase(string member, alias pred = null, T, U)(auto ref T lhs, a
     else static if (isBinaryOver!(pred, T, U))
     {
         import std.functional: binaryFun;
-        return binaryFun!pred(lhs, rhs);
+        import ddash.functional.pred: isLt;
+        static if (isLt!pred) {
+            return !binaryFun!pred(lhs, rhs) && !binaryFun!pred(rhs, lhs);
+        } else {
+            return binaryFun!pred(lhs, rhs);
+        }
     }
     else
     {

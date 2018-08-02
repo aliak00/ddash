@@ -5,4 +5,5 @@ module ddash.functional;
 
 public {
     import ddash.functional.cond;
+    import ddash.functional.pred;
 }
