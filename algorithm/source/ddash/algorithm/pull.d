@@ -145,7 +145,7 @@ auto pullAt(Range, Indices...)(Range range, Indices indices)
 if (from!"std.range".isInputRange!Range
     && from!"std.meta".allSatisfy!(
         from!"std.traits".isIntegral,
-        from!"bolts.meta".Flatten!Indices
+        from!"bolts.meta".FlattenRanges!Indices
     )
 ) {
     import std.algorithm: sort;
