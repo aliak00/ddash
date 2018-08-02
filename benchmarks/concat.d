@@ -10,15 +10,15 @@ import ddash.common;
 // This verison is limited in that it does not do narrow strings
 //
 private template concatEager(Values...)
-if ((!is(from!"std.traits".CommonType!(from!"bolts.meta".FlattenRanges!Values) == void)
+if ((!is(from!"std.traits".CommonType!(from!"bolts.meta".Flatten!Values) == void)
     && !from!"std.meta".anySatisfy!(from!"std.traits".isNarrowString, Values))
         || Values.length == 0)
 {
     import std.range: isInputRange;
     import std.traits: CommonType;
-    import bolts.meta: FlattenRanges;
+    import bolts.meta: Flatten;
 
-    alias T = CommonType!(FlattenRanges!Values);
+    alias T = CommonType!(Flatten!Values);
 
     auto concatEager(Values values) {
         T[] array;

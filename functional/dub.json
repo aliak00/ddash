@@ -3,7 +3,7 @@
     "targetType": "library",
     "targetPath": "../bin",
     "dependencies": {
-        "bolts": "~>0.3.0",
+        "bolts": "~>0.4.2",
         "ddash:common": "*"
     }
 
