@@ -38,8 +38,8 @@ private template isSortednessValid(R1, R2, string byMember, alias pred) {
 struct Difference(string member, alias pred, R1, R2) {
     import bolts.range: CommonTypeOfRanges;
 
-    R1 r1;
-    R2 r2;
+    private R1 r1;
+    private R2 r2;
 
     alias E = CommonTypeOfRanges!(R1, R2);
 
@@ -87,15 +87,12 @@ struct Difference(string member, alias pred, R1, R2) {
     }
 
     bool empty() @property {
-        import std.range: empty;
         return this.r1.empty;
     }
     auto front() @property {
-        import std.range: front;
         return this.r1.front;
     }
     void popFront() {
-        import std.range: popFront;
         this.r1.popFront;
         this.moveToNextElement;
     }
@@ -223,16 +220,21 @@ if (isRangeOverValidPredicate!(pred, Range) && from!"bolts.traits".areCombinable
             alias sortPred = (a, b) => a < b;
         }
 
-        static if (member.length == 0) {
-            import ddash.algorithm: maybeSort;
-            auto r1 = maybeSort!sortPred(range);
-            auto r2 = maybeSort!sortPred(combinedValues);
-        } else {
-            import ddash.algorithm: maybeSortBy;
-            auto r1 = maybeSortBy!(member, sortPred)(range);
-            auto r2 = maybeSortBy!(member, sortPred)(combinedValues);
-        }
+        import ddash.algorithm: maybeSortBy;
+        auto r1 = maybeSortBy!(member, sortPred)(range);
+        auto r2 = maybeSortBy!(member, sortPred)(combinedValues);
 
         return Difference!(member, pred, typeof(r1), typeof(r2))(r1, r2);
     }
+}
+
+unittest {
+    assert([1, 1, 1, 2, 2, 3].difference(2, 3).equal([1, 1, 1]));
+    assert([1, 1, 1, 2, 2, 3, 3].difference(2, 3).equal([1, 1, 1]));
+    assert([1, 1, 1, 2, 2, 3, 3].difference(3).equal([1, 1, 1, 2, 2]));
+    assert([1, 1, 1, 2, 2, 3, 3].difference(2).equal([1, 1, 1, 3, 3]));
+    assert([1, 1, 1, 2, 2, 3].difference(1, 2).equal([3]));
+    assert([1, 1, 1, 2, 2, 3, 3].difference(1, 2).equal([3, 3]));
+    assert([1, 1, 1, 2, 2, 3].difference(-1, 2).equal([1, 1, 1, 3]));
+    assert([1, 1, 1, 2, 2, 3].difference(7, 1).equal([2, 2, 3]));
 }
