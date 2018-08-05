@@ -1,5 +1,13 @@
 {
     "name": "common",
     "targetType": "library",
-    "targetPath": "../bin"
+    "targetPath": "../bin",
+    "dependencies": {
+        "bolts": {
+            "path": "../bolts"
+        },
+        "optional": {
+            "path": "../optional-d"
+        }
+    }
 }

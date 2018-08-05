@@ -3,8 +3,6 @@
 */
 module ddash.algorithm.difference;
 
-import bolts;
-
 ///
 unittest {
     import std.algorithm: map;

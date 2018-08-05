@@ -3,7 +3,6 @@
     "targetType": "library",
     "targetPath": "../bin",
     "dependencies": {
-        "optional": "~>0.4.0",
         "ddash:common": "*",
         "ddash:range": "*",
         "ddash:utils": "*",

@@ -8,12 +8,6 @@
     "license": "MIT",
     "targetPath": "bin",
     "dependencies": {
-        "bolts": {
-            "path": "../bolts"
-        },
-        "optional": {
-            "path": "../optional-d"
-        },
         "ddash:algorithm": "*",
         "ddash:functional": "*",
         "ddash:range": "*",
