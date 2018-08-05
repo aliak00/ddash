@@ -10,15 +10,15 @@ import ddash.common;
 // This verison is limited in that it does not do narrow strings
 //
 private template concatEager(Values...)
-if ((!is(from!"std.traits".CommonType!(from!"bolts.meta".FlattenRanges!Values) == void)
+if ((!is(from!"std.traits".CommonType!(from!"bolts.meta".Flatten!Values) == void)
     && !from!"std.meta".anySatisfy!(from!"std.traits".isNarrowString, Values))
         || Values.length == 0)
 {
     import std.range: isInputRange;
     import std.traits: CommonType;
-    import bolts.meta: FlattenRanges;
+    import bolts.meta: Flatten;
 
-    alias T = CommonType!(FlattenRanges!Values);
+    alias T = CommonType!(Flatten!Values);
 
     auto concatEager(Values values) {
         T[] array;
@@ -116,13 +116,13 @@ void profile()() {
         () => concatEager(SingleArgs).array
     )(10000);
 
-    writeln("concat single arguments:");
-    writeln("  concat:                ", r1[0]);
-    writeln("  concatRecurse:         ", r1[1]);
-    writeln("  concatEager:           ", r1[2]);
-    writeln("  concat        (array): ", r1[3]);
-    writeln("  concatRecurse (array): ", r1[4]);
-    writeln("  concatEager   (array): ", r1[5]);
+    writeln("  concat single arguments:");
+    writeln("    concat:                ", r1[0]);
+    writeln("    concatRecurse:         ", r1[1]);
+    writeln("    concatEager:           ", r1[2]);
+    writeln("    concat        (array): ", r1[3]);
+    writeln("    concatRecurse (array): ", r1[4]);
+    writeln("    concatEager   (array): ", r1[5]);
 
     alias RangeArgs = AliasSeq!(1.iota.array, 3.iota.array, 10.iota.array);
     auto r2 = benchmark!(
@@ -134,13 +134,13 @@ void profile()() {
         () => concatEager(RangeArgs).array
     )(10000);
 
-    writeln("concat multiple ranges together");
-    writeln("  concat:                ", r2[0]);
-    writeln("  concatRecurse:         ", r2[1]);
-    writeln("  concatEager:           ", r2[2]);
-    writeln("  concat        (array): ", r2[3]);
-    writeln("  concatRecurse (array): ", r2[4]);
-    writeln("  concatEager   (array): ", r2[5]);
+    writeln("  concat multiple ranges together");
+    writeln("    concat:                ", r2[0]);
+    writeln("    concatRecurse:         ", r2[1]);
+    writeln("    concatEager:           ", r2[2]);
+    writeln("    concat        (array): ", r2[3]);
+    writeln("    concatRecurse (array): ", r2[4]);
+    writeln("    concatEager   (array): ", r2[5]);
 
     alias MixedArgs = AliasSeq!(1, 2, 3, 1.iota.array, 3.iota.array, 10.iota.array);
     auto r3 = benchmark!(
@@ -152,13 +152,13 @@ void profile()() {
         () => concatEager(MixedArgs).array
     )(10000);
 
-    writeln("concat single args and multiple ranges:");
-    writeln("  concat:                ", r3[0]);
-    writeln("  concatRecurse:         ", r3[1]);
-    writeln("  concatEager:           ", r3[2]);
-    writeln("  concat        (array): ", r3[3]);
-    writeln("  concatRecurse (array): ", r3[4]);
-    writeln("  concatEager   (array): ", r3[5]);
+    writeln("  concat single args and multiple ranges:");
+    writeln("    concat:                ", r3[0]);
+    writeln("    concatRecurse:         ", r3[1]);
+    writeln("    concatEager:           ", r3[2]);
+    writeln("    concat        (array): ", r3[3]);
+    writeln("    concatRecurse (array): ", r3[4]);
+    writeln("    concatEager   (array): ", r3[5]);
 
     alias StringArgs = AliasSeq!("hello ", "world", "!", 'c', 'c');
     auto r4 = benchmark!(
@@ -168,11 +168,11 @@ void profile()() {
         () => concatRecurse(StringArgs).array,
     )(10000);
 
-    writeln("concat strings and chars:");
-    writeln("  concat:                 ", r4[0]);
-    writeln("  concatRecurse:          ", r4[1]);
-    writeln("  concat         (array): ", r4[2]);
-    writeln("  concatRecurse  (array): ", r4[3]);
+    writeln("  concat strings and chars:");
+    writeln("    concat:                 ", r4[0]);
+    writeln("    concatRecurse:          ", r4[1]);
+    writeln("    concat         (array): ", r4[2]);
+    writeln("    concatRecurse  (array): ", r4[3]);
 
     import ddash.algorithm: stringify;
     alias OnlyStrings = AliasSeq!("hello ", "world", "!", "'c'", "'c'");
@@ -194,11 +194,11 @@ void profile()() {
         () => useAppender([OnlyStrings]).data,
     )(10000);
 
-    writeln("concat strings vs appender and stringify");
-    writeln("  concat:                 ", r5[0]);
-    writeln("  stringify:              ", r5[1]);
-    writeln("  appender:               ", r5[2]);
-    writeln("  concat    (array):      ", r5[3]);
-    writeln("  stringify (array):      ", r5[4]);
-    writeln("  appender  (array):      ", r5[5]);
+    writeln("  concat strings vs appender and stringify");
+    writeln("    concat:                 ", r5[0]);
+    writeln("    stringify:              ", r5[1]);
+    writeln("    appender:               ", r5[2]);
+    writeln("    concat    (array):      ", r5[3]);
+    writeln("    stringify (array):      ", r5[4]);
+    writeln("    appender  (array):      ", r5[5]);
 }

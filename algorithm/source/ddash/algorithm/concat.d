@@ -105,82 +105,54 @@ auto concat(Values...)(Values values) if (from!"bolts.traits".areCombinable!Valu
     import std.traits: isNarrowString, isSomeChar;
     import std.conv: to;
 
-    static if (!Values.length)
-    {
+    static if (!Values.length) { // If none we're done
         return;
-    }
-    else static if (Values.length == 1)
-    {
-        static if (isInputRange!(Values[0]))
-        {
+    } else static if (Values.length == 1) { // If one we return it as a range
+        static if (isInputRange!(Values[0])) {
             return values[0];
-        }
-        else
-        {
+        } else {
             return only(values[0]);
         }
-    }
-    else
-    {
+    } else {
         alias Head = Values[0];
         alias Rest = Values[1..$];
-        static if (isNarrowString!(Head))
-        {
+        // If head is a string start with a string, if it's a range start a chain, if it's a value create a range
+        static if (isNarrowString!(Head)) {
             auto link0 = values[0];
-        }
-        else
-        {
-            static if (isInputRange!(Head))
-            {
+        } else {
+            static if (isInputRange!(Head)) {
                 auto link0 = chain(values[0]);
-            }
-            else
-            {
+            } else {
                 auto link0 = only(values[0]);
             }
         }
 
-        // Declare a variable called `linkX` equal to previous link chained with input range
-        string link(int i, string range) {
+        // Declare a variable called `linkX` equal to the previous link chained with an input range
+        static string link(int i, string range) {
             return "auto link" ~ i.to!string ~ " = link" ~ (i - 1).to!string
                  ~ ".chain(" ~ range ~ ");";
         }
 
-        static foreach (I; 1 .. Values.length)
-        {
-            static if (isNarrowString!Head)
-            {
-                static if (isNarrowString!(Values[I]))
-                {
+        static foreach (I; 1 .. Values.length) {
+            static if (isNarrowString!Head) {
+                static if (isNarrowString!(Values[I])) {
                     mixin(link(I, q{ values[I] }));
-                }
-                else static if (isInputRange!(Values[I]))
-                {
+                } else static if (isInputRange!(Values[I])) {
                     // If you don't rename you get a conflict if std.array is included
                     // becuase that has .join as well (And we include it in the unittest version)
                     //
                     // Interestingly, "import ddash.algorithm: myJoin = join" does not work either
-                    import ddash.algorithm.stringify;
+                    import ddash.algorithm: stringify;
                     mixin(link(I, q{ values[I].stringify }));
-                }
-                else static if (isSomeChar!(Values[I]))
-                {
-                    import std.range: only;
+                } else static if (isSomeChar!(Values[I])) {
                     mixin(link(I, q{ only(values[I]) }));
-                }
-                else
-                {
+                } else {
                     mixin(link(I, q{ values[I].to!string }));
                 }
-            }
-            else
-            {
-                static if (isInputRange!(Values[I]))
-                {
+            } else {
+                static if (isInputRange!(Values[I])) {
                     mixin(link(I, q{ values[I] }));
-                }
-                else
-                {
+                } else {
                     mixin(link(I, q{ only(values[I]) }));
                 }
             }

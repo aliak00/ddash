@@ -169,7 +169,9 @@ $(TR
 $(TR
     $(TD $(DDOX_NAMED_REF ddash.algorithm.sort, `sort`))
     $(TD
-        $(DDOX_NAMED_REF algorithm.sort.sortBy, `sortBy`)
+        $(DDOX_NAMED_REF algorithm.sort.sortBy, `sortBy`)<br>
+        $(DDOX_NAMED_REF algorithm.sort.maybeSort, `maybeSort`)<br>
+        $(DDOX_NAMED_REF algorithm.sort.maybeSortBy, `maybeSortBy`)
         )
     $(TD)
     $(TD Provides various ways for sorting a range)
