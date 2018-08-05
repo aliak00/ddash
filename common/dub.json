@@ -3,11 +3,7 @@
     "targetType": "library",
     "targetPath": "../bin",
     "dependencies": {
-        "bolts": {
-            "path": "../bolts"
-        },
-        "optional": {
-            "path": "../optional-d"
-        }
+        "bolts": "~>0.6.0",
+        "optional": "~>0.4.1"
     }
 }
