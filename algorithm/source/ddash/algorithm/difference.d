@@ -209,6 +209,7 @@ if (isRangeOverValidPredicate!(pred, Range) && from!"bolts.traits".areCombinable
         );
 
         static if (isSortednessValid!(R1, R2, member, pred)) {
+            import bolts.range: sortingPredicate;
             alias sortPred = sortingPredicate!R1;
         } else static if (isUnaryOver!(pred, E1)) {
             alias sortPred = (a, b) => pred(a) < pred(b);
