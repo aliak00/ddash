@@ -3,8 +3,6 @@
     "targetType": "library",
     "targetPath": "../bin",
     "dependencies": {
-        "optional": {
-            "path": "../../optional"
-        }
+        "optional": "~>0.5.0"
     }
 }
