@@ -85,12 +85,15 @@ struct Difference(string member, alias pred, R1, R2) {
     }
 
     bool empty() @property {
+        import std.range: empty;
         return this.r1.empty;
     }
     auto front() @property {
+        import std.range: front;
         return this.r1.front;
     }
     void popFront() {
+        import std.range: popFront;
         this.r1.popFront;
         this.moveToNextElement;
     }
