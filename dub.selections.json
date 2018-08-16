@@ -1,7 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
-		"bolts": {"path":"../bolts"},
-		"optional": {"path":"../optional-d"}
+		"bolts": "0.7.1",
+		"optional": {"path":"../optional"}
 	}
 }
