@@ -20,4 +20,4 @@ bin/
 .vscode/*
 !.vscode/tasks.json
 
-dub.selections
+dub.selections.json
