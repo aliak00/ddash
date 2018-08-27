@@ -5,12 +5,34 @@ module ddash.utils.deref;
 
 import ddash.common;
 
-/// Derefernce a pointer
+/**
+    Dereferences a thing
+
+    Could be a range, or a pointer, or a nullable.
+*/
 auto ref deref(T)(auto ref T t) if (from!"std.traits".isPointer!T) {
     return *t;
 }
 
-/// Dereference a range
+/// Ditto
 auto ref deref(T)(auto ref T t) if (from!"std.range".isInputRange!T) {
     return t.front;
+}
+
+import std.typecons: Nullable;
+/// Ditto
+auto ref deref(T)(auto ref Nullable!T t) {
+    return t.get;
+}
+
+///
+unittest {
+    import std.typecons: nullable;
+    auto a = nullable(1);
+    auto b = new int(1);
+    auto c = [1];
+
+    assert(a.deref == 1);
+    assert(b.deref == 1);
+    assert(c.deref == 1);
 }
