@@ -4,6 +4,7 @@
 module ddash.functional;
 
 public {
-    import ddash.functional.cond;
+    import ddash.functional.match;
     import ddash.functional.pred;
+    import ddash.functional.infix;
 }
