@@ -11,12 +11,14 @@
         "ddash:algorithm": "*",
         "ddash:functional": "*",
         "ddash:range": "*",
-        "ddash:utils": "*"
+        "ddash:utils": "*",
+        "ddash:lang": "*"
     },
     "subPackages": [
         "./algorithm/",
         "./functional/",
         "./utils/",
+        "./lang/",
         "./range/",
         "./common/"
     ],
@@ -27,7 +29,8 @@
                 "./algorithm/",
                 "./functional/",
                 "./utils/",
-                "./range/"
+                "./range/",
+                "./lang/"
             ]
         },
         {
