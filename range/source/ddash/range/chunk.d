@@ -13,7 +13,7 @@ unittest {
     assert([1, 2, 3].chunk(1).equal([[1], [2], [3]]));
 }
 
-import ddash.range.internal.common;
+import ddash.common;
 
 /**
     Creates a range of ranges of length `size`. If the range can't be split evenly,

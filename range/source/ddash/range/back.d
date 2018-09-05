@@ -14,7 +14,7 @@ unittest {
     assert(evens.takeNone.backOr(100) == 100);
 }
 
-import ddash.range.internal.common;
+import ddash.common;
 
 /**
     Retrieves the back of a range or a default value

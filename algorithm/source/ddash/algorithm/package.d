@@ -197,7 +197,7 @@ $(TR
 */
 module ddash.algorithm;
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 public {
     import ddash.algorithm.flatmap;

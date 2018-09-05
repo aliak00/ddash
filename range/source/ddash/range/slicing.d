@@ -17,7 +17,7 @@ unittest {
     assert(arr.tail.equal([2, 3, 4, 5]));
 }
 
-import ddash.range.internal.common;
+import ddash.common;
 
 /**
     Returns a slice of range from start up to, but not including, end

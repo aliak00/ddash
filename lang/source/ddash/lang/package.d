@@ -6,4 +6,5 @@ module ddash.lang;
 public  {
     import ddash.lang.capture;
     import ddash.lang.assume;
+    import ddash.lang.types;
 }

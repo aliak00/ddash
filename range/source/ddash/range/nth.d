@@ -16,7 +16,7 @@ unittest {
     assert([1, 2, 3].nth!(Yes.wrap)(10) == some(2));
 }
 
-import ddash.range.internal.common;
+import ddash.common;
 
 /**
     Gets the element at index n of array if found, else `none`.

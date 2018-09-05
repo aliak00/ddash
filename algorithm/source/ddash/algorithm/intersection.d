@@ -17,7 +17,7 @@ unittest {
     assert([A(1), A(2), A(3)].intersection!((a, b) => a.value == b.value)([A(2), A(3)]).equal([A(2), A(3)]));
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && from!"std.range".isInputRange!R2) {
     import std.range: ElementType;

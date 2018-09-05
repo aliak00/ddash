@@ -18,7 +18,7 @@ unittest {
     assert([some(some(3)), no!(Optional!int), some(some(2))].flattenDeep.equal([3, 2]));
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Flattens a range one level deep by removing anything that's empty

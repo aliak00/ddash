@@ -31,7 +31,7 @@ unittest {
     assert(arr.pullBy!"y"(2, 6) == [A(3, 4)]);
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Removes elements from a range.
@@ -77,7 +77,7 @@ if (from!"std.range".isInputRange!Range)
 private ref pullBase(string member, alias pred, Range, Values...)(return ref Range range, Values values) {
     import std.algorithm: canFind, remove;
     import ddash.algorithm: concat, equal;
-    import ddash.algorithm.internal: valueBy;
+    import ddash.common.valueby;
     // elements from values will be lhs
     alias reverseEqual = (a, b) => equal!pred(b, a);
     auto unwanted = concat(values);

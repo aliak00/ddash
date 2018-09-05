@@ -10,7 +10,7 @@ unittest {
 
 }
 
-import ddash.range.internal.common;
+import ddash.common;
 
 
 /**

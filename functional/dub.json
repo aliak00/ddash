@@ -3,6 +3,7 @@
     "targetType": "library",
     "targetPath": "../bin",
     "dependencies": {
-        "ddash:common": "*"
+        "ddash:common": "*",
+        "ddash:lang": "*"
     }
 }

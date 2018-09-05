@@ -36,7 +36,7 @@ unittest {
 }
 
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Concats everything together using best effort.

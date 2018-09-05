@@ -1,6 +1,6 @@
 /// Flatmaps a range
 module ddash.algorithm.flatmap;
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 ///
 unittest {

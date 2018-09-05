@@ -16,7 +16,7 @@ unittest {
     assert(c == [1, 9, 9, 9, 9]);
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Fills a range with a value from `startIndex` to `endIndex`

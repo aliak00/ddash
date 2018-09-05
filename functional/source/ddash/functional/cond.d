@@ -1,7 +1,7 @@
 /**
     Create a function that encapsulates if/else-if/else logic
 */
-module ddash.functional.match;
+module ddash.functional.cond;
 
 ///
 unittest {
@@ -10,7 +10,7 @@ unittest {
     alias identity = (a) => a;
     alias negate = (a) => -a;
 
-    alias abs = match!(
+    alias abs = cond!(
         a => a == 1, 42,
         2, a => a * 2,
         3, 999,
@@ -27,7 +27,7 @@ unittest {
     assert(abs(-3) == 3);
     assert(abs(11) == 11);
 
-    alias str = match!(
+    alias str = cond!(
         a => a < 1, "1",
         a => a < 5, "5",
         a => a < 10, "10",
@@ -49,7 +49,7 @@ import ddash.common;
     For example in the following call:
 
     ---
-    match!(
+    cond!(
         pred1, trsnaform1,
         pred2, trsnaform2,
         .
@@ -76,18 +76,18 @@ import ddash.common;
 
     Benchmarks:
 
-    A sample `match` if/else chain was used with a mixture of expressions and unary functions and
+    A sample `cond` if/else chain was used with a mixture of expressions and unary functions and
     iterated over. A couple of hand written if/else chains were compared. The first used lambdas
     to evaluate their conditions, the second just used inline code.
 
     ---
     Benchmarking cond against hand written if/elses
-      match:          2 hnsecs
+      cond:           2 hnsecs
       hand written 1: 0 hnsecs
       hand written 2: 0 hnsecs
     ---
 */
-template match(statements...) {
+template cond(statements...) {
     import std.traits: isExpressions, isCallable, arity, isNarrowString;
     import std.functional: unaryFun;
     import bolts.traits: isUnaryOver;
@@ -107,7 +107,7 @@ template match(statements...) {
             }
         }
     }
-    auto match(T)(T value) {
+    auto cond(T)(T value) {
         immutable cases = statements.length / 2;
         static foreach(I; 0 .. cases) {{
             static if (isExpressions!(statements[I * 2])) {
@@ -139,7 +139,7 @@ unittest {
     static assert(
         is(
             typeof(
-                match!(
+                cond!(
                     1, () {}
                 )(3)
             )
@@ -149,13 +149,13 @@ unittest {
 
     // If transforms return, default must be provided
     // TODO: Re-evaluate this. It'll be a compiler error if one o the matches
-    // does not match anyway so maybe this can be relaxed so that if a user knows
+    // does not cond anyway so maybe this can be relaxed so that if a user knows
     // they are matching all conditions then it's ok.
     static assert(
         !__traits(
             compiles,
             {
-                match!(
+                cond!(
                     1, 2
                 )(3);
             }
@@ -165,5 +165,5 @@ unittest {
 
 unittest {
     static auto g() { return 10; }
-    assert(match!(1, g, 4)(1) == 10);
+    assert(cond!(1, g, 4)(1) == 10);
 }

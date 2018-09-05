@@ -38,7 +38,7 @@ unittest {
     assert(aa.compactValues!isFalsey == ["a": 1, "c": 2]);
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Compacts a range
@@ -96,7 +96,7 @@ auto compactBy(string member, alias pred = null, Range)(Range range) if (from!"s
 private auto compactBase(string member, alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: filter;
     import bolts: isNullType, isUnaryOver;
-    import ddash.algorithm.internal: valueBy;
+    import ddash.common.valueby;
     import std.range: ElementType;
 
     alias E = ElementType!Range;

@@ -19,7 +19,7 @@ unittest {
 }
 
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Returns `optional` index of the first element predicate returns true for.

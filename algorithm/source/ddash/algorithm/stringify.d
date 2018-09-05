@@ -8,7 +8,7 @@ unittest {
     assert([1, 2, 3].stringifySeperatedBy("-") == "1-2-3");
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Converts all elements in range into a string separated by separator.

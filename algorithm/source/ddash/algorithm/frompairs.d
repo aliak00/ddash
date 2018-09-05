@@ -9,7 +9,7 @@ unittest {
     assert([tuple(1, 2), tuple(3, 4) ].fromPairs == [1: 2, 3: 4]);
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Returns a newly allocated associative array from pairs

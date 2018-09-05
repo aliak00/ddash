@@ -13,7 +13,7 @@ unittest {
     assert(r3.zipEach.equal((int[][]).init));
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Zip a range of ranges together by element.
@@ -52,4 +52,10 @@ auto zipEach(RoR)(RoR rangeOfRanges) if (from!"std.range".isInputRange!(from!"st
         }
     }
     return Result(rangeOfRanges);
+}
+
+unittest {
+    auto r1 = [[1, 4], [2, 5], [3, 6]];
+    auto r2 = [[1, 2, 3], [4, 5, 6]].zipEach;
+    assert(equal(r1, r2));
 }

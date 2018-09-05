@@ -1,14 +1,14 @@
-module benchmarks.match;
+module benchmarks.cond;
 
 void profile()() {
-    import ddash.functional: match;
+    import ddash.functional: cond;
 
     alias lessThanZero = (a) => a < 0;
     alias greaterOrEqualThan10 = (a) => a >= 10;
     alias identity = (a) => a;
     alias negate = (a) => -a;
 
-    alias cond1 = match!(
+    alias cond1 = cond!(
         a => a == 1, 42,
         2, a => a * 2,
         3, 999,
@@ -54,9 +54,9 @@ void profile()() {
     import std.stdio;
     import std.datetime.stopwatch: benchmark;
 
-    writeln("Benchmarking match against hand written if/elses");
+    writeln("Benchmarking cond against hand written if/elses");
     auto r = benchmark!(f!match1, f!match2, f!match3)(5_000_000);
-    writeln("  match:          ", r[0]);
+    writeln("  cond:          ", r[0]);
     writeln("  hand written 1: ", r[1]);
     writeln("  hand written 2: ", r[2]);
 }

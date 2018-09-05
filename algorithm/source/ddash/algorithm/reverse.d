@@ -10,7 +10,7 @@ unittest {
     assert(arr.equal([4, 3, 2, 1]));
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Reverses elements in a range

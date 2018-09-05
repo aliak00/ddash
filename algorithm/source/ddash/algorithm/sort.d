@@ -3,7 +3,7 @@
 */
 module ddash.algorithm.sort;
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Might or might not sort a range, depending on some static properties of a range.
@@ -116,7 +116,7 @@ unittest {
 auto sortBy(string member, alias less = "a < b", Range)(Range range) {
     import std.algorithm: stdSort = sort;
     import std.functional: binaryFun;
-    import ddash.algorithm.internal: valueBy;
+    import ddash.common.valueby;
     return range.stdSort!((a, b) => binaryFun!less(valueBy!member(a), valueBy!member(b)));
 }
 

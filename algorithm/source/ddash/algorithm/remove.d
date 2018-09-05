@@ -10,7 +10,7 @@ unittest {
     assert(arr.equal([1, 3]));
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 /**
     Modified the range by removing elements by predicate

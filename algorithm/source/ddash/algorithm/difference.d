@@ -19,7 +19,7 @@ unittest {
     assert([A(1), A(2), A(3)].difference!((a, b) => a.value < b.value)([A(2), A(3)]).equal([A(1)]));
 }
 
-import ddash.algorithm.internal.common;
+import ddash.common;
 
 private template isRangeOverValidPredicate(alias pred, Range) if (from!"std.range".isInputRange!Range) {
     import bolts.traits: isNullType, isUnaryOver, isBinaryOver;
