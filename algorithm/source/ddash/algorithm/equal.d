@@ -48,8 +48,7 @@ unittest {
     assert(!equalBy!"x"(r1, r2));
 }
 
-
-import eqmod = ddash.common.equal;
+private import eq = ddash.common.equal;
 
 /**
     Compares two things together
@@ -58,7 +57,7 @@ import eqmod = ddash.common.equal;
     a transformation that is applied to the elements being compared for equality. If a binary predicate is
     provided then that binary predicate is given the values and must return true or false.
 
-    Params:
+    The_Params:
         pred = a nullary, unary, or binary predicate
         lhs = left hand side of ==
         rhs = right hand side of ==
@@ -69,7 +68,7 @@ import eqmod = ddash.common.equal;
     Since:
         0.1.0
 */
-alias equal = eqmod.equal;
+alias equal = eq.equal;
 
 /**
     Compares two things together by comparing a common publicly visible field of T and U.
@@ -78,7 +77,7 @@ alias equal = eqmod.equal;
     a transformation that is applies to the elements being compare for equality. If a binary predicate is
     provided then that binary predicate is given the values and must return true or false.
 
-    Params:
+    The_Params:
         member = which member in T and U to perform equlity on
         pred = a nullary, unary, or binary predicate
         lhs = left hand side of ==
@@ -90,4 +89,4 @@ alias equal = eqmod.equal;
     Since:
         0.1.0
 */
-alias equalBy = eqmod.equalBy;
+alias equalBy = eq.equalBy;
