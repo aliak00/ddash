@@ -120,6 +120,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
         ) == rhs;
     }
 
+    /// Ditto
     bool opEquals(Unexpected rhs) const {
         if (isExpected) return false;
         return data.match!(
@@ -128,10 +129,12 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
         ) == rhs;
     }
 
+    /// Ditto
     bool opEquals(AnyUnexpected) const {
         return !isExpected;
     }
 
+    /// Calls std.conv.to!string on T or E
     string toString() {
         import std.conv: to;
         return data.match!(
@@ -141,6 +144,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     }
 }
 
+///
 unittest {
     Expect!int toInt(string str) {
         alias Result = typeof(return);

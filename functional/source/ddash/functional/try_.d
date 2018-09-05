@@ -48,24 +48,39 @@ struct Try(alias fun) {
     import ddash.lang.types: isVoid;
 
     bool empty = false;
+    bool resolved = false;
 
     alias T = Expect!(typeof(fun()), Exception);
 
     private T result;
 
-    @property T front() { return result; }
-
-    void popFront() nothrow {
-        scope(exit) empty = true;
+    private void resolve() {
+        if (resolved) {
+            return;
+        }
+        scope(exit) resolved = true;
         try {
+            // writeln("Calling fun on " ~ T.stringof);
             static if (isVoid!(T.Expected)) {
                 fun();
             } else {
                 result = T.expected(fun());
             }
+            // writeln("Succeeded on " ~ T.stringof);
         } catch (Exception ex) {
+            // writeln("Failed on " ~ T.stringof);
             result = unexpected(ex);
         }
+    }
+
+    @property T front() {
+        resolve;
+        return result;
+    }
+
+    void popFront() nothrow {
+        scope(exit) empty = true;
+        resolve;
     }
 
     /**
@@ -82,9 +97,7 @@ struct Try(alias fun) {
             Whatever the lambas return
     */
     auto match(handlers...)() {
-        if (!empty) {
-            popFront;
-        }
+        resolve;
         return result.match!(
             (T.Expected t) {
                 static if (isVoid!(T.Expected)) {
@@ -101,11 +114,46 @@ struct Try(alias fun) {
 }
 
 /**
-    Type constructor for a `Try` range.
+    Creates a range expression out of a throwing functions
 */
-template try_(alias f) {
+template try_(alias func) {
     auto try_(Args...)(auto ref Args args) {
-        return Try!(() => f(args))();
+        return Try!(() => func(args))();
     }
 }
 
+///
+unittest {
+    import std.typecons: Flag;
+    import std.range: walkLength;
+    void f0(Flag!"throws" throws) {
+        if (throws) {
+            throw new Exception("f0");
+        }
+    }
+    int f1(Flag!"throws" throws) {
+        if (throws) {
+            throw new Exception("f1");
+        }
+        return 0;
+    }
+
+    auto f0_throws = try_!f0(Yes.throws);
+    auto f0_nothrows = try_!f0(No.throws);
+
+    auto f1_throws = try_!f1(Yes.throws);
+    auto f1_nothrows = try_!f1(No.throws);
+
+    auto g() {
+        try {
+            throw new Exception("hahah");
+        } catch (Exception ex) {
+            return ex;
+        }
+    }
+
+    writeln(f0_throws.front.isExpected);
+    writeln(f0_nothrows.front.isExpected);
+    writeln(f1_throws.front.isExpected);
+    writeln(f1_nothrows.front.isExpected);
+}
