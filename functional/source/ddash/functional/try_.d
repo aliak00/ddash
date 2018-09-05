@@ -44,36 +44,27 @@ import ddash.common;
         0.1.0
 */
 struct Try(alias fun) {
-    import ddash.lang.types: Void;
-    import sumtype;
+    import ddash.utils.expect;
+    import ddash.lang.types: isVoid;
 
     bool empty = false;
 
-    alias FR = typeof(fun());
+    alias T = Expect!(typeof(fun()), Exception);
 
-    static if (is(FR == void)) {
-        alias T = Void;
-    } else {
-        alias T = FR;
-    }
+    private T result;
 
-    alias R = SumType!(T, Exception);
-
-    private R result;
-
-    @property R front() { return result; }
+    @property T front() { return result; }
 
     void popFront() nothrow {
         scope(exit) empty = true;
         try {
-            static if (is(FR == void)) {
+            static if (isVoid!(T.Expected)) {
                 fun();
-                result = Void();
             } else {
-                result = fun();
+                result = T.expected(fun());
             }
         } catch (Exception ex) {
-            result = ex;
+            result = unexpected(ex);
         }
     }
 
@@ -95,14 +86,14 @@ struct Try(alias fun) {
             popFront;
         }
         return result.match!(
-            (T t) {
-                static if(is(T == Void)) {
+            (T.Expected t) {
+                static if (isVoid!(T.Expected)) {
                     return handlers[0]();
                 } else {
                     return handlers[0](t);
                 }
             },
-            (Exception ex) {
+            (T.Unexpected ex) {
                 return handlers[1](ex);
             }
         );

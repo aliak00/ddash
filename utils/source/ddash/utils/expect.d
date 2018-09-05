@@ -32,8 +32,8 @@ struct Unexpected(E) if (!is(E == AnyUnexpected)) {
 }
 
 /// Type constructor for an Unexpected value
-auto unexpected(E)(E t) {
-    return Unexpected!E(t);
+auto unexpected(E)(E value) {
+    return Unexpected!E(value);
 }
 
 /**
@@ -49,58 +49,59 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     import ddash.lang: Void, isVoid;
 
     static if (isVoid!T) {
-        alias InternalType = Void;
+        alias Expected = Void;
     } else {
-        alias InternalType = T;
+        alias Expected = T;
     }
+    alias Unexpected = .Unexpected!E;
 
-    private SumType!(InternalType, Unexpected!E) data = T.init;
+    private SumType!(Expected, Unexpected) data = Expected.init;
     ref get() { return data; }
     alias get this;
 
     /**
-        Constructor takes a T and creates a success result. Or takes an E and
+        Constructor takes a Expected and creates a success result. Or takes an E and
         creates an unexpected result
     */
-    static if (!isVoid!InternalType) {
-        this(T value) {
+    static if (!isVoid!Expected) {
+        this(Expected value) {
             data = value;
         }
     }
 
     /// Ditto
-    this(Unexpected!E value)  {
+    this(Unexpected value)  {
         data = value;
     }
 
     /**
-        Pass in 2 handlers, one that handles `T`` and another that
-        handles `Unexpected!E`
+        Pass in 2 handlers, one that handles `Expected`` and another that
+        handles `Unexpected`
     */
     auto match(handlers...)() {
         return data.match!handlers;
     }
 
     /// Create an `Expect` with an expected value
-    static expected(V : T)(auto ref V value) {
-        return Expect!(T, E)(value);
+    static expected(V : Expected)(auto ref V value) {
+        return Expect!(Expected, E)(value);
     }
 
     /// Create an `Expect` with an unexpected value
     static unexpected(V)(auto ref V value) if (is(E == Variant) || is(V : E)) {
         // If E is a variant type than then we allow any V and just store it as a variant
         static if (is(E == Variant) && !is(V == Variant)) {
-            return Expect!(T, E)(Unexpected!E(Variant(value)));
+            return Expect!(Expected, E)(Unexpected(Variant(value)));
         } else {
-            return Expect!(T, E)(Unexpected!E(value));
+            return Expect!(Expected, E)(Unexpected(value));
         }
     }
 
     /// Returns true if the value is expected
     bool isExpected() const {
         return data.match!(
-            (const T _) => true,
-            (const Unexpected!E _) => false,
+            (const Expected _) => true,
+            (const Unexpected _) => false,
         );
     }
 
@@ -111,19 +112,19 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
         If you do not care about the value of the unexpected then you can compare
         against `anyUnexpected`
     */
-    bool opEquals(T rhs) const {
+    bool opEquals(Expected rhs) const {
         if (!isExpected) return false;
         return data.match!(
-            (const T lhs) => lhs,
-            (const Unexpected!E _) => T.init,
+            (const Expected lhs) => lhs,
+            (const Unexpected _) => Expected.init,
         ) == rhs;
     }
 
-    bool opEquals(E)(Unexpected!E rhs) const {
+    bool opEquals(Unexpected rhs) const {
         if (isExpected) return false;
         return data.match!(
-            (const T _) => Unexpected!E.init,
-            (const Unexpected!E lhs) => lhs,
+            (const Expected _) => Unexpected.init,
+            (const Unexpected lhs) => lhs,
         ) == rhs;
     }
 
@@ -134,8 +135,8 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     string toString() {
         import std.conv: to;
         return data.match!(
-            (ref T t) => t.to!string,
-            (ref Unexpected!E u) => u.to!string,
+            (ref Expected value) => value.to!string,
+            (ref Unexpected value) => value.to!string,
         );
     }
 }
