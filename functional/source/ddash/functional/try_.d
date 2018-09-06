@@ -125,7 +125,7 @@ template try_(alias func) {
 ///
 unittest {
     import std.typecons: Flag;
-    import std.range: walkLength;
+
     void f0(Flag!"throws" throws) {
         if (throws) {
             throw new Exception("f0");
@@ -152,8 +152,8 @@ unittest {
         }
     }
 
-    writeln(f0_throws.front.isExpected);
-    writeln(f0_nothrows.front.isExpected);
-    writeln(f1_throws.front.isExpected);
-    writeln(f1_nothrows.front.isExpected);
+    assert(!f0_throws.front.isExpected);
+    assert( f0_nothrows.front.isExpected);
+    assert(!f1_throws.front.isExpected);
+    assert( f1_nothrows.front.isExpected);
 }
