@@ -60,15 +60,12 @@ struct Try(alias fun) {
         }
         scope(exit) resolved = true;
         try {
-            // writeln("Calling fun on " ~ T.stringof);
             static if (isVoid!(T.Expected)) {
                 fun();
             } else {
                 result = T.expected(fun());
             }
-            // writeln("Succeeded on " ~ T.stringof);
         } catch (Exception ex) {
-            // writeln("Failed on " ~ T.stringof);
             result = unexpected(ex);
         }
     }
