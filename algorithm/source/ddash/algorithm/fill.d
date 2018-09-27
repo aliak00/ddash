@@ -28,7 +28,7 @@ import ddash.common;
         endIndex = at which index to stop filling the range (this index is not filled)
 
     Since:
-        0.1.0
+        0.0.1
 */
 void fill(Range, T)(ref Range range, auto ref T value, size_t startIndex = 0, size_t endIndex = size_t.max)
 if (from!"std.range".isForwardRange!Range

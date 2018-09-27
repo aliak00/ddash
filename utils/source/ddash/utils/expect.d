@@ -1,5 +1,12 @@
 /**
     An expected result type
+
+    Useful for functions that are expected to return something but could result in an error. The expected type is parameterized over
+    two types - the expected one and the `Unexpected`. When you want to assign an unexpected type you must use the provided type constructor
+    to make an unexpected assignment.
+
+    An `Expect!(T, U)` type also has a static `expected` and `unexpected` methods to create the given `Expect!(U, V)` with the desired
+    state.
 */
 module ddash.utils.expect;
 
@@ -21,17 +28,24 @@ import std.variant;
 import ddash.common;
 
 struct AnyUnexpected {}
+
+/**
+    Can be used to compare for any unexpected, i.e. `Expected<U, V> == anyUnexpected`
+*/
 immutable anyUnexpected = AnyUnexpected();
 
 /**
     Used in the `Expect` type to denote an unexpected value
 */
-struct Unexpected(E) if (!is(E == AnyUnexpected)) {
+private struct Unexpected(E) if (!is(E == AnyUnexpected)) {
     E value = E.init;
     alias value this;
 }
 
-/// Type constructor for an Unexpected value
+/**
+    Type constructor for an Unexpected value. This must be used when assigning or passing
+    an unexpected type to an `Expect!(T, U)`
+*/
 auto unexpected(E)(E value) {
     return Unexpected!E(value);
 }

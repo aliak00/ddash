@@ -18,6 +18,9 @@ import ddash.common;
 
 /**
     Retrieves the back of a range or a default value
+
+    Since:
+        - 0.0.1
 */
 auto backOr(Range, T)(Range range, lazy T defaultValue)
 if (from!"std.range".isBidirectionalRange!Range && is(T : from!"std.range".ElementType!Range)) {
@@ -33,6 +36,9 @@ unittest {
 
 /**
     Takes a unary function that is called on back of range if it is there
+
+    Since:
+        - 0.0.1
 */
 auto withBack(alias fun, Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
     import std.range: empty, back, ElementType;
@@ -63,6 +69,9 @@ unittest {
 
 /**
     Returns an `Optional` of the back of range
+
+    Since:
+        - 0.0.1
 */
 auto maybeBack(Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
     import std.range: ElementType, empty, back;

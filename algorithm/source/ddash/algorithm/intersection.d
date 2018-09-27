@@ -105,7 +105,7 @@ struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && 
         New array of filtered results. If `Rs` is empty, then empty `range` is returned
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto intersection(alias pred = null, Range, Rs...)(Range range, Rs values)
 if (from!"std.range".isInputRange!Range

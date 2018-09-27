@@ -37,8 +37,8 @@ Furthermore, a number of algorithms allow you to:
 * operate via unary or binary predicates:
     ```d
     import std.math: ceil;
-    assert([2.1, 1.2].difference!ceil([2.3, 3.4]).equal([1.2]));
-    assert([2.1, 1.2].difference!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([1.2]));
+    assert([2.1, 2.4, 1.2, 2.9].difference!ceil([2.3, 0.1]).equal([1.2]));
+    assert([2.1, 2.4, 1.2, 2.9].difference!((a, b) => ceil(a) < ceil(b))([2.3, 3.4]).equal([1.2]));
     ```
 * or both:
     ```d
@@ -56,3 +56,15 @@ Furthermore, a number of algorithms allow you to:
 * Integration with [Optional!T](https://github.com/aliak00/optional)
 * Common utility functions
 * Functional programming utilities
+
+### Subpackages:
+
+* **algorithm**: contains algorithms that operate mostly on sequences
+* **ranges**: contains navigational algorithms over ranges (moving/jumpting/iterating/etc)
+* **functional**: contains utilties for functional programming
+* **lang**: contains techniques that fill in required language bits (or just stuff I didn't know where to put)
+* **utils**: contains utility types and functions
+
+### Benchmarks
+
+There's a benchmark dub configuration that can be used to run algorithms and check their speeds. The idea behind this is supposed to be to help with regressions once I figure out how to generate reports.

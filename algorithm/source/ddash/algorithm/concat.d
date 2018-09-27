@@ -98,7 +98,7 @@ import ddash.common;
         ---
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto concat(Values...)(Values values) if (from!"bolts.traits".areCombinable!Values) {
     import std.range: isInputRange, chain, only;

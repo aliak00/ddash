@@ -30,7 +30,7 @@ import ddash.common;
         The value at the nth index of range or defaultValue i not found
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto nth(
     from!"std.typecons".Flag!"wrap" wrap = from!"std.typecons".No.wrap,
@@ -92,7 +92,12 @@ unittest {
     static assert(__traits(compiles, { args.nth(0); }));
 }
 
-/// Returns `optional` front of range
+/**
+    Returns `optional` front of range
+
+    Since:
+        - 0.0.1
+*/
 alias first = from!"ddash.range".maybeFront;
 
 ///
@@ -102,7 +107,12 @@ unittest {
     assert((int[]).init.first == none);
 }
 
-/// Returns `optional` end of range
+/**
+    Returns `optional` end of range
+
+    Since:
+        - 0.0.1
+*/
 alias last = from!"ddash.range".maybeBack;
 
 ///

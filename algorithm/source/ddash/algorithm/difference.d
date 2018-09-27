@@ -119,7 +119,7 @@ struct Difference(string member, alias pred, R1, R2) {
         New array of filtered results. If `Rs` is empty, then `range` is returned
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto difference(alias pred = null, Range, Rs...)(Range range, Rs values) if (isRangeOverValidPredicate!(pred, Range)) {
     return differenceBase!("", pred)(range, values);
@@ -169,7 +169,7 @@ unittest {
         `difference`
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto differenceBy(string member, alias pred = null, Range, Rs...)(Range range, Rs values) if (isRangeOverValidPredicate!(pred, Range)) {
     return differenceBase!(member, pred)(range, values);

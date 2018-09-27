@@ -33,7 +33,7 @@ unittest {
         New range that has been mapped and flattened
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto flatMap(alias unaryPred, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: map;

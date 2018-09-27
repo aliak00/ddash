@@ -51,7 +51,7 @@ import ddash.common;
         compacted range
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto compact(alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     return compactBase!("", pred)(range);
@@ -87,7 +87,7 @@ unittest {
         compacted range
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto compactBy(string member, alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     return compactBase!(member, pred)(range);
@@ -146,7 +146,7 @@ unittest {
         compacted associtive array
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto compactValues(alias pred = null, T, U)(T[U] aa) {
     import std.array: byPair, assocArray;
@@ -173,7 +173,7 @@ unittest {
         Compacted array of values cast to common type T
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto compact(alias pred = null, Values...)(Values values) if (!is(from!"std.traits".CommonType!Values == void)) {
     import ddash.algorithm: concat;

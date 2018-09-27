@@ -33,7 +33,7 @@ import ddash.common;
 /**
     Creates a Try range out of an alias to a function that could throw.
 
-    Executing a Try range will produce a `SumType!(T, Exception)`
+    Executing a Try range will produce a `Expected!(T, Exception)`
 
     You may also call `.match` directly on the try range.
 
@@ -41,7 +41,7 @@ import ddash.common;
         `try_`
 
     Since:
-        0.1.0
+        0.0.1
 */
 struct Try(alias fun) {
     import ddash.utils.expect;
@@ -87,8 +87,8 @@ struct Try(alias fun) {
         Calling match will execute the try function if it has not already done so
 
         Params:
-            handlers[0] = lamda that handles the success case
-            handlers[1] = lambda that handles the exception
+            handlers = lamda that handles the success case
+            handlers = lambda that handles the exception
 
         Returns:
             Whatever the lambas return
@@ -112,6 +112,9 @@ struct Try(alias fun) {
 
 /**
     Creates a range expression out of a throwing functions
+
+    Since:
+        - 0.0.1
 */
 template try_(alias func) {
     auto try_(Args...)(auto ref Args args) {

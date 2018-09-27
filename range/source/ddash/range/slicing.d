@@ -34,7 +34,7 @@ import ddash.common;
         A range
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto slice(Range)(Range range, size_t start, int end) {
     import std.range: drop, take, takeNone, walkLength;
@@ -64,7 +64,7 @@ auto slice(Range)(Range range, size_t start) {
         A range
 
     Since:
-        0.1.0
+        0.0.1
 */
 alias tail = (range) => from!"std.range".drop(range, 1);
 
@@ -84,7 +84,7 @@ unittest {
         A range
 
     Since:
-        0.1.0
+        0.0.1
 */
 alias initial = (range) => from!"std.range".dropBack(range, 1);
 

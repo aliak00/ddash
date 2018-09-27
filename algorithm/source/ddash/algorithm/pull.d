@@ -45,7 +45,7 @@ import ddash.common;
         Modified range
 
     Since:
-        0.1.0
+        0.0.1
 */
 ref pull(alias pred = null, Range, Values...)(return ref Range range, Values values)
 if (from!"std.range".isInputRange!Range)
@@ -66,7 +66,7 @@ if (from!"std.range".isInputRange!Range)
         Modified range
 
     Since:
-        0.1.0
+        0.0.1
 */
 ref pullBy(string member, alias pred = null, Range, Values...)(return ref Range range, Values values)
 if (from!"std.range".isInputRange!Range)
@@ -139,7 +139,7 @@ private ref pullBase(string member, alias pred, Range, Values...)(return ref Ran
         ---
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto pullAt(Range, Indices...)(Range range, Indices indices)
 if (from!"std.range".isInputRange!Range

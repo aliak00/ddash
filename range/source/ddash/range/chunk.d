@@ -27,7 +27,7 @@ import ddash.common;
         Range of chunks
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto chunk(Range)(Range range, size_t size) if (from!"std.range".isInputRange!Range) {
     import std.range: chunks, takeNone;

@@ -15,6 +15,9 @@ module ddash.lang.capture;
 /**
     The capture function takes a range as the first argument and a list of arguments you
     want to capture by value to pass along to another range
+
+    Since:
+        - 0.0.1
 */
 auto capture(Range, Captures...)(auto ref Range range, auto ref Captures captures) {
     string mix() {
@@ -33,6 +36,9 @@ auto capture(Range, Captures...)(auto ref Range range, auto ref Captures capture
 /**
     Complements the `capture` function by allowing you to unpack a capture tuple in the function
     you want to call it from.
+
+    Since:
+        - 0.0.1
 */
 template unpack(alias func) {
     import std.typecons: isTuple;

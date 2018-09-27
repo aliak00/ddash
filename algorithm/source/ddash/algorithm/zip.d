@@ -31,7 +31,7 @@ import ddash.common;
         A range of ranges
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto zipEach(RoR)(RoR rangeOfRanges) if (from!"std.range".isInputRange!(from!"std.range".ElementType!RoR)) {
     static struct Result {

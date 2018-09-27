@@ -14,7 +14,7 @@ import ddash.common;
     $(LI Else it's a no op and you get back the same range you passed in)
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto ref maybeSort(alias less = null, Range)(auto ref Range range) {
     import std.algorithm: sort;
@@ -62,7 +62,7 @@ unittest {
     Maybe sorts a range using `maybeSort` by a publicly visible member variable or property of `ElemntType!Range`
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto ref maybeSortBy(string member, alias less = null, Range)(auto ref Range range) {
     import std.algorithm: sort;
@@ -111,7 +111,7 @@ unittest {
     Sorts a range using the standard library sort by a publicly visible member variable or property of `ElemntType!Range`
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto sortBy(string member, alias less = "a < b", Range)(Range range) {
     import std.algorithm: stdSort = sort;

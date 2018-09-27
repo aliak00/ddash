@@ -18,6 +18,9 @@ import ddash.common;
 
 /**
     Retrieves the front of a range or a default value
+
+    Since:
+        - 0.0.1
 */
 auto frontOr(Range, T)(Range range, lazy T defaultValue)
 if (from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!Range)) {
@@ -33,6 +36,9 @@ unittest {
 
 /**
     Takes a unary function that is called on front of range if it is there
+
+    Since:
+        - 0.0.1
 */
 auto withFront(alias fun, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: empty, front, ElementType;
@@ -63,6 +69,9 @@ unittest {
 
 /**
     Returns an `Optional` of the front of a range
+
+    Since:
+        - 0.0.1
 */
 auto maybeFront(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, empty, front;

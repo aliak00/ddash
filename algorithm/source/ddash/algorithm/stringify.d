@@ -21,7 +21,7 @@ import ddash.common;
         New string
 
     Since:
-        0.1.0
+        0.0.1
 */
 string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".isSomeString!S) {
     import std.algorithm: joiner, map;
@@ -49,7 +49,7 @@ string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".
         New string
 
     Since:
-        0.1.0
+        0.0.1
 */
 string stringify(Values...)(Values values) {
     import ddash.algorithm.concat;

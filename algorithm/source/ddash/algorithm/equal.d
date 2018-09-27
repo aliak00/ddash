@@ -66,7 +66,7 @@ private import eq = ddash.common.equal;
         True if successful evaluation of predicates or values equal
 
     Since:
-        0.1.0
+        0.0.1
 */
 alias equal = eq.equal;
 
@@ -87,6 +87,6 @@ alias equal = eq.equal;
         True if successful evaluation of predicates or values equal
 
     Since:
-        0.1.0
+        0.0.1
 */
 alias equalBy = eq.equalBy;

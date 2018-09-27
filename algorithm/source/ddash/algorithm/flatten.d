@@ -30,7 +30,7 @@ import ddash.common;
         A flattened range
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;
@@ -66,7 +66,7 @@ unittest {
         A flattened range
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto flattenDeep(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;

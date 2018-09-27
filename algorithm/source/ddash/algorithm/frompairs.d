@@ -25,7 +25,7 @@ import ddash.common;
         Associative array
 
     Since:
-        0.1.0
+        0.0.1
 */
 auto fromPairs(R1)(R1 r1) if (from!"std.range".isInputRange!R1) {
     import std.range: ElementType;

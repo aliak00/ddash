@@ -20,7 +20,7 @@ import ddash.common;
         range = the range to remove element from
 
     Since:
-        0.1.0
+        0.0.1
 */
 void remove(alias pred, Range)(ref Range range) if (from!"std.range".isInputRange!Range) {
     import std.algorithm: stdRemove = remove;

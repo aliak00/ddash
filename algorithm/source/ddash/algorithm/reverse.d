@@ -19,7 +19,7 @@ import ddash.common;
         range = the range to reverse
 
     Since:
-        0.1.0
+        0.0.1
 */
 void reverse(Range)(ref Range range)
 if (from!"std.range".isBidirectionalRange!Range
