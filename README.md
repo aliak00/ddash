@@ -1,4 +1,8 @@
+
+
 ## ddash
+
+[![Latest version](https://img.shields.io/dub/v/ddash.svg)](https://code.dlang.org/packages/ddash) [![Build Status](https://travis-ci.org/aliak00/ddash.svg?branch=master)](https://travis-ci.org/aliak00/ddash) [![codecov](https://codecov.io/gh/aliak00/ddash/branch/master/graph/badge.svg)](https://codecov.io/gh/aliak00/ddash) [![license](https://img.shields.io/github/license/aliak00/ddash.svg)](https://github.com/aliak00/ddash/blob/master/LICENSE)
 
 A utility library that was inspired by the a javascript library called [lodash](https://lodash.com/). The algorithms operate on sequences that are either:
 
