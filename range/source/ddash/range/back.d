@@ -84,7 +84,7 @@ unittest {
 ///
 unittest {
     import std.algorithm: filter;
-    import optional: some, none;
+    import optional: some, none, dispatch;
     struct A {
         int x;
         int f() {
