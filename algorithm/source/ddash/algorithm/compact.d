@@ -106,7 +106,7 @@ private auto compactBase(string member, alias pred = null, Range)(Range range) i
         import bolts: isNullable;
         static assert(
             isNullable!E,
-            "Cannot compact non-nullable type `" ~ E.stringod ~ "'",
+            "Cannot compact non-nullable type `" ~ E.stringof ~ "'",
         );
         alias fun = (a) => valueBy!member(a) !is null;
     }

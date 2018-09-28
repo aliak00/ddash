@@ -47,12 +47,25 @@ struct Try(alias fun) {
     import ddash.utils.expect;
     import ddash.lang.types: isVoid;
 
-    bool empty = false;
+    private bool _empty;
+    @property bool empty() {
+        resolve;
+        return _empty;
+    }
+
     bool resolved = false;
 
     alias T = Expect!(typeof(fun()), Exception);
 
     private T result;
+
+    bool isSuccess() {
+        resolve;
+        return result.match!(
+            (const T.Expected t) => true,
+            (const T.Unexpected ex) => false,
+        );
+    }
 
     private void resolve() {
         if (resolved) {
@@ -67,16 +80,20 @@ struct Try(alias fun) {
             }
         } catch (Exception ex) {
             result = unexpected(ex);
+            _empty = true;
         }
     }
 
-    @property T front() {
+    @property T.Expected front() {
         resolve;
-        return result;
+        return result.match!(
+            (T.Expected t) => t,
+            (T.Unexpected ex) => T.Expected.init,
+        );
     }
 
     void popFront() nothrow {
-        scope(exit) empty = true;
+        scope(exit) _empty = true;
         resolve;
     }
 
@@ -152,8 +169,8 @@ unittest {
         }
     }
 
-    assert(!f0_throws.front.isExpected);
-    assert( f0_nothrows.front.isExpected);
-    assert(!f1_throws.front.isExpected);
-    assert( f1_nothrows.front.isExpected);
+    assert(!f0_throws.isSuccess);
+    assert( f0_nothrows.isSuccess);
+    assert(!f1_throws.isSuccess);
+    assert( f1_nothrows.isSuccess);
 }
