@@ -33,7 +33,8 @@ import ddash.common;
 /**
     Creates a Try range out of an alias to a function that could throw.
 
-    Executing a Try range will produce a `Expected!(T, Exception)`
+    Calling any range functions on a try range will resolve the delegate and produce
+    a `front` range value if ther function did not throw.
 
     You may also call `.match` directly on the try range.
 
@@ -48,7 +49,7 @@ struct Try(alias fun) {
     import ddash.lang.types: isVoid;
 
     private bool _empty;
-    @property bool empty() {
+    @property bool empty() nothrow {
         resolve;
         return _empty;
     }
@@ -59,7 +60,7 @@ struct Try(alias fun) {
 
     private T result;
 
-    bool isSuccess() {
+    bool isSuccess() nothrow {
         resolve;
         return result.match!(
             (const T.Expected t) => true,
@@ -67,7 +68,7 @@ struct Try(alias fun) {
         );
     }
 
-    private void resolve() {
+    private void resolve() nothrow {
         if (resolved) {
             return;
         }
@@ -84,7 +85,7 @@ struct Try(alias fun) {
         }
     }
 
-    @property T.Expected front() {
+    @property T.Expected front() nothrow {
         resolve;
         return result.match!(
             (T.Expected t) => t,
