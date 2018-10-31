@@ -9,7 +9,7 @@ $(TR
         $(DDOX_NAMED_REF utils.deref.deref, `deref`)
         )
     $(TD)
-    $(TD Simulates an if/else chain with expressions)
+    $(TD Derefences a "thing", could be a pointer, range, or others)
     )
 $(TR
     $(TD $(DDOX_NAMED_REF ddash.utils.expect, `expect`))
@@ -19,7 +19,7 @@ $(TR
         $(DDOX_NAMED_REF utils.expect.expected, `expected`)<br>
         )
     $(TD)
-    $(TD Used to give types to predicates with certain common functionalities)
+    $(TD Represents a result that has a value or something unexpected)
     )
 $(TR
     $(TD $(DDOX_NAMED_REF ddash.utils.truthy, `truthy`))
@@ -28,7 +28,15 @@ $(TR
         $(DDOX_NAMED_REF utils.truthy.isFalsey, `isFalsey`)<br>
         )
     $(TD)
-    $(TD Call throwing functions as expressions)
+    $(TD Represents "truthiness")
+    )
+$(TR
+    $(TD $(DDOX_NAMED_REF ddash.utils.orelse, `orelse`))
+    $(TD
+        $(DDOX_NAMED_REF utils.orelse.orElse, `orElse`)
+        )
+    $(TD)
+    $(TD Null coallescing operator, but works on other ranges and other types as well)
     )
 )
 */
