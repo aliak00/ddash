@@ -38,6 +38,14 @@ $(TR
     $(TD)
     $(TD Null coallescing operator, but works on other ranges and other types as well)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF ddash.utils.slice, `slice`))
+    $(TD
+        $(DDOX_NAMED_REF utils.orelse.slice, `slice`)
+        )
+    $(TD)
+    $(TD Slices arrays, ranges, and PODs)
+    )
 )
 */
 module ddash.utils;
@@ -47,4 +55,5 @@ public  {
     import ddash.utils.deref;
     import ddash.utils.expect;
     import ddash.utils.orelse;
+    import ddash.utils.slice;
 }
