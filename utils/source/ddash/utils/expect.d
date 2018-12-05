@@ -141,11 +141,11 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     }
 
     /// Calls std.conv.to!string on T or E
-    string toString() {
+    string toString() const {
         import std.conv: to;
         return sumtype.match!(
-            (ref Expected value) => value.to!string,
-            (ref Unexpected value) => value.to!string,
+            (const Expected value) => "Expected(" ~ value.to!string ~ ")",
+            (const Unexpected value) => "Unexpected(" ~ value.to!string ~ ")",
         )(this.data);
     }
 }
@@ -166,6 +166,11 @@ unittest {
     assert(toInt("!33") == anyUnexpected);
 }
 
+unittest {
+    assert(Expect!int.expected(10).toString == "Expected(10)");
+    assert(Expect!(int, int).unexpected(11).toString == "Unexpected(11)");
+}
+
 /**
     Evaluates to true if `T` is a `Expect` type
 */
@@ -174,6 +179,10 @@ template isExpect(T) {
     enum isExpect = isInstanceOf!(Expect, T);
 }
 
+/**
+    Pass in 2 handlers, one that handles `Expected` and another that
+    handles `Unexpected`
+*/
 template match(handlers...) {
     auto match(T)(auto ref T expectInstance) if (isExpect!T) {
         static import sumtype;
@@ -181,6 +190,7 @@ template match(handlers...) {
     }
 }
 
+///
 unittest {
     Expect!(int, string) even(int i) @nogc {
         if (i % 2 == 0) {
@@ -190,15 +200,15 @@ unittest {
         }
     }
 
-    auto a = even(1).match!(
+    import std.meta: AliasSeq;
+
+    alias handlers = AliasSeq!(
         (int n) => n,
-        (Unexpected!string str) => -1
+        (Unexpected!string str) => -1,
     );
 
-    auto b = even(2).match!(
-        (int n) => n,
-        (Unexpected!string str) => -1
-    );
+    auto a = even(1).match!handlers;
+    auto b = even(2).match!handlers;
 
     assert(a == -1);
     assert(b == 2);
