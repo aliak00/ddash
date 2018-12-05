@@ -90,23 +90,7 @@ import ddash.common;
 template cond(statements...) {
     import std.traits: isExpressions, isCallable, arity, isNarrowString;
     import std.functional: unaryFun;
-    import bolts.traits: isUnaryOver;
-    static template resolve(alias f) {
-        auto resolve(V...)(V values) {
-            static if (isUnaryOver!(f, V) && !isNarrowString!(typeof(f))){
-                return f(values);
-            } else static if (isCallable!f && arity!f == 0) {
-                return f();
-            } else static if (isExpressions!f) {
-                return f;
-            } else {
-                static assert(
-                    0,
-                    "Could not resolve " ~ f.stringof ~ " with values " ~ V.stringof
-                );
-            }
-        }
-    }
+
     auto cond(T)(T value) {
         immutable cases = statements.length / 2;
         static foreach(I; 0 .. cases) {{
@@ -131,6 +115,25 @@ template cond(statements...) {
                     );
             }
             return;
+        }
+    }
+}
+
+private template resolve(alias f) {
+    import std.traits: isExpressions, isCallable, arity, isNarrowString;
+    import bolts.traits: isUnaryOver;
+    auto resolve(V...)(V values) {
+        static if (isUnaryOver!(f, V) && !isNarrowString!(typeof(f))){
+            return f(values);
+        } else static if (isCallable!f && arity!f == 0) {
+            return f();
+        } else static if (isExpressions!f) {
+            return f;
+        } else {
+            static assert(
+                0,
+                "Could not resolve " ~ f.stringof ~ " with values " ~ V.stringof
+            );
         }
     }
 }
@@ -164,6 +167,27 @@ unittest {
 }
 
 unittest {
-    static auto g() { return 10; }
+    auto g() { return 10; }
     assert(cond!(1, g, 4)(1) == 10);
+}
+
+
+unittest {
+    static struct S {
+        string str;
+        string f() {
+            string g(string a) {
+                import std.algorithm: startsWith;
+                return a.cond!(
+                    u => u.startsWith("a"), u => str ~ str,
+                    u => u,
+                );
+            }
+            return g(this.str);
+        }
+    }
+    auto a = S("alo");
+    auto b = S("bye");
+    assert(a.f == "aloalo");
+    assert(b.f == "bye");
 }
