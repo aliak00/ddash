@@ -4,6 +4,7 @@
     "targetPath": "../bin",
     "dependencies": {
         "ddash:common": "*",
-        "ddash:lang": "*"
+        "ddash:lang": "*",
+        "ddash:functional": "*"
     }
 }

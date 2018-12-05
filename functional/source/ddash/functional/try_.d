@@ -7,8 +7,6 @@ module ddash.functional.try_;
 unittest {
     import std.algorithm: map, each;
 
-    auto arr = [1, 2, 3];
-
     int f(int i) {
         if (i % 2 == 1) {
             throw new Exception("NOT EVEN!!!");
@@ -16,7 +14,7 @@ unittest {
         return i;
     }
 
-    auto result = arr
+    auto result = [1, 2, 3]
         .map!(try_!f)
         .map!(r => r
             .match!(
@@ -102,6 +100,9 @@ struct Try(alias fun) {
 
 /**
     Evaluates to true if `T` is a `Try` type
+
+    Since:
+        0.0.8
 */
 template isTry(T) {
     import std.traits: isInstanceOf;
@@ -120,6 +121,9 @@ template isTry(T) {
 
     Returns:
         Whatever the lambas return
+
+    Since:
+        0.0.8
 */
 template match(handlers...) {
     auto match(T)(T tryInstance) if (isTry!T) {
@@ -186,7 +190,6 @@ unittest {
     assert( f1_nothrows.isSuccess);
 }
 
-
 unittest {
     // Test that accesses context frames from outside the match function
     int i;
@@ -199,15 +202,14 @@ unittest {
 
     auto g0 = () @trusted { return "g0"; } ();
 
-    auto a = try_!odd(1).match!(
+    import std.meta: AliasSeq;
+    alias handlers = AliasSeq!(
         (int v) => g0,
         (Exception ex) => ex.msg,
     );
 
-    auto b = try_!odd(2).match!(
-        (int v) => g0,
-        (Exception ex) => ex.msg,
-    );
+    auto a = try_!odd(1).match!handlers;
+    auto b = try_!odd(2).match!handlers;
 
     assert(a == "g0");
     assert(b == "boo");

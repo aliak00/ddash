@@ -173,6 +173,9 @@ unittest {
 
 /**
     Evaluates to true if `T` is a `Expect` type
+
+    Since:
+        0.0.8
 */
 template isExpect(T) {
     import std.traits: isInstanceOf;
@@ -182,6 +185,9 @@ template isExpect(T) {
 /**
     Pass in 2 handlers, one that handles `Expected` and another that
     handles `Unexpected`
+
+    Since:
+        0.0.8
 */
 template match(handlers...) {
     auto match(T)(auto ref T expectInstance) if (isExpect!T) {
