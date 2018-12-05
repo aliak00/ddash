@@ -47,6 +47,7 @@ import ddash.common;
 struct Try(alias fun) {
     import ddash.utils.expect;
     import ddash.lang.types: isVoid;
+    alias expectmatch = ddash.utils.expect.match;
 
     private bool _empty;
     @property bool empty() nothrow {
@@ -62,10 +63,10 @@ struct Try(alias fun) {
 
     bool isSuccess() nothrow {
         resolve;
-        return result.match!(
+        return expectmatch!(
             (const T.Expected t) => true,
             (const T.Unexpected ex) => false,
-        );
+        )(result);
     }
 
     private void resolve() nothrow {
@@ -87,44 +88,53 @@ struct Try(alias fun) {
 
     @property T.Expected front() nothrow {
         resolve;
-        return result.match!(
+        return expectmatch!(
             (T.Expected t) => t,
             (T.Unexpected ex) => T.Expected.init,
-        );
+        )(result);
     }
 
     void popFront() nothrow {
         scope(exit) _empty = true;
         resolve;
     }
+}
 
-    /**
-        Pass two lambdas to the match function. The first one handles the success case
-        and the second one handles the failure case.
+/**
+    Evaluates to true if `T` is a `Try` type
+*/
+template isTry(T) {
+    import std.traits: isInstanceOf;
+    enum isTry = isInstanceOf!(Try, T);
+}
 
-        Calling match will execute the try function if it has not already done so
+/**
+    Pass two lambdas to the match function. The first one handles the success case
+    and the second one handles the failure case.
 
-        Params:
-            handlers = lamda that handles the success case
-            handlers = lambda that handles the exception
+    Calling match will execute the try function if it has not already done so
 
-        Returns:
-            Whatever the lambas return
-    */
-    auto match(handlers...)() {
-        resolve;
-        return result.match!(
-            (T.Expected t) {
-                static if (isVoid!(T.Expected)) {
-                    return handlers[0]();
-                } else {
-                    return handlers[0](t);
-                }
-            },
-            (T.Unexpected ex) {
-                return handlers[1](ex);
-            }
-        );
+    Params:
+        tryInstance = lamda that handles the success case
+        handlers = lambda that handles the exception
+
+    Returns:
+        Whatever the lambas return
+*/
+template match(handlers...) {
+    auto match(T)(T tryInstance) if (isTry!T) {
+        import ddash.lang.types: isVoid;
+        import ddash.utils.expect;
+        tryInstance.resolve;
+        static if (isVoid!(T.T.Expected)) {
+            alias success = (t) => handlers[0]();
+        } else {
+            alias success = (t) => handlers[0](t);
+        }
+        return ddash.utils.expect.match!(
+            (ref T.T.Expected t) => success(t),
+            (ref T.T.Unexpected ex) => handlers[1](ex),
+        )(tryInstance.result);
     }
 }
 
@@ -174,4 +184,31 @@ unittest {
     assert( f0_nothrows.isSuccess);
     assert(!f1_throws.isSuccess);
     assert( f1_nothrows.isSuccess);
+}
+
+
+unittest {
+    // Test that accesses context frames from outside the match function
+    int i;
+    int odd(int ii) {
+        i = ii;
+        if (i % 2 == 0)
+            throw new Exception("boo");
+        return ii;
+    }
+
+    auto g0 = () @trusted { return "g0"; } ();
+
+    auto a = try_!odd(1).match!(
+        (int v) => g0,
+        (Exception ex) => ex.msg,
+    );
+
+    auto b = try_!odd(2).match!(
+        (int v) => g0,
+        (Exception ex) => ex.msg,
+    );
+
+    assert(a == "g0");
+    assert(b == "boo");
 }
