@@ -190,9 +190,9 @@ template isExpect(T) {
         0.0.8
 */
 template match(handlers...) {
-    auto match(T)(auto ref T expectInstance) if (isExpect!T) {
+    auto match(T, E)(auto ref Expect!(T, E) expect) {
         static import sumtype;
-        return sumtype.match!handlers(expectInstance.data);
+        return sumtype.match!handlers(expect.data);
     }
 }
 
