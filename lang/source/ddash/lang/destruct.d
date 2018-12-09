@@ -18,7 +18,7 @@ template destructInto(symbols...) {
         import std.range: array;
         auto arr = range.array;
         static foreach (i, symbol; symbols) {
-           	symbol = arr[i];
+            symbol = arr[i];
         }
     }
 }
