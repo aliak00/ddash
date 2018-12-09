@@ -41,8 +41,8 @@ auto capture(Range, Captures...)(auto ref Range range, auto ref Captures capture
         - 0.0.1
 */
 template unpack(alias func) {
-    import std.typecons: isTuple;
-    auto unpack(TupleType)(TupleType tup) if (isTuple!TupleType) {
+    import std.typecons: Tuple;
+    auto unpack(Types...)(Tuple!Types tup) {
         return func(tup.expand);
     }
 }
