@@ -23,7 +23,7 @@ module ddash.lang.assume;
 */
 template assume(alias fun) {
     import std.traits: FunctionAttribute, SetFunctionAttributes, functionLinkage, functionAttributes;
-    private auto ref assumeAttribute(FunctionAttribute assumedAttr, T)(auto ref T t) {
+    private auto ref assumeAttribute(FunctionAttribute assumedAttr, T)(return scope auto ref T t) {
         enum attrs = functionAttributes!T | assumedAttr;
         return cast(SetFunctionAttributes!(T, functionLinkage!T, attrs)) t;
     }
@@ -45,9 +45,13 @@ template assume(alias fun) {
             }
         };
     }
+
+    /// Calls `fun` as an @nogc functions
     auto ref nogc_(Args...)(auto ref Args args) {
         mixin(impl("FunctionAttribute.nogc"));
     }
+
+    /// Calls `fun` as a pure function
     auto ref pure_(Args...)(auto ref Args args) {
         mixin(impl("FunctionAttribute.pure_"));
     }
