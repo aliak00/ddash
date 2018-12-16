@@ -33,6 +33,14 @@ $(TR
     $(TD)
     $(TD Call throwing functions as expressions)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF ddash.functional.bind, `bind`))
+    $(TD
+        $(DDOX_NAMED_REF functional.bind.bind, `bind`)
+        )
+    $(TD)
+    $(TD Call binds parameters to functions)
+    )
 )
 */
 module ddash.functional;
@@ -41,4 +49,5 @@ public {
     import ddash.functional.cond;
     import ddash.functional.pred;
     import ddash.functional.try_;
+    import ddash.functional.bind;
 }
