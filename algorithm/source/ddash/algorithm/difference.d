@@ -165,7 +165,7 @@ unittest {
         range = the range to inspect
         values = ranges or single values to exclude
 
-    SeeAlso:
+    See_Also:
         `difference`
 
     Since:
