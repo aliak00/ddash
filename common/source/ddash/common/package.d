@@ -5,8 +5,8 @@ template from(string moduleName) {
 }
 
 version (unittest) {
-    public import std.array;
-    public import std.typecons: Yes, No;
-    public import std.stdio: writeln;
-    public import ddash.common.equal;
+    package(ddash) import std.array;
+    package(ddash) import std.typecons: Yes, No;
+    package(ddash) import std.stdio: writeln;
+    package(ddash) import ddash.common.equal;
 }

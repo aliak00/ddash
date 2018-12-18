@@ -1,6 +1,6 @@
 module ddash.common.valueby;
 
-auto ref valueBy(string member = "", T)(auto ref T value) {
+package(ddash) auto ref valueBy(string member = "", T)(auto ref T value) {
     static if (member != "") {
         import bolts: hasMember;
         static assert(
