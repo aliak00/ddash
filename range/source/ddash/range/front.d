@@ -17,16 +17,27 @@ unittest {
 
 import ddash.common;
 
+private enum isInputRangeAndElementConvertibleTo(Range, T) = from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!Range);
+
 /**
     Retrieves the front of a range or a default value
+
+    Params:
+        range = the range to get the front of
+        defaultValue = the lazy var to return if the range has no front
+        defaultFunc = function to call that returns a value if there is no front
 
     Since:
         - 0.0.1
 */
-auto frontOr(Range, T)(Range range, lazy T defaultValue)
-if (from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!Range)) {
+auto frontOr(Range, T)(Range range, lazy T defaultValue) if (isInputRangeAndElementConvertibleTo!(Range, T)) {
+    return range.frontOr!defaultValue;
+}
+
+/// Ditto
+auto frontOr(alias defaultFunc, Range)(Range range) if (isInputRangeAndElementConvertibleTo!(Range, typeof(defaultFunc()))) {
     import std.range: empty, front;
-    return range.empty ? defaultValue : range.front;
+    return range.empty ? defaultFunc() : range.front;
 }
 
 ///
@@ -34,6 +45,12 @@ if (from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!R
 unittest {
     assert((int[]).init.frontOr(7) == 7);
     assert([1, 2].frontOr(3) == 1);
+}
+
+@("frontOr with lambda")
+unittest {
+    assert((int[]).init.frontOr!(() => 7) == 7);
+    assert([1, 2].frontOr!(() => 3) == 1);
 }
 
 /**

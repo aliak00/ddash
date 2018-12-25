@@ -17,16 +17,27 @@ unittest {
 
 import ddash.common;
 
+private enum isBidirectionalRangeAndElementConvertibleTo(Range, T) = from!"std.range".isBidirectionalRange!Range && is(T : from!"std.range".ElementType!Range);
+
 /**
     Retrieves the back of a range or a default value
+
+    Params:
+        range = the range to get the back of
+        defaultValue = the lazy var to return if the range has no back
+        defaultFunc = function to call that returns a value if there is no back
 
     Since:
         - 0.0.1
 */
-auto backOr(Range, T)(Range range, lazy T defaultValue)
-if (from!"std.range".isBidirectionalRange!Range && is(T : from!"std.range".ElementType!Range)) {
-    import std.range: empty, back;
-    return range.empty ? defaultValue : range.back;
+auto backOr(Range, T)(Range range, lazy T defaultValue) if (isBidirectionalRangeAndElementConvertibleTo!(Range, T)) {
+    return range.backOr!defaultValue;
+}
+
+/// Ditto
+auto backOr(alias defaultFunc, Range)(Range range) if (isBidirectionalRangeAndElementConvertibleTo!(Range, typeof(defaultFunc()))) {
+    import std.range: empty, front;
+    return range.empty ? defaultFunc() : range.back;
 }
 
 ///
@@ -34,6 +45,12 @@ if (from!"std.range".isBidirectionalRange!Range && is(T : from!"std.range".Eleme
 unittest {
     assert((int[]).init.backOr(7) == 7);
     assert([1, 2].backOr(3) == 2);
+}
+
+@("backOr with lambda")
+unittest {
+    assert((int[]).init.backOr!(() => 7) == 7);
+    assert([1, 2].backOr!(() => 3) == 2);
 }
 
 /**
