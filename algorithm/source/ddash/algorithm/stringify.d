@@ -2,6 +2,7 @@
 module ddash.algorithm.stringify;
 
 ///
+@("Modue example")
 unittest {
     assert([1, 2, 3].stringifySeperatedBy(',') == "1,2,3");
     assert([1, 2, 3].stringify == "123");
@@ -33,7 +34,7 @@ string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".
         .to!string;
 }
 
-/// ditto
+/// Ditto
 string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!S) {
     import std.conv: to;
     return range.stringifySeperatedBy(sep.to!string);

@@ -2,6 +2,7 @@
 module ddash.algorithm.index;
 
 ///
+@("Module example")
 unittest {
     import optional: some, none;
 
@@ -47,6 +48,7 @@ if (from!"std.range".isInputRange!Range
 }
 
 ///
+@("indexWhere example")
 unittest {
     import optional: some, none;
     assert([1, 2, 3, 4].indexWhere!(a => a % 2 == 0) == some(1));
@@ -81,6 +83,7 @@ if (from!"std.range".isBidirectionalRange!Range
 }
 
 ///
+@("lastIndexWhere example")
 unittest {
     import optional: some, none;
     assert([1, 2, 3, 4].lastIndexWhere!(a => a % 2 == 0) == some(3));
@@ -113,6 +116,7 @@ auto indexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!"std
 }
 
 ///
+@("indexOf example")
 unittest {
     import optional;
     assert([1, 2, 1, 2].indexOf(2) == some(1));
@@ -145,6 +149,7 @@ auto lastIndexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!
 }
 
 ///
+@("lastIndexOf example")
 unittest {
     import optional;
     assert([1, 2, 1, 2].indexOf(2) == some(1));

@@ -4,6 +4,7 @@
 module ddash.algorithm.compact;
 
 ///
+@("Module example")
 unittest {
     import optional: no, some;
     import ddash.utils: isFalsey;
@@ -58,6 +59,7 @@ auto compact(alias pred = null, Range)(Range range) if (from!"std.range".isInput
 }
 
 ///
+@("Unary predicate example")
 unittest {
     import optional: no, some;
     import ddash.utils: isFalsey;
@@ -93,36 +95,8 @@ auto compactBy(string member, alias pred = null, Range)(Range range) if (from!"s
     return compactBase!(member, pred)(range);
 }
 
-private auto compactBase(string member, alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
-    import std.algorithm: filter;
-    import bolts: isNullType, isUnaryOver;
-    import ddash.common.valueby;
-    import std.range: ElementType;
-
-    alias E = ElementType!Range;
-
-    static if (isNullType!pred)
-    {
-        import bolts: isNullable;
-        static assert(
-            isNullable!E,
-            "Cannot compact non-nullable type `" ~ E.stringof ~ "'",
-        );
-        alias fun = (a) => valueBy!member(a) !is null;
-    }
-    else static if (isUnaryOver!(pred, typeof(valueBy!member(E.init))))
-    {
-        alias fun = a => !pred(valueBy!member(a));
-    }
-    else
-    {
-        static assert(0, "predicate must either be null or bool function(" ~ E.stringof ~ ")");
-    }
-
-    return range.filter!fun;
-}
-
 ///
+@("By-member example")
 unittest {
     import ddash.utils: isFalsey;
     struct A {
@@ -157,6 +131,7 @@ auto compactValues(alias pred = null, T, U)(T[U] aa) {
 }
 
 ///
+@("AA example")
 unittest {
     import ddash.utils: isFalsey;
     auto aa = ["a": 1, "b": 0, "c": 2];
@@ -182,6 +157,7 @@ auto compact(alias pred = null, Values...)(Values values) if (!is(from!"std.trai
 }
 
 ///
+@("Compile-time sequence example")
 unittest {
     import ddash.utils: isFalsey;
     auto a = compact!isFalsey(1, 0, 2, 0, 3);
@@ -192,4 +168,28 @@ unittest {
 
     static assert(is(typeof(a.array) == int[]));
     static assert(is(typeof(b.array) == double[]));
+}
+
+private auto compactBase(string member, alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+    import std.algorithm: filter;
+    import bolts: isNullType, isUnaryOver;
+    import ddash.common.valueby;
+    import std.range: ElementType;
+
+    alias E = ElementType!Range;
+
+    static if (isNullType!pred) {
+        import bolts: isNullable;
+        static assert(
+            isNullable!E,
+            "Cannot compact non-nullable type `" ~ E.stringof ~ "'",
+        );
+        alias fun = (a) => valueBy!member(a) !is null;
+    } else static if (isUnaryOver!(pred, typeof(valueBy!member(E.init)))) {
+        alias fun = a => !pred(valueBy!member(a));
+    } else {
+        static assert(0, "predicate must either be null or bool function(" ~ E.stringof ~ ")");
+    }
+
+    return range.filter!fun;
 }

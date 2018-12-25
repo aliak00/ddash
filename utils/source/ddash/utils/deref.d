@@ -29,6 +29,7 @@ auto ref deref(T)(auto ref Nullable!T t) {
 }
 
 ///
+@("derefs different types")
 unittest {
     import std.typecons: nullable;
     auto a = nullable(1);

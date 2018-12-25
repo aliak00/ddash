@@ -4,6 +4,7 @@
 module ddash.algorithm.frompairs;
 
 ///
+@("Module example")
 unittest {
     import std.typecons;
     assert([tuple(1, 2), tuple(3, 4) ].fromPairs == [1: 2, 3: 4]);
@@ -30,13 +31,10 @@ import ddash.common;
 auto fromPairs(R1)(R1 r1) if (from!"std.range".isInputRange!R1) {
     import std.range: ElementType;
     import std.typecons: Tuple;
-    static if (is(ElementType!R1 : Tuple!Args, Args...) && Args.length == 2)
-    {
+    static if (is(ElementType!R1 : Tuple!Args, Args...) && Args.length == 2) {
         import std.array: assocArray;
         return r1.assocArray;
-    }
-    else
-    {
+    } else {
         alias E = ElementType!R1;
         import std.range;
         import std.algorithm;
@@ -51,6 +49,7 @@ auto fromPairs(R1)(R1 r1) if (from!"std.range".isInputRange!R1) {
     }
 }
 
+@("Works on pairs of elements")
 unittest {
     import std.algorithm: filter;
     import std.typecons;

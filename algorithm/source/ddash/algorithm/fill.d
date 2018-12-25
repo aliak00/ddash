@@ -2,6 +2,7 @@
 module ddash.algorithm.fill;
 
 ///
+@("MOdule example")
 unittest {
     int[] a = [1, 2, 3];
     a.fill(5);
@@ -44,6 +45,7 @@ if (from!"std.range".isForwardRange!Range
         .stdFill(value);
 }
 
+@("Range must be ref and assignable")
 unittest {
     // Should not compile if range is not reference type
     static assert(!__traits(compiles, [1].fill(3)));

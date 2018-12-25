@@ -63,6 +63,7 @@ auto orElse(R, U)(auto ref R range, lazy U elseValue) if (RangeAndElementOf!(R, 
 }
 
 ///
+@("works with ranges, front, and lambdas")
 unittest {
     // Get orElse ranges
     assert((int[]).init.orElse([1, 2, 3]).equal([1, 2, 3]));
@@ -78,12 +79,14 @@ unittest {
 }
 
 ///
+@("works with strings")
 unittest {
     import std.range;
     assert((cast(string)null).orElse("hi") == "hi");
     assert("yo".orElse("hi") == "yo");
 }
 
+@("range to mapped and mapped to range")
 unittest {
     import std.algorithm: map;
     auto r0 = [1, 2].orElse([1, 2].map!"a * 2");
@@ -97,6 +100,7 @@ unittest {
     assert(r3.equal([1, 2]));
 }
 
+@("range to front")
 unittest {
     assert([1, 2].orElse(3) == 1);
     assert((int[]).init.orElse(3) == 3);

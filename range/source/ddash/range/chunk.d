@@ -8,6 +8,7 @@
 module ddash.range.chunk;
 
 ///
+@("module example")
 unittest {
     assert([1, 2, 3].chunk(0).equal((int[][]).init));
     assert([1, 2, 3].chunk(1).equal([[1], [2], [3]]));

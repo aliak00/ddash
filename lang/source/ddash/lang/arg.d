@@ -59,6 +59,7 @@ struct Arg(T) {
 }
 
 ///
+@("allows passing of correct type")
 unittest {
     int add(Arg!int.a a, Arg!int.b b) {
         return a + b;

@@ -4,6 +4,7 @@
 module ddash.range.front;
 
 ///
+@("module example")
 unittest {
     import std.algorithm: filter;
     import std.range: iota, takeNone, drop;
@@ -29,6 +30,7 @@ if (from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!R
 }
 
 ///
+@("frontOr example")
 unittest {
     assert((int[]).init.frontOr(7) == 7);
     assert([1, 2].frontOr(3) == 1);
@@ -45,21 +47,19 @@ auto withFront(alias fun, Range)(Range range) if (from!"std.range".isInputRange!
     import std.functional: unaryFun;
     alias f = unaryFun!fun;
     alias R = typeof(f(ElementType!Range.init));
-    static if (is(R == void))
-    {
+    static if (is(R == void)) {
         import optional: some;
         if (!range.empty) {
             f(range.front);
         }
-    }
-    else
-    {
+    } else {
         import optional: some, no;
         return range.empty ? no!R : some(f(range.front));
     }
 }
 
 ///
+@("withFront example")
 unittest {
     import optional: some, none;
     assert((int[]).init.withFront!(a => a * a) == none);
@@ -80,17 +80,20 @@ auto maybeFront(Range)(Range range) if (from!"std.range".isInputRange!Range) {
 }
 
 ///
+@("maybeFront example")
 unittest {
     assert((int[]).init.maybeFront.empty == true);
     assert([1, 2].maybeFront.front == 1);
 }
 
+@("maybeFront compiles with array of const")
 unittest {
     const(string)[] args = [];
     static assert(__traits(compiles, { args.maybeFront; }));
 }
 
 ///
+@("maybeFront with optional.dispatch")
 unittest {
     import std.algorithm: filter;
     import optional: some, none, dispatch;

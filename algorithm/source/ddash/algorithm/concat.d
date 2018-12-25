@@ -4,6 +4,7 @@
 module ddash.algorithm.concat;
 
 ///
+@("Module example")
 unittest {
     import std.range: iota;
 
@@ -161,6 +162,7 @@ auto concat(Values...)(Values values) if (from!"bolts.traits".areCombinable!Valu
     }
 }
 
+@("Different types")
 unittest {
     import std.array;
 
@@ -186,6 +188,7 @@ unittest {
     assert(s.concat(s, [s]).equal("oooooo"));
 }
 
+@("Ensure type in == type out if single element")
 unittest {
     import std.algorithm: filter;
     import std.range: only;

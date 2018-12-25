@@ -37,6 +37,7 @@ auto ref maybeSort(alias less = null, Range)(auto ref Range range) {
 }
 
 ///
+@("Sorts sortable but not unsortable")
 unittest {
     import bolts.range: isSortedRange;
 
@@ -83,6 +84,7 @@ auto ref maybeSortBy(string member, alias less = null, Range)(auto ref Range ran
 }
 
 ///
+@("By=member sorts sortable but not unsortable")
 unittest {
     import bolts.range: isSortedRange;
 
@@ -121,6 +123,7 @@ auto sortBy(string member, alias less = "a < b", Range)(Range range) {
 }
 
 ///
+@("Sorts by member")
 unittest {
     struct A {
         int i;

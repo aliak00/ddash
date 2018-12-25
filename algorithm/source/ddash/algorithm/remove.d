@@ -4,6 +4,7 @@
 module ddash.algorithm.remove;
 
 ///
+@("module example")
 unittest {
     auto arr = [1, 2, 3, 4];
     arr.remove!(a => a % 2 == 0);

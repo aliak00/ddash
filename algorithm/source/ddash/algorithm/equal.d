@@ -4,6 +4,7 @@
 module ddash.algorithm.equal;
 
 ///
+@("Module example - ranges")
 unittest {
     // single elements
     assert(!equal(2, 4));
@@ -29,6 +30,7 @@ unittest {
 }
 
 ///
+@("Module example - member wise")
 unittest {
     struct S {
         int x;

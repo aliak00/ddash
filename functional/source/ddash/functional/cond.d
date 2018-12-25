@@ -4,6 +4,7 @@
 module ddash.functional.cond;
 
 ///
+@("module example")
 unittest {
     alias lessThanZero = (a) => a < 0;
     alias greaterOrEqualThan10 = (a) => a >= 10;
@@ -138,6 +139,7 @@ private template resolve(alias f) {
     }
 }
 
+@("Works with void returns and request default if not void")
 unittest {
     static assert(
         is(
@@ -166,12 +168,13 @@ unittest {
     );
 }
 
+@("Works with local function")
 unittest {
     auto g() { return 10; }
     assert(cond!(1, g, 4)(1) == 10);
 }
 
-
+@("works with this context pointer")
 unittest {
     static struct S {
         string str;

@@ -3,6 +3,7 @@ module ddash.algorithm.flatmap;
 import ddash.common;
 
 ///
+@("Module example")
 unittest {
     auto dup(int n) {
         return [n, n];
@@ -43,6 +44,7 @@ auto flatMap(alias unaryPred, Range)(Range range) if (from!"std.range".isInputRa
         .flatten;
 }
 
+@("Works with optional!T")
 unittest {
     import optional: some, no;
     auto optionalArray = [
@@ -54,6 +56,7 @@ unittest {
     assert(optionalArray.flatMap!(a => a).equal([3, 7]));
 }
 
+@("Works on an int array")
 unittest {
     auto intArray = [
         3,
@@ -62,6 +65,7 @@ unittest {
     assert(intArray.flatMap!(a => a).equal([3, 7]));
 }
 
+@("Works on array of arrays")
 unittest {
     auto intArrayOfArrays = [
         [3],

@@ -4,6 +4,7 @@
 module ddash.functional.try_;
 
 ///
+@("module example")
 unittest {
     import std.algorithm: map, each;
 
@@ -155,6 +156,7 @@ template try_(alias func) {
 }
 
 ///
+@("try_ general example")
 unittest {
     import std.typecons: Flag;
 
@@ -190,6 +192,7 @@ unittest {
     assert( f1_nothrows.isSuccess);
 }
 
+@("handles inner context frames")
 unittest {
     // Test that accesses context frames from outside the match function
     int i;

@@ -24,6 +24,7 @@ template destructInto(symbols...) {
 }
 
 ///
+@("Sets specified variables from range")
 unittest {
     int a, b, c;
     [1, 2, 3].destructInto!(a, b, c);

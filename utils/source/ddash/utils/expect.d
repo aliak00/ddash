@@ -11,6 +11,7 @@
 module ddash.utils.expect;
 
 ///
+@("Module example")
 @nogc unittest {
     Expect!(int, string) even(int i) @nogc {
         if (i % 2 == 0) {
@@ -151,6 +152,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
 }
 
 ///
+@("works with anyUnexpected")
 unittest {
     Expect!int toInt(string str) {
         alias Result = typeof(return);
@@ -166,6 +168,7 @@ unittest {
     assert(toInt("!33") == anyUnexpected);
 }
 
+@("toString prints corret type")
 unittest {
     assert(Expect!int.expected(10).toString == "Expected(10)");
     assert(Expect!(int, int).unexpected(11).toString == "Unexpected(11)");
@@ -197,6 +200,7 @@ template match(handlers...) {
 }
 
 ///
+@("match should work")
 unittest {
     Expect!(int, string) even(int i) @nogc {
         if (i % 2 == 0) {
@@ -219,4 +223,3 @@ unittest {
     assert(a == -1);
     assert(b == 2);
 }
-

@@ -4,6 +4,7 @@
 module ddash.utils.truthy;
 
 ///
+@("module example")
 unittest {
     assert( isTruthy(true));
     assert( isTruthy(1));

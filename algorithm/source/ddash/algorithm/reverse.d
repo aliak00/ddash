@@ -4,6 +4,7 @@
 module ddash.algorithm.reverse;
 
 ///
+@("Module example")
 unittest {
     auto arr = [1, 2, 3, 4];
     arr.reverse;

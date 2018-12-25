@@ -4,6 +4,7 @@
 module ddash.range.slicing;
 
 ///
+@("module example")
 unittest {
     auto arr = [1, 2, 3, 4, 5];
 
@@ -69,6 +70,7 @@ auto slice(Range)(Range range, size_t start) {
 alias tail = (range) => from!"std.range".drop(range, 1);
 
 ///
+@("tail example")
 unittest {
     assert((int[]).init.tail.empty);
     assert([1, 2, 3, 4].tail.equal([2, 3, 4]));
@@ -89,6 +91,7 @@ unittest {
 alias initial = (range) => from!"std.range".dropBack(range, 1);
 
 ///
+@("initial example")
 unittest {
     assert((int[]).init.initial.empty);
     assert([1, 2, 3, 4].initial.equal([1, 2, 3]));

@@ -1,7 +1,7 @@
-module ddash.benchmarks.pullat;
+module ddash.benchmarks.pullIndices;
 
 void profile()() {
-    import ddash.algorithm: pullAt;
+    import ddash.algorithm: pullIndices;
 
     import std.stdio;
     import std.datetime.stopwatch: benchmark;
@@ -21,21 +21,21 @@ void profile()() {
     auto indices = randoms.take(count / 2).array;
     auto sortedIndices = indices.array.sort;
 
-    writeln("Benchmarking pullAt against filter/canFind:");
+    writeln("Benchmarking pullIndices against filter/canFind:");
     writeln("numbers: ", numbers);
     writeln("indices: ", indices);
 
     alias stdExclude = (numbers, indicies) => numbers.array.sort.enumerate.filter!(a => !indicies.canFind(a[0])).map!(a => a[1]);
     alias stdExcludeSorted = (numbers, indicies) => numbers.enumerate.filter!(a => !indicies.contains(a[0])).map!(a => a[1]);
     auto r1 = benchmark!(
-        () => numbers.pullAt(SingleIndices),
-        () => numbers.pullAt(indices),
-        () => numbers.pullAt(sortedIndices),
+        () => numbers.pullIndices(SingleIndices),
+        () => numbers.pullIndices(indices),
+        () => numbers.pullIndices(sortedIndices),
         () => stdExclude(numbers, indices),
         () => stdExcludeSorted(numbers, sortedIndices),
     )(10000);
 
-    writeln("  pullAt: ");
+    writeln("  pullIndices: ");
     writeln("    single args:    ", r1[0]);
     writeln("    single range:   ", r1[1]);
     writeln("    sorted range:   ", r1[2]);
@@ -43,14 +43,14 @@ void profile()() {
     writeln("    canFind sorted: ", r1[4]);
 
     auto r2 = benchmark!(
-        () => numbers.pullAt(SingleIndices).array,
-        () => numbers.pullAt(indices).array,
-        () => numbers.pullAt(sortedIndices).array,
+        () => numbers.pullIndices(SingleIndices).array,
+        () => numbers.pullIndices(indices).array,
+        () => numbers.pullIndices(sortedIndices).array,
         () => stdExclude(numbers, indices).array,
         () => stdExcludeSorted(numbers, sortedIndices).array,
     )(10000);
 
-    writeln("  pullAt (with .array): ");
+    writeln("  pullIndices (with .array): ");
     writeln("    single args:    ", r2[0]);
     writeln("    single range:   ", r2[1]);
     writeln("    sorted range:   ", r2[2]);

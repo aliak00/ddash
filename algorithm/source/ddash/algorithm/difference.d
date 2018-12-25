@@ -4,6 +4,7 @@
 module ddash.algorithm.difference;
 
 ///
+@("Module example")
 unittest {
     import std.algorithm: map;
     assert([1, 2, 3].difference([1], 3).equal([2]));
@@ -33,7 +34,7 @@ private template isSortednessValid(R1, R2, string byMember, alias pred) {
     enum isSortednessValid = byMember.length == 0 && isNullType!pred && isSortedRange!R1 && isSortedRange!R2;
 }
 
-struct Difference(string member, alias pred, R1, R2) {
+private struct Difference(string member, alias pred, R1, R2) {
     import bolts.range: CommonTypeOfRanges;
 
     private R1 r1;
@@ -84,15 +85,15 @@ struct Difference(string member, alias pred, R1, R2) {
         this.moveToNextElement;
     }
 
-    bool empty() @property {
+    public bool empty() @property {
         import std.range: empty;
         return this.r1.empty;
     }
-    auto front() @property {
+    public auto front() @property {
         import std.range: front;
         return this.r1.front;
     }
-    void popFront() {
+    public void popFront() {
         import std.range: popFront;
         this.r1.popFront;
         this.moveToNextElement;
@@ -126,6 +127,7 @@ auto difference(alias pred = null, Range, Rs...)(Range range, Rs values) if (isR
 }
 
 ///
+@("Different ways of passing parameters")
 unittest {
     assert([1, 2, 3].difference([0, 1, 2]).equal([3]));
     assert([1, 2, 3].difference([1, 2]).equal([3]));
@@ -135,6 +137,7 @@ unittest {
 }
 
 ///
+@("Implicitly convertible elements work")
 unittest {
     // Implicitly convertible elements ok
     assert([1.0, 2.0].difference(2).equal([1.0]));
@@ -150,6 +153,7 @@ unittest {
 }
 
 ///
+@("Elements come out sorted")
 unittest {
     import std.math: ceil;
     assert([2.1, 1.2].difference!ceil([2.3, 3.4]).equal([1.2]));
@@ -176,6 +180,7 @@ auto differenceBy(string member, alias pred = null, Range, Rs...)(Range range, R
 }
 
 ///
+@("Binary predicate and member-wise")
 unittest {
     struct A {
         int value;
@@ -187,7 +192,7 @@ unittest {
     assert([A(1), A(2), A(3)].differenceBy!"value"([A(2), A(3)]).equal([A(1)]));
 }
 
-auto differenceBase(string member, alias pred, Range, Values...)(Range range, Values values)
+private auto differenceBase(string member, alias pred, Range, Values...)(Range range, Values values)
 if (isRangeOverValidPredicate!(pred, Range) && from!"bolts.traits".areCombinable!(Range, Values))
 {
     static if (!Values.length) {
@@ -230,6 +235,7 @@ if (isRangeOverValidPredicate!(pred, Range) && from!"bolts.traits".areCombinable
     }
 }
 
+@("gives expected results")
 unittest {
     assert([1, 1, 1, 2, 2, 3].difference(2, 3).equal([1, 1, 1]));
     assert([1, 1, 1, 2, 2, 3, 3].difference(2, 3).equal([1, 1, 1]));

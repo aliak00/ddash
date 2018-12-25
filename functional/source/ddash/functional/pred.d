@@ -4,6 +4,7 @@
 module ddash.functional.pred;
 
 ///
+@("module example")
 unittest {
     static struct S(alias pred) {
         auto f(int a, int b) {
@@ -78,6 +79,7 @@ template isLt(alias pred) {
     }
 }
 
+@("traits correctly identity eq and lt")
 unittest {
     alias plt = lt!((a, b) => a < b);
     alias peq = eq!((a, b) => a == b);

@@ -60,6 +60,7 @@ template bind(alias pred, BoundArgs...) {
 }
 
 ///
+@("Binds in correct positions")
 unittest {
     auto f0(int a, int b, int c) {
         return a * b + c;

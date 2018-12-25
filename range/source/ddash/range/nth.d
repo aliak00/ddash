@@ -4,6 +4,7 @@
 module ddash.range.nth;
 
 ///
+@("module example")
 unittest {
     import optional: some, none;
     import ddash.range.front;
@@ -41,7 +42,6 @@ auto nth(
 )
 if (from!"std.range".isInputRange!Range)
 {
-
     import std.range: empty, walkLength, isRandomAccessRange, ElementType;
     import std.typecons: Yes;
     import optional: no, some;
@@ -52,24 +52,18 @@ if (from!"std.range".isInputRange!Range)
         return no!T;
     }
     auto length = range.walkLength;
-    static if (isRandomAccessRange!Range)
-    {
+    static if (isRandomAccessRange!Range) {
         alias get = a => range[a];
-    }
-    else
-    {
+    } else {
         import std.range: dropExactly;
         alias get = a => range
             .dropExactly(a)
             .front;
     }
 
-    static if (wrap == Yes.wrap)
-    {
+    static if (wrap == Yes.wrap) {
         return some!T(get(n % length));
-    }
-    else
-    {
+    } else {
         if (n >= length) {
             return no!T;
         }
@@ -77,6 +71,7 @@ if (from!"std.range".isInputRange!Range)
     }
 }
 
+@("nth works with filter and optional ranges")
 unittest {
     import std.algorithm: filter;
     import optional: some, none;
@@ -87,6 +82,7 @@ unittest {
     assert([1, 2].nth!(Yes.wrap)(2) == some(1));
 }
 
+@("compiles with array of const")
 unittest {
     const(string)[] args = [];
     static assert(__traits(compiles, { args.nth(0); }));
@@ -101,6 +97,7 @@ unittest {
 alias first = from!"ddash.range".maybeFront;
 
 ///
+@("first example")
 unittest {
     import optional: some, none;
     assert([1, 2].first == some(1));
@@ -116,6 +113,7 @@ unittest {
 alias last = from!"ddash.range".maybeBack;
 
 ///
+@("last returns optional")
 unittest {
     import optional: some, none;
     assert([1, 2].last == some(2));

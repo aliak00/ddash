@@ -4,6 +4,7 @@
 module ddash.algorithm.pull;
 
 ///
+@("Module example 1")
 unittest {
     int[] arr = [1, 2, 3, 4, 5];
     arr.pull(1, [2, 5]);
@@ -21,6 +22,7 @@ unittest {
 }
 
 ///
+@("Module example 2")
 unittest {
     struct A {
         int x;
@@ -115,22 +117,22 @@ private ref pullBase(string member, alias pred, Range, Values...)(return ref Ran
         A range excluding the supplied indices
 
     Benchmarks:
-        $(LI single args: `pullAt(8, 16, 14...)`)
-        $(LI single range: `pullAt([8, 16, 14...])`)
-        $(LI sorted range: `pullAt([8, 16, 14...].sort)`)
+        $(LI single args: `pullIndices(8, 16, 14...)`)
+        $(LI single range: `pullIndices([8, 16, 14...])`)
+        $(LI sorted range: `pullIndices([8, 16, 14...].sort)`)
         $(LI canFind range: `indices.filter!(canFind)`)
         $(LI canFind sorted: `indices.sort.filter!(canFind)`)
         ---
-        Benchmarking pullAt against filter/canFind:
+        Benchmarking pullIndices against filter/canFind:
           numbers: [12, 11, 1, 9, 11, 4, 1, 4, 2, 7, 16, 8, 8, 9, 6, 15, 9, 0, 15, 2]
           indices: [8, 16, 14, 11, 0, 16, 12, 10, 15, 17]
-        pullAt:
+        pullIndices:
           single args:    3 ms, 885 μs, and 6 hnsecs
           single range:   1 ms and 610 μs
           sorted range:   185 μs and 2 hnsecs
           canFind range:  5 ms and 547 μs
           canFind sorted: 4 hnsecs
-        pullAt (with .array):
+        pullIndices (with .array):
           single args:    8 ms, 765 μs, and 8 hnsecs
           single range:   6 ms, 823 μs, and 8 hnsecs
           sorted range:   6 ms, 571 μs, and 2 hnsecs
@@ -141,7 +143,7 @@ private ref pullBase(string member, alias pred, Range, Values...)(return ref Ran
     Since:
         0.0.1
 */
-auto pullAt(Range, Indices...)(Range range, Indices indices)
+auto pullIndices(Range, Indices...)(Range range, Indices indices)
 if (from!"std.range".isInputRange!Range
     && from!"std.meta".allSatisfy!(
         from!"std.traits".isIntegral,
@@ -155,12 +157,9 @@ if (from!"std.range".isInputRange!Range
     import bolts.range: isSortedRange;
 
     // If we only have one element or we are a sorted range then there's no need to sort
-    static if (Indices.length == 1 && (!isInputRange!(Indices[0]) || isSortedRange!(Indices[0])))
-    {
+    static if (Indices.length == 1 && (!isInputRange!(Indices[0]) || isSortedRange!(Indices[0]))) {
         auto normalizedIndices = concat(indices);
-    }
-    else
-    {
+    } else {
         auto normalizedIndices = concat(indices).array.sort;
     }
 
@@ -197,10 +196,11 @@ if (from!"std.range".isInputRange!Range
     return Result(range, normalizedIndices);
 }
 
+@("pullIndices example")
 unittest {
-    assert([1, 2, 3, 4].pullAt(1, 2, 3).equal([1]));
-    assert([1, 2, 3, 4].pullAt(0, 3).equal([2, 3]));
-    assert([1, 2, 3, 4].pullAt(0, 5).equal([2, 3, 4]));
-    assert([1, 2, 3, 4].pullAt([2, 1]).equal([1, 4]));
-    assert([1, 2, 3, 4].pullAt([2, 1, 0, 3]).empty);
+    assert([1, 2, 3, 4].pullIndices(1, 2, 3).equal([1]));
+    assert([1, 2, 3, 4].pullIndices(0, 3).equal([2, 3]));
+    assert([1, 2, 3, 4].pullIndices(0, 5).equal([2, 3, 4]));
+    assert([1, 2, 3, 4].pullIndices([2, 1]).equal([1, 4]));
+    assert([1, 2, 3, 4].pullIndices([2, 1, 0, 3]).empty);
 }

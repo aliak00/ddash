@@ -4,6 +4,7 @@
 module ddash.algorithm.flatten;
 
 ///
+@("Module example")
 unittest {
     auto arrayOfArrays = [[[1]], [[]], [[2], [3]], [[4]]];
 
@@ -34,22 +35,21 @@ import ddash.common;
 */
 auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;
-    static if (isInputRange!(ElementType!Range))
-    {
+    static if (isInputRange!(ElementType!Range)) {
         import std.algorithm: joiner;
         return range.joiner;
-    }
-    else
-    {
+    } else {
         return range;
     }
 }
 
+@("Works on nested arrays")
 unittest {
     assert([[[1]], [[]], [[2], [3]], [[4]]].flatten.equal([[1], [], [2], [3], [4]]));
     assert([[1], [], [2, 3], [4]].flatten.equal([1, 2, 3, 4]));
 }
 
+@("Works on array of optionals")
 unittest {
     import optional;
     assert([some(3), no!int, some(2)].flatten.equal([3, 2]));
@@ -71,14 +71,16 @@ unittest {
 auto flattenDeep(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;
     import ddash.algorithm: flatten;
-    static if (isInputRange!(ElementType!Range))
-    {
+    static if (isInputRange!(ElementType!Range)) {
         return range
             .flatten
             .flattenDeep;
-    }
-    else
-    {
+    } else {
         return range.flatten;
     }
+}
+
+@("flattenDeep example")
+unittest {
+    assert([[[1]], [[]], [[2], [3]], [[4]]].flattenDeep.equal([1, 2, 3, 4]));
 }

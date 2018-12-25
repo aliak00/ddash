@@ -25,6 +25,7 @@ auto ref slice(R)(auto ref R range) if (from!"std.range".hasSlicing!R) {
 }
 
 ///
+@("slices ranges and value type")
 unittest {
     struct S {
         int data;

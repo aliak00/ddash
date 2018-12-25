@@ -4,6 +4,7 @@
 module ddash.range.back;
 
 ///
+@("module example")
 unittest {
     import std.algorithm: filter;
     import std.range: iota, takeNone, array;
@@ -29,6 +30,7 @@ if (from!"std.range".isBidirectionalRange!Range && is(T : from!"std.range".Eleme
 }
 
 ///
+@("backOr example")
 unittest {
     assert((int[]).init.backOr(7) == 7);
     assert([1, 2].backOr(3) == 2);
@@ -45,21 +47,19 @@ auto withBack(alias fun, Range)(Range range) if (from!"std.range".isBidirectiona
     import std.functional: unaryFun;
     alias f = unaryFun!fun;
     alias R = typeof(f(ElementType!Range.init));
-    static if (is(R == void))
-    {
+    static if (is(R == void)){
         import optional: some;
         if (!range.empty) {
             f(range.front);
         }
-    }
-    else
-    {
+    } else {
         import optional: some, no;
         return range.empty ? no!R : some(f(range.back));
     }
 }
 
 ///
+@("withBack example")
 unittest {
     import optional: some, none;
     assert((int[]).init.withBack!(a => a * a) == none);
@@ -80,17 +80,20 @@ auto maybeBack(Range)(Range range) if (from!"std.range".isBidirectionalRange!Ran
 }
 
 ///
+@("maybeBack example")
 unittest {
     assert((int[]).init.maybeBack.empty == true);
     assert([1, 2].maybeBack.front == 2);
 }
 
+@("maybeBack compiles with array of const")
 unittest {
     const(string)[] args = [];
     static assert(__traits(compiles, { args.maybeBack; }));
 }
 
 ///
+@("maybeBack with optional.dispatch")
 unittest {
     import std.algorithm: filter;
     import optional: some, none, dispatch;

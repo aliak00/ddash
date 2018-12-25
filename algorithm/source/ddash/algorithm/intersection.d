@@ -4,6 +4,7 @@
 module ddash.algorithm.intersection;
 
 ///
+@("Module example")
 unittest {
     assert([1, 2, 3].intersection([1], 3).equal([1, 3]));
 
@@ -19,7 +20,7 @@ unittest {
 
 import ddash.common;
 
-struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && from!"std.range".isInputRange!R2) {
+private struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && from!"std.range".isInputRange!R2) {
     import std.range: ElementType;
 
     R1 r1;
@@ -70,15 +71,15 @@ struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && 
         this.moveToNextElement;
     }
 
-    bool empty() @property {
+    public bool empty() @property {
         import std.range: empty;
         return this.r1.empty || this.r2.empty;
     }
-    auto front() @property {
+    public auto front() @property {
         import std.range: front;
         return this.r1.front;
     }
-    void popFront() {
+    public void popFront() {
         import std.range: popFront;
         this.r1.popFront;
         this.moveToNextElement;
@@ -113,13 +114,10 @@ if (from!"std.range".isInputRange!Range
         || from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range)
         || from!"bolts.traits".isBinaryOver!(pred, from!"std.range".ElementType!Range)))
 {
-    static if (!Rs.length)
-    {
+    static if (!Rs.length) {
         import std.range: takeNone;
         return range.takeNone;
-    }
-    else
-    {
+    } else {
         import std.range: ElementType;
         import ddash.algorithm: concat;
         import bolts.traits: isNullType, isUnaryOver;
@@ -127,29 +125,20 @@ if (from!"std.range".isInputRange!Range
         auto combinedValues = values.concat;
         static assert (is(ElementType!(typeof(combinedValues)) : ElementType!Range));
 
-        static if (isNullType!pred || isUnaryOver!(pred, ElementType!Range))
-        {
+        static if (isNullType!pred || isUnaryOver!(pred, ElementType!Range)) {
             import std.algorithm: sort;
-            static if (is(typeof(range.sort)))
-            {
+            static if (is(typeof(range.sort))) {
                 auto r1 = range.sort;
-            }
-            else
-            {
+            } else {
                 auto r1 = range;
             }
 
-            static if (is(typeof(combinedValues.sort)))
-            {
+            static if (is(typeof(combinedValues.sort))) {
                 auto r2 = combinedValues.sort;
-            }
-            else
-            {
+            } else {
                 auto r2 = combinedValues;
             }
-        }
-        else
-        {
+        } else {
             auto r1 = range;
             auto r2 = combinedValues;
         }
@@ -158,6 +147,7 @@ if (from!"std.range".isInputRange!Range
     }
 }
 
+@("Works on different sequence of parameters")
 unittest {
     assert([1, 2, 3].intersection([0, 1, 2]).equal([1, 2]));
     assert([1, 2, 3].intersection([1, 2]).equal([1, 2]));
@@ -166,6 +156,7 @@ unittest {
     assert([1, 2, 3].intersection(3).equal([3]));
 }
 
+@("Implicitly convertible elements work")
 unittest {
     // Implicitly convertible elements ok
     assert([1.0, 2.0].intersection(2).equal([2.0]));
@@ -180,12 +171,14 @@ unittest {
     static assert(!__traits(compiles, [1].intersection([1.0])));
 }
 
+@("Unary predicate and binary predicates work")
 unittest {
     import std.math: ceil;
     assert([2.1, 1.2].intersection!ceil([2.3, 3.4]).equal([2.1]));
     assert([2.1, 1.2].intersection!((a, b) => ceil(a) == ceil(b))([2.3, 3.4]).equal([2.1]));
 }
 
+@("Binary predicate with custom type works")
 unittest {
     struct A {
         int value;

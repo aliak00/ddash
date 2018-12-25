@@ -144,7 +144,7 @@ $(TR
     $(TD $(DDOX_NAMED_REF ddash.algorithm.pull, `pull`))
     $(TD
         $(DDOX_NAMED_REF algorithm.pull.pull, `pull`)<br>
-        $(DDOX_NAMED_REF algorithm.pull.pullAt, `pullAt`)<br>
+        $(DDOX_NAMED_REF algorithm.pull.pullIndices, `pullIndices`)<br>
         $(DDOX_NAMED_REF algorithm.pull.pullBy, `pullBy`)<br>
         )
     $(TD)

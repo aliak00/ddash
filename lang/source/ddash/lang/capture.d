@@ -4,6 +4,7 @@
 module ddash.lang.capture;
 
 ///
+@("module example")
 @nogc unittest {
 	import std.range: only;
     import std.algorithm: map;

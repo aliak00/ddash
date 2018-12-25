@@ -13,6 +13,7 @@ package(ddash) auto ref valueBy(string member = "", T)(auto ref T value) {
     }
 }
 
+@("Returns correct by-member value")
 unittest {
     struct A {
         int x = 3;
