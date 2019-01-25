@@ -28,6 +28,14 @@ $(TR
     $(TD)
     $(TD Utility types)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF ddash.lang.string, `string`))
+    $(TD
+        $(DDOX_NAMED_REF lang.string.multiline, `multiline`)
+        )
+    $(TD)
+    $(TD String utilities)
+    )
 )
 */
 module ddash.lang;
@@ -36,4 +44,5 @@ public  {
     import ddash.lang.capture;
     import ddash.lang.types;
     import ddash.lang.destruct;
+    import ddash.lang.string;
 }
