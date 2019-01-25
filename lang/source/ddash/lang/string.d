@@ -21,6 +21,12 @@ private string mixinStringLines(long length, string aliasName, string delimiter)
     return ret;
 }
 
+unittest {
+    assert(
+        mixinStringLines!(3, "A", "..") == `A[0]..A[1]..A[2]`
+    );
+}
+
 /**
     Use this to create a multiline string out of literals, vars, and unary functions that return strings
 
