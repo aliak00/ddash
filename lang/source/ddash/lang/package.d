@@ -31,7 +31,8 @@ $(TR
 $(TR
     $(TD $(DDOX_NAMED_REF ddash.lang.string, `string`))
     $(TD
-        $(DDOX_NAMED_REF lang.string.multiline, `multiline`)
+        $(DDOX_NAMED_REF lang.string.multiline, `multiline`)<br>
+        $(DDOX_NAMED_REF lang.string.singleline, `singleline`)<br>
         )
     $(TD)
     $(TD String utilities)
