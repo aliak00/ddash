@@ -28,15 +28,6 @@ $(TR
     $(TD)
     $(TD Utility types)
     )
-$(TR
-    $(TD $(DDOX_NAMED_REF ddash.lang.arg, `arg`))
-    $(TD
-        $(DDOX_NAMED_REF lang.types.arg.arg, `arg`)<br>
-        $(DDOX_NAMED_REF lang.types.arg.Arg, `Arg`)<br>
-        )
-    $(TD)
-    $(TD Allows named parameters)
-    )
 )
 */
 module ddash.lang;
@@ -45,5 +36,4 @@ public  {
     import ddash.lang.capture;
     import ddash.lang.types;
     import ddash.lang.destruct;
-    import ddash.lang.arg;
 }
