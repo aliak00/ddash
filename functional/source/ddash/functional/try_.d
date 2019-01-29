@@ -41,7 +41,7 @@ import ddash.common;
         `try_`
 
     Since:
-        0.0.1
+        0.8.0
 */
 struct Try(alias fun) {
     import ddash.utils.expect;
@@ -127,7 +127,7 @@ template isTry(T) {
         0.0.8
 */
 template match(handlers...) {
-    auto match(T)(T tryInstance) if (isTry!T) {
+    auto match(T)(auto ref T tryInstance) if (isTry!T) {
         import ddash.lang.types: isVoid;
         import ddash.utils.expect;
         tryInstance.resolve;
@@ -141,6 +141,36 @@ template match(handlers...) {
             (ref T.T.Unexpected ex) => handlers[1](ex),
         )(tryInstance.result);
     }
+}
+
+/**
+    Converts a `Try` in to an optional where on success it is `some!T` value
+    and on failure it is `no!T`
+
+    Since:
+        0.10.0
+*/
+auto optional(T)(auto ref T tryInstance) if(isTry!T) {
+    import optional: some, no;
+    return tryInstance.match!(
+        (T.T.Expected val) => some(val),
+        (T.T.Unexpected _) => no!(T.T.Expected),
+    );
+}
+
+@("Should convert Try to Optional")
+unittest {
+    import optional;
+
+    int f(int i) {
+        if (i % 2 == 1) {
+            throw new Exception("NOT EVEN!!!");
+        }
+        return i;
+    }
+
+    assert(try_!f(0).optional == some(0));
+    assert(try_!f(1).optional == none);
 }
 
 /**
