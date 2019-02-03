@@ -150,7 +150,7 @@ template match(handlers...) {
     Since:
         0.10.0
 */
-auto optional(T)(auto ref T tryInstance) if(isTry!T) {
+auto toOptional(T)(auto ref T tryInstance) if(isTry!T) {
     import optional: some, no;
     return tryInstance.match!(
         (T.T.Expected val) => some(val),
@@ -169,8 +169,8 @@ unittest {
         return i;
     }
 
-    assert(try_!f(0).optional == some(0));
-    assert(try_!f(1).optional == none);
+    assert(try_!f(0).toOptional == some(0));
+    assert(try_!f(1).toOptional == none);
 }
 
 /**
