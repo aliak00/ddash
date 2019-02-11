@@ -217,4 +217,8 @@ public {
     import ddash.algorithm.sort;
     import ddash.algorithm.stringify;
     import ddash.algorithm.zip;
+
+    // For convenience, import algorithms from phobos
+    static import std.algorithm;
+    alias map = std.algorithm.map;
 }
