@@ -45,8 +45,10 @@ import ddash.common;
 */
 struct Try(alias fun) {
     import ddash.utils.expect;
-    import ddash.lang.types: isVoid;
-    alias expectmatch = ddash.utils.expect.match;
+    import ddash.lang.types: isVoid, Void;
+    import optional;
+
+    private alias expectmatch = ddash.utils.expect.match;
 
     private bool _empty;
     @property bool empty() nothrow {
@@ -54,48 +56,55 @@ struct Try(alias fun) {
         return _empty;
     }
 
-    bool resolved = false;
-
-    alias T = Expect!(typeof(fun()), Exception);
-
-    private T result;
+    private alias T = Expect!(typeof(fun()), Exception);
+    private Optional!T* result;
 
     bool isSuccess() nothrow {
-        resolve;
+        auto value = resolve;
         return expectmatch!(
             (const T.Expected t) => true,
             (const T.Unexpected ex) => false,
-        )(result);
+        )(value);
     }
 
-    private void resolve() nothrow {
-        if (resolved) {
-            return;
+    private T resolve() nothrow {
+        assert(result, "result must never be null");
+        if (auto value = unwrap(*result)) {
+            return *value;
         }
-        scope(exit) resolved = true;
+        T value;
         try {
             static if (isVoid!(T.Expected)) {
                 fun();
+                value = T.expected(Void());
             } else {
-                result = T.expected(fun());
+                value = T.expected(fun());
             }
+            _empty = false;
         } catch (Exception ex) {
-            result = unexpected(ex);
+            value = unexpected(ex);
             _empty = true;
         }
+        *result = value;
+        return value;
     }
 
     @property T.Expected front() nothrow {
-        resolve;
+        auto value = resolve;
         return expectmatch!(
             (T.Expected t) => t,
             (T.Unexpected ex) => T.Expected.init,
-        )(result);
+        )(value);
+    }
+
+    size_t length() {
+        resolve;
+        return !_empty ? 1 : 0;
     }
 
     void popFront() nothrow {
-        scope(exit) _empty = true;
         resolve;
+        _empty = true;
     }
 }
 
@@ -130,7 +139,7 @@ template match(handlers...) {
     auto match(T)(auto ref T tryInstance) if (isTry!T) {
         import ddash.lang.types: isVoid;
         import ddash.utils.expect;
-        tryInstance.resolve;
+        auto value = tryInstance.resolve;
         static if (isVoid!(T.T.Expected)) {
             alias success = (t) => handlers[0]();
         } else {
@@ -139,23 +148,8 @@ template match(handlers...) {
         return ddash.utils.expect.match!(
             (ref T.T.Expected t) => success(t),
             (ref T.T.Unexpected ex) => handlers[1](ex),
-        )(tryInstance.result);
+        )(value);
     }
-}
-
-/**
-    Converts a `Try` in to an optional where on success it is `some!T` value
-    and on failure it is `no!T`
-
-    Since:
-        0.10.0
-*/
-auto toOptional(T)(auto ref T tryInstance) if(isTry!T) {
-    import optional: some, no;
-    return tryInstance.match!(
-        (T.T.Expected val) => some(val),
-        (T.T.Unexpected _) => no!(T.T.Expected),
-    );
 }
 
 @("Should convert Try to Optional")
@@ -181,7 +175,9 @@ unittest {
 */
 template try_(alias func) {
     auto try_(Args...)(auto ref Args args) {
-        return Try!(() => func(args))();
+        auto a = Try!(() => func(args))();
+        a.result = new typeof(*a.result);
+        return a;
     }
 }
 
@@ -246,4 +242,21 @@ unittest {
 
     assert(a == "g0");
     assert(b == "boo");
+}
+
+@("should not call lambda more than once when copied around")
+unittest {
+    int count;
+    int func() {
+        return count++;
+    }
+
+    auto a = try_!func;
+    auto b = a;
+    auto x = a.front;
+    auto y = b.front;
+    while (!b.empty) b.popFront;
+    assert(x == 0);
+    assert(y == 0);
+    assert(count == 1);
 }

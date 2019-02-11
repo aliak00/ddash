@@ -78,10 +78,8 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
         Constructor takes a Expected and creates a success result. Or takes an E and
         creates an unexpected result
     */
-    static if (!isVoid!Expected) {
-        this(Expected value) {
-            data = value;
-        }
+    this(Expected value) {
+        data = value;
     }
 
     /// Ditto

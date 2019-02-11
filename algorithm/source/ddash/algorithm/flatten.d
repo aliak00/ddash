@@ -33,7 +33,7 @@ import ddash.common;
     Since:
         0.0.1
 */
-auto flatten(Range)(Range range) if (from!"std.range".isInputRange!Range) {
+auto flatten(Range)(auto ref Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, isInputRange;
     static if (isInputRange!(ElementType!Range)) {
         import std.algorithm: joiner;
