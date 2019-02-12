@@ -89,7 +89,11 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
 
     /// Create an `Expect` with an expected value
     static expected(V : Expected)(auto ref V value) {
-        return Expect!(Expected, E)(value);
+        static if (is(T == void)) {
+            return Expect!(void, E)(value);
+        } else {
+            return Expect!(V, E)(value);
+        }
     }
 
     /// Create an `Expect` with an unexpected value
