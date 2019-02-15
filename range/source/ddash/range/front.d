@@ -8,7 +8,7 @@ module ddash.range.front;
 unittest {
     import std.algorithm: filter;
     import std.range: iota, takeNone, drop;
-    import optional: some, none;
+    import ddash.utils.optional: some, none;
     auto evens = 10.iota.filter!"a % 2 == 0".drop(2);
     assert(evens.withFront!"a" == some(4));
     assert(evens.takeNone.maybeFront == none);
@@ -62,15 +62,16 @@ unittest {
 auto withFront(alias fun, Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: empty, front, ElementType;
     import std.functional: unaryFun;
+    import ddash.utils.optional: some, no;
+
     alias f = unaryFun!fun;
     alias R = typeof(f(ElementType!Range.init));
+
     static if (is(R == void)) {
-        import optional: some;
         if (!range.empty) {
             f(range.front);
         }
     } else {
-        import optional: some, no;
         return range.empty ? no!R : some(f(range.front));
     }
 }
@@ -78,7 +79,7 @@ auto withFront(alias fun, Range)(Range range) if (from!"std.range".isInputRange!
 ///
 @("withFront example")
 unittest {
-    import optional: some, none;
+    import ddash.utils.optional: some, none;
     assert((int[]).init.withFront!(a => a * a) == none);
     assert([3, 2].withFront!(a => a * a) == some(9));
     assert([3, 2].withFront!"a + 1" == some(4));
@@ -92,7 +93,7 @@ unittest {
 */
 auto maybeFront(Range)(Range range) if (from!"std.range".isInputRange!Range) {
     import std.range: ElementType, empty, front;
-    import optional: no, some;
+    import ddash.utils.optional: no, some;
     return range.empty ? no!(ElementType!Range) : some!(ElementType!Range)(range.front);
 }
 
@@ -113,7 +114,7 @@ unittest {
 @("maybeFront with optional.dispatch")
 unittest {
     import std.algorithm: filter;
-    import optional: some, none, dispatch;
+    import ddash.utils.optional: some, none, dispatch;
     struct A {
         int x;
         int f() {

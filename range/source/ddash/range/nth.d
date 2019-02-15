@@ -6,7 +6,7 @@ module ddash.range.nth;
 ///
 @("module example")
 unittest {
-    import optional: some, none;
+    import ddash.utils.optional: some, none;
     import ddash.range.front;
     assert([1, 2].nth(1).frontOr(1) == 2);
     assert((int[]).init.nth(1).frontOr(9) == 9);
@@ -44,7 +44,7 @@ if (from!"std.range".isInputRange!Range)
 {
     import std.range: empty, walkLength, isRandomAccessRange, ElementType;
     import std.typecons: Yes;
-    import optional: no, some;
+    import ddash.utils.optional: no, some;
 
     alias T = ElementType!Range;
 
@@ -74,7 +74,7 @@ if (from!"std.range".isInputRange!Range)
 @("nth works with filter and optional ranges")
 unittest {
     import std.algorithm: filter;
-    import optional: some, none;
+    import ddash.utils.optional: some, none;
     assert([1, 2].nth(1) == some(2));
     assert([1, 2].filter!"true".nth(1) == some(2));
     assert((int[]).init.nth(1) == none);
@@ -99,7 +99,7 @@ alias first = from!"ddash.range".maybeFront;
 ///
 @("first example")
 unittest {
-    import optional: some, none;
+    import ddash.utils.optional: some, none;
     assert([1, 2].first == some(1));
     assert((int[]).init.first == none);
 }
@@ -115,7 +115,7 @@ alias last = from!"ddash.range".maybeBack;
 ///
 @("last returns optional")
 unittest {
-    import optional: some, none;
+    import ddash.utils.optional: some, none;
     assert([1, 2].last == some(2));
     assert((int[]).init.last == none);
 }

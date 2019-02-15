@@ -4,7 +4,7 @@ module ddash.algorithm.index;
 ///
 @("Module example")
 unittest {
-    import optional: some, none;
+    import ddash.utils.optional: some, none;
 
     auto arr1 = [1, 2, 3, 4];
 
@@ -50,7 +50,7 @@ if (from!"std.range".isInputRange!Range
 ///
 @("indexWhere example")
 unittest {
-    import optional: some, none;
+    import ddash.utils.optional: some, none;
     assert([1, 2, 3, 4].indexWhere!(a => a % 2 == 0) == some(1));
     assert([1, 2, 3, 4].indexWhere!(a => a == 5) == none);
     assert([1, 2, 3, 4].indexWhere!(a => a % 2 == 0)(2) == some(3));
@@ -85,7 +85,7 @@ if (from!"std.range".isBidirectionalRange!Range
 ///
 @("lastIndexWhere example")
 unittest {
-    import optional: some, none;
+    import ddash.utils.optional: some, none;
     assert([1, 2, 3, 4].lastIndexWhere!(a => a % 2 == 0) == some(3));
     assert([1, 2, 3, 4].lastIndexWhere!(a => a == 5) == none);
     assert([1, 2, 3, 4].lastIndexWhere!(a => a % 2 == 0)(2) == some(1));
@@ -118,7 +118,7 @@ auto indexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!"std
 ///
 @("indexOf example")
 unittest {
-    import optional;
+    import ddash.utils.optional;
     assert([1, 2, 1, 2].indexOf(2) == some(1));
     assert([1, 2, 1, 2].indexOf(2, 2) == some(3));
     assert([1, 2, 1, 2].indexOf(3) == none);
@@ -151,7 +151,7 @@ auto lastIndexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!
 ///
 @("lastIndexOf example")
 unittest {
-    import optional;
+    import ddash.utils.optional;
     assert([1, 2, 1, 2].indexOf(2) == some(1));
     assert([1, 2, 1, 2].indexOf(2, 2) == some(3));
     assert([1, 2, 1, 2].indexOf(3) == none);
