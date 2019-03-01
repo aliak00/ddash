@@ -1,15 +1,13 @@
 /**
     Functional try
 */
-module ddash.functional.try_;
-
-public import ddash.utils.try_;
+module ddash.functional.trycall;
 
 ///
 @("module example")
 unittest {
     import std.algorithm: map, each;
-
+    import ddash.utils.match;
 
     int f(int i) {
         if (i % 2 == 1) {
@@ -19,7 +17,7 @@ unittest {
     }
 
     auto result = [1, 2, 3]
-        .map!(try_!f)
+        .map!(tryCall!f)
         .map!(r => r
             .match!(
                 (int _) => "even",
@@ -41,14 +39,15 @@ import ddash.common;
     Since:
         - 0.8.0
 */
-template try_(alias func) {
-    auto try_(Args...)(auto ref Args args) {
+template tryCall(alias func) {
+    auto tryCall(Args...)(auto ref Args args) {
+        import ddash.utils.try_;
         return Try!(() => func(args));
     }
 }
 
 ///
-@("try_ general example")
+@("tryCall general example")
 unittest {
     import std.typecons: Flag;
 
@@ -64,11 +63,11 @@ unittest {
         return 0;
     }
 
-    auto f0_throws = try_!f0(Yes.throws);
-    auto f0_nothrows = try_!f0(No.throws);
+    auto f0_throws = tryCall!f0(Yes.throws);
+    auto f0_nothrows = tryCall!f0(No.throws);
 
-    auto f1_throws = try_!f1(Yes.throws);
-    auto f1_nothrows = try_!f1(No.throws);
+    auto f1_throws = tryCall!f1(Yes.throws);
+    auto f1_nothrows = tryCall!f1(No.throws);
 
     auto g() {
         try {

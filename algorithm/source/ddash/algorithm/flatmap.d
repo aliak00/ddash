@@ -11,7 +11,7 @@ unittest {
 
     assert([1, 2].flatMap!dup.equal([1, 1, 2, 2]));
 
-    import optional: some, no;
+    import ddash.utils.optional: some, no;
 
     assert([
         no!int,
@@ -46,7 +46,7 @@ auto flatMap(alias unaryPred, Range)(Range range) if (from!"std.range".isInputRa
 
 @("Works with optional!T")
 unittest {
-    import optional: some, no;
+    import ddash.utils.optional: some, no;
     auto optionalArray = [
         no!int,
         some(3),

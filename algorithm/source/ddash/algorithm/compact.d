@@ -6,8 +6,7 @@ module ddash.algorithm.compact;
 ///
 @("Module example")
 unittest {
-    import optional: no, some;
-    import ddash.utils: isFalsey;
+    import ddash.utils: isFalsey, no, some;
 
     // compact falsy values
     assert([0, 1, 2, 0, 3].compact!isFalsey.equal([1, 2, 3]));
@@ -61,8 +60,7 @@ auto compact(alias pred = null, Range)(Range range) if (from!"std.range".isInput
 ///
 @("Unary predicate example")
 unittest {
-    import optional: no, some;
-    import ddash.utils: isFalsey;
+    import ddash.utils: isFalsey, no, some;
     assert([0, 1, 2, 0, 3].compact!(isFalsey).equal([1, 2, 3]));
     assert([[1], [], [2]].compact!isFalsey.equal([[1], [2]]));
     assert([some(2), no!int].compact!isFalsey.equal([some(2)]));

@@ -25,10 +25,9 @@ $(TR
     $(TD Used to give types to predicates with certain common functionalities)
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF ddash.functional.try_, `try_`))
+    $(TD $(DDOX_NAMED_REF ddash.functional.tryCall, `tryCall`))
     $(TD
-        $(DDOX_NAMED_REF functional.try_.try_, `try_`)<br>
-        $(DDOX_NAMED_REF functional.try_.Try, `Try`)<br>
+        $(DDOX_NAMED_REF functional.tryCall.tryCall, `tryCall`)<br>
         )
     $(TD)
     $(TD Call throwing functions as expressions)
@@ -48,6 +47,6 @@ module ddash.functional;
 public {
     import ddash.functional.cond;
     import ddash.functional.pred;
-    import ddash.functional.try_;
+    import ddash.functional.trycall;
     import ddash.functional.bind;
 }

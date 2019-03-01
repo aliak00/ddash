@@ -41,10 +41,16 @@ $(TR
 $(TR
     $(TD $(DDOX_NAMED_REF ddash.utils.slice, `slice`))
     $(TD
-        $(DDOX_NAMED_REF utils.orelse.slice, `slice`)
+        $(DDOX_NAMED_REF utils.slice.slice, `slice`)
         )
     $(TD)
     $(TD Slices arrays, ranges, and PODs)
+    )
+$(TR
+    $(TD $(DDOX_NAMED_REF ddash.utils.optional, `optional`))
+    $(TD)
+    $(TD)
+    $(TD Imports a subset of https://optional.dub.pm)
     )
 )
 */
@@ -56,4 +62,5 @@ public  {
     import ddash.utils.expect;
     import ddash.utils.orelse;
     import ddash.utils.slice;
+    import ddash.utils.optional;
 }

@@ -7,6 +7,7 @@ module ddash.utils.try_;
 @("module example")
 unittest {
     import std.algorithm: map, each;
+    import ddash.utils.match;
 
     int f(int i) {
         if (i % 2 == 1) {
@@ -35,7 +36,7 @@ import ddash.common;
     Calling any range functions on a try range will resolve the delegate and produce
     a `front` range value if the function did not throw.
 
-    You may also call `.match` directly on the try range.
+    You may also call `ddash.utils.match` on the try range.
 
     See_Also:
         `ddash.functional.try_`
@@ -53,11 +54,10 @@ auto Try(alias fun)() {
     The implementation of the `Try` that's returned by the type constructor
 */
 private struct TryImpl(alias fun) {
-    import ddash.utils.expect;
+    static import ddash.utils.expect;
     import ddash.lang.types: isVoid, Void;
-    import optional;
-
-    private alias expectmatch = ddash.utils.expect.match;
+    import ddash.utils.optional;
+    import ddash.utils.match;
 
     private bool _empty;
     public @property bool empty() nothrow {
@@ -65,44 +65,44 @@ private struct TryImpl(alias fun) {
         return _empty;
     }
 
-    private alias T = Expect!(typeof(fun()), Exception);
-    private Optional!T* result;
+    public alias Expect = ddash.utils.expect.Expect!(typeof(fun()), Exception);
+    private Optional!Expect* result;
 
     public bool isSuccess() nothrow {
         auto value = resolve;
-        return expectmatch!(
-            (const T.Expected t) => true,
-            (const T.Unexpected ex) => false,
+        return match!(
+            (const Expect.Expected t) => true,
+            (const Expect.Unexpected ex) => false,
         )(value);
     }
 
-    private T resolve() nothrow {
+    package(ddash) Expect resolve() nothrow {
         assert(result, "result must never be null");
         if (auto value = unwrap(*result)) {
             return *value;
         }
-        T value;
+        Expect value;
         try {
-            static if (isVoid!(T.Expected)) {
+            static if (isVoid!(Expect.Expected)) {
                 fun();
-                value = T.expected(Void());
+                value = Void();
             } else {
-                value = T.expected(fun());
+                value = fun();
             }
             _empty = false;
         } catch (Exception ex) {
-            value = unexpected(ex);
+            value = ddash.utils.expect.unexpected(ex);
             _empty = true;
         }
         *result = value;
         return value;
     }
 
-    public @property T.Expected front() nothrow {
+    public @property Expect.Expected front() nothrow {
         auto value = resolve;
-        return expectmatch!(
-            (T.Expected t) => t,
-            (T.Unexpected ex) => T.Expected.init,
+        return match!(
+            (Expect.Expected t) => t,
+            (Expect.Unexpected ex) => Expect.Expected.init,
         )(value);
     }
 
@@ -128,42 +128,9 @@ template isTry(T) {
     enum isTry = isInstanceOf!(TryImpl, T);
 }
 
-/**
-    Pass two lambdas to the match function. The first one handles the success case
-    and the second one handles the failure case.
-
-    Calling match will execute the try function if it has not already done so
-
-    Params:
-        tryInstance = lamda that handles the success case
-        handlers = lambda that handles the exception
-
-    Returns:
-        Whatever the lambas return
-
-    Since:
-        0.0.8
-*/
-template match(handlers...) {
-    auto match(T)(auto ref T tryInstance) if (isTry!T) {
-        import ddash.lang.types: isVoid;
-        import ddash.utils.expect;
-        auto value = tryInstance.resolve;
-        static if (isVoid!(T.T.Expected)) {
-            alias success = (t) => handlers[0]();
-        } else {
-            alias success = (t) => handlers[0](t);
-        }
-        return ddash.utils.expect.match!(
-            (ref T.T.Expected t) => success(t),
-            (ref T.T.Unexpected ex) => handlers[1](ex),
-        )(value);
-    }
-}
-
 @("Should convert Try to Optional")
 unittest {
-    import optional;
+    import ddash.utils.optional;
 
     int f(int i) {
         if (i % 2 == 1) {
@@ -174,32 +141,6 @@ unittest {
 
     assert(Try!(() => f(0)).toOptional == some(0));
     assert(Try!(() => f(1)).toOptional == none);
-}
-
-@("handles inner context frames")
-unittest {
-    // Test that accesses context frames from outside the match function
-    int i;
-    int odd(int ii) {
-        i = ii;
-        if (i % 2 == 0)
-            throw new Exception("boo");
-        return ii;
-    }
-
-    auto g0 = () @trusted { return "g0"; } ();
-
-    import std.meta: AliasSeq;
-    alias handlers = AliasSeq!(
-        (int v) => g0,
-        (Exception ex) => ex.msg,
-    );
-
-    auto a = Try!(() => odd(1)).match!handlers;
-    auto b = Try!(() => odd(2)).match!handlers;
-
-    assert(a == "g0");
-    assert(b == "boo");
 }
 
 @("should not call lambda more than once when copied around")

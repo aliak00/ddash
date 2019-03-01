@@ -38,7 +38,7 @@ immutable anyUnexpected = AnyUnexpected();
 /**
     Used in the `Expect` type to denote an unexpected value
 */
-private struct Unexpected(E) if (!is(E == AnyUnexpected)) {
+struct Unexpected(E) if (!is(E == AnyUnexpected)) {
     E value = E.init;
     alias value this;
 }
@@ -58,6 +58,8 @@ auto unexpected(E)(E value) {
     as `Unexpected`) is the failure value.
 
     The default value is always the init value of the expected case
+
+    You may also call `ddash.utils.match` on an Expect value.
 */
 struct Expect(T, E = Variant) if (!is(E == void)) {
     import sumtype;
@@ -70,7 +72,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     }
     alias Unexpected = .Unexpected!E;
 
-    private SumType!(Expected, Unexpected) data = Expected.init;
+    package(ddash.utils) SumType!(Expected, Unexpected) data = Expected.init;
     ref get() { return data; }
     alias get this;
 
@@ -185,43 +187,4 @@ unittest {
 template isExpect(T) {
     import std.traits: isInstanceOf;
     enum isExpect = isInstanceOf!(Expect, T);
-}
-
-/**
-    Pass in 2 handlers, one that handles `Expected` and another that
-    handles `Unexpected`
-
-    Since:
-        0.0.8
-*/
-template match(handlers...) {
-    auto match(T, E)(auto ref Expect!(T, E) expect) {
-        static import sumtype;
-        return sumtype.match!handlers(expect.data);
-    }
-}
-
-///
-@("match should work")
-unittest {
-    Expect!(int, string) even(int i) @nogc {
-        if (i % 2 == 0) {
-            return typeof(return).expected(i);
-        } else {
-            return typeof(return).unexpected("not even");
-        }
-    }
-
-    import std.meta: AliasSeq;
-
-    alias handlers = AliasSeq!(
-        (int n) => n,
-        (Unexpected!string str) => -1,
-    );
-
-    auto a = even(1).match!handlers;
-    auto b = even(2).match!handlers;
-
-    assert(a == -1);
-    assert(b == 2);
 }
