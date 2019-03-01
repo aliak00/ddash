@@ -1,7 +1,23 @@
+/**
+    Matches on types that could be deconstructible
+*/
 module ddash.utils.match;
 
 import ddash.common;
+/**
+    Tries to match handlers by deconstructing a type if it's deconstructable, and calling the appropriate
+    handler for the deconstructed value
 
+    The currently supported deconstructible types are:
+    <li> Optional types
+    <li> Expect types
+    <li> Try types
+
+    See example for usage details
+
+    Params:
+        handlers = lambdas to the type handlers.
+*/
 template match(handlers...) {
 
     import ddash.utils.expect: Expect, isExpect;
@@ -39,6 +55,7 @@ template match(handlers...) {
     // }
 }
 
+///
 @("match on Try, Expect, and Optional")
 unittest {
     import ddash.utils.optional;

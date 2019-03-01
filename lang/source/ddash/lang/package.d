@@ -46,4 +46,5 @@ public  {
     import ddash.lang.types;
     import ddash.lang.destruct;
     import ddash.lang.string;
+    import ddash.lang.from;
 }
