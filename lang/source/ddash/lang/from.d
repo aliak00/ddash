@@ -1,3 +1,6 @@
+/**
+    Implementation of the D Import Idiom
+*/
 module ddash.lang.from;
 
 private template CanImport(string moduleName) {
@@ -33,7 +36,10 @@ private struct FromImpl(string moduleName) {
 /**
     Encompases the from import idiom in an opDispatch version
 
-    See_ Also:
+    Since:
+        - 0.12.0
+
+    See_Also:
         <li> https://dlang.org/blog/2017/02/13/a-new-import-idiom/
         <li> https://forum.dlang.org/thread/gdipbdsoqdywuabnpzpe@forum.dlang.org
 */

@@ -37,6 +37,14 @@ $(TR
     $(TD)
     $(TD String utilities)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF ddash.lang.from, `from`))
+    $(TD
+        $(DDOX_NAMED_REF lang.from.from, `from`)<br>
+        )
+    $(TD)
+    $(TD Implementation of D import idiom)
+    )
 )
 */
 module ddash.lang;
