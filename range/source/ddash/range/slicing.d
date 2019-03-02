@@ -67,7 +67,7 @@ auto slice(Range)(Range range, size_t start) {
     Since:
         0.0.1
 */
-alias tail = (range) => from!"std.range".drop(range, 1);
+alias tail = (range) => from.std.range.drop(range, 1);
 
 ///
 @("tail example")
@@ -88,7 +88,7 @@ unittest {
     Since:
         0.0.1
 */
-alias initial = (range) => from!"std.range".dropBack(range, 1);
+alias initial = (range) => from.std.range.dropBack(range, 1);
 
 ///
 @("initial example")

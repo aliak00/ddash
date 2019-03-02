@@ -27,7 +27,7 @@ import ddash.common;
     Since:
         0.0.1
 */
-auto drop(Range)(Range range, size_t n = 1) if (from!"std.range".isInputRange!Range) {
+auto drop(Range)(Range range, size_t n = 1) if (from.std.range.isInputRange!Range) {
     import std.range: stdDrop = drop;
     return range.stdDrop(n);
 }
@@ -52,7 +52,7 @@ unittest {
     Since:
         0.0.1
 */
-auto dropRight(Range)(Range range, size_t n = 1) if (from!"std.range".isBidirectionalRange!Range) {
+auto dropRight(Range)(Range range, size_t n = 1) if (from.std.range.isBidirectionalRange!Range) {
     import std.range: stdDropBack = dropBack;
     return range.stdDropBack(n);
 }
@@ -77,7 +77,7 @@ unittest {
     Since:
         0.0.1
 */
-auto dropWhile(alias pred, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+auto dropWhile(alias pred, Range)(Range range) if (from.std.range.isInputRange!Range) {
     import std.functional: unaryFun;
     import std.range: empty, back, popBack;
     while (!range.empty && unaryFun!pred(range.front)) range.popFront;
@@ -104,7 +104,7 @@ unittest {
     Since:
         0.0.1
 */
-auto dropRightWhile(alias pred, Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
+auto dropRightWhile(alias pred, Range)(Range range) if (from.std.range.isBidirectionalRange!Range) {
     import std.functional: unaryFun;
     import std.range: empty, back, popBack;
     while (!range.empty && unaryFun!pred(range.back)) range.popBack;

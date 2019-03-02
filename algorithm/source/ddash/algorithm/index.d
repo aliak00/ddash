@@ -37,8 +37,8 @@ import ddash.common;
         0.0.1
 */
 auto indexWhere(alias pred, Range)(Range range, size_t fromIndex = 0)
-if (from!"std.range".isInputRange!Range
-    && from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range))
+if (from.std.range.isInputRange!Range
+    && from.bolts.traits.isUnaryOver!(pred, from.std.range.ElementType!Range))
 {
     import std.range: drop;
     import std.functional: unaryFun;
@@ -71,8 +71,8 @@ unittest {
         0.0.1
 */
 auto lastIndexWhere(alias pred, Range)(Range range, size_t fromIndex = 0)
-if (from!"std.range".isBidirectionalRange!Range
-    && from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range))
+if (from.std.range.isBidirectionalRange!Range
+    && from.bolts.traits.isUnaryOver!(pred, from.std.range.ElementType!Range))
 {
     import std.range: retro, walkLength;
     import ddash.range: withFront;
@@ -105,7 +105,7 @@ unittest {
     Since:
         0.0.1
 */
-auto indexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!"std.range".isInputRange!Range) {
+auto indexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from.std.range.isInputRange!Range) {
     import std.range: drop;
     import ddash.algorithm.internal: countUntil;
     import ddash.range: withFront;
@@ -138,7 +138,7 @@ unittest {
     Since:
         0.0.1
 */
-auto lastIndexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from!"std.range".isBidirectionalRange!Range) {
+auto lastIndexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from.std.range.isBidirectionalRange!Range) {
     import std.range: retro, walkLength;
     import ddash.algorithm: indexOf;
     import ddash.range: withFront;

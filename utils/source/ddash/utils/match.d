@@ -26,8 +26,8 @@ import ddash.common;
 */
 template match(handlers...) {
 
-    import ddash.utils.expect: Expect;
-    import ddash.utils.optional: Optional;
+    import ddash.utils.expect: Expect, isExpect;
+    import ddash.utils.optional: Optional, isOptional;
     import ddash.utils.try_: isTry;
 
     /**
@@ -226,8 +226,8 @@ unittest {
     assert(r0);
 
     auto r1 = Foo().match!(
-        (a) => a.x + 1,
         (a) => a.a + 10,
+        (a) => a.x + 1,
         (int b) => 10,
     );
 

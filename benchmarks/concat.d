@@ -10,8 +10,8 @@ import ddash.common;
 // This verison is limited in that it does not do narrow strings
 //
 private template concatEager(Values...)
-if ((!is(from!"std.traits".CommonType!(from!"bolts.meta".Flatten!Values) == void)
-    && !from!"std.meta".anySatisfy!(from!"std.traits".isNarrowString, Values))
+if ((!is(from.std.traits.CommonType!(from.bolts.meta.Flatten!Values) == void)
+    && !from.std.meta.anySatisfy!(from.std.traits.isNarrowString, Values))
         || Values.length == 0)
 {
     import std.range: isInputRange;
@@ -50,7 +50,7 @@ unittest {
 //
 // concats a a value or range TO another range recursively
 //
-auto concatRecurse(Range, Values...)(Range range, Values values) if (from!"std.range".isInputRange!Range) {
+auto concatRecurse(Range, Values...)(Range range, Values values) if (from.std.range.isInputRange!Range) {
     import std.range: chain, ElementType, isInputRange;
     static if (Values.length)
     {
@@ -77,7 +77,7 @@ auto concatRecurse(Range, Values...)(Range range, Values values) if (from!"std.r
     }
 }
 
-auto concatRecurse(T, Values...)(T value, Values values) if (!from!"std.range".isInputRange!T) {
+auto concatRecurse(T, Values...)(T value, Values values) if (!from.std.range.isInputRange!T) {
     import std.range: only;
     return concatRecurse([value], values);
 }

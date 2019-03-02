@@ -34,7 +34,7 @@ import ddash.common;
     Since:
         0.0.1
 */
-auto zipEach(RoR)(RoR rangeOfRanges) if (from!"std.range".isInputRange!(from!"std.range".ElementType!RoR)) {
+auto zipEach(RoR)(RoR rangeOfRanges) if (from.std.range.isInputRange!(from.std.range.ElementType!RoR)) {
     static struct Result {
         import std.algorithm: map, any;
         import std.range: drop;

@@ -53,7 +53,7 @@ import ddash.common;
     Since:
         0.0.1
 */
-auto compact(alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+auto compact(alias pred = null, Range)(Range range) if (from.std.range.isInputRange!Range) {
     return compactBase!("", pred)(range);
 }
 
@@ -89,7 +89,7 @@ unittest {
     Since:
         0.0.1
 */
-auto compactBy(string member, alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+auto compactBy(string member, alias pred = null, Range)(Range range) if (from.std.range.isInputRange!Range) {
     return compactBase!(member, pred)(range);
 }
 
@@ -148,7 +148,7 @@ unittest {
     Since:
         0.0.1
 */
-auto compact(alias pred = null, Values...)(Values values) if (!is(from!"std.traits".CommonType!Values == void)) {
+auto compact(alias pred = null, Values...)(Values values) if (!is(from.std.traits.CommonType!Values == void)) {
     import ddash.algorithm: concat;
     return concat(values)
         .compactBase!("", pred);
@@ -168,7 +168,7 @@ unittest {
     static assert(is(typeof(b.array) == double[]));
 }
 
-private auto compactBase(string member, alias pred = null, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+private auto compactBase(string member, alias pred = null, Range)(Range range) if (from.std.range.isInputRange!Range) {
     import std.algorithm: filter;
     import bolts: isNullType, isUnaryOver;
     import ddash.common.valueby;

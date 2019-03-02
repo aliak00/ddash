@@ -3,35 +3,7 @@
 */
 module ddash.lang.from;
 
-private template CanImport(string moduleName) {
-    enum CanImport = __traits(compiles, { mixin("import ", moduleName, ";"); });
-}
-
-private template ModuleContainsSymbol(string moduleName, string symbolName) {
-    enum ModuleContainsSymbol = CanImport!moduleName && __traits(compiles, {
-        mixin("import ", moduleName, ":", symbolName, ";");
-    });
-}
-
-private struct FromImpl(string moduleName) {
-    template opDispatch(string symbolName) {
-        static if (ModuleContainsSymbol!(moduleName, symbolName)) {
-            mixin("import ", moduleName,";");
-            mixin("alias opDispatch = ", symbolName, ";");
-        } else {
-            static if (moduleName.length == 0) {
-                enum opDispatch = FromImpl!(symbolName)();
-            } else {
-                enum importString = moduleName ~ "." ~ symbolName;
-                static assert(
-                    CanImport!importString,
-                    "Symbol \"" ~ symbolName ~ "\" not found in " ~ modueName
-                );
-                enum opDispatch = FromImpl!importString();
-            }
-        }
-    }
-}
+import ddash.common: commonfrom = from;
 
 /**
     Encompases the from import idiom in an opDispatch version
@@ -43,7 +15,7 @@ private struct FromImpl(string moduleName) {
         <li> https://dlang.org/blog/2017/02/13/a-new-import-idiom/
         <li> https://forum.dlang.org/thread/gdipbdsoqdywuabnpzpe@forum.dlang.org
 */
-enum from = FromImpl!null();
+enum from = commonfrom;
 
 ///
 @("from - example")
