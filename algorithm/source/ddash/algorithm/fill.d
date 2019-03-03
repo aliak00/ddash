@@ -32,8 +32,8 @@ import ddash.common;
         0.0.1
 */
 void fill(Range, T)(ref Range range, auto ref T value, size_t startIndex = 0, size_t endIndex = size_t.max)
-if (from!"std.range".isForwardRange!Range
-    && is(T : from!"std.range".ElementType!Range)
+if (from.std.range.isForwardRange!Range
+    && is(T : from.std.range.ElementType!Range)
     && is(typeof(range[] = value)))
 {
     import std.algorithm: stdFill = fill;

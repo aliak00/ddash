@@ -17,7 +17,7 @@ unittest {
 
 import ddash.common;
 
-private enum isBidirectionalRangeAndElementConvertibleTo(Range, T) = from!"std.range".isBidirectionalRange!Range && is(T : from!"std.range".ElementType!Range);
+private enum isBidirectionalRangeAndElementConvertibleTo(Range, T) = from.std.range.isBidirectionalRange!Range && is(T : from.std.range.ElementType!Range);
 
 /**
     Retrieves the back of a range or a default value
@@ -59,7 +59,7 @@ unittest {
     Since:
         - 0.0.1
 */
-auto withBack(alias fun, Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
+auto withBack(alias fun, Range)(Range range) if (from.std.range.isBidirectionalRange!Range) {
     import std.range: empty, back, ElementType;
     import std.functional: unaryFun;
     import ddash.utils.optional: some, no;
@@ -91,7 +91,7 @@ unittest {
     Since:
         - 0.0.1
 */
-auto maybeBack(Range)(Range range) if (from!"std.range".isBidirectionalRange!Range) {
+auto maybeBack(Range)(Range range) if (from.std.range.isBidirectionalRange!Range) {
     import std.range: ElementType, empty, back;
     import ddash.utils.optional: no, some;
     return range.empty ? no!(ElementType!Range) : some!(ElementType!Range)(range.back);

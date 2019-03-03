@@ -34,13 +34,13 @@ import ddash.common;
         0.0.1
 */
 auto nth(
-    from!"std.typecons".Flag!"wrap" wrap = from!"std.typecons".No.wrap,
+    from.std.typecons.Flag!"wrap" wrap = from.std.typecons.No.wrap,
     Range,
 )(
     Range range,
     size_t n,
 )
-if (from!"std.range".isInputRange!Range)
+if (from.std.range.isInputRange!Range)
 {
     import std.range: empty, walkLength, isRandomAccessRange, ElementType;
     import std.typecons: Yes;
@@ -94,7 +94,7 @@ unittest {
     Since:
         - 0.0.1
 */
-alias first = from!"ddash.range".maybeFront;
+alias first = from.ddash.range.maybeFront;
 
 ///
 @("first example")
@@ -110,7 +110,7 @@ unittest {
     Since:
         - 0.0.1
 */
-alias last = from!"ddash.range".maybeBack;
+alias last = from.ddash.range.maybeBack;
 
 ///
 @("last returns optional")

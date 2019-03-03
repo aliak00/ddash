@@ -28,7 +28,7 @@ import ddash.common;
     Since:
         0.0.1
 */
-auto fromPairs(R1)(R1 r1) if (from!"std.range".isInputRange!R1) {
+auto fromPairs(R1)(R1 r1) if (from.std.range.isInputRange!R1) {
     import std.range: ElementType;
     import std.typecons: Tuple;
     static if (is(ElementType!R1 : Tuple!Args, Args...) && Args.length == 2) {

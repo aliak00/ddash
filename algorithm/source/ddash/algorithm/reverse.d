@@ -23,10 +23,10 @@ import ddash.common;
         0.0.1
 */
 void reverse(Range)(ref Range range)
-if (from!"std.range".isBidirectionalRange!Range
-    && !from!"std.range".isRandomAccessRange!Range
-    && from!"std.range".hasSwappableElements!Range
-    || (from!"std.range".isRandomAccessRange!Range && from!"std.range".hasLength!Range))
+if (from.std.range.isBidirectionalRange!Range
+    && !from.std.range.isRandomAccessRange!Range
+    && from.std.range.hasSwappableElements!Range
+    || (from.std.range.isRandomAccessRange!Range && from.std.range.hasLength!Range))
 {
     import std.algorithm: reverse;
     range.reverse;

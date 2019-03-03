@@ -50,7 +50,7 @@ import ddash.common;
         0.0.1
 */
 ref pull(alias pred = null, Range, Values...)(return ref Range range, Values values)
-if (from!"std.range".isInputRange!Range)
+if (from.std.range.isInputRange!Range)
 {
     return range.pullBase!("", pred)(values);
 }
@@ -71,7 +71,7 @@ if (from!"std.range".isInputRange!Range)
         0.0.1
 */
 ref pullBy(string member, alias pred = null, Range, Values...)(return ref Range range, Values values)
-if (from!"std.range".isInputRange!Range)
+if (from.std.range.isInputRange!Range)
 {
     return range.pullBase!(member, pred)(values);
 }
@@ -144,10 +144,10 @@ private ref pullBase(string member, alias pred, Range, Values...)(return ref Ran
         0.0.1
 */
 auto pullIndices(Range, Indices...)(Range range, Indices indices)
-if (from!"std.range".isInputRange!Range
-    && from!"std.meta".allSatisfy!(
-        from!"std.traits".isIntegral,
-        from!"bolts.meta".Flatten!Indices
+if (from.std.range.isInputRange!Range
+    && from.std.meta.allSatisfy!(
+        from.std.traits.isIntegral,
+        from.bolts.meta.Flatten!Indices
     )
 ) {
     import std.algorithm: sort;

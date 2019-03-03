@@ -22,7 +22,7 @@ unittest {
 
 import ddash.common;
 
-private template isRangeOverValidPredicate(alias pred, Range) if (from!"std.range".isInputRange!Range) {
+private template isRangeOverValidPredicate(alias pred, Range) if (from.std.range.isInputRange!Range) {
     import bolts.traits: isNullType, isUnaryOver, isBinaryOver;
     import std.range: ElementType;
     enum isRangeOverValidPredicate = isNullType!pred || isUnaryOver!(pred, ElementType!Range) || isBinaryOver!(pred, ElementType!Range);
@@ -193,7 +193,7 @@ unittest {
 }
 
 private auto differenceBase(string member, alias pred, Range, Values...)(Range range, Values values)
-if (isRangeOverValidPredicate!(pred, Range) && from!"bolts.traits".areCombinable!(Range, Values))
+if (isRangeOverValidPredicate!(pred, Range) && from.bolts.traits.areCombinable!(Range, Values))
 {
     static if (!Values.length) {
         return range;

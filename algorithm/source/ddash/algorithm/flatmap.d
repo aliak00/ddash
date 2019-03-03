@@ -36,7 +36,7 @@ unittest {
     Since:
         0.0.1
 */
-auto flatMap(alias unaryPred, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+auto flatMap(alias unaryPred, Range)(Range range) if (from.std.range.isInputRange!Range) {
     import std.algorithm: map;
     import ddash.algorithm: flatten;
     return range

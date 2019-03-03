@@ -16,11 +16,11 @@ import ddash.common;
     Since:
         - 0.0.5
 */
-auto ref slice(T)(auto ref T value) if (!from!"std.traits".isArray!T && __traits(isPOD, T)) {
+auto ref slice(T)(auto ref T value) if (!from.std.traits.isArray!T && __traits(isPOD, T)) {
     return (&value)[0 .. 1];
 }
 /// Ditto
-auto ref slice(R)(auto ref R range) if (from!"std.range".hasSlicing!R) {
+auto ref slice(R)(auto ref R range) if (from.std.range.hasSlicing!R) {
     return range[];
 }
 

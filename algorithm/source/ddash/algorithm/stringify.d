@@ -24,7 +24,7 @@ import ddash.common;
     Since:
         0.0.1
 */
-string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".isSomeString!S) {
+string stringifySeperatedBy(Range, S)(Range range, S sep) if (from.std.traits.isSomeString!S) {
     import std.algorithm: joiner, map;
     import std.conv: to;
     import std.array;
@@ -35,7 +35,7 @@ string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".
 }
 
 /// Ditto
-string stringifySeperatedBy(Range, S)(Range range, S sep) if (from!"std.traits".isSomeChar!S) {
+string stringifySeperatedBy(Range, S)(Range range, S sep) if (from.std.traits.isSomeChar!S) {
     import std.conv: to;
     return range.stringifySeperatedBy(sep.to!string);
 }

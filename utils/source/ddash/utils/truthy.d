@@ -70,4 +70,4 @@ bool isTruthy(T)(auto ref T value) {
     Since:
         - 0.0.1
 */
-alias isFalsey = from!"std.functional".not!isTruthy;
+alias isFalsey = from.std.functional.not!isTruthy;

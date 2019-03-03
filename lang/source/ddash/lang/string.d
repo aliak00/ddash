@@ -5,8 +5,8 @@ module ddash.lang.string;
 
 import ddash.common;
 
-private alias allOfString(Strings...) = from!"std.meta".allSatisfy!(
-    from!"std.meta".ApplyLeft!(from!"bolts.traits".isOf, string), Strings
+private enum allOfString(Strings...) = from.std.meta.allSatisfy!(
+    from.std.meta.ApplyLeft!(from.bolts.traits.isOf, string), Strings
 );
 
 private string mixinStringLines(long length, string aliasName, string delimiter)() {

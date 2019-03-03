@@ -1,7 +1,7 @@
 module ddash.common;
 
-template from(string moduleName) {
-    mixin("import from = " ~ moduleName ~ ";");
+package(ddash) {
+    import ddash.common.from;
 }
 
 version (unittest) {

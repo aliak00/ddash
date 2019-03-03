@@ -17,7 +17,7 @@ unittest {
 
 import ddash.common;
 
-private enum isInputRangeAndElementConvertibleTo(Range, T) = from!"std.range".isInputRange!Range && is(T : from!"std.range".ElementType!Range);
+private enum isInputRangeAndElementConvertibleTo(Range, T) = from.std.range.isInputRange!Range && is(T : from.std.range.ElementType!Range);
 
 /**
     Retrieves the front of a range or a default value
@@ -59,7 +59,7 @@ unittest {
     Since:
         - 0.0.1
 */
-auto withFront(alias fun, Range)(Range range) if (from!"std.range".isInputRange!Range) {
+auto withFront(alias fun, Range)(Range range) if (from.std.range.isInputRange!Range) {
     import std.range: empty, front, ElementType;
     import std.functional: unaryFun;
     import ddash.utils.optional: some, no;
@@ -91,7 +91,7 @@ unittest {
     Since:
         - 0.0.1
 */
-auto maybeFront(Range)(Range range) if (from!"std.range".isInputRange!Range) {
+auto maybeFront(Range)(Range range) if (from.std.range.isInputRange!Range) {
     import std.range: ElementType, empty, front;
     import ddash.utils.optional: no, some;
     return range.empty ? no!(ElementType!Range) : some!(ElementType!Range)(range.front);

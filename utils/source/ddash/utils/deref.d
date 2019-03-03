@@ -13,12 +13,12 @@ import ddash.common;
     Since:
         - 0.0.1
 */
-auto ref deref(T)(auto ref T t) if (from!"std.traits".isPointer!T) {
+auto ref deref(T)(auto ref T t) if (from.std.traits.isPointer!T) {
     return *t;
 }
 
 /// Ditto
-auto ref deref(T)(auto ref T t) if (from!"std.range".isInputRange!T) {
+auto ref deref(T)(auto ref T t) if (from.std.range.isInputRange!T) {
     return t.front;
 }
 

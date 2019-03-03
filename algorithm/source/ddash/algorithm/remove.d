@@ -23,7 +23,7 @@ import ddash.common;
     Since:
         0.0.1
 */
-void remove(alias pred, Range)(ref Range range) if (from!"std.range".isInputRange!Range) {
+void remove(alias pred, Range)(ref Range range) if (from.std.range.isInputRange!Range) {
     import std.algorithm: stdRemove = remove;
     range = range.stdRemove!pred;
 }

@@ -20,7 +20,7 @@ unittest {
 
 import ddash.common;
 
-private struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRange!R1 && from!"std.range".isInputRange!R2) {
+private struct Intersection(alias pred, R1, R2) if (from.std.range.isInputRange!R1 && from.std.range.isInputRange!R2) {
     import std.range: ElementType;
 
     R1 r1;
@@ -109,10 +109,10 @@ private struct Intersection(alias pred, R1, R2) if (from!"std.range".isInputRang
         0.0.1
 */
 auto intersection(alias pred = null, Range, Rs...)(Range range, Rs values)
-if (from!"std.range".isInputRange!Range
-    && (from!"bolts.traits".isNullType!pred
-        || from!"bolts.traits".isUnaryOver!(pred, from!"std.range".ElementType!Range)
-        || from!"bolts.traits".isBinaryOver!(pred, from!"std.range".ElementType!Range)))
+if (from.std.range.isInputRange!Range
+    && (from.bolts.traits.isNullType!pred
+        || from.bolts.traits.isUnaryOver!(pred, from.std.range.ElementType!Range)
+        || from.bolts.traits.isBinaryOver!(pred, from.std.range.ElementType!Range)))
 {
     static if (!Rs.length) {
         import std.range: takeNone;

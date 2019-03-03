@@ -1,18 +1,68 @@
+/**
+    Matches on types that could be deconstructible
+*/
 module ddash.utils.match;
 
 import ddash.common;
 
+/**
+    Tries to match handlers by deconstructing a type if it's deconstructable, and calling the appropriate
+    handler for the deconstructed value. If it's not a deconstructible type then it just tries a first match
+
+    The currently supported deconstructible types are:
+
+    <li> Optional types
+    <li> Expect types
+    <li> Try types
+
+    You may not handle destructible types and non destructible types in the same list
+    of handlers. See example for usage details
+
+    Params:
+        handlers = lambdas to the type handlers.
+
+    Since:
+        - 0.12.0
+*/
 template match(handlers...) {
 
     import ddash.utils.expect: Expect, isExpect;
     import ddash.utils.optional: Optional, isOptional;
     import ddash.utils.try_: isTry;
 
-    auto match(T, E)(auto ref Expect!(T, E) expect) {
+    /**
+        Expect match: Pass two lambdas to the match function. The first one handles the expected case
+        and the second one handles the unexpected case.
+
+        Params:
+            value = The expect value
+
+        Returns:
+            Whatever the 'handlers' return
+
+        Since:
+            0.12.0
+    */
+    auto match(T, E)(auto ref Expect!(T, E) value) {
         static import sumtype;
-        return sumtype.match!handlers(expect.data);
+        return sumtype.match!handlers(value.data);
     }
 
+    /**
+        Try match: Pass two lambdas to the match function. The first one handles the success case
+        and the second one handles the failure case.
+
+        Calling match will execute the try function if it has not already done so
+
+        Params:
+            tryInstance = the try value
+
+        Returns:
+            Whatever the 'handlers' return
+
+        Since:
+            0.12.0
+    */
     auto match(T)(auto ref T tryInstance) if (isTry!T) {
         import ddash.lang.types: isVoid;
         import ddash.utils.expect;
@@ -28,17 +78,56 @@ template match(handlers...) {
         )(value);
     }
 
+
+    /**
+        Optional match: Pass two lambdas to the match function. The first one handles the some case
+        and the second one handles the none case.
+
+        Params:
+            opt = The optional value
+
+        Returns:
+            Whatever the 'handlers' return
+
+        Since:
+            0.12.0
+    */
     auto match(T)(auto ref Optional!T opt) {
         import optional: match;
         return match!handlers(opt);
     }
 
-    // auto match(T)(auto ref T value) if (!isOptional!T && !isTry!T && !isExpect!T) {
-    //     import sumtype: SumType, match;
-    //     return SumType!T(value).match!handlers;
-    // }
+    /**
+        Non-deconstructible type match: Pass n lambdas as handlers and the first one that matches
+        the value type will be called.
+
+        Params:
+            value = Any non-desconstructible value
+
+        Returns:
+            Whatever the 'handlers' return
+
+        Since:
+            0.12.0
+    */
+    auto match(T)(auto ref T value) if (!isOptional!T && !isTry!T && !isExpect!T) {
+        import sumtype: canMatch;
+        size_t handlerIndex() pure {
+            size_t result = size_t.max;
+            static foreach (hid, handler; handlers) {
+                static if (canMatch!(handler, T)) {
+                    if (result == size_t.max) {
+                        result = hid;
+                    }
+                }
+            }
+            return result;
+        }
+        return handlers[handlerIndex](value);
+    }
 }
 
+///
 @("match on Try, Expect, and Optional")
 unittest {
     import ddash.utils.optional;
@@ -118,19 +207,29 @@ unittest {
     assert(b == "boo");
 }
 
-// @("match on random types")
-// unittest {
-//     static struct Blah {
-//         int x; int y;
-//     }
+@("match on random types")
+unittest {
+    static struct Foo {
+        int x; int y;
+    }
 
-//     int a;
+    static struct Bar {
+        int a; int b;
+    }
 
-//     auto r0 = a.match!(
-//         (string a) => false,
-//         (int a) => true,
-//         (float a) => false
-//     );
+    auto r0 = 3.match!(
+        (string a) => false,
+        (int a) => true,
+        (int a) => false
+    );
 
-//     assert(r0);
-// }
+    assert(r0);
+
+    auto r1 = Foo().match!(
+        (a) => a.a + 10,
+        (a) => a.x + 1,
+        (int b) => 10,
+    );
+
+    assert(r1 == 1);
+}
