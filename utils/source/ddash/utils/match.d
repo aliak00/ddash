@@ -26,7 +26,7 @@ import ddash.common;
 */
 template match(handlers...) {
 
-    import ddash.utils.expect: Expect, isExpect;
+    import ddash.utils.expect: isExpect, Expect;
     import ddash.utils.optional: Optional, isOptional;
     import ddash.utils.try_: isTry;
 
@@ -112,9 +112,11 @@ template match(handlers...) {
     */
     auto match(T)(auto ref T value) if (!isOptional!T && !isTry!T && !isExpect!T) {
         import sumtype: canMatch;
+        import std.traits: isCallable, Parameters;
         size_t handlerIndex() pure {
             size_t result = size_t.max;
             static foreach (hid, handler; handlers) {
+                pragma(msg, "# 1 - ", hid, " trait: ", __traits(identifier, handler));
                 static if (canMatch!(handler, T)) {
                     if (result == size_t.max) {
                         result = hid;
@@ -209,27 +211,44 @@ unittest {
 
 @("match on random types")
 unittest {
-    static struct Foo {
-        int x; int y;
+    static struct HasX {
+        int x;
     }
 
-    static struct Bar {
-        int a; int b;
+    static struct HasY {
+        int y;
     }
 
-    auto r0 = 3.match!(
-        (string a) => false,
-        (int a) => true,
-        (int a) => false
-    );
+    // auto r0 = 3.match!(
+    //     (string a) => false,
+    //     (int a) => true,
+    //     (int a) => false
+    // );
 
-    assert(r0);
+    // assert(r0);
 
-    auto r1 = Foo().match!(
-        (a) => a.a + 10,
+    struct Caller {
+        int opCall(char) { return 5; }
+    }
+
+    Caller caller;
+
+    int func(dchar d) { return 6; }
+
+    alias f = match!(
         (a) => a.x + 1,
-        (int b) => 10,
+        (a) => a.y + 2,
+        delegate (string a) { return 3; },
+        function (float a) { return 4; },
+        caller,
+        func,
+        10, a => 7,
+        [1, 2, 3], a => 8,
     );
 
-    assert(r1 == 1);
+    // writeln(f(10));
+    // writeln(f(11));
+
+    assert(f(HasX()) == 1);
+    // assert(f(HasY()) == 2);
 }
