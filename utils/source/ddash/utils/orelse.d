@@ -44,7 +44,7 @@ auto ref T orElse(T)(auto ref T val, lazy T elseValue) if (IsNullable!T) {
 
 /// Ditto
 auto orElse(alias elsePred, R)(auto ref R range) if (BothRangeAndXorNullable!(R, typeof(elsePred()))) {
-    import std.range: choose;
+    import std.range: choose, empty;
     return choose(range.empty, elsePred(), range);
 }
 /// Ditto
@@ -54,6 +54,7 @@ auto orElse(R, U)(auto ref R range, lazy U elseValue) if (BothRangeAndXorNullabl
 
 // Ditto
 auto orElse(alias elsePred, R)(auto ref R range) if (RangeAndElementOf!(R, typeof(elsePred()))) {
+    import std.range: empty, front;
     return range.empty ? elsePred() : range.front;
 }
 
