@@ -52,6 +52,14 @@ $(TR
     $(TD)
     $(TD Imports a subset of https://optional.dub.pm)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF ddash.utils.match, `match`))
+    $(TD
+        $(DDOX_NAMED_REF utils.match.match, `match`)
+        )
+    $(TD)
+    $(TD matches on expects, trys, and optionals)
+    )
 )
 */
 module ddash.utils;
@@ -63,4 +71,6 @@ public  {
     import ddash.utils.orelse;
     import ddash.utils.slice;
     import ddash.utils.optional;
+    import ddash.utils.match;
+    import ddash.utils.try_;
 }
