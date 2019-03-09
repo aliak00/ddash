@@ -60,6 +60,14 @@ $(TR
     $(TD)
     $(TD matches on expects, trys, and optionals)
     )
+$(TR
+    $(TD $(DDOX_NAMED_REF ddash.utils.flag, `Flag`))
+    $(TD
+        $(DDOX_NAMED_REF utils.flag.Flag, `Flag`)
+        )
+    $(TD)
+    $(TD better than std.typecons.Flag)
+    )
 )
 */
 module ddash.utils;
@@ -73,4 +81,5 @@ public  {
     import ddash.utils.optional;
     import ddash.utils.match;
     import ddash.utils.try_;
+    import ddash.utils.flag;
 }
