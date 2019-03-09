@@ -6,6 +6,12 @@ module ddash.utils.flag;
 /**
     This can be used like std.typecons.Flag but has a nicer API that doesn't use strings
     or the `Yes.` and `No.` constructs.
+
+    Since:
+        0.13.0
+
+    See_Also:
+        - https://forum.dlang.org/post/ohrilhjbhddjkkqznlsn@forum.dlang.org
 */
 struct Flag {
     private template FlagImpl(string name) {
