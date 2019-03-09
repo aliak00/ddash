@@ -4,8 +4,9 @@
 module ddash.utils.orelse;
 
 import ddash.common;
+import std.typecons: Nullable;
 
-private enum IsNullable(T) = from.bolts.traits.isNullable!T;
+private enum IsNullable(T) = from.bolts.traits.isNullable!T && __traits(compiles, { if (T.init is null) {} });
 // This is xor on nullable because if both of them are nullable then the IsNullable candidate will be used.
 // This is becuase a range can also be nullable (e.g. string)
 private enum BothRangeAndXorNullable(R, U) = from.std.range.isInputRange!R && from.std.range.isInputRange!U && (IsNullable!U ^ IsNullable!R);
@@ -63,6 +64,19 @@ auto orElse(R, U)(auto ref R range, lazy U elseValue) if (RangeAndElementOf!(R, 
     return range.orElse!elseValue;
 }
 
+/// Ditto
+auto orElse(alias elsePred, T)(auto ref Nullable!T nullable) if (is(T == typeof(elsePred()))) {
+    if (nullable.isNull) {
+        return elsePred();
+    }
+    return nullable.get;
+}
+
+/// Ditto
+auto orElse(T, U)(auto ref Nullable!T nullable, lazy U elseValue) if(is(T : U)) {
+    return nullable.orElse!elseValue;
+}
+
 ///
 @("works with ranges, front, and lambdas")
 unittest {
@@ -105,4 +119,13 @@ unittest {
 unittest {
     assert([1, 2].orElse(3) == 1);
     assert((int[]).init.orElse(3) == 3);
+}
+
+@("should work with Nullable")
+unittest {
+    import std.typecons: nullable;
+    auto a = "foo".nullable;
+    assert(a.orElse("bar") == "foo");
+    a.nullify;
+    assert(a.orElse("bar") == "bar");
 }
