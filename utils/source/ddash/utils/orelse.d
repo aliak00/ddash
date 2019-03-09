@@ -9,7 +9,10 @@ import std.typecons: Nullable;
 private enum IsNullable(T) = from.bolts.traits.isNullable!T && __traits(compiles, { if (T.init is null) {} });
 // This is xor on nullable because if both of them are nullable then the IsNullable candidate will be used.
 // This is becuase a range can also be nullable (e.g. string)
-private enum BothRangeAndXorNullable(R, U) = from.std.range.isInputRange!R && from.std.range.isInputRange!U && (IsNullable!U ^ IsNullable!R);
+private enum BothRangeAndXorNullable(R, U) = from.std.range.isInputRange!R
+    && from.std.range.isInputRange!U
+    && (IsNullable!U ^ IsNullable!R)
+    && is(from.std.range.ElementType!R == from.std.range.ElementType!U);
 private enum RangeAndElementOf(R, T) = from.std.range.isInputRange!R && is(T : from.std.range.ElementType!R);
 
 /**
@@ -128,4 +131,11 @@ unittest {
     assert(a.orElse("bar") == "foo");
     a.nullify;
     assert(a.orElse("bar") == "bar");
+}
+
+@("should work with mapping ")
+unittest {
+    import std.algorithm: map;
+    import std.conv: to;
+    auto a = [3].map!(to!string).orElse("");
 }
