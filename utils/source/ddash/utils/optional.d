@@ -15,4 +15,6 @@ public import optional:
     no,
     unwrap,
     dispatch,
-    isOptional;
+    isOptional,
+    toNullable
+    ;
