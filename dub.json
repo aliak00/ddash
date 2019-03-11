@@ -30,7 +30,8 @@
                 "./functional/",
                 "./utils/",
                 "./range/",
-                "./lang/"
+                "./lang/",
+                "./common/"
             ],
             "dependencies": {
                 "silly": "*"
