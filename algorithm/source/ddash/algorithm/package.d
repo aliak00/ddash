@@ -180,7 +180,7 @@ $(TR
     $(TD $(DDOX_NAMED_REF ddash.algorithm.stringify, `stringify`))
     $(TD
         $(DDOX_NAMED_REF algorithm.stringify.stringify, `stringify`)<br>
-        $(DDOX_NAMED_REF algorithm.stringify.stringifySeperatedBy, `stringifySeperatedBy`)<br>
+        $(DDOX_NAMED_REF algorithm.stringify.stringifySeparatedBy, `stringifySeparatedBy`)<br>
         )
     $(TD)
     $(TD Converts all elements in range into a string separated by separator.)

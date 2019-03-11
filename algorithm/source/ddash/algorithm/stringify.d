@@ -4,9 +4,9 @@ module ddash.algorithm.stringify;
 ///
 @("Modue example")
 unittest {
-    assert([1, 2, 3].stringifySeperatedBy(',') == "1,2,3");
+    assert([1, 2, 3].stringifySeparatedBy(',') == "1,2,3");
     assert([1, 2, 3].stringify == "123");
-    assert([1, 2, 3].stringifySeperatedBy("-") == "1-2-3");
+    assert([1, 2, 3].stringifySeparatedBy("-") == "1-2-3");
 }
 
 import ddash.common;
@@ -24,7 +24,7 @@ import ddash.common;
     Since:
         0.0.1
 */
-string stringifySeperatedBy(Range, S)(Range range, S sep) if (from.std.traits.isSomeString!S) {
+string stringifySeparatedBy(Range, S)(Range range, S sep) if (from.std.traits.isSomeString!S) {
     import std.algorithm: joiner, map;
     import std.conv: to;
     import std.array;
@@ -35,9 +35,9 @@ string stringifySeperatedBy(Range, S)(Range range, S sep) if (from.std.traits.is
 }
 
 /// Ditto
-string stringifySeperatedBy(Range, S)(Range range, S sep) if (from.std.traits.isSomeChar!S) {
+string stringifySeparatedBy(Range, S)(Range range, S sep) if (from.std.traits.isSomeChar!S) {
     import std.conv: to;
-    return range.stringifySeperatedBy(sep.to!string);
+    return range.stringifySeparatedBy(sep.to!string);
 }
 
 /**
@@ -54,5 +54,5 @@ string stringifySeperatedBy(Range, S)(Range range, S sep) if (from.std.traits.is
 */
 string stringify(Values...)(Values values) {
     import ddash.algorithm.concat;
-    return concat(values).stringifySeperatedBy("");
+    return concat(values).stringifySeparatedBy("");
 }
