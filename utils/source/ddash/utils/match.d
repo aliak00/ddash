@@ -92,9 +92,9 @@ template match(handlers...) {
         Since:
             0.12.0
     */
-    auto match(T)(auto ref Optional!T opt) {
-        import optional: match;
-        return match!handlers(opt);
+    auto match(T)(inout auto ref Optional!T opt) {
+        static import optional;
+        return optional.match!handlers(opt);
     }
 
     /**
@@ -110,7 +110,7 @@ template match(handlers...) {
         Since:
             0.12.0
     */
-    auto match(T)(auto ref T value) if (!isOptional!T && !isTry!T && !isExpect!T) {
+    auto match(T)(inout auto ref T value) if (!isOptional!T && !isTry!T && !isExpect!T) {
         import sumtype: canMatch;
         size_t handlerIndex() pure {
             size_t result = size_t.max;
