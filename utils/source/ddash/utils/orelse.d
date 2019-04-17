@@ -6,79 +6,92 @@ module ddash.utils.orelse;
 import ddash.common;
 import std.typecons: Nullable;
 
-private enum IsNullable(T) = from.bolts.traits.isNullable!T && __traits(compiles, { if (T.init is null) {} });
-// This is xor on nullable because if both of them are nullable then the IsNullable candidate will be used.
-// This is becuase a range can also be nullable (e.g. string)
-private enum BothRangeAndXorNullable(R, U) = from.std.range.isInputRange!R
-    && from.std.range.isInputRange!U
-    && (IsNullable!U ^ IsNullable!R)
-    && is(from.std.range.ElementType!R == from.std.range.ElementType!U);
-private enum RangeAndElementOf(R, T) = from.std.range.isInputRange!R && is(T : from.std.range.ElementType!R);
+private enum isTypeconsNullable(T) = is(T : Nullable!U, U);
+private enum isNullable(T) = from.bolts.traits.isNullable!T && __traits(compiles, { if (T.init is null) {} });
 
 /**
     Retrieves the value if it is a valid value else it will retrieve the `elseValue`. Instead of
-    an `elseValue` and `elsePred` can be passes as an alias lambda parameter
+    an `elseValue`, an `elsePred` can be passed to create the value functionally
 
     Params:
-        val = the value to resolve
-        elseValue = the value to get if `val` cannot be resolved
-        elsePred = the perdicate to call if `val` cannot be resolved
+        value = the value to resolve
+        elseValue = the value to get if `value` cannot be resolved
+        elsePred = the perdicate to call if `value` cannot be resolved
 
     Returns:
-        $(LI If `val` is nullable and null, then it will return the `elseValue`, else `val`)
-        $(LI If `val` is a range and empty, and `elseValue` is a compatible range,
-            then `elseValue` range will be returned, else `val`)
-        $(LI If `val` is a range and empty, and `elseValue` is an `ElementType!Range`,
-            then `elseValue` will be returned, else `val.front`)
+        $(LI If `value` is nullable and null, then it will return the `elseValue`, else `value`)
+        $(LI If `value` is typecons.Nullable and isNull, then it will return the `elseValue`, else `value`)
+        $(LI If `value` is a range and empty, and `elseValue` is a compatible range,
+            then `elseValue` range will be returned, else `value`)
+        $(LI If `value` is a range and empty, and `elseValue` is an `ElementType!Range`,
+            then `elseValue` will be returned, else `value.front`)
 
     Since:
         - 0.0.2
 */
-auto ref T orElse(alias elsePred, T)(auto ref T val) if (IsNullable!T && is(T == typeof(elsePred()))) {
-    if (val is null) {
+auto ref orElse(alias elsePred, Range)(auto ref Range value)
+if (from.std.range.isInputRange!Range && !isTypeconsNullable!Range) {
+    import std.range: ElementType, isInputRange;
+    import std.traits: isArray;
+    alias E = ElementType!Range;
+    alias R = typeof(elsePred());
+    static if (is(R : E)) {
+        if (value.empty) {
+            return elsePred();
+        } else {
+            return value.front;
+        }
+    } else static if (is(Range : R)) {
+        if (value.empty) {
+            return elsePred();
+        } else {
+            return value;
+        }
+    } else static if (isInputRange!R) {
+        import std.range: choose, empty;
+        return choose(value.empty, elsePred(), value);
+    } else {
+        static assert(
+            0,
+            "elsePred must return either an element or Range or another Range"
+        );
+    }
+}
+
+/// Ditto
+auto ref orElse(Range, U)(auto ref Range value, lazy U elseValue)
+if (from.std.range.isInputRange!Range && !isTypeconsNullable!Range) {
+    return value.orElse!elseValue;
+}
+
+/// Ditto
+auto orElse(alias elsePred, T)(auto ref Nullable!T value) if (is(T : typeof(elsePred()))) {
+    if (value.isNull) {
         return elsePred();
     }
-    return val;
+    return value.get;
 }
 
 /// Ditto
-auto ref T orElse(T)(auto ref T val, lazy T elseValue) if (IsNullable!T) {
-    return val.orElse!elseValue;
+auto orElse(T, U)(auto ref Nullable!T value, lazy U elseValue) if (is(T : U)) {
+    return value.orElse!elseValue;
 }
 
 /// Ditto
-auto orElse(alias elsePred, R)(auto ref R range) if (BothRangeAndXorNullable!(R, typeof(elsePred()))) {
-    import std.range: choose, empty;
-    return choose(range.empty, elsePred(), range);
-}
-/// Ditto
-auto orElse(R, U)(auto ref R range, lazy U elseValue) if (BothRangeAndXorNullable!(R, U)) {
-    return range.orElse!elseValue;
-}
-
-// Ditto
-auto orElse(alias elsePred, R)(auto ref R range) if (RangeAndElementOf!(R, typeof(elsePred()))) {
-    import std.range: empty, front;
-    return range.empty ? elsePred() : range.front;
-}
-
-/// Ditto
-auto orElse(R, U)(auto ref R range, lazy U elseValue) if (RangeAndElementOf!(R, U)) {
-    return range.orElse!elseValue;
-}
-
-/// Ditto
-auto orElse(alias elsePred, T)(auto ref Nullable!T nullable) if (is(T == typeof(elsePred()))) {
-    if (nullable.isNull) {
+auto orElse(alias elsePred, T)(auto ref T value)
+if (!from.std.range.isInputRange!T && isNullable!T && is(T : typeof(elsePred()))) {
+    if (value is null) {
         return elsePred();
     }
-    return nullable.get;
+    return value;
 }
 
 /// Ditto
-auto orElse(T, U)(auto ref Nullable!T nullable, lazy U elseValue) if(is(T : U)) {
-    return nullable.orElse!elseValue;
+auto orElse(T, U)(auto ref T value, lazy U elseValue)
+if (!from.std.range.isInputRange!T && isNullable!T && is(T : U)) {
+    return value.orElse!elseValue;
 }
+
 
 ///
 @("works with ranges, front, and lambdas")
@@ -138,4 +151,26 @@ unittest {
     import std.algorithm: map;
     import std.conv: to;
     auto a = [3].map!(to!string).orElse("");
+}
+
+@("should work with two ranges")
+unittest {
+    import std.typecons: tuple;
+    import std.algorithm: map;
+    auto func() {
+        return [1, 2, 3].map!(a => tuple(a, a));
+    }
+    assert(func().orElse(func()).equal(func()));
+}
+
+@("should work with class types")
+unittest {
+    static class C {}
+
+    auto a = new C();
+    auto b = new C();
+    C c = null;
+
+    assert(a.orElse(b) == a);
+    assert(c.orElse(b) == b);
 }
