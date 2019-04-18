@@ -22,6 +22,9 @@ struct Flag {
             static typeof(this) opAssign(bool value) {
                 return typeof(this)(value);
             }
+            this(bool value) {
+                this.value = value;
+            }
         }`);
         mixin("alias FlagImpl = "~name~";");
     }
@@ -31,7 +34,7 @@ struct Flag {
 ///
 @("Example of Flag")
 unittest {
-    auto f(Flag.closed closed) {
+    auto f(Flag.closed closed = true) {
         return closed;
     }
     assert( f(Flag.closed = true));
