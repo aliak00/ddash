@@ -226,3 +226,18 @@ unittest {
     auto s2 = r2.match!((_) => "?", ex => ex.msg);
     assert(s2 == "uneven string");
 }
+
+@("tryUntil should not evaluate remaining expressions if one fails")
+unittest {
+    int[] calls;
+    int f(int i) {
+        calls ~= i;
+        if (i % 2 == 1) {
+            throw new Exception("boom");
+        }
+        return i;
+    }
+
+    tryUntil(f(0), f(2), f(1), f(4)).array;
+    assert(calls == [0, 2, 1]);
+}
