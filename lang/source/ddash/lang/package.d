@@ -55,4 +55,6 @@ public  {
     import ddash.lang.destruct;
     import ddash.lang.string;
     import ddash.lang.from;
+    import ddash.lang.range;
+    import ddash.lang.headmutable;
 }
