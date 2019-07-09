@@ -3,6 +3,8 @@
 */
 module ddash.utils.try_;
 
+import ddash.common.featureflags;
+
 ///
 @("module example")
 unittest {
@@ -17,7 +19,9 @@ unittest {
         return i;
     }
 
-    assert(tryUntil(f(2), f(4), f(6)).front == tuple(2, 4, 6));
+    static if (FeatureFlag.tryUntil) {
+        assert(tryUntil(f(2), f(4), f(6)).front == tuple(2, 4, 6));
+    }
 
     auto result = [1, 2, 3]
         .map!(a => Try!(() => f(a)))
@@ -164,80 +168,78 @@ unittest {
 }
 
 // The code below requires the fix for bugzilla issue 5710
-static if (__VERSION__ < 2087L) {
-    pragma(msg, __MODULE__, " not available in compiler frontend less than 2.087");
-} else
+static if (FeatureFlag.tryUntil) {
+    /**
+        tryUntil will take a number of lazy expressions and execute them in order
+        until they all pass or one of them fails
 
-/**
-    tryUntil will take a number of lazy expressions and execute them in order
-    until they all pass or one of them fails
+        Params:
+            expressions = a variadic list of expressions
 
-    Params:
-        expressions = a variadic list of expressions
+        Returns:
+            The result is a `Try` that either has a success value of a `Tuple` of results
+            or an `Exception`
 
-    Returns:
-        The result is a `Try` that either has a success value of a `Tuple` of results
-        or an `Exception`
-
-    Since:
-        0.16.0
-*/
-auto tryUntil(T...)(lazy T expressions) {
-    import std.meta: staticMap;
-    import std.typecons: tuple;
-    import ddash.utils.try_: Try;
-    template eval(alias expression) {
-        auto eval() {
-            return expression();
+        Since:
+            0.16.0
+    */
+    auto tryUntil(T...)(lazy T expressions) {
+        import std.meta: staticMap;
+        import std.typecons: tuple;
+        import ddash.utils.try_: Try;
+        template eval(alias expression) {
+            auto eval() {
+                return expression();
+            }
         }
-    }
-    return Try!(() => staticMap!(eval, expressions).tuple);
-}
-
-///
-@("tryUntil example ")
-unittest {
-    import std.conv: to;
-    import std.algorithm: map, each;
-    import std.typecons: Tuple, tuple;
-    import ddash.utils.match: match;
-
-    int f(int i) {
-        if (i % 2 == 1) {
-            throw new Exception("uneven int");
-        }
-        return i;
-    }
-    string g(int i) {
-        if (i % 2 == 1) {
-            throw new Exception("uneven string");
-        }
-        return i.to!string;
+        return Try!(() => staticMap!(eval, expressions).tuple);
     }
 
-    auto r0 = tryUntil(f(2), g(2)); // both succeed
-    assert(r0.front == tuple(2, "2"));
+    ///
+    @("tryUntil example ")
+    unittest {
+        import std.conv: to;
+        import std.algorithm: map, each;
+        import std.typecons: Tuple, tuple;
+        import ddash.utils.match: match;
 
-    auto r1 = tryUntil(f(1), g(2)); // first one fails
-    auto s1 = r1.match!((_) => "?", ex => ex.msg);
-    assert(s1 == "uneven int");
-
-    auto r2 = tryUntil(f(2), g(1)); // second one fails
-    auto s2 = r2.match!((_) => "?", ex => ex.msg);
-    assert(s2 == "uneven string");
-}
-
-@("tryUntil should not evaluate remaining expressions if one fails")
-unittest {
-    int[] calls;
-    int f(int i) {
-        calls ~= i;
-        if (i % 2 == 1) {
-            throw new Exception("boom");
+        int f(int i) {
+            if (i % 2 == 1) {
+                throw new Exception("uneven int");
+            }
+            return i;
         }
-        return i;
+        string g(int i) {
+            if (i % 2 == 1) {
+                throw new Exception("uneven string");
+            }
+            return i.to!string;
+        }
+
+        auto r0 = tryUntil(f(2), g(2)); // both succeed
+        assert(r0.front == tuple(2, "2"));
+
+        auto r1 = tryUntil(f(1), g(2)); // first one fails
+        auto s1 = r1.match!((_) => "?", ex => ex.msg);
+        assert(s1 == "uneven int");
+
+        auto r2 = tryUntil(f(2), g(1)); // second one fails
+        auto s2 = r2.match!((_) => "?", ex => ex.msg);
+        assert(s2 == "uneven string");
     }
 
-    tryUntil(f(0), f(2), f(1), f(4)).array;
-    assert(calls == [0, 2, 1]);
+    @("tryUntil should not evaluate remaining expressions if one fails")
+    unittest {
+        int[] calls;
+        int f(int i) {
+            calls ~= i;
+            if (i % 2 == 1) {
+                throw new Exception("boom");
+            }
+            return i;
+        }
+
+        tryUntil(f(0), f(2), f(1), f(4)).array;
+        assert(calls == [0, 2, 1]);
+    }
 }

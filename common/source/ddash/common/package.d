@@ -2,6 +2,7 @@ module ddash.common;
 
 package(ddash) {
     import ddash.common.from;
+    import ddash.common.featureflags;
 }
 
 version (unittest) {
