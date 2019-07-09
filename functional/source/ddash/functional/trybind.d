@@ -1,7 +1,7 @@
 /**
-    Functional try
+    Bind a function to a Try
 */
-module ddash.functional.trycall;
+module ddash.functional.trybind;
 
 ///
 @("module example")
@@ -33,15 +33,22 @@ import ddash.common;
 /**
     Creates a range expression out of a throwing functions
 
+    Params:
+        func = the function to bind to
+        args = the arguments to pass through to `func`
+
     See_Also:
         `ddash.utils.Try`
+
+    Returns:
+        A `ddash.utils.Try` object bound to the function that can be called with args
 
     Since:
         - 0.8.0
 */
 template tryCall(alias func) {
     auto tryCall(Args...)(auto ref Args args) {
-        import ddash.utils.try_;
+        import ddash.utils.try_: Try;
         return Try!(() => func(args));
     }
 }

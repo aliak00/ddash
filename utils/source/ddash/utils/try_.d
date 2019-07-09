@@ -6,8 +6,9 @@ module ddash.utils.try_;
 ///
 @("module example")
 unittest {
+    import std.typecons: tuple;
     import std.algorithm: map, each;
-    import ddash.utils.match;
+    import ddash.utils.match: match;
 
     int f(int i) {
         if (i % 2 == 1) {
@@ -15,6 +16,8 @@ unittest {
         }
         return i;
     }
+
+    assert(tryUntil(f(2), f(4), f(6)).front == tuple(2, 4, 6));
 
     auto result = [1, 2, 3]
         .map!(a => Try!(() => f(a)))
@@ -71,8 +74,8 @@ private struct TryImpl(alias fun) {
     public bool isSuccess() nothrow {
         auto value = resolve;
         return match!(
-            (const Expect.Expected t) => true,
-            (const Expect.Unexpected ex) => false,
+            (const Expect.Expected _) => true,
+            (const Expect.Unexpected _) => false,
         )(value);
     }
 
@@ -102,7 +105,7 @@ private struct TryImpl(alias fun) {
         auto value = resolve;
         return match!(
             (Expect.Expected t) => t,
-            (Expect.Unexpected ex) => Expect.Expected.init,
+            (Expect.Unexpected _) => Expect.Expected.init,
         )(value);
     }
 
@@ -158,4 +161,68 @@ unittest {
     assert(x == 0);
     assert(y == 0);
     assert(count == 1);
+}
+
+// The code below requires the fix for bugzilla issue 5710
+static if (__VERSION__ < 2087L) {
+    pragma(msg, __MODULE__, " not available in compiler frontend less than 2.087");
+} else
+
+/**
+    tryUntil will take a number of lazy expressions and execute them in order
+    until they all pass or one of them fails
+
+    Params:
+        expressions = a variadic list of expressions
+
+    Returns:
+        The result is a `Try` that either has a success value of a `Tuple` of results
+        or an `Exception`
+
+    Since:
+        0.16.0
+*/
+auto tryUntil(T...)(lazy T expressions) {
+    import std.meta: staticMap;
+    import std.typecons: tuple;
+    import ddash.utils.try_: Try;
+    template eval(alias expression) {
+        auto eval() {
+            return expression();
+        }
+    }
+    return Try!(() => staticMap!(eval, expressions).tuple);
+}
+
+///
+@("tryUntil example ")
+unittest {
+    import std.conv: to;
+    import std.algorithm: map, each;
+    import std.typecons: Tuple, tuple;
+    import ddash.utils.match: match;
+
+    int f(int i) {
+        if (i % 2 == 1) {
+            throw new Exception("uneven int");
+        }
+        return i;
+    }
+    string g(int i) {
+        if (i % 2 == 1) {
+            throw new Exception("uneven string");
+        }
+        return i.to!string;
+    }
+
+    auto r0 = tryUntil(f(2), g(2)); // both succeed
+    assert(r0.front == tuple(2, "2"));
+
+    auto r1 = tryUntil(f(1), g(2)); // first one fails
+    auto s1 = r1.match!((_) => "?", ex => ex.msg);
+    assert(s1 == "uneven int");
+
+    auto r2 = tryUntil(f(2), g(1)); // second one fails
+    auto s2 = r2.match!((_) => "?", ex => ex.msg);
+    assert(s2 == "uneven string");
 }

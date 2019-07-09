@@ -61,6 +61,15 @@ $(TR
     $(TD matches on expects, trys, and optionals)
     )
 $(TR
+    $(TD $(DDOX_NAMED_REF ddash.utils.try_, `try_`))
+    $(TD
+        $(DDOX_NAMED_REF ddash.utils.try_.Try, `Try`)<br>
+        $(DDOX_NAMED_REF ddash.utils.try_.tryUntil, `tryUntil`)<br>
+        )
+    $(TD)
+    $(TD utilities to deal with throwing functions)
+    )
+$(TR
     $(TD $(DDOX_NAMED_REF ddash.utils.flag, `Flag`))
     $(TD
         $(DDOX_NAMED_REF utils.flag.Flag, `Flag`)
