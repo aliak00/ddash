@@ -1,13 +1,13 @@
 module ddash.common.valueby;
 
-package(ddash) auto ref valueBy(string member = "", T)(auto ref T value) {
-    static if (member != "") {
-        import bolts: hasMember;
+package(ddash) auto ref valueBy(string memberName = "", T)(auto ref T value) {
+    static if (memberName != "") {
+        import bolts: member;
         static assert(
-            hasMember!(T, member).withProtection!"public",
-            "Member " ~ name ~ " for type " ~ T.stringof ~ " not publicly accessible"
+            member!(T, memberName).protection == "public",
+            "Member " ~ memberName ~ " for type " ~ T.stringof ~ " not publicly accessible"
         );
-        return mixin("value." ~ member);
+        return mixin("value." ~ memberName);
     } else {
         return value;
     }

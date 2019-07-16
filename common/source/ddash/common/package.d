@@ -1,7 +1,7 @@
 module ddash.common;
 
 package(ddash) {
-    import ddash.common.from;
+    import bolts.from;
     import ddash.common.featureflags;
 }
 
