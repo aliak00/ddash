@@ -7,7 +7,7 @@ import ddash.common.featureflags;
 
 ///
 @("module example")
-unittest {
+@safe unittest {
     import std.typecons: tuple;
     import std.algorithm: map, each;
     import ddash.utils.match: match;
@@ -85,8 +85,8 @@ private struct TryImpl(alias fun) {
 
     package(ddash) Expect resolve() nothrow {
         assert(result, "result must never be null");
-        if (auto value = unwrap(*result)) {
-            return *value;
+        if (!result.empty) {
+            return result.front;
         }
         Expect value;
         try {
@@ -136,7 +136,7 @@ template isTry(T) {
 }
 
 @("Should convert Try to Optional")
-unittest {
+@safe unittest {
     import ddash.utils.optional;
 
     int f(int i) {
@@ -151,9 +151,9 @@ unittest {
 }
 
 @("should not call lambda more than once when copied around")
-unittest {
+@safe unittest {
     int count;
-    int func() {
+    int func() @safe {
         return count++;
     }
 
@@ -197,7 +197,7 @@ static if (FeatureFlag.tryUntil) {
 
     ///
     @("tryUntil example ")
-    unittest {
+    @safe unittest {
         import std.conv: to;
         import std.algorithm: map, each;
         import std.typecons: Tuple, tuple;
@@ -229,7 +229,7 @@ static if (FeatureFlag.tryUntil) {
     }
 
     @("tryUntil should not evaluate remaining expressions if one fails")
-    unittest {
+    @safe unittest {
         int[] calls;
         int f(int i) {
             calls ~= i;
