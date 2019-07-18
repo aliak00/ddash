@@ -33,21 +33,21 @@ auto ref orElse(alias elsePred, Range)(auto ref Range value)
 if (from.std.range.isInputRange!Range && !isTypeconsNullable!Range) {
     import std.range: ElementType, isInputRange;
     import std.traits: isArray;
-    alias E = ElementType!Range;
-    alias R = typeof(elsePred());
-    static if (is(R : E)) {
+    alias ReturnType = typeof(elsePred());
+    static if (is(ReturnType : ElementType!Range)) {
         if (value.empty) {
             return elsePred();
         } else {
             return value.front;
         }
-    } else static if (is(Range : R)) {
+    } else static if (is(Range : ReturnType)) {
         if (value.empty) {
             return elsePred();
         } else {
             return value;
         }
-    } else static if (isInputRange!R) {
+    } else static if (isInputRange!ReturnType) {
+        // If it's a range but not implicly convertible
         import std.range: choose, empty;
         return choose(value.empty, elsePred(), value);
     } else {
@@ -112,9 +112,9 @@ unittest {
 ///
 @("works with strings")
 unittest {
-    import std.range;
     assert((cast(string)null).orElse("hi") == "hi");
     assert("yo".orElse("hi") == "yo");
+    assert("".orElse("x") == "x");
 }
 
 @("range to mapped and mapped to range")
@@ -173,4 +173,27 @@ unittest {
 
     assert(a.orElse(b) == a);
     assert(c.orElse(b) == b);
+}
+
+/**
+    Same as orElse except it throws an error if it can't get the item
+
+    Since:
+        - 0.18.0
+*/
+auto ref orElseThrow(Range, T)(auto ref Range value, lazy T throwValue)
+if (from.std.range.isInputRange!Range) {
+    if (value.empty) {
+        throw throwValue();
+    }
+    return value.front;
+}
+
+///
+unittest {
+    import std.exception: assertThrown, assertNotThrown;
+    "".orElseThrow(new Exception("hello from exception"))
+        .assertThrown!Exception;
+    "yo".orElseThrow(new Exception("hello from exception"))
+        .assertNotThrown!Exception;
 }

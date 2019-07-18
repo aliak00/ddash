@@ -33,7 +33,8 @@ $(TR
 $(TR
     $(TD $(DDOX_NAMED_REF ddash.utils.orelse, `orelse`))
     $(TD
-        $(DDOX_NAMED_REF utils.orelse.orElse, `orElse`)
+        $(DDOX_NAMED_REF utils.orelse.orElse, `orElse`)<br>
+        $(DDOX_NAMED_REF utils.truthy.orElseThrow, `orElseThrow`)<br>
         )
     $(TD)
     $(TD Null coallescing operator, but works on other ranges and other types as well)
