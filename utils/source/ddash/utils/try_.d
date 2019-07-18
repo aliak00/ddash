@@ -57,6 +57,11 @@ auto Try(alias fun)() {
     return a;
 }
 
+/// Ditto
+auto Try(alias fun, Arg)(auto ref Arg arg) {
+    return Try!(() => fun(arg));
+}
+
 /**
     The implementation of the `Try` that's returned by the type constructor
 */
@@ -165,6 +170,57 @@ template isTry(T) {
     assert(x == 0);
     assert(y == 0);
     assert(count == 1);
+}
+
+
+/**
+    Executes a try expression and returns the successful value of allows
+    you to intercept the exception and throws something else
+
+    Since:
+        0.19.0
+*/
+public auto orElseThrow(alias throwFun, T)(auto ref T tryImpl) if(isTry!T) {
+    import ddash.utils.match;
+    auto value = tryImpl.resolve;
+    alias ExType = typeof(throwFun(T.Expect.Unexpected.init));
+    if (!tryImpl.empty) {
+        return tryImpl.front;
+    } else {
+        throw match!(
+            (T.Expect.Expected _) => ExType.init,
+            (T.Expect.Unexpected u) => throwFun(u),
+        )(value);
+    }
+}
+
+@("orElseThrow should intercept exception and throw new one")
+@safe unittest {
+    import std.exception: assertThrown, collectExceptionMsg;
+
+    int f(int i) {
+        if (i % 2 == 0) { throw new Exception("even"); }
+        return i;
+    }
+    static class SomeException : Exception {
+        Exception other;
+        this(Exception other, string msg) {
+            super(msg);
+            this.other = other;
+        }
+    }
+
+    Try!(() => f(2))
+        .orElseThrow!((ex) => new SomeException(ex, "got it"))
+        .assertThrown!SomeException;
+
+    const message = Try!(() => f(3))
+        .orElseThrow!((ex) => new SomeException(ex, "first"))
+        .Try!((ret) => f(ret + 1))
+        .orElseThrow!((ex) => new SomeException(ex, "second"))
+        .collectExceptionMsg;
+
+    assert(message == "second");
 }
 
 // The code below requires the fix for bugzilla issue 5710

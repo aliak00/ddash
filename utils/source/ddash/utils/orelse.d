@@ -175,16 +175,18 @@ unittest {
     assert(c.orElse(b) == b);
 }
 
+public import ddash.utils.try_: orElseThrow;
+
 /**
     Same as orElse except it throws an error if it can't get the item
 
     Since:
         - 0.18.0
 */
-auto ref orElseThrow(Range, T)(auto ref Range value, lazy T throwValue)
+auto ref orElseThrow(alias throwFun, Range)(auto ref Range value)
 if (from.std.range.isInputRange!Range) {
     if (value.empty) {
-        throw throwValue();
+        throw throwFun();
     }
     return value.front;
 }
@@ -192,8 +194,8 @@ if (from.std.range.isInputRange!Range) {
 ///
 unittest {
     import std.exception: assertThrown, assertNotThrown;
-    "".orElseThrow(new Exception("hello from exception"))
+    "".orElseThrow!(() => new Exception("hello from exception"))
         .assertThrown!Exception;
-    "yo".orElseThrow(new Exception("hello from exception"))
+    "yo".orElseThrow!(() => new Exception("hello from exception"))
         .assertNotThrown!Exception;
 }
