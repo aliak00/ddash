@@ -3,8 +3,9 @@
 */
 module ddash.utils.orelse;
 
-import ddash.common;
 import std.typecons: Nullable;
+import ddash.common;
+import ddash.utils.errors;
 
 private enum isTypeconsNullable(T) = is(T : Nullable!U, U);
 private enum isNullable(T) = from.bolts.traits.isNullable!T && __traits(compiles, { if (T.init is null) {} });
@@ -175,27 +176,40 @@ unittest {
     assert(c.orElse(b) == b);
 }
 
-public import ddash.utils.try_: orElseThrow;
-
 /**
     Same as orElse except it throws an error if it can't get the item
 
     Since:
         - 0.18.0
 */
-auto ref orElseThrow(alias throwFun, Range)(auto ref Range value)
-if (from.std.range.isInputRange!Range) {
-    if (value.empty) {
-        throw throwFun();
+auto ref orElseThrow(alias makeException, Range)(auto ref Range value)
+if (from.std.range.isInputRange!Range && !from.ddash.utils.try_.isTry!Range) {
+    if (!value.empty) {
+        return value.front;
     }
-    return value.front;
+    throw () {
+        try {
+            return makeException();
+        } catch (Exception ex) {
+            throw new OrElseThrowException(ex);
+        }
+    }();
 }
 
 ///
+@("orElseThrow example")
 unittest {
     import std.exception: assertThrown, assertNotThrown;
     "".orElseThrow!(() => new Exception("hello from exception"))
         .assertThrown!Exception;
     "yo".orElseThrow!(() => new Exception("hello from exception"))
         .assertNotThrown!Exception;
+}
+
+@("should throw an OrElseException if the exception factory throws")
+@safe unittest {
+    import std.exception: assertThrown;
+    int boo() {throw new Exception("boo"); }
+    "".orElseThrow!(() { boo; return new Exception("huh"); } )
+        .assertThrown!OrElseThrowException;
 }

@@ -3,7 +3,8 @@
 */
 module ddash.utils.try_;
 
-import ddash.common.featureflags;
+import ddash.common;
+import ddash.utils.errors;
 
 ///
 @("module example")
@@ -172,29 +173,40 @@ template isTry(T) {
     assert(count == 1);
 }
 
-
 /**
-    Executes a try expression and returns the successful value of allows
-    you to intercept the exception and throws something else
+    Executes a try expression and if the try expression fails, it will call
+    the user-supplied throw function.
+
+    If the throw funciton fails, an `OrElseThrowException` will be called with
+    the original message and original exception placed inside.
 
     Since:
         0.19.0
 */
-public auto orElseThrow(alias throwFun, T)(auto ref T tryImpl) if(isTry!T) {
+public auto orElseThrow(alias makeException, T)(auto ref T tryImpl) if(isTry!T) {
     import ddash.utils.match;
     auto value = tryImpl.resolve;
-    alias ExType = typeof(throwFun(T.Expect.Unexpected.init));
+    alias ExType = typeof(makeException(T.Expect.Unexpected.init));
     if (!tryImpl.empty) {
         return tryImpl.front;
     } else {
-        throw match!(
-            (T.Expect.Expected _) => ExType.init,
-            (T.Expect.Unexpected u) => throwFun(u),
-        )(value);
+        throw () {
+            return match!(
+                (T.Expect.Expected _) => ExType.init,
+                (T.Expect.Unexpected u) {
+                    try {
+                        return makeException(u.value);
+                    } catch (Exception ex) {
+                        throw new OrElseThrowException(ex);
+                    }
+                },
+            )(value);
+        }();
     }
 }
 
-@("orElseThrow should intercept exception and throw new one")
+///
+@("orElseThrow example")
 @safe unittest {
     import std.exception: assertThrown, collectExceptionMsg;
 
@@ -221,6 +233,18 @@ public auto orElseThrow(alias throwFun, T)(auto ref T tryImpl) if(isTry!T) {
         .collectExceptionMsg;
 
     assert(message == "second");
+}
+
+@("should throw an OrElseException if the exception factory throws")
+unittest {
+    import std.exception: assertThrown;
+    int f(int i) {
+        if (i % 2 == 0) { throw new Exception("even"); }
+        return i;
+    }
+    Try!(() => f(2))
+        .orElseThrow!((ex) { f(2); return ex; } )
+        .assertThrown!OrElseThrowException;
 }
 
 // The code below requires the fix for bugzilla issue 5710
