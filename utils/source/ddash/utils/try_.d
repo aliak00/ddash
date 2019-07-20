@@ -190,18 +190,19 @@ public auto orElseThrow(alias makeException, T)(auto ref T tryImpl) if(isTry!T) 
     if (!tryImpl.empty) {
         return tryImpl.front;
     } else {
-        throw () {
+        Throwable getThrowable() {
             return match!(
                 (T.Expect.Expected _) => ExType.init,
                 (T.Expect.Unexpected u) {
                     try {
-                        return makeException(u.value);
+                        return cast(Throwable)makeException(u.value);
                     } catch (Exception ex) {
-                        throw new OrElseThrowException(ex);
+                        return cast(Throwable)new OrElseThrowException(ex);
                     }
                 },
             )(value);
-        }();
+        }
+        throw getThrowable;
     }
 }
 
