@@ -123,7 +123,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
         If you do not care about the value of the unexpected then you can compare
         against `anyUnexpected`
     */
-    bool opEquals(Expected rhs) const {
+    bool opEquals(const Expected rhs) const {
         if (!this.isExpected) return false;
         return sumtype.match!(
             (const Expected lhs) => lhs,
@@ -132,7 +132,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     }
 
     /// Ditto
-    bool opEquals(Unexpected rhs) const {
+    bool opEquals(const Unexpected rhs) const {
         if (this.isExpected) return false;
         return sumtype.match!(
             (const Expected _) => Unexpected.init,
@@ -141,7 +141,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     }
 
     /// Ditto
-    bool opEquals(AnyUnexpected) const {
+    bool opEquals(const AnyUnexpected) const {
         return !this.isExpected;
     }
 
@@ -187,4 +187,14 @@ unittest {
 template isExpect(T) {
     import std.traits: isInstanceOf;
     enum isExpect = isInstanceOf!(Expect, T);
+}
+
+@("Equality should work with types that have indirections")
+unittest {
+    alias E = Expect!(string[string], string[string]);
+    auto dict = ["hi" : "there"];
+    E a = dict;
+    E b = unexpected(dict);
+    assert(a == dict);
+    assert(b == unexpected(dict));
 }
