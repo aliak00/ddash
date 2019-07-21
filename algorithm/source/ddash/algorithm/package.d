@@ -220,5 +220,7 @@ public {
 
     // For convenience, import algorithms from phobos
     static import std.algorithm;
+    static import std.range;
     alias map = std.algorithm.map;
+    alias array = std.range.array;
 }
