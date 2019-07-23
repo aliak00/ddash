@@ -3,7 +3,7 @@
     "targetType": "library",
     "targetPath": "../bin",
     "dependencies": {
-        "optional": "~>0.17.0",
+        "optional": "~>0.18.0",
         "sumtype": "~>0.8.9"
     }
 }
