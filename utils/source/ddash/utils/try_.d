@@ -130,6 +130,17 @@ private struct TryImpl(alias fun) {
     }
 
     /**
+        Hook for orElse
+    */
+    auto hookOrElse(alias elseValue)() {
+        if (this.isSuccess) {
+            return this.front;
+        } else {
+            return elseValue();
+        }
+    }
+
+    /**
         This the the hook implementation for orElseThrow. The makeThrowable predicate
         is given the exception in this Try if there is one, and the result is throw.
         Or or the front of the try is returned
@@ -154,6 +165,35 @@ private struct TryImpl(alias fun) {
             }
             throw getThrowable;
         }
+    }
+
+    /**
+        Try match: Pass two lambdas to the match function. The first one handles the success case
+        and the second one handles the failure case.
+
+        Calling match will execute the try function if it has not already done so
+
+        Params:
+            tryInstance = the try value
+
+        Returns:
+            Whatever the 'handlers' return
+
+        Since:
+            0.12.0
+    */
+    auto hookMatch(handlers...)() {
+        import ddash.lang.types: isVoid;
+        auto value = resolve;
+        static if (isVoid!(Expect.Expected)) {
+            alias success = (t) => handlers[0]();
+        } else {
+            alias success = (t) => handlers[0](t);
+        }
+        return match!(
+            (ref Expect.Expected t) => success(t),
+            (ref Expect.Unexpected ex) => handlers[1](ex),
+        )(value);
     }
 }
 

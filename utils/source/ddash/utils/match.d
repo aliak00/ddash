@@ -9,14 +9,9 @@ import ddash.common;
     Tries to match handlers by deconstructing a type if it's deconstructable, and calling the appropriate
     handler for the deconstructed value. If it's not a deconstructible type then it just tries a first match
 
-    The currently supported deconstructible types are:
-
-    <li> Optional types
-    <li> Expect types
-    <li> Try types
-
-    You may not handle destructible types and non destructible types in the same list
-    of handlers. See example for usage details
+    Hooks:
+        `hookMatch`: if a type has this hook then it will be passed the handlers and whatever it returns
+        will be the return value
 
     Params:
         handlers = lambdas to the type handlers.
@@ -25,105 +20,31 @@ import ddash.common;
         - 0.12.0
 */
 template match(handlers...) {
-
-    import ddash.utils.expect: Expect, isExpect;
-    import ddash.utils.optional: Optional, isOptional;
-    import ddash.utils.try_: isTry;
-
-    /**
-        Expect match: Pass two lambdas to the match function. The first one handles the expected case
-        and the second one handles the unexpected case.
-
-        Params:
-            value = The expect value
-
-        Returns:
-            Whatever the 'handlers' return
-
-        Since:
-            0.12.0
-    */
-    auto match(T, E)(auto ref Expect!(T, E) value) {
-        static import sumtype;
-        return sumtype.match!handlers(value.data);
-    }
-
-    /**
-        Try match: Pass two lambdas to the match function. The first one handles the success case
-        and the second one handles the failure case.
-
-        Calling match will execute the try function if it has not already done so
-
-        Params:
-            tryInstance = the try value
-
-        Returns:
-            Whatever the 'handlers' return
-
-        Since:
-            0.12.0
-    */
-    auto match(T)(auto ref T tryInstance) if (isTry!T) {
-        import ddash.lang.types: isVoid;
-        import ddash.utils.expect;
-        auto value = tryInstance.resolve;
-        static if (isVoid!(T.Expect.Expected)) {
-            alias success = (t) => handlers[0]();
+    auto ref match(T)(auto ref T value) {
+        static if (from.std.traits.hasMember!(T, "hookMatch")) {
+            return value.hookMatch!handlers;
+        } else static if (from.ddash.utils.isOptional!T) {
+            static import optional;
+            return optional.match!handlers(value);
         } else {
-            alias success = (t) => handlers[0](t);
-        }
-        return .match!(
-            (ref T.Expect.Expected t) => success(t),
-            (ref T.Expect.Unexpected ex) => handlers[1](ex),
-        )(value);
-    }
-
-
-    /**
-        Optional match: Pass two lambdas to the match function. The first one handles the some case
-        and the second one handles the none case.
-
-        Params:
-            opt = The optional value
-
-        Returns:
-            Whatever the 'handlers' return
-
-        Since:
-            0.12.0
-    */
-    auto match(T)(inout auto ref Optional!T opt) {
-        static import optional;
-        return optional.match!handlers(opt);
-    }
-
-    /**
-        Non-deconstructible type match: Pass n lambdas as handlers and the first one that matches
-        the value type will be called.
-
-        Params:
-            value = Any non-desconstructible value
-
-        Returns:
-            Whatever the 'handlers' return
-
-        Since:
-            0.12.0
-    */
-    auto match(T)(inout auto ref T value) if (!isOptional!T && !isTry!T && !isExpect!T) {
-        import sumtype: canMatch;
-        size_t handlerIndex() pure {
-            size_t result = size_t.max;
-            static foreach (hid, handler; handlers) {
-                static if (canMatch!(handler, T)) {
-                    if (result == size_t.max) {
-                        result = hid;
+            import sumtype: canMatch;
+            size_t handlerIndex() pure {
+                size_t result = size_t.max;
+                static foreach (hid, handler; handlers) {
+                    static if (canMatch!(handler, T)) {
+                        if (result == size_t.max) {
+                            result = hid;
+                        }
                     }
                 }
+                return result;
             }
-            return result;
+            static assert(
+                handlerIndex != size_t.max,
+                "Type " ~ T.stringof ~ " cannot be matched on."
+            );
+            return handlers[handlerIndex](value);
         }
-        return handlers[handlerIndex](value);
     }
 }
 
