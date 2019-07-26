@@ -128,6 +128,33 @@ private struct TryImpl(alias fun) {
         resolve;
         _empty = true;
     }
+
+    /**
+        This the the hook implementation for orElseThrow. The makeThrowable predicate
+        is given the exception in this Try if there is one, and the result is throw.
+        Or or the front of the try is returned
+    */
+    auto hookOrElseThrow(alias makeThrowable)() {
+        auto value = this.resolve;
+        alias ExType = typeof(makeThrowable(Expect.Unexpected.init));
+        if (!this.empty) {
+            return this.front;
+        } else {
+            Throwable getThrowable() {
+                return match!(
+                    (Expect.Expected _) => ExType.init,
+                    (Expect.Unexpected u) {
+                        try {
+                            return cast(Throwable)makeThrowable(u.value);
+                        } catch (Exception ex) {
+                            return cast(Throwable)new OrElseThrowException(ex);
+                        }
+                    },
+                )(value);
+            }
+            throw getThrowable;
+        }
+    }
 }
 
 /**
@@ -173,42 +200,9 @@ template isTry(T) {
     assert(count == 1);
 }
 
-/**
-    Executes a try expression and if the try expression fails, it will call
-    the user-supplied throw function.
-
-    If the throw funciton fails, an `OrElseThrowException` will be called with
-    the original message and original exception placed inside.
-
-    Since:
-        0.19.0
-*/
-public auto orElseThrow(alias makeException, T)(auto ref T tryImpl) if(isTry!T) {
-    import ddash.utils.match;
-    auto value = tryImpl.resolve;
-    alias ExType = typeof(makeException(T.Expect.Unexpected.init));
-    if (!tryImpl.empty) {
-        return tryImpl.front;
-    } else {
-        Throwable getThrowable() {
-            return match!(
-                (T.Expect.Expected _) => ExType.init,
-                (T.Expect.Unexpected u) {
-                    try {
-                        return cast(Throwable)makeException(u.value);
-                    } catch (Exception ex) {
-                        return cast(Throwable)new OrElseThrowException(ex);
-                    }
-                },
-            )(value);
-        }
-        throw getThrowable;
-    }
-}
-
-///
-@("orElseThrow example")
+@("orElseThrow should be hooked")
 @safe unittest {
+    import ddash.utils: orElseThrow;
     import std.exception: assertThrown, collectExceptionMsg;
 
     int f(int i) {
@@ -239,10 +233,13 @@ public auto orElseThrow(alias makeException, T)(auto ref T tryImpl) if(isTry!T) 
 @("should throw an OrElseException if the exception factory throws")
 unittest {
     import std.exception: assertThrown;
+    import ddash.utils: orElseThrow;
+
     int f(int i) {
         if (i % 2 == 0) { throw new Exception("even"); }
         return i;
     }
+
     Try!(() => f(2))
         .orElseThrow!((ex) { f(2); return ex; } )
         .assertThrown!OrElseThrowException;
