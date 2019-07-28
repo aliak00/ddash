@@ -177,9 +177,9 @@ private auto compactBase(string member, alias pred = null, Range)(Range range) i
     alias E = ElementType!Range;
 
     static if (isNullType!pred) {
-        import bolts: isNullable;
+        import bolts: isNullTestable;
         static assert(
-            isNullable!E,
+            isNullTestable!E,
             "Cannot compact non-nullable type `" ~ E.stringof ~ "'",
         );
         alias fun = (a) => valueBy!member(a) !is null;
