@@ -7,7 +7,7 @@ module ddash.functional.trybind;
 @("module example")
 unittest {
     import std.algorithm: map, each;
-    import ddash.utils.match;
+    import ddash.utils: match;
 
     int f(int i) {
         if (i % 2 == 1) {

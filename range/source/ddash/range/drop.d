@@ -35,7 +35,6 @@ auto drop(Range)(Range range, size_t n = 1) if (from.std.range.isInputRange!Rang
 ///
 @("drop drops one")
 unittest {
-    import std.array;
     assert([1, 2, 3].drop.equal([2, 3]));
 }
 
@@ -60,7 +59,6 @@ auto dropRight(Range)(Range range, size_t n = 1) if (from.std.range.isBidirectio
 ///
 @("dropRight example")
 unittest {
-    import std.array;
     assert([1, 2, 3].dropRight.equal([1, 2]));
 }
 
@@ -87,7 +85,6 @@ auto dropWhile(alias pred, Range)(Range range) if (from.std.range.isInputRange!R
 ///
 @("dropWhile example")
 unittest {
-    import std.array;
     assert([1, 2, 3, 4].dropWhile!(a => a < 3).equal([3, 4]));
 }
 

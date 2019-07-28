@@ -119,10 +119,10 @@ auto concat(Values...)(Values values) if (from.bolts.traits.areCombinable!Values
         alias Rest = Values[1..$];
         // If head is a string start with a string, if it's a range start a chain, if it's a value create a range
         static if (isNarrowString!(Head)) {
-            auto link0 = values[0];
+            const link0 = values[0];
         } else {
             static if (isInputRange!(Head)) {
-                auto link0 = chain(values[0]);
+                const link0 = chain(values[0]);
             } else {
                 auto link0 = only(values[0]);
             }
@@ -164,16 +164,16 @@ auto concat(Values...)(Values values) if (from.bolts.traits.areCombinable!Values
 
 @("Different types")
 unittest {
-    import std.array;
+    import std.array: array;
 
-    int i = 1;
-    double d = 2.2;
-    char c = 'c';
+    const int i = 1;
+    const double d = 2.2;
+    const char c = 'c';
     string s = "oo";
 
-    auto a = concat(i, d, c, [i, i]).array;
+    const a = concat(i, d, c, [i, i]).array;
     assert(a == [i, d, c, i, i]);
-    static assert(is(typeof(a) == double[]));
+    static assert(is(typeof(a) == const double[]));
 
     import std.algorithm: filter;
 

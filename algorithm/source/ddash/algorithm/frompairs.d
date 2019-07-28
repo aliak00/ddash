@@ -6,7 +6,7 @@ module ddash.algorithm.frompairs;
 ///
 @("Module example")
 unittest {
-    import std.typecons;
+    import std.typecons: tuple;
     assert([tuple(1, 2), tuple(3, 4) ].fromPairs == [1: 2, 3: 4]);
 }
 
@@ -36,8 +36,8 @@ auto fromPairs(R1)(R1 r1) if (from.std.range.isInputRange!R1) {
         return r1.assocArray;
     } else {
         alias E = ElementType!R1;
-        import std.range;
-        import std.algorithm;
+        import std.range: front, popFront, empty, chunks;
+        import std.algorithm: fold;
         return r1.chunks(2).fold!((memo, pair) {
             auto k = pair.front;
             pair.popFront;
@@ -52,7 +52,7 @@ auto fromPairs(R1)(R1 r1) if (from.std.range.isInputRange!R1) {
 @("Works on pairs of elements")
 unittest {
     import std.algorithm: filter;
-    import std.typecons;
+    import std.typecons: tuple;
     assert([1, 2, 3].filter!"true".fromPairs == [1: 2]);
     assert([tuple(1, 2)].fromPairs == [1: 2]);
 }

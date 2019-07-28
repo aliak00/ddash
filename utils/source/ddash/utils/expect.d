@@ -28,7 +28,7 @@ module ddash.utils.expect;
 import std.variant;
 import ddash.common;
 
-struct AnyUnexpected {}
+private struct AnyUnexpected {}
 
 /**
     Can be used to compare for any unexpected, i.e. `Expected<U, V> == anyUnexpected`
@@ -62,7 +62,7 @@ auto unexpected(E)(E value) {
     You may also call `ddash.utils.match` on an Expect value.
 */
 struct Expect(T, E = Variant) if (!is(E == void)) {
-    import sumtype;
+    import sumtype: SumType, match;
     import ddash.lang: Void, isVoid;
 
     static if (isVoid!T) {
@@ -100,7 +100,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
 
     /// Create an `Expect` with an unexpected value
     static unexpected(V)(auto ref V value) if (is(E == Variant) || is(V : E)) {
-        // If E is a variant type than then we allow any V and just store it as a variant
+        // If E is a variant type then we allow any V and just store it as a variant
         static if (is(E == Variant) && !is(V == Variant)) {
             return Expect!(Expected, E)(Unexpected(Variant(value)));
         } else {
@@ -110,7 +110,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
 
     /// Returns true if the value is expected
     bool isExpected() const {
-        return sumtype.match!(
+        return match!(
             (const Expected _) => true,
             (const Unexpected _) => false,
         )(this.data);
@@ -125,7 +125,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     */
     bool opEquals(const Expected rhs) const {
         if (!this.isExpected) return false;
-        return sumtype.match!(
+        return match!(
             (const Expected lhs) => lhs,
             (const Unexpected _) => Expected.init,
         )(this.data) == rhs;
@@ -134,7 +134,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     /// Ditto
     bool opEquals(const Unexpected rhs) const {
         if (this.isExpected) return false;
-        return sumtype.match!(
+        return match!(
             (const Expected _) => Unexpected.init,
             (const Unexpected lhs) => lhs,
         )(this.data) == rhs;
@@ -148,7 +148,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
     /// Calls std.conv.to!string on T or E
     string toString() const {
         import std.conv: to;
-        return sumtype.match!(
+        return match!(
             (const Expected value) => "Expected(" ~ value.to!string ~ ")",
             (const Unexpected value) => "Unexpected(" ~ value.to!string ~ ")",
         )(this.data);
@@ -168,7 +168,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
             0.12.0
     */
     auto ref hookMatch(handlers...)() {
-        return sumtype.match!handlers(data);
+        return match!handlers(data);
     }
 }
 
@@ -210,8 +210,8 @@ template isExpect(T) {
 unittest {
     alias E = Expect!(string[string], string[string]);
     auto dict = ["hi" : "there"];
-    E a = dict;
-    E b = unexpected(dict);
+    const E a = dict;
+    const E b = unexpected(dict);
     assert(a == dict);
     assert(b == unexpected(dict));
 }

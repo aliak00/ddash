@@ -51,21 +51,19 @@ template match(handlers...) {
 ///
 @("match on Try, Expect, and Optional")
 unittest {
-    import ddash.utils.optional;
-    import ddash.utils.expect;
-    import ddash.utils.try_;
+    import ddash.utils: Try, some, Expect, Unexpected;
 
-    auto a = Try!(() => 3).match!(
+    const a = Try!(() => 3).match!(
         (int) => true,
         (Exception) => false,
     );
 
-    auto b = Expect!(int, int)(3).match!(
+    const b = Expect!(int, int)(3).match!(
         (int) => true,
         (Unexpected!int) => false,
     );
 
-    auto c = some(3).match!(
+    const c = some(3).match!(
         (int) => true,
         () => false,
     );
@@ -77,7 +75,8 @@ unittest {
 
 @("expect.match should work")
 unittest {
-    import ddash.utils.expect;
+    import std.meta: AliasSeq;
+    import ddash.utils: Expect, Unexpected;
 
     Expect!(int, string) even(int i) @nogc {
         if (i % 2 == 0) {
@@ -87,15 +86,13 @@ unittest {
         }
     }
 
-    import std.meta: AliasSeq;
-
     alias handlers = AliasSeq!(
         (int n) => n,
-        (Unexpected!string str) => -1,
+        (Unexpected!string _) => -1,
     );
 
-    auto a = even(1).match!handlers;
-    auto b = even(2).match!handlers;
+    const a = even(1).match!handlers;
+    const b = even(2).match!handlers;
 
     assert(a == -1);
     assert(b == 2);
@@ -103,7 +100,7 @@ unittest {
 
 @("try.match handles inner context frames")
 unittest {
-    import ddash.utils.try_;
+    import ddash.utils: Try;
     // Test that accesses context frames from outside the match function
     int i;
     int odd(int ii) {
@@ -113,16 +110,16 @@ unittest {
         return ii;
     }
 
-    auto g0 = () @trusted { return "g0"; } ();
+    const g0 = () @trusted { return "g0"; } ();
 
     import std.meta: AliasSeq;
     alias handlers = AliasSeq!(
-        (int v) => g0,
+        (int _) => g0,
         (Exception ex) => ex.msg,
     );
 
-    auto a = Try!(() => odd(1)).match!handlers;
-    auto b = Try!(() => odd(2)).match!handlers;
+    const a = Try!(() => odd(1)).match!handlers;
+    const b = Try!(() => odd(2)).match!handlers;
 
     assert(a == "g0");
     assert(b == "boo");
@@ -138,7 +135,7 @@ unittest {
         int a; int b;
     }
 
-    auto r0 = 3.match!(
+    const r0 = 3.match!(
         (string a) => false,
         (int a) => true,
         (int a) => false
@@ -146,10 +143,10 @@ unittest {
 
     assert(r0);
 
-    auto r1 = Foo().match!(
+    const r1 = Foo().match!(
         (a) => a.a + 10,
         (a) => a.x + 1,
-        (int b) => 10,
+        (int _) => 10,
     );
 
     assert(r1 == 1);

@@ -85,11 +85,11 @@ private struct Difference(string member, alias pred, R1, R2) {
         this.moveToNextElement;
     }
 
-    public bool empty() @property {
+    public @property bool empty() {
         import std.range: empty;
         return this.r1.empty;
     }
-    public auto front() @property {
+    public @property auto front() {
         import std.range: front;
         return this.r1.front;
     }

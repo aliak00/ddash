@@ -4,18 +4,16 @@ private import std.algorithm.comparison: equal;
 
 import ddash.common;
 
-bool equal(alias pred = null, T, U)(auto ref T lhs, auto ref U rhs)
-{
+package(ddash) bool equal(alias pred = null, T, U)(auto ref T lhs, auto ref U rhs) {
     return equalBase!("", pred)(lhs, rhs);
 }
 
-bool equalBy(string member, alias pred = null, T, U)(auto ref T lhs, auto ref U rhs)
-{
+package(ddash) bool equalBy(string member, alias pred = null, T, U)(auto ref T lhs, auto ref U rhs) {
     return equalBase!(member, pred)(lhs, rhs);
 }
 
 private bool equalBase(string member, alias pred = null, T, U)(auto ref T lhs, auto ref U rhs) {
-    import ddash.common.valueby;
+    import ddash.common.valueby: valueBy;
     import bolts.traits: isNullType, isUnaryOver, isBinaryOver;
 
     static if (isNullType!pred) {

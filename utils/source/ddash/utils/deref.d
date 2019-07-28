@@ -13,7 +13,7 @@ import ddash.common;
     Since:
         - 0.0.1
 */
-auto ref deref(T)(auto ref T t) if (from.std.traits.isPointer!T) {
+auto ref deref(T)(inout auto ref T t) if (from.std.traits.isPointer!T) {
     return *t;
 }
 
@@ -24,7 +24,7 @@ auto ref deref(T)(auto ref T t) if (from.std.range.isInputRange!T) {
 
 import std.typecons: Nullable;
 /// Ditto
-auto ref deref(T)(auto ref Nullable!T t) {
+auto ref deref(T)(inout auto ref Nullable!T t) {
     return t.get;
 }
 
@@ -32,8 +32,8 @@ auto ref deref(T)(auto ref Nullable!T t) {
 @("derefs different types")
 unittest {
     import std.typecons: nullable;
-    auto a = nullable(1);
-    auto b = new int(1);
+    const a = nullable(1);
+    const b = new int(1);
     auto c = [1];
 
     assert(a.deref == 1);

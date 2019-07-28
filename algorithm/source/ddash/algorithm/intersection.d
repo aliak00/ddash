@@ -71,11 +71,11 @@ private struct Intersection(alias pred, R1, R2) if (from.std.range.isInputRange!
         this.moveToNextElement;
     }
 
-    public bool empty() @property {
+    public @property bool empty() {
         import std.range: empty;
         return this.r1.empty || this.r2.empty;
     }
-    public auto front() @property {
+    public @property auto front() {
         import std.range: front;
         return this.r1.front;
     }

@@ -148,7 +148,7 @@ unittest {
 unittest {
     import std.algorithm: map;
     import std.conv: to;
-    auto a = [3].map!(to!string).orElse("");
+    static assert(__traits(compiles, { [3].map!(to!string).orElse(""); }));
 }
 
 @("should work with two ranges")

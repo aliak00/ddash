@@ -118,7 +118,7 @@ auto indexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from.std.
 ///
 @("indexOf example")
 unittest {
-    import ddash.utils.optional;
+    import ddash.utils: some, none;
     assert([1, 2, 1, 2].indexOf(2) == some(1));
     assert([1, 2, 1, 2].indexOf(2, 2) == some(3));
     assert([1, 2, 1, 2].indexOf(3) == none);
@@ -151,7 +151,7 @@ auto lastIndexOf(Range, T)(Range range, T value, size_t fromIndex = 0) if (from.
 ///
 @("lastIndexOf example")
 unittest {
-    import ddash.utils.optional;
+    import ddash.utils: some, none;
     assert([1, 2, 1, 2].indexOf(2) == some(1));
     assert([1, 2, 1, 2].indexOf(2, 2) == some(3));
     assert([1, 2, 1, 2].indexOf(3) == none);

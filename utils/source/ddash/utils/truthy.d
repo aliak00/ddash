@@ -23,7 +23,7 @@ unittest {
     assert( isTruthy(c));
 
     struct S {}
-    S s;
+    const S s;
     assert(!__traits(compiles, isTruthy(s)));
 }
 

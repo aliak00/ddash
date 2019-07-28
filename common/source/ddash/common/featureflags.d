@@ -1,5 +1,5 @@
 module ddash.common.featureflags;
 
-struct FeatureFlag {
+package(ddash) struct FeatureFlag {
     enum tryUntil = __VERSION__ > 2087L;
 }

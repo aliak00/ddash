@@ -11,7 +11,7 @@ import ddash.utils.errors;
 @safe unittest {
     import std.typecons: tuple;
     import std.algorithm: map, each;
-    import ddash.utils.match: match;
+    import ddash.utils: match;
 
     int f(int i) {
         if (i % 2 == 1) {
@@ -67,9 +67,9 @@ auto Try(alias fun, Arg)(auto ref Arg arg) {
     The implementation of the `Try` that's returned by the type constructor
 */
 private struct TryImpl(alias fun) {
-    static import ddash.utils.expect;
+    import ddash.utils: UExpect = Expect, unexpected;
     import ddash.lang.types: isVoid, Void;
-    import ddash.utils.optional;
+    import ddash.utils.optional: Optional;
     import ddash.utils.match;
 
     private bool _empty;
@@ -78,7 +78,7 @@ private struct TryImpl(alias fun) {
         return _empty;
     }
 
-    public alias Expect = ddash.utils.expect.Expect!(typeof(fun()), Exception);
+    public alias Expect = UExpect!(typeof(fun()), Exception);
     private Optional!Expect* result;
 
     public bool isSuccess() nothrow {
@@ -104,7 +104,7 @@ private struct TryImpl(alias fun) {
             }
             _empty = false;
         } catch (Exception ex) {
-            value = ddash.utils.expect.unexpected(ex);
+            value = unexpected(ex);
             _empty = true;
         }
         *result = value;
@@ -127,17 +127,6 @@ private struct TryImpl(alias fun) {
     public void popFront() nothrow {
         resolve;
         _empty = true;
-    }
-
-    /**
-        Hook for orElse
-    */
-    auto hookOrElse(alias elseValue)() {
-        if (this.isSuccess) {
-            return this.front;
-        } else {
-            return elseValue();
-        }
     }
 
     /**
@@ -210,7 +199,7 @@ template isTry(T) {
 
 @("Should convert Try to Optional")
 @safe unittest {
-    import ddash.utils.optional;
+    import ddash.utils: toOptional, some, none;
 
     int f(int i) {
         if (i % 2 == 1) {
@@ -232,8 +221,8 @@ template isTry(T) {
 
     auto a = Try!func;
     auto b = a;
-    auto x = a.front;
-    auto y = b.front;
+    const x = a.front;
+    const y = b.front;
     while (!b.empty) b.popFront;
     assert(x == 0);
     assert(y == 0);
@@ -334,15 +323,15 @@ static if (FeatureFlag.tryUntil) {
             return i.to!string;
         }
 
-        auto r0 = tryUntil(f(2), g(2)); // both succeed
+        const r0 = tryUntil(f(2), g(2)); // both succeed
         assert(r0.front == tuple(2, "2"));
 
-        auto r1 = tryUntil(f(1), g(2)); // first one fails
-        auto s1 = r1.match!((_) => "?", ex => ex.msg);
+        const r1 = tryUntil(f(1), g(2)); // first one fails
+        const s1 = r1.match!((_) => "?", ex => ex.msg);
         assert(s1 == "uneven int");
 
-        auto r2 = tryUntil(f(2), g(1)); // second one fails
-        auto s2 = r2.match!((_) => "?", ex => ex.msg);
+        const r2 = tryUntil(f(2), g(1)); // second one fails
+        const s2 = r2.match!((_) => "?", ex => ex.msg);
         assert(s2 == "uneven string");
     }
 

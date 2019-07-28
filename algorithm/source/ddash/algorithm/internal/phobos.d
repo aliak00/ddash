@@ -2,7 +2,7 @@ module ddash.algorithm.internal.phobos;
 
 import ddash.common;
 
-auto countUntil(alias pred = "a == b", Range, Values...)(Range haystack, Values needles) {
+package(ddash.algorithm) auto countUntil(alias pred = "a == b", Range, Values...)(Range haystack, Values needles) {
     import ddash.utils.optional: no, some;
     import std.algorithm: stdCountUntil = countUntil;
     auto result = stdCountUntil!(pred, Range, Values)(haystack, needles);

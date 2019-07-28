@@ -47,7 +47,7 @@ unittest {
 
     struct B { // sortable
         int i;
-        bool opCmp(B a) {
+        bool opCmp(B a) const {
             return i < a.i;
         }
     }
@@ -94,7 +94,7 @@ unittest {
 
     struct B { // sortable
         int i;
-        bool opCmp(B a) {
+        bool opCmp(B a) const {
             return i < a.i;
         }
     }
@@ -118,7 +118,7 @@ unittest {
 auto sortBy(string member, alias less = "a < b", Range)(Range range) {
     import std.algorithm: stdSort = sort;
     import std.functional: binaryFun;
-    import ddash.common.valueby;
+    import ddash.common.valueby: valueBy;
     return range.stdSort!((a, b) => binaryFun!less(valueBy!member(a), valueBy!member(b)));
 }
 

@@ -171,7 +171,7 @@ unittest {
 private auto compactBase(string member, alias pred = null, Range)(Range range) if (from.std.range.isInputRange!Range) {
     import std.algorithm: filter;
     import bolts: isNullType, isUnaryOver;
-    import ddash.common.valueby;
+    import ddash.common.valueby: valueBy;
     import std.range: ElementType;
 
     alias E = ElementType!Range;

@@ -15,7 +15,7 @@ unittest {
     // remove empty all the way down
     assert(arrayOfArrays.flattenDeep.equal([1, 2, 3, 4]));
 
-    import ddash.utils.optional;
+    import ddash.utils: Optional, some, no;
     assert([some(some(3)), no!(Optional!int), some(some(2))].flattenDeep.equal([3, 2]));
 }
 
@@ -51,7 +51,7 @@ unittest {
 
 @("Works on array of optionals")
 unittest {
-    import ddash.utils.optional;
+    import ddash.utils: Optional, some, no;
     assert([some(3), no!int, some(2)].flatten.equal([3, 2]));
     assert([some(some(3)), no!(Optional!int), some(some(2))].flatten.equal([some(3), some(2)]));
 }

@@ -9,7 +9,7 @@ module ddash.lang.capture;
 	import std.range: only;
     import std.algorithm: map;
     auto xs = only(1, 2, 3);
-    int a = 2, b = 3;
+    const a = 2, b = 3;
     xs.capture(a, b).map!(unpack!((x, a, b) => x * a * b));
 }
 

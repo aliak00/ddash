@@ -47,7 +47,6 @@ unittest {
     It must be a function over two arguments that returns a boolean if they are equal
 */
 struct eq(alias pred) {
-    alias eq = pred;
     static auto ref opCall(T, U)(auto ref T a, auto ref U b) { return pred(a, b); }
 }
 
@@ -66,7 +65,6 @@ template isEq(alias pred) {
     It must be a function over two arguments that returns a boolean if arg1 < argb
 */
 struct lt(alias pred) {
-    alias lt = pred;
     static auto ref opCall(T, U)(auto ref T a, auto ref U b) { return pred(a, b); }
 }
 

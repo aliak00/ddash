@@ -27,7 +27,6 @@ import ddash.common;
 string stringifySeparatedBy(Range, S)(Range range, S sep) if (from.std.traits.isSomeString!S) {
     import std.algorithm: joiner, map;
     import std.conv: to;
-    import std.array;
     return range
         .map!(to!string)
         .joiner(sep)
@@ -53,6 +52,6 @@ string stringifySeparatedBy(Range, S)(Range range, S sep) if (from.std.traits.is
         0.0.1
 */
 string stringify(Values...)(Values values) {
-    import ddash.algorithm.concat;
+    import ddash.algorithm: concat;
     return concat(values).stringifySeparatedBy("");
 }

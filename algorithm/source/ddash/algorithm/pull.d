@@ -79,7 +79,7 @@ if (from.std.range.isInputRange!Range)
 private ref pullBase(string member, alias pred, Range, Values...)(return ref Range range, Values values) {
     import std.algorithm: canFind, remove;
     import ddash.algorithm: concat, equal;
-    import ddash.common.valueby;
+    import ddash.common.valueby: valueBy;
     // elements from values will be lhs
     alias reverseEqual = (a, b) => equal!pred(b, a);
     auto unwanted = concat(values);
@@ -151,8 +151,7 @@ if (from.std.range.isInputRange!Range
     )
 ) {
     import std.algorithm: sort;
-    import std.range: empty, popFront, front, isInputRange;
-    import std.array;
+    import std.range: empty, popFront, front, isInputRange, array;
     import ddash.algorithm: concat;
     import bolts.range: isSortedRange;
 

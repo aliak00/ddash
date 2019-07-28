@@ -7,7 +7,7 @@ module ddash.range.nth;
 @("module example")
 unittest {
     import ddash.utils.optional: some, none;
-    import ddash.range.front;
+    import ddash.range: frontOr;
     assert([1, 2].nth(1).frontOr(1) == 2);
     assert((int[]).init.nth(1).frontOr(9) == 9);
 

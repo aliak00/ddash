@@ -178,7 +178,7 @@ unittest {
 unittest {
     static struct S {
         string str;
-        string f() {
+        string f() const {
             string g(string a) {
                 import std.algorithm: startsWith;
                 return a.cond!(
@@ -189,8 +189,8 @@ unittest {
             return g(this.str);
         }
     }
-    auto a = S("alo");
-    auto b = S("bye");
+    const a = S("alo");
+    const b = S("bye");
     assert(a.f == "aloalo");
     assert(b.f == "bye");
 }

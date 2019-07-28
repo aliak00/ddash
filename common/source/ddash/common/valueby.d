@@ -20,7 +20,7 @@ unittest {
         private int y = 7;
     }
 
-    A a;
+    const A a;
     assert(a.valueBy!("x") == 3);
     assert(a.valueBy == a);
     assert(!__traits(compiles, a.valueBy!"y"));

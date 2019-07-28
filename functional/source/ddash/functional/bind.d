@@ -48,7 +48,7 @@ template bind(alias pred, BoundArgs...) {
             return ret ~ ")";
         }
 
-        import ddash.common.ctstrings;
+        import ddash.common.ctstrings: CTStrings;
 
         static assert(
             __traits(compiles, mixin(generateCall)),
