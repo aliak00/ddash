@@ -13,8 +13,7 @@ public import optional:
     some,
     none,
     no,
-    unwrap,
-    dispatch,
     isOptional,
-    toNullable
+    toNullable,
+    oc
     ;

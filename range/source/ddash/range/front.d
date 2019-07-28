@@ -111,10 +111,10 @@ unittest {
 }
 
 ///
-@("maybeFront with optional.dispatch")
+@("maybeFront with optional chaining")
 unittest {
     import std.algorithm: filter;
-    import ddash.utils.optional: some, none, dispatch;
+    import ddash.utils.optional: some, none, oc;
     struct A {
         int x;
         int f() {
@@ -122,6 +122,6 @@ unittest {
         }
     }
 
-    assert((A[]).init.maybeFront.dispatch.f == none);
-    assert([A(3), A(5)].maybeFront.dispatch.f == some(3));
+    assert((A[]).init.maybeFront.oc.f == none);
+    assert([A(3), A(5)].maybeFront.oc.f == some(3));
 }

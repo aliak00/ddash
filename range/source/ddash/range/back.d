@@ -111,10 +111,10 @@ unittest {
 }
 
 ///
-@("maybeBack with optional.dispatch")
+@("maybeBack with optional chaining")
 unittest {
     import std.algorithm: filter;
-    import ddash.utils.optional: some, none, dispatch;
+    import ddash.utils.optional: some, none, oc;
     struct A {
         int x;
         int f() {
@@ -122,6 +122,6 @@ unittest {
         }
     }
 
-    assert((A[]).init.maybeBack.dispatch.f == none);
-    assert([A(3), A(5)].maybeBack.dispatch.f == some(5));
+    assert((A[]).init.maybeBack.oc.f == none);
+    assert([A(3), A(5)].maybeBack.oc.f == some(5));
 }
