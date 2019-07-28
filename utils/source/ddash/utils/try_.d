@@ -229,50 +229,50 @@ template isTry(T) {
     assert(count == 1);
 }
 
-@("orElseThrow should be hooked")
-@safe unittest {
-    import ddash.utils: orElseThrow;
-    import std.exception: assertThrown, collectExceptionMsg;
+// @("orElseThrow should be hooked")
+// @safe unittest {
+//     import ddash.utils: frontOrThrow;
+//     import std.exception: assertThrown, collectExceptionMsg;
 
-    int f(int i) {
-        if (i % 2 == 0) { throw new Exception("even"); }
-        return i;
-    }
-    static class SomeException : Exception {
-        Exception other;
-        this(Exception other, string msg) {
-            super(msg);
-            this.other = other;
-        }
-    }
+//     int f(int i) {
+//         if (i % 2 == 0) { throw new Exception("even"); }
+//         return i;
+//     }
+//     static class SomeException : Exception {
+//         Exception other;
+//         this(Exception other, string msg) {
+//             super(msg);
+//             this.other = other;
+//         }
+//     }
 
-    Try!(() => f(2))
-        .orElseThrow!((ex) => new SomeException(ex, "got it"))
-        .assertThrown!SomeException;
+//     Try!(() => f(2))
+//         .orElseThrow!((ex) => new SomeException(ex, "got it"))
+//         .assertThrown!SomeException;
 
-    const message = Try!(() => f(3))
-        .orElseThrow!((ex) => new SomeException(ex, "first"))
-        .Try!((ret) => f(ret + 1))
-        .orElseThrow!((ex) => new SomeException(ex, "second"))
-        .collectExceptionMsg;
+//     const message = Try!(() => f(3))
+//         .orElseThrow!((ex) => new SomeException(ex, "first"))
+//         .Try!((ret) => f(ret + 1))
+//         .orElseThrow!((ex) => new SomeException(ex, "second"))
+//         .collectExceptionMsg;
 
-    assert(message == "second");
-}
+//     assert(message == "second");
+// }
 
-@("should throw an OrElseException if the exception factory throws")
-unittest {
-    import std.exception: assertThrown;
-    import ddash.utils: orElseThrow;
+// @("should throw an OrElseException if the exception factory throws")
+// unittest {
+//     import std.exception: assertThrown;
+//     import ddash.utils: orElseThrow;
 
-    int f(int i) {
-        if (i % 2 == 0) { throw new Exception("even"); }
-        return i;
-    }
+//     int f(int i) {
+//         if (i % 2 == 0) { throw new Exception("even"); }
+//         return i;
+//     }
 
-    Try!(() => f(2))
-        .orElseThrow!((ex) { f(2); return ex; } )
-        .assertThrown!OrElseThrowException;
-}
+//     Try!(() => f(2))
+//         .orElseThrow!((ex) { f(2); return ex; } )
+//         .assertThrown!OrElseThrowException;
+// }
 
 // The code below requires the fix for bugzilla issue 5710
 static if (FeatureFlag.tryUntil) {
