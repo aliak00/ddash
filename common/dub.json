@@ -3,7 +3,7 @@
     "targetType": "library",
     "targetPath": "../bin",
     "dependencies": {
-        "optional": "*",
+        "optional": "~>1.0.0-beta",
         "sumtype": "*"
     }
 }

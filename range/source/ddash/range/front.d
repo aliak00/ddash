@@ -16,8 +16,9 @@ unittest {
 }
 
 import ddash.common;
+static import optional;
 
-alias frontOrThrow = from.optional.frontOrThrow;
+alias frontOrThrow = optional.frontOrThrow;
 
 /**
     Retrieves the front of a range or a default value
@@ -30,7 +31,7 @@ alias frontOrThrow = from.optional.frontOrThrow;
     Since:
         - 0.0.1
 */
-alias frontOr = from.optional.frontOr;
+alias frontOr = optional.frontOr;
 
 ///
 @("frontOr example")
