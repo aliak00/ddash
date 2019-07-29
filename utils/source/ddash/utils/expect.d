@@ -159,7 +159,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
         and the second one handles the unexpected case.
 
         Params:
-            value = The expect value
+            handlers = user supplied handlers
 
         Returns:
             Whatever the 'handlers' return

@@ -18,15 +18,20 @@ unittest {
 import ddash.common;
 static import optional;
 
+/**
+    Retrieves the front of a range or throws
+
+    See dub package optional.frontOrTHrow
+
+    Since:
+        - 0.23.0
+*/
 alias frontOrThrow = optional.frontOrThrow;
 
 /**
     Retrieves the front of a range or a default value
 
-    Params:
-        range = the range to get the front of
-        defaultValue = the lazy var to return if the range has no front
-        defaultFunc = function to call that returns a value if there is no front
+    See dub package optional.frontOr
 
     Since:
         - 0.0.1
