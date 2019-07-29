@@ -1,7 +1,7 @@
 /**
-    Gets the value or else something else
+    Gets the value if valid or the other value
 */
-module ddash.utils.orelse;
+module ddash.utils.or;
 
 import ddash.common;
 static import optional;
@@ -9,10 +9,6 @@ static import optional;
 /**
     Retrieves the value if it is a valid value else it will retrieve the `elseValue`. Instead of
     an `elseValue`, an `elsePred` can be passed to create the value functionally
-
-    Hooks:
-        hookOrElse`: if your type has a function called `hookOrElse` and it takes a single predicate,
-        then that function will be called with the elsePred instead
 
     Params:
         value = the value to resolve

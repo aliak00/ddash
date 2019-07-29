@@ -31,10 +31,9 @@ $(TR
     $(TD Represents "truthiness")
     )
 $(TR
-    $(TD $(DDOX_NAMED_REF ddash.utils.orelse, `orelse`))
+    $(TD $(DDOX_NAMED_REF ddash.utils.or, `or`))
     $(TD
-        $(DDOX_NAMED_REF utils.orelse.orElse, `orElse`)<br>
-        $(DDOX_NAMED_REF utils.truthy.orElseThrow, `orElseThrow`)<br>
+        $(DDOX_NAMED_REF utils.or.or, `or`)
         )
     $(TD)
     $(TD Null coallescing operator, but works on other ranges and other types as well)
@@ -86,7 +85,7 @@ public  {
     import ddash.utils.truthy;
     import ddash.utils.deref;
     import ddash.utils.expect;
-    import ddash.utils.orelse;
+    import ddash.utils.or;
     import ddash.utils.slice;
     import ddash.utils.optional;
     import ddash.utils.match;

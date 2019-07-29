@@ -4,7 +4,6 @@
 module ddash.utils.try_;
 
 import ddash.common;
-import ddash.utils.errors;
 
 ///
 @("module example")
@@ -130,33 +129,6 @@ private struct TryImpl(alias fun) {
     }
 
     /**
-        This the the hook implementation for orElseThrow. The makeThrowable predicate
-        is given the exception in this Try if there is one, and the result is throw.
-        Or or the front of the try is returned
-    */
-    auto hookOrElseThrow(alias makeThrowable)() {
-        auto value = this.resolve;
-        alias ExType = typeof(makeThrowable(Expect.Unexpected.init));
-        if (!this.empty) {
-            return this.front;
-        } else {
-            Throwable getThrowable() {
-                return match!(
-                    (Expect.Expected _) => ExType.init,
-                    (Expect.Unexpected u) {
-                        try {
-                            return cast(Throwable)makeThrowable(u.value);
-                        } catch (Exception ex) {
-                            return cast(Throwable)new OrElseThrowException(ex);
-                        }
-                    },
-                )(value);
-            }
-            throw getThrowable;
-        }
-    }
-
-    /**
         Try match: Pass two lambdas to the match function. The first one handles the success case
         and the second one handles the failure case.
 
@@ -229,50 +201,90 @@ template isTry(T) {
     assert(count == 1);
 }
 
-// @("orElseThrow should be hooked")
-// @safe unittest {
-//     import ddash.utils: frontOrThrow;
-//     import std.exception: assertThrown, collectExceptionMsg;
+/**
+    This exception is thrown by frontOrRethrow if the exception maker throws
+*/
+@safe class FrontOrRethrowException : Exception {
+    private Exception _cause;
+    @property const(Exception) cause() const {
+        return _cause;
+    }
+    private this(Exception e, string file = __FILE__, size_t line = __LINE__) {
+        super("frontOrRethrow makeThrowable threw an exception", file, line);
+        this._cause = e;
+    }
+}
 
-//     int f(int i) {
-//         if (i % 2 == 0) { throw new Exception("even"); }
-//         return i;
-//     }
-//     static class SomeException : Exception {
-//         Exception other;
-//         this(Exception other, string msg) {
-//             super(msg);
-//             this.other = other;
-//         }
-//     }
+/**
+    This the the hook implementation for orElseThrow. The makeThrowable predicate
+    is given the exception in this Try if there is one, and the result is throw.
+    Or or the front of the try is returned
+*/
+auto frontOrRethrow(alias makeThrowable, T)(auto ref T tryInstance, string file = __FILE__, size_t line = __LINE__) @safe if (isTry!T) {
+    auto value = tryInstance.resolve;
+    alias ExType = typeof(makeThrowable(T.Expect.Unexpected.init));
+    if (!tryInstance.empty) {
+        return tryInstance.front;
+    } else {
+        Throwable getThrowable() {
+            import ddash.utils.match;
+            return match!(
+                (T.Expect.Expected _) => ExType.init,
+                (T.Expect.Unexpected u) {
+                    try {
+                        return cast(Throwable)makeThrowable(u.value);
+                    } catch (Exception ex) {
+                        return cast(Throwable)new FrontOrRethrowException(ex, file, line);
+                    }
+                },
+            )(value);
+        }
+        throw getThrowable;
+    }
+}
 
-//     Try!(() => f(2))
-//         .orElseThrow!((ex) => new SomeException(ex, "got it"))
-//         .assertThrown!SomeException;
+@("orElseThrow should be hooked")
+@safe unittest {
+    import std.exception: assertThrown, collectExceptionMsg;
 
-//     const message = Try!(() => f(3))
-//         .orElseThrow!((ex) => new SomeException(ex, "first"))
-//         .Try!((ret) => f(ret + 1))
-//         .orElseThrow!((ex) => new SomeException(ex, "second"))
-//         .collectExceptionMsg;
+    int f(int i) {
+        if (i % 2 == 0) { throw new Exception("even"); }
+        return i;
+    }
+    static class SomeException : Exception {
+        Exception other;
+        this(Exception other, string msg) {
+            super(msg);
+            this.other = other;
+        }
+    }
 
-//     assert(message == "second");
-// }
+    Try!(() => f(2))
+        .frontOrRethrow!((ex) => new SomeException(ex, "got it"))
+        .assertThrown!SomeException;
 
-// @("should throw an OrElseException if the exception factory throws")
-// unittest {
-//     import std.exception: assertThrown;
-//     import ddash.utils: orElseThrow;
+    const message = Try!(() => f(3))
+        .frontOrRethrow!((ex) => new SomeException(ex, "first"))
+        .Try!((ret) => f(ret + 1))
+        .frontOrRethrow!((ex) => new SomeException(ex, "second"))
+        .collectExceptionMsg;
 
-//     int f(int i) {
-//         if (i % 2 == 0) { throw new Exception("even"); }
-//         return i;
-//     }
+    assert(message == "second");
+}
 
-//     Try!(() => f(2))
-//         .orElseThrow!((ex) { f(2); return ex; } )
-//         .assertThrown!OrElseThrowException;
-// }
+@("should throw an OrElseException if the exception factory throws")
+@safe unittest {
+    import std.exception: assertThrown;
+
+    int f(int i) {
+        if (i % 2 == 0) { throw new Exception("even"); }
+        return i;
+    }
+
+    Try!(() => f(2))
+        .frontOrRethrow!((ex) { f(2); return ex; } )
+        .assertThrown!FrontOrRethrowException;
+}
 
 // The code below requires the fix for bugzilla issue 5710
 static if (FeatureFlag.tryUntil) {

@@ -28,6 +28,7 @@ $(TR
     $(TD $(DDOX_NAMED_REF ddash.range.front, `front`))
     $(TD
         $(DDOX_NAMED_REF range.front.frontOr, `frontOr`)<br>
+        $(DDOX_NAMED_REF range.front.frontOrThrow, `frontOrThrow`)<br>
         $(DDOX_NAMED_REF range.front.withFront, `withFront`)<br>
         $(DDOX_NAMED_REF range.front.maybeFront, `maybeFront`)<br>
         )

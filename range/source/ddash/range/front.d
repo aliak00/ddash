@@ -17,6 +17,8 @@ unittest {
 
 import ddash.common;
 
+alias frontOrThrow = from.optional.frontOrThrow;
+
 /**
     Retrieves the front of a range or a default value
 
