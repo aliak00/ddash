@@ -153,23 +153,6 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
             (const Unexpected value) => "Unexpected(" ~ value.to!string ~ ")",
         )(this.data);
     }
-
-    /**
-        Expect match: Pass two lambdas to the match function. The first one handles the expected case
-        and the second one handles the unexpected case.
-
-        Params:
-            handlers = user supplied handlers
-
-        Returns:
-            Whatever the 'handlers' return
-
-        Since:
-            0.12.0
-    */
-    auto ref hookMatch(handlers...)() {
-        return match!handlers(data);
-    }
 }
 
 ///
