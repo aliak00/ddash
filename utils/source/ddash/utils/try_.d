@@ -97,13 +97,13 @@ private struct TryImpl(alias fun) {
         try {
             static if (isVoid!(Expect.Expected)) {
                 fun();
-                value = Void();
+                value = Expect(Void());
             } else {
-                value = fun();
+                value = Expect(fun());
             }
             _empty = false;
         } catch (Exception ex) {
-            value = unexpected(ex);
+            value = Expect(unexpected(ex));
             _empty = true;
         }
         *result = value;
