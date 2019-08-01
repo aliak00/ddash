@@ -41,6 +41,25 @@
             ]
         },
         {
+            "name": "unittest-safe",
+            "buildType": "unittest",
+            "sourcePaths": [
+                "./algorithm/",
+                "./functional/",
+                "./utils/",
+                "./range/",
+                "./lang/",
+                "./common/"
+            ],
+            "dependencies": {
+                "silly": "*"
+            },
+            "importPaths": [
+                "."
+            ],
+            "dflags": ["-dip1000", "-dip25"]
+        },
+        {
             "name": "benchmark",
             "targetType": "executable",
             "sourcePaths": [

@@ -13,6 +13,12 @@
             }
         },
         {
+            "label": "test-ldc-safe",
+            "type": "shell",
+            "command": "dub test --compiler=ldc2 -c unittest-safe",
+            "group": "test"
+        },
+        {
             "label": "benchmark",
             "type": "shell",
             "command": "dub run --config=benchmark --compiler=ldc2"
