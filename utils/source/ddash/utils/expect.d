@@ -40,7 +40,6 @@ immutable anyUnexpected = AnyUnexpected();
 */
 struct Unexpected(E) if (!is(E == AnyUnexpected)) {
     E value = E.init;
-    alias value this;
 }
 
 /**
@@ -150,7 +149,7 @@ struct Expect(T, E = Variant) if (!is(E == void)) {
         import std.conv: to;
         return smatch!(
             (const Expected value) => "Expected(" ~ value.to!string ~ ")",
-            (const Unexpected value) => "Unexpected(" ~ value.to!string ~ ")",
+            (const Unexpected value) => "Unexpected(" ~ value.value.to!string ~ ")",
         )(this.data);
     }
 }
@@ -174,6 +173,7 @@ unittest {
 
 @("toString prints corret type")
 unittest {
+    import std.stdio: writeln;
     assert(Expect!int.expected(10).toString == "Expected(10)");
     assert(Expect!(int, int).unexpected(11).toString == "Unexpected(11)");
 }

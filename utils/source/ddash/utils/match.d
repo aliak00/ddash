@@ -67,7 +67,7 @@ template match(handlers...) {
         }
         return .match!(
             (ref T.Expect.Expected t) => success(t),
-            (ref T.Expect.Unexpected ex) => handlers[1](ex),
+            (ref T.Expect.Unexpected ex) => handlers[1](ex.value),
         )(value);
     }
 

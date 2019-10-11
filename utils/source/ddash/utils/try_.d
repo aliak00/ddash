@@ -88,26 +88,29 @@ private struct TryImpl(alias fun) {
         )(value);
     }
 
-    package(ddash) Expect resolve() nothrow {
+    package(ddash) Expect resolve() nothrow @safe {
         assert(result, "result must never be null");
         if (!result.empty) {
             return result.front;
         }
-        Expect value;
+        // If either value of Expect is a reference type or has indirections, then assigning
+        // to it is not safe. So, since we know that this is the first assignment to the
+        // Expect, we mark it trusted, but we leave the calls to fun() outside the trusted
+        // blocks incase that is a system call.
         try {
             static if (isVoid!(Expect.Expected)) {
                 fun();
-                value = Expect(Void());
+                () @trusted { *result = Expect(Void()); } ();
             } else {
-                value = Expect(fun());
+                auto val = fun();
+                () @trusted { *result = Expect(val); } ();
             }
             _empty = false;
         } catch (Exception ex) {
-            value = Expect(unexpected(ex));
+            () @trusted { *result = Expect(unexpected(ex)); } ();
             _empty = true;
         }
-        *result = value;
-        return value;
+        return result.front;
     }
 
     public @property Expect.Expected front() nothrow {
@@ -191,9 +194,9 @@ template isTry(T) {
     is given the exception in this Try if there is one, and the result is throw.
     Or or the front of the try is returned
 */
-auto frontOrRethrow(alias makeThrowable, T)(auto ref T tryInstance, string file = __FILE__, size_t line = __LINE__) @safe if (isTry!T) {
+auto frontOrRethrow(alias makeThrowable, T)(auto ref T tryInstance, string file = __FILE__, size_t line = __LINE__) if (isTry!T) {
     auto value = tryInstance.resolve;
-    alias ExType = typeof(makeThrowable(T.Expect.Unexpected.init));
+    alias ExType = typeof(makeThrowable(T.Expect.Unexpected.init.value));
     if (!tryInstance.empty) {
         return tryInstance.front;
     } else {
@@ -306,14 +309,14 @@ static if (FeatureFlag.tryUntil) {
             return i.to!string;
         }
 
-        const r0 = tryUntil(f(2), g(2)); // both succeed
+        auto r0 = tryUntil(f(2), g(2)); // both succeed
         assert(r0.front == tuple(2, "2"));
 
-        const r1 = tryUntil(f(1), g(2)); // first one fails
+        auto r1 = tryUntil(f(1), g(2)); // first one fails
         const s1 = r1.match!((_) => "?", ex => ex.msg);
         assert(s1 == "uneven int");
 
-        const r2 = tryUntil(f(2), g(1)); // second one fails
+        auto r2 = tryUntil(f(2), g(1)); // second one fails
         const s2 = r2.match!((_) => "?", ex => ex.msg);
         assert(s2 == "uneven string");
     }
