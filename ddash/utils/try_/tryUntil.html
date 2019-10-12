@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Function tryUntil</title>
+		<link rel="stylesheet" type="text/css" href="../../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">ddash
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../ddash/algorithm.html">algorithm</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/compact.html">compact</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/concat.html">concat</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/difference.html">difference</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/equal.html">equal</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/fill.html">fill</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/flatmap.html">flatmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/flatten.html">flatten</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/frompairs.html">frompairs</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/index.html">index</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/intersection.html">intersection</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/pull.html">pull</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/remove.html">remove</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/reverse.html">reverse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/sort.html">sort</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/stringify.html">stringify</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/zip.html">zip</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../ddash/functional.html">functional</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/functional/bind.html">bind</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/functional/cond.html">cond</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/functional/pred.html">pred</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/functional/trybind.html">trybind</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../ddash/lang.html">lang</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/capture.html">capture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/destruct.html">destruct</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/from.html">from</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/string.html">string</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/types.html">types</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../ddash/range.html">range</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/back.html">back</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/chunk.html">chunk</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/drop.html">drop</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/front.html">front</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/nth.html">nth</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/slicing.html">slicing</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../ddash/utils.html">utils</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/deref.html">deref</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/expect.html">expect</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/flag.html">flag</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/match.html">match</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/optional.html">optional</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/or.html">or</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/slice.html">slice</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/truthy.html">truthy</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../../ddash/utils/try_.html">try_</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Function tryUntil</h1><p>tryUntil will take a number of lazy expressions and execute them in order
+        until they all pass or one of them fails
+</p>
+			<div class="prototype">
+				<code class="lang-d">
+					<div class="single-prototype">
+			<span class="kwd">auto </span><span class="kwd">auto</span> <span class="pln">tryUntil</span>(T...)
+			<span class="pun">(</span>
+			<br/>
+			&nbsp;&nbsp;<span class="kwd">lazy </span><span class="pln">T</span> <span class="pln">expressions</span>
+			<br/>
+			<span class="pun">)</span><span class="pun">;</span>
+			<br/>
+			<br/>
+			<span class="kwd">auto </span><span class="kwd">auto</span> <span class="pln">tryUntil</span>(T...)
+			<span class="pun">(</span>
+			<br/>
+			&nbsp;&nbsp;<span class="kwd">lazy </span><span class="pln">T</span> <span class="pln">expressions</span>
+			<br/>
+			<span class="pun">)</span><span class="pun">;</span>
+					</div>
+				</code>
+			</div>
+			<section></section>
+
+			<section><h2>Parameters</h2>
+<table><col class="caption"><tr><th>Name</th><th>Description</th></tr>
+<tr><td id="expressions">expressions</td><td> a variadic list of expressions</td></tr>
+</table>
+</section>
+<section><h2>Returns</h2>
+<p>The result is a <code class="lang-d"><a href="../../../ddash/utils/try_/Try.html"><span class="typ">Try</span></a></code> that either has a success value of a <code class="lang-d"><span class="typ">Tuple</span></code> of results
+            or an <code class="lang-d"><span class="typ">Exception</span></code>
+</p>
+</section>
+<section><h2>Since</h2>
+<p>0.16.0
+</p>
+</section>
+<section><h2>Example</h2>
+
+<pre class="code"><code class="lang-d"><span class="kwd">import </span><span class="pln">std<wbr/></span><span class="pun">.</span><span class="pln">conv</span><span class="pun">: </span><span class="pln">to</span><span class="pun">;
+</span><span class="kwd">import </span><span class="pln">std<wbr/></span><span class="pun">.</span><span class="pln">algorithm</span><span class="pun">: </span><span class="pln">map</span><span class="pun">, </span><span class="pln">each</span><span class="pun">;
+</span><span class="kwd">import </span><span class="pln">std<wbr/></span><span class="pun">.</span><span class="pln">typecons</span><span class="pun">: </span><span class="typ">Tuple</span><span class="pun">, </span><span class="pln">tuple</span><span class="pun">;
+</span><span class="kwd">import <a href="../../../ddash/utils/match.html"></span><span class="pln">ddash<wbr/></span><span class="pun">.</span><span class="pln">utils<wbr/></span><span class="pun">.</span><span class="pln">match</span></a><span class="pun">: </span><span class="pln">match</span><span class="pun">;
+
+</span><span class="typ">int </span><span class="pln">f</span><span class="pun">(</span><span class="typ">int </span><span class="pln">i</span><span class="pun">) {
+    </span><span class="kwd">if </span><span class="pun">(</span><span class="pln">i </span><span class="pun">% </span><span class="lit">2 </span><span class="pun">== </span><span class="lit">1</span><span class="pun">) {
+        </span><span class="kwd">throw new </span><span class="typ">Exception</span><span class="pun">(</span><span class="str">"uneven int"</span><span class="pun">);
+    }
+    </span><span class="kwd">return </span><span class="pln">i</span><span class="pun">;
+}
+</span><span class="typ">string </span><span class="pln">g</span><span class="pun">(</span><span class="typ">int </span><span class="pln">i</span><span class="pun">) {
+    </span><span class="kwd">if </span><span class="pun">(</span><span class="pln">i </span><span class="pun">% </span><span class="lit">2 </span><span class="pun">== </span><span class="lit">1</span><span class="pun">) {
+        </span><span class="kwd">throw new </span><span class="typ">Exception</span><span class="pun">(</span><span class="str">"uneven string"</span><span class="pun">);
+    }
+    </span><span class="kwd">return </span><span class="pln">i<wbr/></span><span class="pun">.</span><span class="pln">to</span><span class="pun">!</span><span class="typ">string</span><span class="pun">;
+}
+
+</span><span class="kwd">auto </span><span class="pln">r0 </span><span class="pun">= </span><span class="pln">tryUntil</span><span class="pun">(</span><span class="pln">f</span><span class="pun">(</span><span class="lit">2</span><span class="pun">), </span><span class="pln">g</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)); </span><span class="com">// both succeed
+</span><span class="kwd">assert</span><span class="pun">(</span><span class="pln">r0<wbr/></span><span class="pun">.</span><span class="pln">front </span><span class="pun">== </span><span class="pln">tuple</span><span class="pun">(</span><span class="lit">2</span><span class="pun">, </span><span class="str">"2"</span><span class="pun">));
+
+</span><span class="kwd">auto </span><span class="pln">r1 </span><span class="pun">= </span><span class="pln">tryUntil</span><span class="pun">(</span><span class="pln">f</span><span class="pun">(</span><span class="lit">1</span><span class="pun">), </span><span class="pln">g</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)); </span><span class="com">// first one fails
+</span><span class="kwd">const </span><span class="pln">s1 </span><span class="pun">= </span><span class="pln">r1<wbr/></span><span class="pun">.</span><span class="pln">match</span><span class="pun">!((</span><span class="pln">_</span><span class="pun">) =&gt; </span><span class="str">"?"</span><span class="pun">, </span><span class="pln">ex </span><span class="pun">=&gt; </span><span class="pln">ex<wbr/></span><span class="pun">.</span><span class="pln">msg</span><span class="pun">);
+</span><span class="kwd">assert</span><span class="pun">(</span><span class="pln">s1 </span><span class="pun">== </span><span class="str">"uneven int"</span><span class="pun">);
+
+</span><span class="kwd">auto </span><span class="pln">r2 </span><span class="pun">= </span><span class="pln">tryUntil</span><span class="pun">(</span><span class="pln">f</span><span class="pun">(</span><span class="lit">2</span><span class="pun">), </span><span class="pln">g</span><span class="pun">(</span><span class="lit">1</span><span class="pun">)); </span><span class="com">// second one fails
+</span><span class="kwd">const </span><span class="pln">s2 </span><span class="pun">= </span><span class="pln">r2<wbr/></span><span class="pun">.</span><span class="pln">match</span><span class="pun">!((</span><span class="pln">_</span><span class="pun">) =&gt; </span><span class="str">"?"</span><span class="pun">, </span><span class="pln">ex </span><span class="pun">=&gt; </span><span class="pln">ex<wbr/></span><span class="pun">.</span><span class="pln">msg</span><span class="pun">);
+</span><span class="kwd">assert</span><span class="pun">(</span><span class="pln">s2 </span><span class="pun">== </span><span class="str">"uneven string"</span><span class="pun">);
+
+</span></code></pre>
+</section>
+
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

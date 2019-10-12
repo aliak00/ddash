@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Module ddash.utils</title>
+		<link rel="stylesheet" type="text/css" href="../styles/ddox.css"/>
+		<link rel="stylesheet" href="../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../scripts/jquery.js">/**/</script><script type="text/javascript" src="../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">ddash
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/algorithm.html">algorithm</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/compact.html">compact</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/concat.html">concat</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/difference.html">difference</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/equal.html">equal</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/fill.html">fill</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/flatmap.html">flatmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/flatten.html">flatten</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/frompairs.html">frompairs</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/index.html">index</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/intersection.html">intersection</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/pull.html">pull</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/remove.html">remove</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/reverse.html">reverse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/sort.html">sort</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/stringify.html">stringify</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/zip.html">zip</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/functional.html">functional</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/bind.html">bind</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/cond.html">cond</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/pred.html">pred</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/trybind.html">trybind</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/lang.html">lang</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/capture.html">capture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/destruct.html">destruct</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/from.html">from</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/string.html">string</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/types.html">types</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/range.html">range</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/back.html">back</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/chunk.html">chunk</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/drop.html">drop</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/front.html">front</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/nth.html">nth</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/slicing.html">slicing</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package selected">
+						<a href="../ddash/utils.html">utils</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/deref.html">deref</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/expect.html">expect</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/flag.html">flag</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/match.html">match</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/optional.html">optional</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/or.html">or</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/slice.html">slice</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/truthy.html">truthy</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/try_.html">try_</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Module ddash.utils</h1><p>General utilities
+</p><section><p><table><tr><th>Module</th> <th>Functions</th> <th>Properties</th> <th>Description</th></tr>
+<tr>    <td><a href="../ddash/utils/deref.html" title="ddash.utils.deref"><code class="lang-d"><span class="pln">deref</span></code></a></td>
+    <td>        <a href="../ddash/utils/deref/deref.html" title="utils.deref.deref"><code class="lang-d"><span class="pln">deref</span></code></a>
+        </td>
+    <td></td>
+    <td>Derefences a "thing", could be a pointer, range, or others</td>
+    </tr>
+<tr>    <td><a href="../ddash/utils/expect.html" title="ddash.utils.expect"><code class="lang-d"><span class="pln">expect</span></code></a></td>
+    <td>        <code class="lang-d"><span class="typ">Expected</span></code><br>
+        <a href="../ddash/utils/expect/Unexpected.html" title="utils.expect.Unexpected"><code class="lang-d"><span class="typ">Unexpected</span></code></a><br>
+        <code class="lang-d"><span class="pln">expected</span></code><br>
+        </td>
+    <td></td>
+    <td>Represents a result that has a value or something unexpected</td>
+    </tr>
+<tr>    <td><a href="../ddash/utils/truthy.html" title="ddash.utils.truthy"><code class="lang-d"><span class="pln">truthy</span></code></a></td>
+    <td>        <a href="../ddash/utils/truthy/isTruthy.html" title="utils.truthy.isTruthy"><code class="lang-d"><span class="pln">isTruthy</span></code></a><br>
+        <a href="../ddash/utils/truthy/isFalsey.html" title="utils.truthy.isFalsey"><code class="lang-d"><span class="pln">isFalsey</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Represents "truthiness"</td>
+    </tr>
+<tr>    <td><a href="../ddash/utils/or.html" title="ddash.utils.or"><code class="lang-d"><span class="pln">or</span></code></a></td>
+    <td>        <a href="../ddash/utils/or/or.html" title="utils.or.or"><code class="lang-d"><span class="pln">or</span></code></a>
+        </td>
+    <td></td>
+    <td>Null coallescing operator, but works on other ranges and other types as well</td>
+    </tr>
+<tr>    <td><a href="../ddash/utils/slice.html" title="ddash.utils.slice"><code class="lang-d"><span class="pln">slice</span></code></a></td>
+    <td>        <a href="../ddash/utils/slice/slice.html" title="utils.slice.slice"><code class="lang-d"><span class="pln">slice</span></code></a>
+        </td>
+    <td></td>
+    <td>Slices arrays, ranges, and PODs</td>
+    </tr>
+<tr>    <td><a href="../ddash/utils/optional.html" title="ddash.utils.optional"><code class="lang-d"><span class="pln">optional</span></code></a></td>
+    <td></td>
+    <td></td>
+    <td>Imports a subset of https://optional.dub.pm</td>
+    </tr>
+<tr>    <td><a href="../ddash/utils/match.html" title="ddash.utils.match"><code class="lang-d"><span class="pln">match</span></code></a></td>
+    <td>        <a href="../ddash/utils/match/match.html" title="utils.match.match"><code class="lang-d"><span class="pln">match</span></code></a>
+        </td>
+    <td></td>
+    <td>matches on expects, trys, and optionals</td>
+    </tr>
+<tr>    <td><a href="../ddash/utils/try_.html" title="ddash.utils.try_"><code class="lang-d"><span class="pln">try_</span></code></a></td>
+    <td>        <a href="../ddash/utils/try_/Try.html" title="ddash.utils.try_.Try"><code class="lang-d"><span class="typ">Try</span></code></a><br>
+        <a href="../ddash/utils/try_/tryUntil.html" title="ddash.utils.try_.tryUntil"><code class="lang-d"><span class="pln">tryUntil</span></code></a><br>
+        </td>
+    <td></td>
+    <td>utilities to deal with throwing functions</td>
+    </tr>
+<tr>    <td><a href="../ddash/utils/flag.html" title="ddash.utils.flag"><code class="lang-d"><span class="typ">Flag</span></code></a></td>
+    <td>        <a href="../ddash/utils/flag/Flag.html" title="utils.flag.Flag"><code class="lang-d"><span class="typ">Flag</span></code></a>
+        </td>
+    <td></td>
+    <td>better than std.typecons.Flag</td>
+    </tr>
+</table>
+</p>
+</section>
+
+			<section></section>
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

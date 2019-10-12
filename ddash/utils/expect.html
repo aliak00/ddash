@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Module ddash.utils.expect</title>
+		<link rel="stylesheet" type="text/css" href="../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">ddash
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../ddash/algorithm.html">algorithm</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/compact.html">compact</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/concat.html">concat</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/difference.html">difference</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/equal.html">equal</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/fill.html">fill</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/flatmap.html">flatmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/flatten.html">flatten</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/frompairs.html">frompairs</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/index.html">index</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/intersection.html">intersection</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/pull.html">pull</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/remove.html">remove</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/reverse.html">reverse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/sort.html">sort</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/stringify.html">stringify</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/zip.html">zip</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../ddash/functional.html">functional</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/functional/bind.html">bind</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/functional/cond.html">cond</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/functional/pred.html">pred</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/functional/trybind.html">trybind</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../ddash/lang.html">lang</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/capture.html">capture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/destruct.html">destruct</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/from.html">from</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/string.html">string</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/types.html">types</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../ddash/range.html">range</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/back.html">back</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/chunk.html">chunk</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/drop.html">drop</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/front.html">front</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/nth.html">nth</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/slicing.html">slicing</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../ddash/utils.html">utils</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/deref.html">deref</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../ddash/utils/expect.html">expect</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/flag.html">flag</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/match.html">match</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/optional.html">optional</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/or.html">or</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/slice.html">slice</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/truthy.html">truthy</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/try_.html">try_</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Module ddash.utils.expect</h1><p>An expected result type
+</p><section><p>Useful for functions that are expected to return something but could result in an error. The expected type is parameterized over
+    two types - the expected one and the <code class="lang-d"><a href="../../ddash/utils/expect/Unexpected.html"><span class="typ">Unexpected</span></a></code>. When you want to assign an unexpected type you must use the provided type constructor
+    to make an unexpected assignment.
+</p>
+
+<p>    An <code class="lang-d"><a href="../../ddash/utils/expect/Expect.html"><span class="typ">Expect</span></a><span class="pun">!(</span><span class="pln">T</span><span class="pun">, </span><span class="pln">U</span><span class="pun">)</span></code> type also has a static <code class="lang-d"><span class="pln">expected</span></code> and <code class="lang-d"><a href="../../ddash/utils/expect/unexpected.html"><span class="pln">unexpected</span></a></code> methods to create the given <code class="lang-d"><a href="../../ddash/utils/expect/Expect.html"><span class="typ">Expect</span></a><span class="pun">!(</span><span class="pln">U</span><span class="pun">, </span><span class="pln">V</span><span class="pun">)</span></code> with the desired
+    state.
+</p>
+</section>
+
+			<section><section><h2>Example</h2>
+
+<pre class="code"><code class="lang-d"><a href="../../ddash/utils/expect/Expect.html"><span class="typ">Expect</span></a><span class="pun">!(</span><span class="typ">int</span><span class="pun">, </span><span class="typ">string</span><span class="pun">) </span><span class="pln">even</span><span class="pun">(</span><span class="typ">int </span><span class="pln">i</span><span class="pun">) </span><span class="kwd">@nogc </span><span class="pun">{
+    </span><span class="kwd">if </span><span class="pun">(</span><span class="pln">i </span><span class="pun">% </span><span class="lit">2 </span><span class="pun">== </span><span class="lit">0</span><span class="pun">) {
+        </span><span class="kwd">return typeof</span><span class="pun">(</span><span class="kwd">return</span><span class="pun">)<wbr/>.</span><span class="pln">expected</span><span class="pun">(</span><span class="pln">i</span><span class="pun">);
+    } </span><span class="kwd">else </span><span class="pun">{
+        </span><span class="kwd">return typeof</span><span class="pun">(</span><span class="kwd">return</span><span class="pun">)<a href="../../ddash/utils/expect/unexpected.html"></span><wbr/><span class="pun">.</span><span class="pln">unexpected</span></a><span class="pun">(</span><span class="str">"not even"</span><span class="pun">);
+    }
+}
+
+</span><span class="kwd">assert</span><span class="pun">(</span><span class="pln">even</span><span class="pun">(</span><span class="lit">1</span><span class="pun">) == <a href="../../ddash/utils/expect/unexpected.html"></span><span class="pln">unexpected</span></a><span class="pun">(</span><span class="str">"not even"</span><span class="pun">));
+</span><span class="kwd">assert</span><span class="pun">(</span><span class="pln">even</span><span class="pun">(</span><span class="lit">2</span><span class="pun">) == </span><span class="lit">2</span><span class="pun">);
+</span></code></pre>
+</section>
+</section>
+			<section>
+				<h2>Functions</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="unexpected" class="public" href="../../ddash/utils/expect/unexpected.html">unexpected</a><span class="decoration">(value)</span>
+							</code>
+						</td>
+						<td>Type constructor for an Unexpected value. This must be used when assigning or passing
+    an unexpected type to an <code class="lang-d"><a href="../../ddash/utils/expect/Expect.html"><span class="typ">Expect</span></a><span class="pun">!(</span><span class="pln">T</span><span class="pun">, </span><span class="pln">U</span><span class="pun">)</span></code>
+</td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h2>Structs</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="Expect" class="public" href="../../ddash/utils/expect/Expect.html">Expect</a>
+							</code>
+						</td>
+						<td>The expect type can be used to return values and error codes from functions
+</td>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="Unexpected" class="public" href="../../ddash/utils/expect/Unexpected.html">Unexpected</a>
+							</code>
+						</td>
+						<td>Used in the <code class="lang-d"><a href="../../ddash/utils/expect/Expect.html"><span class="typ">Expect</span></a></code> type to denote an unexpected value
+</td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h2>Manifest constants</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Type</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a id="isExpect" class="public" href="../../ddash/utils/expect/isExpect.html">
+								<code>isExpect</code>
+							</a>
+						</td>
+						<td>
+						</td>
+						<td>Evaluates to true if <code class="lang-d"><span class="pln">T</span></code> is a <code class="lang-d"><a href="../../ddash/utils/expect/Expect.html"><span class="typ">Expect</span></a></code> type
+</td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h2>Global variables</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Type</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a id="anyUnexpected" class="public" href="../../ddash/utils/expect/anyUnexpected.html">
+								<code>anyUnexpected</code>
+							</a>
+						</td>
+						<td>
+							<code class="prettyprint lang-d"><span class="kwd">immutable</span><span class="pun">(</span><span class="pln">ddash<wbr/></span><span class="pun">.</span><span class="pln">utils<wbr/></span><span class="pun">.</span><span class="pln">expect<wbr/></span><span class="pun">.</span><span class="typ">AnyUnexpected</span><span class="pun">)</span></code>
+						</td>
+						<td>Can be used to compare for any unexpected, i.e. <code class="lang-d"><span class="typ">Expected</span><span class="pun">&lt;</span><span class="pln">U</span><span class="pun">, </span><span class="pln">V</span><span class="pun">&gt; == </span><span class="pln">anyUnexpected</span></code>
+</td>
+					</tr>
+				</table>
+			</section>
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

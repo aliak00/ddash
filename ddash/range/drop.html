@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Module ddash.range.drop</title>
+		<link rel="stylesheet" type="text/css" href="../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">ddash
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../ddash/algorithm.html">algorithm</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/compact.html">compact</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/concat.html">concat</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/difference.html">difference</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/equal.html">equal</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/fill.html">fill</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/flatmap.html">flatmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/flatten.html">flatten</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/frompairs.html">frompairs</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/index.html">index</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/intersection.html">intersection</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/pull.html">pull</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/remove.html">remove</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/reverse.html">reverse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/sort.html">sort</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/stringify.html">stringify</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/algorithm/zip.html">zip</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../ddash/functional.html">functional</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/functional/bind.html">bind</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/functional/cond.html">cond</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/functional/pred.html">pred</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/functional/trybind.html">trybind</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../ddash/lang.html">lang</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/capture.html">capture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/destruct.html">destruct</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/from.html">from</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/string.html">string</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/lang/types.html">types</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../ddash/range.html">range</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/back.html">back</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/chunk.html">chunk</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../ddash/range/drop.html">drop</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/front.html">front</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/nth.html">nth</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/range/slicing.html">slicing</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../ddash/utils.html">utils</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/deref.html">deref</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/expect.html">expect</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/flag.html">flag</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/match.html">match</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/optional.html">optional</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/or.html">or</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/slice.html">slice</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/truthy.html">truthy</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../ddash/utils/try_.html">try_</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Module ddash.range.drop</h1><p>Drops elements from a range
+</p>
+			<section><section><h2>Example</h2>
+
+<pre class="code"><code class="lang-d"><span class="kwd">assert</span><span class="pun">([</span><span class="lit">1</span><span class="pun">, </span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">]<wbr/>.</span><span class="pln">drop<wbr/></span><span class="pun">.</span><span class="pln">array </span><span class="pun">== [</span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">]);
+</span><span class="kwd">assert</span><span class="pun">([</span><span class="lit">1</span><span class="pun">, </span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">]<wbr/>.</span><span class="pln">dropRight<wbr/></span><span class="pun">.</span><span class="pln">array </span><span class="pun">== [</span><span class="lit">1</span><span class="pun">, </span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">]);
+</span><span class="kwd">assert</span><span class="pun">([</span><span class="lit">1</span><span class="pun">, </span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">]<a href="../../ddash/range/drop/dropWhile.html"></span><wbr/><span class="pun">.</span><span class="pln">dropWhile</span></a><span class="pun">!(</span><span class="pln">a </span><span class="pun">=&gt; </span><span class="pln">a </span><span class="pun">&lt; </span><span class="lit">3</span><span class="pun">)<wbr/>.</span><span class="pln">array </span><span class="pun">== [</span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">]);
+</span><span class="kwd">assert</span><span class="pun">([</span><span class="lit">1</span><span class="pun">, </span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">]<a href="../../ddash/range/drop/dropRightWhile.html"></span><wbr/><span class="pun">.</span><span class="pln">dropRightWhile</span></a><span class="pun">!(</span><span class="pln">a </span><span class="pun">=&gt; </span><span class="pln">a </span><span class="pun">&gt; </span><span class="lit">2</span><span class="pun">)<wbr/>.</span><span class="pln">equal</span><span class="pun">([</span><span class="lit">1</span><span class="pun">, </span><span class="lit">2</span><span class="pun">]));
+
+</span></code></pre>
+</section>
+</section>
+			<section>
+				<h2>Functions</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="drop" class="public" href="../../ddash/range/drop/drop.html">drop</a><span class="decoration">(range, n)</span>
+							</code>
+						</td>
+						<td>Drops n elements from beginning of range
+</td>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="dropRight" class="public" href="../../ddash/range/drop/dropRight.html">dropRight</a><span class="decoration">(range, n)</span>
+							</code>
+						</td>
+						<td>Drops n elements from end of range
+</td>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="dropRightWhile" class="public" href="../../ddash/range/drop/dropRightWhile.html">dropRightWhile</a><span class="decoration">(range)</span>
+							</code>
+						</td>
+						<td>Drops elements from end of range while predicate is true
+</td>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="dropWhile" class="public" href="../../ddash/range/drop/dropWhile.html">dropWhile</a><span class="decoration">(range)</span>
+							</code>
+						</td>
+						<td>Drops elements from beginnig of range while predicate is true
+</td>
+					</tr>
+				</table>
+			</section>
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

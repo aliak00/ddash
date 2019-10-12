@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>API documentation</title>
+		<link rel="stylesheet" type="text/css" href="./styles/ddox.css"/>
+		<link rel="stylesheet" href="./prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="./scripts/jquery.js">/**/</script><script type="text/javascript" src="./scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="./symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "./";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">ddash
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="./ddash/algorithm.html">algorithm</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/compact.html">compact</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/concat.html">concat</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/difference.html">difference</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/equal.html">equal</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/fill.html">fill</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/flatmap.html">flatmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/flatten.html">flatten</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/frompairs.html">frompairs</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/index.html">index</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/intersection.html">intersection</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/pull.html">pull</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/remove.html">remove</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/reverse.html">reverse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/sort.html">sort</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/stringify.html">stringify</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/algorithm/zip.html">zip</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="./ddash/functional.html">functional</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="./ddash/functional/bind.html">bind</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/functional/cond.html">cond</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/functional/pred.html">pred</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/functional/trybind.html">trybind</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="./ddash/lang.html">lang</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="./ddash/lang/capture.html">capture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/lang/destruct.html">destruct</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/lang/from.html">from</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/lang/string.html">string</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/lang/types.html">types</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="./ddash/range.html">range</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="./ddash/range/back.html">back</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/range/chunk.html">chunk</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/range/drop.html">drop</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/range/front.html">front</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/range/nth.html">nth</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/range/slicing.html">slicing</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="./ddash/utils.html">utils</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="./ddash/utils/deref.html">deref</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/utils/expect.html">expect</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/utils/flag.html">flag</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/utils/match.html">match</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/utils/optional.html">optional</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/utils/or.html">or</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/utils/slice.html">slice</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/utils/truthy.html">truthy</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="./ddash/utils/try_.html">try_</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>API documentation</h1>
+			<table>
+				<col class="caption"/>
+				<tr>
+					<th>Module</th><th>Description</th>
+				</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/compact.html">ddash.algorithm.compact</a>
+				</td>
+				<td>
+					Compacts a range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/concat.html">ddash.algorithm.concat</a>
+				</td>
+				<td>
+					Create a new range concatenating input range/value with any additional ranges and/or values.
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/difference.html">ddash.algorithm.difference</a>
+				</td>
+				<td>
+					Creates a range of values not included in the other given ranges.
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/equal.html">ddash.algorithm.equal</a>
+				</td>
+				<td>
+					Tells you if two things are equal
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/fill.html">ddash.algorithm.fill</a>
+				</td>
+				<td>
+					Assigns value to each element of input range range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/flatmap.html">ddash.algorithm.flatmap</a>
+				</td>
+				<td>
+					Flatmaps a range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/flatten.html">ddash.algorithm.flatten</a>
+				</td>
+				<td>
+					Flattens a range one level deep by removing non truthy values.
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/frompairs.html">ddash.algorithm.frompairs</a>
+				</td>
+				<td>
+					Returns a newly allocated associative array from pairs
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/index.html">ddash.algorithm.index</a>
+				</td>
+				<td>
+					Returns an <code class="lang-d"><span class="pln">optional</span></code> index of an element.
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/intersection.html">ddash.algorithm.intersection</a>
+				</td>
+				<td>
+					Creates a range of unique values that are included in all given ranges
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/pull.html">ddash.algorithm.pull</a>
+				</td>
+				<td>
+					Removes elements from a range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/remove.html">ddash.algorithm.remove</a>
+				</td>
+				<td>
+					Removes elements from a range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/reverse.html">ddash.algorithm.reverse</a>
+				</td>
+				<td>
+					Reverses the range by mutating it
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/sort.html">ddash.algorithm.sort</a>
+				</td>
+				<td>
+					sorts stuff
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/stringify.html">ddash.algorithm.stringify</a>
+				</td>
+				<td>
+					Converts all elements in range into a string separated by separator.
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm/zip.html">ddash.algorithm.zip</a>
+				</td>
+				<td>
+					Zips up ranges up together
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/functional/bind.html">ddash.functional.bind</a>
+				</td>
+				<td>
+					Takes a function and binds arguments to it
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/functional/cond.html">ddash.functional.cond</a>
+				</td>
+				<td>
+					Create a function that encapsulates if/else-if/else logic
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/functional/pred.html">ddash.functional.pred</a>
+				</td>
+				<td>
+					Contains types that determine the semantics of predicates
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/functional/trybind.html">ddash.functional.trybind</a>
+				</td>
+				<td>
+					Bind a function to a Try
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/lang/capture.html">ddash.lang.capture</a>
+				</td>
+				<td>
+					Capture variables with value semantics, useful in nogc code
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/lang/destruct.html">ddash.lang.destruct</a>
+				</td>
+				<td>
+					Destructures objects
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/lang/from.html">ddash.lang.from</a>
+				</td>
+				<td>
+					Imports <code class="lang-d"><span class="pln">bolts<wbr/></span><span class="pun">.</span><span class="pln">from</span></code> from the bolts package.
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/lang/string.html">ddash.lang.string</a>
+				</td>
+				<td>
+					Languages level tools that work on strings
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/lang/types.html">ddash.lang.types</a>
+				</td>
+				<td>
+					Contains useful data types that provide static information
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/range/back.html">ddash.range.back</a>
+				</td>
+				<td>
+					Provides methods for accessing the back of a range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/range/chunk.html">ddash.range.chunk</a>
+				</td>
+				<td>
+					Creates a range consisting of chunks of another range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/range/drop.html">ddash.range.drop</a>
+				</td>
+				<td>
+					Drops elements from a range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/range/front.html">ddash.range.front</a>
+				</td>
+				<td>
+					Provides methods for accessing the front of a range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/range/nth.html">ddash.range.nth</a>
+				</td>
+				<td>
+					Gets the element at index n of a range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/range/slicing.html">ddash.range.slicing</a>
+				</td>
+				<td>
+					Returns a slice of a range
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils/deref.html">ddash.utils.deref</a>
+				</td>
+				<td>
+					Dereferences an object depending on its type
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils/expect.html">ddash.utils.expect</a>
+				</td>
+				<td>
+					An expected result type
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils/flag.html">ddash.utils.flag</a>
+				</td>
+				<td>
+					Like std.typecons.Flag but without strings
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils/match.html">ddash.utils.match</a>
+				</td>
+				<td>
+					Matches on types that could be deconstructible
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils/optional.html">ddash.utils.optional</a>
+				</td>
+				<td>
+					Just imports the needed symbols from the optional package on code.dlang.
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils/or.html">ddash.utils.or</a>
+				</td>
+				<td>
+					Gets the value if valid or the other value
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils/slice.html">ddash.utils.slice</a>
+				</td>
+				<td>
+					Creates a slice out of arbitrary data
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils/truthy.html">ddash.utils.truthy</a>
+				</td>
+				<td>
+					Truthy values: so not any of <code class="lang-d"><span class="kwd">false</span></code>, <code class="lang-d"><span class="kwd">null</span></code>, <code class="lang-d"><span class="lit">0</span></code>, <code class="lang-d"><span class="str">""</span></code>, <code class="lang-d"><span class="pln">none</span></code>, and <code class="lang-d"><span class="typ">NaN</span></code>.
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils/try_.html">ddash.utils.try_</a>
+				</td>
+				<td>
+					Try utiltity that turns an exception-throwing function in to a ranged result
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/algorithm.html">ddash.algorithm</a>
+				</td>
+				<td>
+					Contains a number of algorithms that operate on sequences. These sequences can be:
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/functional.html">ddash.functional</a>
+				</td>
+				<td>
+					Functional utilities
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/lang.html">ddash.lang</a>
+				</td>
+				<td>
+					This module contains work around for language shortcommings
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/range.html">ddash.range</a>
+				</td>
+				<td>
+					Contains range utilities
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./ddash/utils.html">ddash.utils</a>
+				</td>
+				<td>
+					General utilities
+
+				</td>
+			</tr>
+			</table>
+			<footer>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

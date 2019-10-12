@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Module ddash.algorithm</title>
+		<link rel="stylesheet" type="text/css" href="../styles/ddox.css"/>
+		<link rel="stylesheet" href="../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../scripts/jquery.js">/**/</script><script type="text/javascript" src="../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">ddash
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package selected">
+						<a href="../ddash/algorithm.html">algorithm</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/compact.html">compact</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/concat.html">concat</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/difference.html">difference</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/equal.html">equal</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/fill.html">fill</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/flatmap.html">flatmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/flatten.html">flatten</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/frompairs.html">frompairs</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/index.html">index</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/intersection.html">intersection</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/pull.html">pull</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/remove.html">remove</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/reverse.html">reverse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/sort.html">sort</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/stringify.html">stringify</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/zip.html">zip</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/functional.html">functional</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/bind.html">bind</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/cond.html">cond</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/pred.html">pred</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/trybind.html">trybind</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/lang.html">lang</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/capture.html">capture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/destruct.html">destruct</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/from.html">from</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/string.html">string</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/types.html">types</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/range.html">range</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/back.html">back</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/chunk.html">chunk</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/drop.html">drop</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/front.html">front</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/nth.html">nth</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/slicing.html">slicing</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/utils.html">utils</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/deref.html">deref</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/expect.html">expect</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/flag.html">flag</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/match.html">match</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/optional.html">optional</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/or.html">or</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/slice.html">slice</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/truthy.html">truthy</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/try_.html">try_</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Module ddash.algorithm</h1><p>Contains a number of algorithms that operate on sequences. These sequences can be:
+</p><section><p><li><a href="https://dlang.org/spec/template.html#variadic-templates">value sequences</a>:
+</p>
+<pre class="code"><code class="lang-d"><span class="kwd">assert</span><span class="pun">(</span><span class="lit">1<wbr/></span><span class="pun">.</span><span class="pln">concat</span><span class="pun">(</span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">)<wbr/>.</span><span class="pln">array </span><span class="pun">== [</span><span class="lit">1</span><span class="pun">, </span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">]);</span></code></pre>
+<p>    <li><a href="https://dlang.org/phobos/std_range_primitives.html">ranges</a>:
+</p>
+<pre class="code"><code class="lang-d"><span class="kwd">assert</span><span class="pun">(</span><span class="lit">1<wbr/></span><span class="pun">.</span><span class="pln">concat</span><span class="pun">([</span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">])<wbr/>.</span><span class="pln">array </span><span class="pun">== [</span><span class="lit">1</span><span class="pun">, </span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">]);</span></code></pre>
+<p>    <li>a mixture of the above two:
+</p>
+<pre class="code"><code class="lang-d"><span class="kwd">assert</span><span class="pun">(</span><span class="lit">1<wbr/></span><span class="pun">.</span><span class="pln">concat</span><span class="pun">([</span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">], </span><span class="lit">4</span><span class="pun">)<wbr/>.</span><span class="pln">array </span><span class="pun">== [</span><span class="lit">1</span><span class="pun">, </span><span class="lit">2</span><span class="pun">, </span><span class="lit">3</span><span class="pun">, </span><span class="lit">4</span><span class="pun">]);</span></code></pre>
+<p>    <li><a href="https://dlang.org/spec/hash-map.html">associative arrays</a>:
+</p>
+<pre class="code"><code class="lang-d"><span class="kwd">auto </span><span class="pln">aa </span><span class="pun">= [</span><span class="str">"a"</span><span class="pun">: </span><span class="lit">1</span><span class="pun">, </span><span class="str">"b"</span><span class="pun">: </span><span class="lit">0</span><span class="pun">, </span><span class="str">"c"</span><span class="pun">: </span><span class="lit">2</span><span class="pun">];
+</span><span class="kwd">assert</span><span class="pun">(</span><span class="pln">aa<wbr/></span><span class="pun">.</span><span class="pln">compactValues</span><span class="pun">!(</span><span class="pln">a </span><span class="pun">=&gt; </span><span class="pln">a </span><span class="pun">== </span><span class="lit">0</span><span class="pun">) == [</span><span class="str">"a"</span><span class="pun">: </span><span class="lit">1</span><span class="pun">, </span><span class="str">"c"</span><span class="pun">: </span><span class="lit">2</span><span class="pun">]);</span></code></pre>
+
+<p>    Furthermore, a number of algorithms allow you to:
+</p>
+
+<p>    <li>operate on members of types:
+</p>
+
+<p>    This would be akin to passing in a predicate that extracts a member variable from a type to
+    operate on instead of operating on the whole type. These algorithms usually have a <code class="lang-d"><span class="typ">By</span></code> prefix:
+</p>
+<pre class="code"><code class="lang-d"><span class="kwd">class </span><span class="pln">C </span><span class="pun">{
+    </span><span class="typ">int </span><span class="pln">x</span><span class="pun">;
+}
+</span><span class="kwd">auto </span><span class="pln">arr1 </span><span class="pun">= [</span><span class="kwd">new </span><span class="pln">C</span><span class="pun">(</span><span class="lit">2</span><span class="pun">), </span><span class="kwd">new </span><span class="pln">C</span><span class="pun">(</span><span class="lit">3</span><span class="pun">)];
+</span><span class="kwd">auto </span><span class="pln">arr2 </span><span class="pun">= [</span><span class="kwd">new </span><span class="pln">C</span><span class="pun">(</span><span class="lit">2</span><span class="pun">), </span><span class="kwd">new </span><span class="pln">C</span><span class="pun">(</span><span class="lit">3</span><span class="pun">)];
+</span><span class="kwd">assert</span><span class="pun">(</span><span class="pln">arr1<wbr/></span><span class="pun">.</span><span class="pln">equalBy</span><span class="pun">!</span><span class="str">"x"</span><span class="pun">(</span><span class="pln">arr2</span><span class="pun">));</span></code></pre>
+<p>    <li>operate via unary or binary predicates:
+</p>
+<pre class="code"><code class="lang-d"><span class="kwd">import </span><span class="pln">std<wbr/></span><span class="pun">.</span><span class="pln">math</span><span class="pun">: </span><span class="pln">ceil</span><span class="pun">;
+</span><span class="kwd">assert</span><span class="pun">([</span><span class="lit">2.1</span><span class="pun">, </span><span class="lit">1.2</span><span class="pun">]<wbr/>.</span><span class="pln">difference</span><span class="pun">!</span><span class="pln">ceil</span><span class="pun">([</span><span class="lit">2.3</span><span class="pun">, </span><span class="lit">3.4</span><span class="pun">])<wbr/>.</span><span class="pln">equal</span><span class="pun">([</span><span class="lit">1.2</span><span class="pun">]));
+</span><span class="kwd">assert</span><span class="pun">([</span><span class="lit">2.1</span><span class="pun">, </span><span class="lit">1.2</span><span class="pun">]<wbr/>.</span><span class="pln">difference</span><span class="pun">!((</span><span class="pln">a</span><span class="pun">, </span><span class="pln">b</span><span class="pun">) =&gt; </span><span class="pln">ceil</span><span class="pun">(</span><span class="pln">a</span><span class="pun">) == </span><span class="pln">ceil</span><span class="pun">(</span><span class="pln">b</span><span class="pun">))([</span><span class="lit">2.3</span><span class="pun">, </span><span class="lit">3.4</span><span class="pun">])<wbr/>.</span><span class="pln">equal</span><span class="pun">([</span><span class="lit">1.2</span><span class="pun">]));</span></code></pre>
+<p>    <li> or both:
+</p>
+<pre class="code"><code class="lang-d"><span class="kwd">struct </span><span class="pln">A </span><span class="pun">{
+    </span><span class="typ">int </span><span class="pln">x</span><span class="pun">;
+}
+</span><span class="kwd">auto </span><span class="pln">arr </span><span class="pun">= [</span><span class="pln">A</span><span class="pun">(</span><span class="lit">4</span><span class="pun">), </span><span class="pln">A</span><span class="pun">(</span><span class="lit">8</span><span class="pun">), </span><span class="pln">A</span><span class="pun">(</span><span class="lit">12</span><span class="pun">)];
+</span><span class="kwd">assert</span><span class="pun">(</span><span class="pln">arr<wbr/></span><span class="pun">.</span><span class="pln">pullBy</span><span class="pun">!(</span><span class="str">"x"</span><span class="pun">, </span><span class="pln">a </span><span class="pun">=&gt; </span><span class="pln">a </span><span class="pun">/ </span><span class="lit">2</span><span class="pun">)(</span><span class="lit">5</span><span class="pun">, </span><span class="lit">9</span><span class="pun">)<wbr/>.</span><span class="pln">array </span><span class="pun">== [</span><span class="pln">A</span><span class="pun">(</span><span class="lit">12</span><span class="pun">)]);</span></code></pre>
+</section>
+
+			<section><section><h2>Algorithms</h2>
+<p><table><tr><th>Module</th> <th>Functions</th> <th>Properties</th> <th>Description</th></tr>
+<tr>    <td><a href="../ddash/algorithm/compact.html" title="ddash.algorithm.compact"><code class="lang-d"><span class="pln">compact</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/compact/compact.html" title="algorithm.compact.compact"><code class="lang-d"><span class="pln">compact</span></code></a><br>
+        <a href="../ddash/algorithm/compact/compactBy.html" title="algorithm.compact.compactBy"><code class="lang-d"><span class="pln">compactBy</span></code></a><br>
+        <a href="../ddash/algorithm/compact/compactValues.html" title="algorithm.compact.compactValues"><code class="lang-d"><span class="pln">compactValues</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Creates a range or associative array with all null/predicate values removed.</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/concat.html" title="ddash.algorithm.concat"><code class="lang-d"><span class="pln">concat</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/concat/concat.html" title="algorithm.concat.concat"><code class="lang-d"><span class="pln">concat</span></code></a>
+        </td>
+    <td></td>
+    <td>Concatenates ranges and values together to a new range</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/difference.html" title="ddash.algorithm.difference"><code class="lang-d"><span class="pln">difference</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/difference/difference.html" title="algorithm.difference.difference"><code class="lang-d"><span class="pln">difference</span></code></a><br>
+        <a href="../ddash/algorithm/difference/differenceBy.html" title="algorithm.difference.differenceBy"><code class="lang-d"><span class="pln">differenceBy</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Creates a range of values not included in the other given set of values</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/equal.html" title="ddash.algorithm.equal"><code class="lang-d"><span class="pln">equal</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/equal/equal.html" title="algorithm.equal.equal"><code class="lang-d"><span class="pln">equal</span></code></a><br>
+        <a href="../ddash/algorithm/equal/equalBy.html" title="algorithm.equal.equalBy"><code class="lang-d"><span class="pln">equalBy</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Tells you if two things are equal</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/fill.html" title="ddash.algorithm.fill"><code class="lang-d"><span class="pln">fill</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/fill/fill.html" title="algorithm.fill.fill"><code class="lang-d"><span class="pln">fill</span></code></a>
+        </td>
+    <td>mutates</td>
+    <td>Assigns value to each element of input range.</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/flatmap.html" title="ddash.algorithm.flatmap"><code class="lang-d"><span class="pln">flatmap</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/flatmap/flatMap.html" title="algorithm.flatmap.flatMap"><code class="lang-d"><span class="pln">flatMap</span></code></a>
+        </td>
+    <td></td>
+    <td>Maps and flattens a range.</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/flatten.html" title="ddash.algorithm.flatten"><code class="lang-d"><span class="pln">flatten</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/flatten/flatten.html" title="algorithm.flatten.flatten"><code class="lang-d"><span class="pln">flatten</span></code></a><br>
+        <a href="../ddash/algorithm/flatten/flattenDeep.html" title="algorithm.flatten.flattenDeep"><code class="lang-d"><span class="pln">flattenDeep</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Flattens a range by removing nesting levels values</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/frompairs.html" title="ddash.algorithm.frompairs"><code class="lang-d"><span class="pln">frompairs</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/frompairs/fromPairs.html" title="algorithm.frompairs.fromPairs"><code class="lang-d"><span class="pln">fromPairs</span></code></a>
+        </td>
+    <td></td>
+    <td>Returns a newly allocated associative array from a range of key/value tuples</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/index.html" title="ddash.algorithm.index"><code class="lang-d"><span class="pln">index</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/index/indexWhere.html" title="algorithm.index.indexWhere"><code class="lang-d"><span class="pln">indexWhere</span></code></a><br>
+        <a href="../ddash/algorithm/index/lastIndexWhere.html" title="algorithm.index.lastIndexWhere"><code class="lang-d"><span class="pln">lastIndexWhere</span></code></a><br>
+        <a href="../ddash/algorithm/index/indexOf.html" title="algorithm.index.indexOf"><code class="lang-d"><span class="pln">indexOf</span></code></a><br>
+        <a href="../ddash/algorithm/index/lastIndexOf.html" title="algorithm.index.lastIndexOf"><code class="lang-d"><span class="pln">lastIndexOf</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Returns <code class="lang-d"><span class="pln">optional</span></code> index of an element in a range.</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/intersection.html" title="ddash.algorithm.intersection"><code class="lang-d"><span class="pln">intersection</span></code></a></td>
+    <td>        <code class="lang-d"><span class="pln">intersection</span></code>
+        </td>
+    <td></td>
+    <td>Creates a range of unique values that are included in the other given set of values</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/pull.html" title="ddash.algorithm.pull"><code class="lang-d"><span class="pln">pull</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/pull/pull.html" title="algorithm.pull.pull"><code class="lang-d"><span class="pln">pull</span></code></a><br>
+        <a href="../ddash/algorithm/pull/pullIndices.html" title="algorithm.pull.pullIndices"><code class="lang-d"><span class="pln">pullIndices</span></code></a><br>
+        <a href="../ddash/algorithm/pull/pullBy.html" title="algorithm.pull.pullBy"><code class="lang-d"><span class="pln">pullBy</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Pulls elements out of a range</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/remove.html" title="ddash.algorithm.remove"><code class="lang-d"><span class="pln">remove</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/remove/remove.html" title="algorithm.remove.remove"><code class="lang-d"><span class="pln">remove</span></code></a>
+        </td>
+    <td>mutates</td>
+    <td>Removed elements from a range by unary predicate</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/reverse.html" title="ddash.algorithm.reverse"><code class="lang-d"><span class="pln">reverse</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/reverse/reverse.html" title="algorithm.reverse.reverse"><code class="lang-d"><span class="pln">reverse</span></code></a>
+        </td>
+    <td>mutates</td>
+    <td>Reverses a range in place</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/sort.html" title="ddash.algorithm.sort"><code class="lang-d"><span class="pln">sort</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/sort/sortBy.html" title="algorithm.sort.sortBy"><code class="lang-d"><span class="pln">sortBy</span></code></a><br>
+        <a href="../ddash/algorithm/sort/maybeSort.html" title="algorithm.sort.maybeSort"><code class="lang-d"><span class="pln">maybeSort</span></code></a><br>
+        <a href="../ddash/algorithm/sort/maybeSortBy.html" title="algorithm.sort.maybeSortBy"><code class="lang-d"><span class="pln">maybeSortBy</span></code></a>
+        </td>
+    <td></td>
+    <td>Provides various ways for sorting a range</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/stringify.html" title="ddash.algorithm.stringify"><code class="lang-d"><span class="pln">stringify</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/stringify/stringify.html" title="algorithm.stringify.stringify"><code class="lang-d"><span class="pln">stringify</span></code></a><br>
+        <a href="../ddash/algorithm/stringify/stringifySeparatedBy.html" title="algorithm.stringify.stringifySeparatedBy"><code class="lang-d"><span class="pln">stringifySeparatedBy</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Converts all elements in range into a string separated by separator.</td>
+    </tr>
+<tr>    <td><a href="../ddash/algorithm/zip.html" title="ddash.algorithm.zip"><code class="lang-d"><span class="pln">zip</span></code></a></td>
+    <td>        <a href="../ddash/algorithm/zip/zipEach.html" title="algorithm.zip.zipEach"><code class="lang-d"><span class="pln">zipEach</span></code></a>
+        </td>
+    <td></td>
+    <td>Zips up ranges together</td>
+    </tr>
+</table>
+</p>
+</section>
+</section>
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

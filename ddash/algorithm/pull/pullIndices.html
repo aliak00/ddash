@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Function pullIndices</title>
+		<link rel="stylesheet" type="text/css" href="../../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">ddash
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../ddash/algorithm.html">algorithm</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/compact.html">compact</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/concat.html">concat</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/difference.html">difference</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/equal.html">equal</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/fill.html">fill</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/flatmap.html">flatmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/flatten.html">flatten</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/frompairs.html">frompairs</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/index.html">index</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/intersection.html">intersection</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../../ddash/algorithm/pull.html">pull</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/remove.html">remove</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/reverse.html">reverse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/sort.html">sort</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/stringify.html">stringify</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/algorithm/zip.html">zip</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../ddash/functional.html">functional</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/functional/bind.html">bind</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/functional/cond.html">cond</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/functional/pred.html">pred</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/functional/trybind.html">trybind</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../ddash/lang.html">lang</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/capture.html">capture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/destruct.html">destruct</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/from.html">from</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/string.html">string</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/lang/types.html">types</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../ddash/range.html">range</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/back.html">back</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/chunk.html">chunk</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/drop.html">drop</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/front.html">front</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/nth.html">nth</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/range/slicing.html">slicing</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../ddash/utils.html">utils</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/deref.html">deref</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/expect.html">expect</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/flag.html">flag</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/match.html">match</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/optional.html">optional</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/or.html">or</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/slice.html">slice</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/truthy.html">truthy</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../ddash/utils/try_.html">try_</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Function pullIndices</h1><p>Returns a range excluding the specified indices.
+</p>
+			<div class="prototype">
+				<code class="lang-d">
+					<div class="single-prototype">
+			<span class="kwd">auto </span><span class="kwd">auto</span> <span class="pln">pullIndices</span>(Range, Indices...)
+			<span class="pun">(</span>
+			<br/>
+			&nbsp;&nbsp;<span class="typ">Range</span> <span class="pln">range</span><span class="pun">,</span>
+			<br/>
+			&nbsp;&nbsp;<span class="typ">Indices</span> <span class="pln">indices</span>
+			<br/>
+			<span class="pun">)</span>
+			<br/>
+			<span class="kwd">if</span> <span class="pun">(</span><span class="pln">from<wbr/></span><span class="pun">.</span><span class="pln">std<wbr/></span><span class="pun">.</span><span class="pln">range<wbr/></span><span class="pun">.</span><span class="pln">isInputRange</span><span class="pun">!</span><span class="typ">Range </span><span class="pun">&amp;&amp; </span><span class="pln">from<wbr/></span><span class="pun">.</span><span class="pln">std<wbr/></span><span class="pun">.</span><span class="pln">meta<wbr/></span><span class="pun">.</span><span class="pln">allSatisfy</span><span class="pun">!(</span><span class="pln">from<wbr/></span><span class="pun">.</span><span class="pln">std<wbr/></span><span class="pun">.</span><span class="pln">traits<wbr/></span><span class="pun">.</span><span class="pln">isIntegral</span><span class="pun">, </span><span class="pln">from<wbr/></span><span class="pun">.</span><span class="pln">bolts<wbr/></span><span class="pun">.</span><span class="pln">meta<wbr/></span><span class="pun">.</span><span class="typ">Flatten</span><span class="pun">!</span><span class="typ">Indices</span><span class="pun">)</span><span class="pun">);</span>
+					</div>
+				</code>
+			</div>
+			<section><p>The indices can be given as a range of indices, or single integral arguments or a mixture of both.
+    All index arguments will be <code class="lang-d"><span class="pln">concat</span></code>ed together and sorted
+    before returning a range that then goes through the original range exlusing the resulting concatenation
+    of indices.
+</p>
+
+<p>    The running time is <b>O(n)</b> if <code class="lang-d"><a href="../../../ddash/algorithm/pull/pullIndices.html#indices"><span class="pln">indices</span></a></code> is a single sorted range or a single index to remove, else
+    there's an additional cost of standard sort running time.
+</p>
+</section>
+
+			<section><h2>Parameters</h2>
+<table><col class="caption"><tr><th>Name</th><th>Description</th></tr>
+<tr><td id="range">range</td><td> an input range</td></tr>
+<tr><td id="indices">indices</td><td> zero or more integral elements or ranges</td></tr>
+</table>
+</section>
+<section><h2>Returns</h2>
+<p>A range excluding the supplied indices
+</p>
+</section>
+<section><h2>Benchmarks</h2>
+<p><li>single args: <code class="lang-d"><span class="pln">pullIndices</span><span class="pun">(</span><span class="lit">8</span><span class="pun">, </span><span class="lit">16</span><span class="pun">, </span><span class="lit">14</span><span class="pun">...)</span></code></li>
+        <li>single range: <code class="lang-d"><span class="pln">pullIndices</span><span class="pun">([</span><span class="lit">8</span><span class="pun">, </span><span class="lit">16</span><span class="pun">, </span><span class="lit">14</span><span class="pun">...])</span></code></li>
+        <li>sorted range: <code class="lang-d"><span class="pln">pullIndices</span><span class="pun">([</span><span class="lit">8</span><span class="pun">, </span><span class="lit">16</span><span class="pun">, </span><span class="lit">14</span><span class="pun">...]<wbr/>.</span><span class="pln">sort</span><span class="pun">)</span></code></li>
+        <li>canFind range: <code class="lang-d"><span class="pln">indices<wbr/></span><span class="pun">.</span><span class="pln">filter</span><span class="pun">!(</span><span class="pln">canFind</span><span class="pun">)</span></code></li>
+        <li>canFind sorted: <code class="lang-d"><span class="pln">indices<wbr/></span><span class="pun">.</span><span class="pln">sort<wbr/></span><span class="pun">.</span><span class="pln">filter</span><span class="pun">!(</span><span class="pln">canFind</span><span class="pun">)</span></code></li>
+</p>
+<pre class="code"><code class="lang-d"><span class="typ">Benchmarking </span><span class="pln">pullIndices against filter</span><span class="pun">/</span><span class="pln">canFind</span><span class="pun">:
+  </span><span class="pln">numbers</span><span class="pun">: [</span><span class="lit">12</span><span class="pun">, </span><span class="lit">11</span><span class="pun">, </span><span class="lit">1</span><span class="pun">, </span><span class="lit">9</span><span class="pun">, </span><span class="lit">11</span><span class="pun">, </span><span class="lit">4</span><span class="pun">, </span><span class="lit">1</span><span class="pun">, </span><span class="lit">4</span><span class="pun">, </span><span class="lit">2</span><span class="pun">, </span><span class="lit">7</span><span class="pun">, </span><span class="lit">16</span><span class="pun">, </span><span class="lit">8</span><span class="pun">, </span><span class="lit">8</span><span class="pun">, </span><span class="lit">9</span><span class="pun">, </span><span class="lit">6</span><span class="pun">, </span><span class="lit">15</span><span class="pun">, </span><span class="lit">9</span><span class="pun">, </span><span class="lit">0</span><span class="pun">, </span><span class="lit">15</span><span class="pun">, </span><span class="lit">2</span><span class="pun">]
+  <a href="../../../ddash/algorithm/pull/pullIndices.html#indices"></span><span class="pln">indices</span></a><span class="pun">: [</span><span class="lit">8</span><span class="pun">, </span><span class="lit">16</span><span class="pun">, </span><span class="lit">14</span><span class="pun">, </span><span class="lit">11</span><span class="pun">, </span><span class="lit">0</span><span class="pun">, </span><span class="lit">16</span><span class="pun">, </span><span class="lit">12</span><span class="pun">, </span><span class="lit">10</span><span class="pun">, </span><span class="lit">15</span><span class="pun">, </span><span class="lit">17</span><span class="pun">]
+</span><span class="pln">pullIndices</span><span class="pun">:
+  </span><span class="pln">single args</span><span class="pun">:    </span><span class="lit">3 </span><span class="pln">ms</span><span class="pun">, </span><span class="lit">885 </span><span class="typ">μs</span><span class="pun">, </span><span class="pln">and </span><span class="lit">6 </span><span class="pln">hnsecs
+  single <a href="../../../ddash/algorithm/pull/pullIndices.html#range"></span><span class="pln">range</span></a><span class="pun">:   </span><span class="lit">1 </span><span class="pln">ms and </span><span class="lit">610 </span><span class="typ">μs
+  </span><span class="pln">sorted <a href="../../../ddash/algorithm/pull/pullIndices.html#range"></span><span class="pln">range</span></a><span class="pun">:   </span><span class="lit">185 </span><span class="typ">μs </span><span class="pln">and </span><span class="lit">2 </span><span class="pln">hnsecs
+  canFind <a href="../../../ddash/algorithm/pull/pullIndices.html#range"></span><span class="pln">range</span></a><span class="pun">:  </span><span class="lit">5 </span><span class="pln">ms and </span><span class="lit">547 </span><span class="typ">μs
+  </span><span class="pln">canFind sorted</span><span class="pun">: </span><span class="lit">4 </span><span class="pln">hnsecs
+pullIndices </span><span class="pun">(</span><span class="kwd">with <wbr/></span><span class="pun">.</span><span class="pln">array</span><span class="pun">):
+  </span><span class="pln">single args</span><span class="pun">:    </span><span class="lit">8 </span><span class="pln">ms</span><span class="pun">, </span><span class="lit">765 </span><span class="typ">μs</span><span class="pun">, </span><span class="pln">and </span><span class="lit">8 </span><span class="pln">hnsecs
+  single <a href="../../../ddash/algorithm/pull/pullIndices.html#range"></span><span class="pln">range</span></a><span class="pun">:   </span><span class="lit">6 </span><span class="pln">ms</span><span class="pun">, </span><span class="lit">823 </span><span class="typ">μs</span><span class="pun">, </span><span class="pln">and </span><span class="lit">8 </span><span class="pln">hnsecs
+  sorted <a href="../../../ddash/algorithm/pull/pullIndices.html#range"></span><span class="pln">range</span></a><span class="pun">:   </span><span class="lit">6 </span><span class="pln">ms</span><span class="pun">, </span><span class="lit">571 </span><span class="typ">μs</span><span class="pun">, </span><span class="pln">and </span><span class="lit">2 </span><span class="pln">hnsecs
+  canFind <a href="../../../ddash/algorithm/pull/pullIndices.html#range"></span><span class="pln">range</span></a><span class="pun">:  </span><span class="lit">10 </span><span class="pln">ms</span><span class="pun">, </span><span class="lit">479 </span><span class="typ">μs</span><span class="pun">, </span><span class="pln">and </span><span class="lit">2 </span><span class="pln">hnsecs
+  canFind sorted</span><span class="pun">: </span><span class="lit">9 </span><span class="pln">ms</span><span class="pun">, </span><span class="lit">330 </span><span class="typ">μs</span><span class="pun">, </span><span class="pln">and </span><span class="lit">5 </span><span class="pln">hnsecs</span></code></pre>
+</section>
+<section><h2>Since</h2>
+<p>0.0.1
+</p>
+</section>
+
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

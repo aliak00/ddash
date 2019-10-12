@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Module ddash.range</title>
+		<link rel="stylesheet" type="text/css" href="../styles/ddox.css"/>
+		<link rel="stylesheet" href="../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../scripts/jquery.js">/**/</script><script type="text/javascript" src="../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">ddash
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/algorithm.html">algorithm</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/compact.html">compact</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/concat.html">concat</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/difference.html">difference</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/equal.html">equal</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/fill.html">fill</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/flatmap.html">flatmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/flatten.html">flatten</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/frompairs.html">frompairs</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/index.html">index</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/intersection.html">intersection</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/pull.html">pull</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/remove.html">remove</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/reverse.html">reverse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/sort.html">sort</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/stringify.html">stringify</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/algorithm/zip.html">zip</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/functional.html">functional</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/bind.html">bind</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/cond.html">cond</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/pred.html">pred</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/functional/trybind.html">trybind</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/lang.html">lang</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/capture.html">capture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/destruct.html">destruct</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/from.html">from</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/string.html">string</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/lang/types.html">types</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package selected">
+						<a href="../ddash/range.html">range</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/back.html">back</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/chunk.html">chunk</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/drop.html">drop</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/front.html">front</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/nth.html">nth</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/range/slicing.html">slicing</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../ddash/utils.html">utils</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/deref.html">deref</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/expect.html">expect</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/flag.html">flag</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/match.html">match</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/optional.html">optional</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/or.html">or</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/slice.html">slice</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/truthy.html">truthy</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../ddash/utils/try_.html">try_</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Module ddash.range</h1><p>Contains range utilities
+</p><section></section>
+
+			<section><section><h2>Functions</h2>
+<p><table><tr><th>Module</th> <th>Functions</th> <th>Properties</th> <th>Description</th></tr>
+<tr>    <td><a href="../ddash/range/chunk.html" title="ddash.range.chunk"><code class="lang-d"><span class="pln">chunk</span></code></a></td>
+    <td>        <a href="../ddash/range/chunk/chunk.html" title="range.chunk.chunk"><code class="lang-d"><span class="pln">chunk</span></code></a>
+        </td>
+    <td></td>
+    <td>Creates an array of elements split into groups the length of size.</td>
+    </tr>
+<tr>    <td><a href="../ddash/range/drop.html" title="ddash.range.drop"><code class="lang-d"><span class="pln">drop</span></code></a></td>
+    <td>        <a href="../ddash/range/drop/drop.html" title="range.drop.drop"><code class="lang-d"><span class="pln">drop</span></code></a><br>
+        <a href="../ddash/range/drop/dropRight.html" title="range.drop.dropRight"><code class="lang-d"><span class="pln">dropRight</span></code></a><br>
+        <a href="../ddash/range/drop/dropWhile.html" title="range.drop.dropWhile"><code class="lang-d"><span class="pln">dropWhile</span></code></a><br>
+        <a href="../ddash/range/drop/dropRightWhile.html" title="range.drop.dropRightWhile"><code class="lang-d"><span class="pln">dropRightWhile</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Drops elements from a range</td>
+    </tr>
+<tr>    <td><a href="../ddash/range/front.html" title="ddash.range.front"><code class="lang-d"><span class="pln">front</span></code></a></td>
+    <td>        <a href="../ddash/range/front/frontOr.html" title="range.front.frontOr"><code class="lang-d"><span class="pln">frontOr</span></code></a><br>
+        <a href="../ddash/range/front/frontOrThrow.html" title="range.front.frontOrThrow"><code class="lang-d"><span class="pln">frontOrThrow</span></code></a><br>
+        <a href="../ddash/range/front/withFront.html" title="range.front.withFront"><code class="lang-d"><span class="pln">withFront</span></code></a><br>
+        <a href="../ddash/range/front/maybeFront.html" title="range.front.maybeFront"><code class="lang-d"><span class="pln">maybeFront</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Operates on the front of a range.</td>
+    </tr>
+<tr>    <td><a href="../ddash/range/back.html" title="ddash.range.back"><code class="lang-d"><span class="pln">back</span></code></a></td>
+    <td>        <a href="../ddash/range/back/backOr.html" title="range.back.backOr"><code class="lang-d"><span class="pln">backOr</span></code></a><br>
+        <a href="../ddash/range/back/withBack.html" title="range.back.withBack"><code class="lang-d"><span class="pln">withBack</span></code></a><br>
+        <a href="../ddash/range/back/maybeBack.html" title="range.back.maybeBack"><code class="lang-d"><span class="pln">maybeBack</span></code></a><br>
+        </td>
+    <td></td>
+    <td>Operated on the back of a range.</td>
+    </tr>
+<tr>    <td><a href="../ddash/range/nth.html" title="ddash.range.nth"><code class="lang-d"><span class="pln">nth</span></code></a></td>
+    <td>        <a href="../ddash/range/nth/nth.html" title="range.nth.nth"><code class="lang-d"><span class="pln">nth</span></code></a><br>
+        <a href="../ddash/range/nth/first.html" title="range.nth.first"><code class="lang-d"><span class="pln">first</span></code></a><br>
+        <a href="../ddash/range/nth/last.html" title="range.nth.last"><code class="lang-d"><span class="pln">last</span></code></a><br>
+    </td>
+    <td></td>
+    <td>Returns the element at nth index of range</td>
+    </tr>
+<tr>    <td><a href="../ddash/range/slicing.html" title="ddash.range.slicing"><code class="lang-d"><span class="pln">slicing</span></code></a></td>
+    <td>        <a href="../ddash/range/slicing/slice.html" title="range.slicing.slice"><code class="lang-d"><span class="pln">slice</span></code></a><br>
+        <a href="../ddash/range/slicing/tail.html" title="range.slicing.tail"><code class="lang-d"><span class="pln">tail</span></code></a><br>
+        <a href="../ddash/range/slicing/initial.html" title="range.slicing.initial"><code class="lang-d"><span class="pln">initial</span></code></a><br>
+    </td>
+    <td></td>
+    <td>Creates a slice of a range</td>
+    </tr>
+</table>
+</p>
+</section>
+</section>
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>
